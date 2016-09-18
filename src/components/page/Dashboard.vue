@@ -1,10 +1,11 @@
 <template>
     <section class="section content">
-        <h2>使用中的产品</h2>
+
+        <h2>部署的应用</h2>
         <div class="columns">
             <div class="column">
                 <div class="notification is-success has-text-centered">
-                    <p class="title">项目</p>
+                    <p class="title">应用</p>
                     <p class="subtitle">22</p>
                 </div>
             </div>
@@ -27,8 +28,46 @@
                 </div>
             </div>
         </div>
-        <h2>数据可视化</h2>
+
+        <h2>集成开发环境</h2>
         <div class="columns">
+            <div class="column is-one-third">
+                <p class="notification has-text-centered">
+                    <span class="title">版本<br><span class="subtitle">个人版</span></span>
+                </p>
+            </div>
+            <div class="column">
+                <p class="notification has-text-centered">
+                    <span class="title">到期时间<br><span class="subtitle">无限</span></span>
+                </p>
+            </div>
+        </div>
+
+        <h2>Dodora容器云 配额信息</h2>
+        <div class="columns">
+            <div class="column">
+                <p class="notification has-text-centered">
+                    <span class="title">磁盘<br><span class="subtitle">10G</span></span>
+                </p>
+            </div>
+            <div class="column">
+                <p class="notification has-text-centered">
+                    <span class="title">内存<br><span class="subtitle">10G</span></span>
+                </p>
+            </div>
+            <div class="column">
+                <p class="notification has-text-centered">
+                    <span class="title">网络<br><span class="subtitle">1G/月</span></span>
+                </p>
+            </div>
+            <div class="column">
+                <p class="notification has-text-centered">
+                    <span class="title">CPU<br><span class="subtitle">2核</span></span>
+                </p>
+            </div>
+        </div>
+
+<!--         <div class="columns">
             <div class="column is-half">
                 <div class="box">
                     <h3>Doughnut Chart</h3>
@@ -63,7 +102,7 @@
                     </div>
                 </div>
             </div>
-        </div>
+        </div> -->
 <!--         <h2>Components</h2>
         <div class="columns">
             <div class="column is-half">

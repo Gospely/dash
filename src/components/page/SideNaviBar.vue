@@ -1,7 +1,7 @@
 <template>
     <div :class="['side-bar']">
         <div class="header-logo">
-            <i class="fa fa-diamond"></i>
+            <i class="fa fa-connectdevelop"></i>
         </div>
         <navi :model="menu" class="menu"></navi>
         <div class="user-info-link">
@@ -23,11 +23,10 @@
         line-height: 58px;
         overflow: hidden;
         background-color: $bg_side_bar_light;
-        .fa-diamond{
+        .fa-connectdevelop{
             position: relative;
-            animation: rotate-y 4s ease infinite;
-            font-size: 32px;
-            color: #42b983;
+            font-size: 38px;
+            color: #97cd76;
             vertical-align: middle;
         }
     }

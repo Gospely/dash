@@ -20,6 +20,27 @@ let menu = {
         label: '控制台',
         component: makeComponent('./components/page/Dashboard.vue')
     },
+    '/ide': {
+        icon: 'connectdevelop',
+        label: '集成开发环境',
+        isShowSubMenu: false,
+        component: {
+            template: '<router-view></router-view>'
+        },
+        subRoutes: {
+            '/visit': {
+                name: 'visitide',
+                label: '访问',
+                component: makeComponent('./components/page/ide/Visit.vue')
+            },
+            '/renew': {
+                name: 'renewide',
+                label: '续费',
+                component: makeComponent('./components/page/ide/Renew.vue')
+            }
+
+        }
+    },
     '/apps': {
         icon: 'laptop',
         label: '应用管理',
@@ -28,15 +49,15 @@ let menu = {
             template: '<router-view></router-view>'
         },
         subRoutes: {
-            '/all': {
+            '/list': {
                 name: 'applist',
                 label: '应用列表',
-                component: makeComponent('./components/page/components/Buttons.vue')
+                component: makeComponent('./components/page/apps/Applist.vue')
             },
             '/new': {
                 name: 'newapp',
                 label: '创建应用',
-                component: makeComponent('./components/page/components/Buttons.vue')
+                component: makeComponent('./components/page/apps/NewApp.vue')
             }
 
         }
@@ -49,17 +70,53 @@ let menu = {
             template: '<router-view></router-view>'
         },
         subRoutes: {
-            '/all': {
+            '/list': {
                 name: 'serviceslist',
                 label: '服务列表',
-                component: makeComponent('./components/page/components/Buttons.vue')
+                component: makeComponent('./components/page/services/ServicesList.vue')
             },
             '/new': {
                 name: 'myservices',
                 label: '我的服务',
-                component: makeComponent('./components/page/components/Buttons.vue')
+                component: makeComponent('./components/page/services/MyService.vue')
             }
 
+        }
+    },
+    '/accounts': {
+        name: 'accounts',
+        label: '用户中心',
+        icon: 'cog',
+        isShowSubMenu: false,
+        component: {
+            template: '<router-view></router-view>'
+        },
+        subRoutes: {
+            '/account': {
+                name: 'account',
+                label: '账户信息',
+                component: makeComponent('./components/page/accounts/Account.vue')
+            },
+            '/profile': {
+                name: 'profile',
+                label: '个人信息',
+                component: makeComponent('./components/page/accounts/Profile.vue')
+            },
+            '/orders': {
+                name: 'orders',
+                label: '交易记录',
+                component: makeComponent('./components/page/accounts/Orders.vue')
+            },
+            '/teams': {
+                name: 'teams',
+                label: '我的组织',
+                component: makeComponent('./components/page/accounts/Team.vue')
+            },
+            '/oauth': {
+                name: 'oauth',
+                label: '登录绑定',
+                component: makeComponent('./components/page/accounts/Oauth.vue')
+            }
         }
     },
     '/components': {
@@ -215,42 +272,6 @@ let menu = {
                 label: 'Polar Area',
                 name: 'polar',
                 component: makeComponent('./components/page/charts/PolarArea.vue')
-            }
-        }
-    },
-    '/accounts': {
-        name: 'accounts',
-        label: '用户中心',
-        icon: 'cog',
-        isShowSubMenu: false,
-        component: {
-            template: '<router-view></router-view>'
-        },
-        subRoutes: {
-            '/account': {
-                name: 'account',
-                label: '账户信息',
-                component: makeComponent('./components/page/tools/ImageExtract.vue')
-            },
-            '/profile': {
-                name: 'profile',
-                label: '个人信息',
-                component: makeComponent('./components/page/tools/ImageExtract.vue')
-            },
-            '/orders': {
-                name: 'orders',
-                label: '我的订单',
-                component: makeComponent('./components/page/tools/ImageExtract.vue')
-            },
-            '/teams': {
-                name: 'teams',
-                label: '我的组织',
-                component: makeComponent('./components/page/tools/ImageExtract.vue')
-            },
-            '/oauth': {
-                name: 'oauth',
-                label: '登录绑定',
-                component: makeComponent('./components/page/tools/ImageExtract.vue')
             }
         }
     }

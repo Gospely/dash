@@ -19,12 +19,15 @@
             <a class="nav-item " href="/">
                 主页
             </a>
-            <a class="is-hidden nav-item  " href="/templates/">
+            <a class="is-hidden nav-item" href="/templates/">
                 <span>Templates</span>
                 <span class="tag is-small is-success">New!</span>
             </a>
             <a class="nav-item " href="/blog/">
-                开发者博客
+                社区
+            </a>
+            <a class="nav-item " href="/blog/">
+                文档
             </a>
         </div>
     </nav>
