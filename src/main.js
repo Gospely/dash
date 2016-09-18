@@ -12,7 +12,7 @@ Vue.use(VueRouter)
 var router = new VueRouter({
     hashbang: false,
     history: true,
-    saveScrollPosition: false,
+    saveScrollPosition: true,
     transitionOnLoad: true,
     linkActiveClass: 'active'
 })

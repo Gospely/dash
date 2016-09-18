@@ -18,12 +18,14 @@ let menu = {
         icon: 'dashboard',
         name: 'dashboard',
         label: '控制台',
+        hide: false,
         component: makeComponent('./components/page/Dashboard.vue')
     },
     '/ide': {
         icon: 'connectdevelop',
         label: '集成开发环境',
         isShowSubMenu: false,
+        hide: false,
         component: {
             template: '<router-view></router-view>'
         },
@@ -31,11 +33,13 @@ let menu = {
             '/visit': {
                 name: 'visitide',
                 label: '访问',
+                hide: false,
                 component: makeComponent('./components/page/ide/Visit.vue')
             },
             '/renew': {
                 name: 'renewide',
                 label: '续费',
+                hide: false,
                 component: makeComponent('./components/page/ide/Renew.vue')
             }
 
@@ -45,6 +49,7 @@ let menu = {
         icon: 'laptop',
         label: '应用管理',
         isShowSubMenu: false,
+        hide: false,
         component: {
             template: '<router-view></router-view>'
         },
@@ -52,20 +57,28 @@ let menu = {
             '/list': {
                 name: 'applist',
                 label: '应用列表',
+                hide: false,
                 component: makeComponent('./components/page/apps/Applist.vue')
             },
             '/new': {
                 name: 'newapp',
                 label: '创建应用',
+                hide: false,
                 component: makeComponent('./components/page/apps/NewApp.vue')
-            }
-
+            },
+            '/detail': {
+                name: 'appdetail',
+                label: '应用详情',
+                hide: true,
+                component: makeComponent('./components/page/apps/NewApp.vue')
+            }            
         }
     },
     '/services': {
         icon: 'briefcase',
         label: '服务集成',
         isShowSubMenu: false,
+        hide: false,
         component: {
             template: '<router-view></router-view>'
         },
@@ -73,11 +86,13 @@ let menu = {
             '/list': {
                 name: 'serviceslist',
                 label: '服务列表',
+                hide: false,
                 component: makeComponent('./components/page/services/ServicesList.vue')
             },
             '/new': {
                 name: 'myservices',
                 label: '我的服务',
+                hide: false,
                 component: makeComponent('./components/page/services/MyService.vue')
             }
 
@@ -88,6 +103,7 @@ let menu = {
         label: '用户中心',
         icon: 'cog',
         isShowSubMenu: false,
+        hide: false,
         component: {
             template: '<router-view></router-view>'
         },
@@ -95,26 +111,31 @@ let menu = {
             '/account': {
                 name: 'account',
                 label: '账户信息',
+                hide: false,
                 component: makeComponent('./components/page/accounts/Account.vue')
             },
             '/profile': {
                 name: 'profile',
                 label: '个人信息',
+                hide: false,
                 component: makeComponent('./components/page/accounts/Profile.vue')
             },
             '/orders': {
                 name: 'orders',
                 label: '交易记录',
+                hide: false,
                 component: makeComponent('./components/page/accounts/Orders.vue')
             },
             '/teams': {
                 name: 'teams',
                 label: '我的组织',
+                hide: false,
                 component: makeComponent('./components/page/accounts/Team.vue')
             },
             '/oauth': {
                 name: 'oauth',
                 label: '登录绑定',
+                hide: false,
                 component: makeComponent('./components/page/accounts/Oauth.vue')
             }
         }
@@ -123,6 +144,7 @@ let menu = {
         icon: 'laptop',
         label: '组件',
         isShowSubMenu: false,
+        hide: false,
         component: {
             template: '<router-view></router-view>'
         },
@@ -130,36 +152,43 @@ let menu = {
             '/buttons': {
                 name: 'Buttons',
                 label: 'Buttons',
+                hide: false,
                 component: makeComponent('./components/page/components/Buttons.vue')
             },
             '/icons': {
                 name: 'Icons',
                 label: 'Icons',
+                hide: false,
                 component: makeComponent('./components/page/components/Icons.vue')
             },
             '/content': {
                 name: 'content',
                 label: 'Content',
+                hide: false,
                 component: makeComponent('./components/page/components/Content.vue')
             },
             '/form': {
                 name: 'form',
                 label: 'Form',
+                hide: false,
                 component: makeComponent('./components/page/components/Form.vue')
             },
             '/file-input': {
                 name: 'file-input',
                 label: 'File input',
+                hide: false,
                 component: makeComponent('./components/page/components/FileInput.vue')
             },
             '/tab': {
                 name: 'tab',
                 label: 'Tab',
+                hide: false,
                 component: makeComponent('./components/page/components/Tabs.vue')
             },
             '/modal': {
                 name: 'modal',
                 label: 'Modal',
+                hide: false,
                 component: makeComponent('./components/page/components/Modals.vue')
             }
         }
@@ -169,6 +198,7 @@ let menu = {
         icon: 'table',
         name: 'grid',
         label: '布局',
+        hide: false,
         component: {
             template: '<router-view></router-view>'
         },
@@ -176,21 +206,25 @@ let menu = {
             '/columns': {
                 name: 'columns',
                 label: 'Columns',
+                hide: false,
                 component: makeComponent('./components/page/grids/Columns.vue')
             },
             '/tile': {
                 name: 'tile',
                 label: 'Tile',
+                hide: false,
                 component: makeComponent('./components/page/grids/Tile.vue')
             },
             '/table': {
                 name: 'table',
                 label: 'Table',
+                hide: false,
                 component: makeComponent('./components/page/grids/Table.vue')
             },
             '/flex': {
                 name: 'flex',
                 label: 'Flex',
+                hide: false,
                 component: makeComponent('./components/page/grids/Flex.vue')
             }
         }
@@ -240,6 +274,7 @@ let menu = {
         icon: 'bar-chart',
         name: 'charts',
         isShowSubMenu: false,
+        hide: false,
         component: {
             template: '<router-view></router-view>'
         },
@@ -247,30 +282,36 @@ let menu = {
             '/pie': {
                 label: 'Pie',
                 name: 'pie',
+                hide: false,
                 component: makeComponent('./components/page/charts/Pie.vue')
             },
             '/bar': {
                 label: 'Bar',
                 name: 'bar',
+                hide: false,
                 component: makeComponent('./components/page/charts/Bar.vue')
             },
             '/line': {
                 label: 'Line',
                 name: 'line',
+                hide: false,
                 component: makeComponent('./components/page/charts/Line.vue')
             },
             '/radar': {
                 label: 'Radar',
                 name: 'radar',
+                hide: false,
                 component: makeComponent('./components/page/charts/Radar.vue')
             },
             '/doughnut': {
                 label: 'Doughnut',
                 name: 'doughnut',
+                hide: false,
                 component: makeComponent('./components/page/charts/Doughnut.vue')
             }, '/polar': {
                 label: 'Polar Area',
                 name: 'polar',
+                hide: false,
                 component: makeComponent('./components/page/charts/PolarArea.vue')
             }
         }

@@ -1,7 +1,7 @@
 <template>
     <ul>
         <template v-for="(key,item) in model">
-            <li>
+            <li v-show="!item.hide">
                 <a v-link ="{name: item.name, exact: true }" :title="item.label" @click="toggleShowSubMenu(item,$event)">
                     <i :class="['icon','fa','fa-' + item.icon]" v-if="item.icon">
                     </i><span class="label">{{item.label}}</span>
