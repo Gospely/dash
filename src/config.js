@@ -66,11 +66,11 @@ let menu = {
                 hide: false,
                 component: makeComponent('./components/page/apps/NewApp.vue')
             },
-            '/detail': {
+            '/detail/:containerId': {
                 name: 'appdetail',
                 label: '应用详情',
                 hide: true,
-                component: makeComponent('./components/page/apps/NewApp.vue')
+                component: makeComponent('./components/page/apps/Details.vue')
             }            
         }
     },

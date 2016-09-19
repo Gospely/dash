@@ -1,28 +1,25 @@
 <template>
 
-    <div class="modal-mask" v-show="isShow" transition="modal">
+    <div class="modal-mask modal" v-show="isShow" transition="modal">
         <div class="modal-wrapper">
             <div class="modal-container">
 
                 <div class="modal-header">
-                    <slot name="header">
-                        default header
-                    </slot>
+                    <h3><slot name="header">{{header}}</slot></h3>
+                    <button class="delete" @click="destroy()" style="position: absolute;right: 20px;top: 19px;"></button>
                 </div>
 
                 <div class="modal-body">
-                    <slot name="body">
-                        default body
-                    </slot>
+                    <slot name="body">{{body}}</slot>
                 </div>
 
                 <div class="modal-footer">
                     <slot name="footer">
-                        default footer
-                        <button class="button btn-default"
-                                @click="$destroy(true)">
-                            OK
+                        <button class="button is-success"
+                            @click="dispatchConfirmEvent">
+                        确定
                         </button>
+                        <button class="button" @click="destroy()">取消</button>
                     </slot>
                 </div>
             </div>
@@ -49,9 +46,8 @@
     }
 
     .modal-container {
-        width: 300px;
+        width: 500px;
         margin: 0px auto;
-        padding: 20px 30px;
         background-color: #fff;
         border-radius: 2px;
         box-shadow: 0 2px 8px rgba(0, 0, 0, .33);
@@ -59,13 +55,52 @@
         font-family: Helvetica, Arial, sans-serif;
     }
 
+    .modal-header, .modal-footer {
+        border-bottom: 1px solid #d3d6db;
+        border-top-left-radius: 5px;
+        border-top-right-radius: 5px;
+        -webkit-box-align: center;
+        -ms-flex-align: center;
+        align-items: center;
+        background-color: #f5f7fa;
+        display: -webkit-box;
+        display: -ms-flexbox;
+        display: flex;
+        -ms-flex-negative: 0;
+        flex-shrink: 0;
+        -webkit-box-pack: start;
+        -ms-flex-pack: start;
+        justify-content: flex-start;
+        padding: 20px;
+        position: relative;
+    }
+
+    .modal-footer {
+        border-bottom-left-radius: 5px;
+        border-bottom-right-radius: 5px;
+        border-top: 1px solid #d3d6db;
+    }
+
+    .modal-footer .button:not(:last-child) {
+        margin-right: 10px;
+    }
+
     .modal-header h3 {
         margin-top: 0;
-        color: #42b983;
+        /*color: #42b983;*/
+        font-size: 20px;
+        margin-bottom: 0px;
     }
 
     .modal-body {
-        margin: 20px 0;
+        background-color: #fff;
+        -webkit-box-flex: 1;
+        -ms-flex-positive: 1;
+        flex-grow: 1;
+        -ms-flex-negative: 1;
+        flex-shrink: 1;
+        overflow: auto;
+        padding: 20px;
     }
 
     .modal-default-button {
@@ -106,7 +141,38 @@
                     return false
                 },
                 towWay: true
+            },
+
+            isHTML: {
+                type: Boolean,
+                required: false,
+                default () {
+                    return false
+                },
+                towWay: true
+            },
+
+            header: {
+                type: String,
+                required: false,
+                default: 'default header',
+                towWay: true
+            },
+
+            body: {
+                type: String,
+                required: false,
+                default: 'default body test',
+                towWay: true
+            },
+
+            footer: {
+                type: String,
+                required: false,
+                default: 'default footer',
+                towWay: true
             }
+
         },
         attached () {
             this.isAttached = true
@@ -120,6 +186,25 @@
                     this.$appendTo(document.body)
                 }
                 this.isShow = true
+            },
+
+            dispatchConfirmEvent () {
+                this.$dispatch('confirmed');
+            },
+
+            destroy () {
+                console.log(this.isHTML);
+                if(this.isHTML) {
+                    this.isShow = false;
+                }else {
+                    this.$destroy(true);
+                }
+            },
+
+            watch: {
+                isShow: function(val) {
+                    console.log(val);
+                }
             }
         }
     }

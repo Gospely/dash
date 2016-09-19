@@ -9,30 +9,6 @@
                 <button class="button is-primary" @click = "showDefaultModal()">Show Modal</button>
             </div>
         </div>
-        <div class="columns">
-            <div class="column">
-                <button class="is-primary"></button>
-            </div>
-            <div class="column">
-                <button class="is-primary"></button>
-            </div>
-        </div>
-        <div class="columns">
-            <div class="column">
-                <button class="is-primary"></button>
-            </div>
-            <div class="column">
-                <button class="is-primary"></button>
-            </div>
-        </div>
-        <div class="columns">
-            <div class="column">
-                <button class="is-primary"></button>
-            </div>
-            <div class="column">
-                <button class="is-primary"></button>
-            </div>
-        </div>
     </section>
 </template>
 <style>
@@ -49,12 +25,25 @@
         },
         methods: {
             showDefaultModal () {
+                var self = this;
                 var modal = new ModalCtrl({
                     el: document.createElement('div'),
                     props: {
-                        isShow: false
+                        isShow: false,
+                        header: {
+                            default: 'fuck header'
+                        },
+                        body: {
+                            default: 'fuckbody'
+                        }
+                    },
+                    events: {
+                        'confirmed': function() {
+                            console.log('sssss');
+                            this.$destroy(true);
+                        }
                     }
-                })
+                });
                 modal.show()
             },
             test () {

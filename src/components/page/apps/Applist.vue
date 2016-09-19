@@ -4,7 +4,7 @@
         <h2 class="subtitle">这里有您在<strong>dodora容器云</strong>上部署的所有应用</h2>
         <hr>
         <div class="content">
-            <a class="button is-primary">
+            <a v-link="{name:'newapp'}" class="button is-primary">
               创建应用
             </a>
 
@@ -32,13 +32,13 @@
                             运行中
                           </td>
                           <td class="is-icon" title="进入应用">
-                            <a href="#">
+                            <a v-link="{path: '/apps/detail/1234567'}">
                               <i class="fa fa-share"></i>
                             </a>
                           </td>
                           <td class="is-icon" title="停止应用">
-                            <a href="#">
-                              <i class="fa fa-times "></i>
+                            <a href="#" @click="stopThisAPP()">
+                              <i class="fa fa-times"></i>
                             </a>
                           </td>                          
                         </tr>
@@ -144,27 +144,6 @@
 </template>
 <style>
 
-    .content ul {
-        margin-left: 0px;
-        margin-right: 0px;
-    }
-
-    .tab-headers li:first-child {
-        margin-top: 3px;
-    }
-
-    .tab-items {
-        padding: 0px!important;
-    }
-
-    .table td.is-icon .fa {
-        font-size: 18px;
-    }
-
-    .tabs a {
-        border-bottom: 0px!important;
-    }
-
 </style>
 <script>
     import {Tab, TabItem} from '../../ui/Tab'
@@ -174,9 +153,16 @@
                 msg: 'hello vue'
             }
         },
+
         components: {
             Tab,
             TabItem
+        },
+
+        methods: {
+            stopThisAPP: function() {
+
+            }
         }
     }
 </script>

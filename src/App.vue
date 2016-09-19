@@ -90,4 +90,34 @@
             margin-left: 60px;
         }
     }
+
+    .content ul {
+        margin-left: 0px;
+        margin-right: 0px;
+    }
+
+    .tab-headers li:first-child {
+        margin-top: 4px;
+    }
+
+    .tab-items {
+        padding: 0px!important;
+    }
+
+    .table td.is-icon .fa {
+        font-size: 18px;
+    }
+
+    .tabs table a {
+        border-bottom: 0px!important;
+    }
+
+    .content {
+        margin-top:-30px;
+    }
+
+    .basic-wrapper {
+        padding: 15px;
+    }
+
 </style>
