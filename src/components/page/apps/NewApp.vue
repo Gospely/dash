@@ -4,7 +4,16 @@
         <h2 class="subtitle">您可以在这里创建基于<strong>dodora容器云</strong>，并使用Gospel集成开发环境进行开发的应用</h2>
         <hr>
         <div class="content">
-            
+
+            <modal :is-html="true" :width="800" :is-show.sync="showImageSelectorForm">
+                <div slot="header">选择镜像</div>
+                <div slot="body">
+                    <image-viewer></image-viewer>
+                </div>
+                <div slot="footer">
+                </div>
+            </modal>
+
             <div class="columns">
                 
                 <div class="column is-half">
@@ -19,7 +28,7 @@
                     </p>
                     <label class="label">容器镜像</label>
                     <p class="control">
-                        <a class="button is-primary">选择镜像</a>
+                        <a class="button is-primary" @click="selectImage">选择镜像</a>
                     </p>
                     <label class="label">用户名</label>
                     <p class="control">
@@ -51,13 +60,42 @@
 <style>
 </style>
 <script>
+
+    import Vue from 'vue'
+    import Modal from '../../ui/Modal/Modal.vue'
+    import ImageViewer from './ImageViewer.vue'
+
     export default{
         data () {
             return {
-                msg: 'hello vue'
+                showImageSelectorForm: false
             }
         },
+
+        created () {
+
+        },
+
         components: {
+            Modal,
+            ImageViewer
+        },
+
+        methods: {
+            hideImageSelectorForm: function() {
+                this.showImageSelectorForm = false;
+            },
+
+            selectImage: function() {
+                this.showImageSelectorForm = true;
+            }
+        },
+
+        events: {
+            'imageOnSelected': function(id) {
+                console.log(id);
+            }
         }
+
     }
 </script>

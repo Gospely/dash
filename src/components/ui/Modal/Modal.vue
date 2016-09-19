@@ -2,7 +2,7 @@
 
     <div class="modal-mask modal" v-show="isShow" transition="modal">
         <div class="modal-wrapper">
-            <div class="modal-container">
+            <div class="modal-container" v-bind:style="{width: width + 'px'}">
 
                 <div class="modal-header">
                     <h3><slot name="header">{{header}}</slot></h3>
@@ -139,6 +139,15 @@
                 required: false,
                 default () {
                     return false
+                },
+                towWay: true
+            },
+
+            width: {
+                type: Number,
+                required: false,
+                default () {
+                    return '500'
                 },
                 towWay: true
             },
