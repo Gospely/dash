@@ -112,10 +112,6 @@
         border-bottom: 0px!important;
     }
 
-    .content {
-        margin-top:-30px;
-    }
-
     .basic-wrapper {
         padding: 15px;
     }
