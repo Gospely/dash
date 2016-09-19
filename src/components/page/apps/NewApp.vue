@@ -16,7 +16,7 @@
 
             <div class="columns">
                 
-                <div class="column is-half">
+                <div class="column is-three-quarters">
                     
                     <label class="label">应用名称</label>
                     <p class="control">
@@ -24,7 +24,19 @@
                     </p>
                     <label class="label">容器配置</label>
                     <p class="control">
+                        <div class="columns">
+                            
+                            <div class="column is-2" v-for="(key, val) in dockerConfigs">
+                                <div class="docker-config-box" v-bind:class="{'active': configIsActive[key].isActive}" @click="selectThisDockerConfig(val, key)">
+                                    <ul class="text-center parameter">
+                                        <li>{{val.memory}} 内存</li>
+                                        {{val.cpu}} CPU{{val.cpuType}}
+                                    </ul>
+                                    <div class="down-style">{{val.name}}</div>
+                                </div>                                
+                            </div>
 
+                        </div>
                     </p>
                     <label class="label">容器镜像</label>
                     <p class="control">
@@ -68,7 +80,57 @@
     export default{
         data () {
             return {
-                showImageSelectorForm: false
+                showImageSelectorForm: false,
+
+                configIsActive: [{
+                    isActive: false
+                }, {
+                    isActive: true
+                }, {
+                    isActive: false
+                }, {
+                    isActive: false
+                }, {
+                    isActive: false
+                }],
+                currentActiveConfig: 1,
+
+                dockerConfigs: [{
+                    id: '1',
+                    name: '1x',
+                    memory: '256 MB',
+                    cpu: '1',
+                    cpuType: '(共享)',
+                    free: true
+                }, {
+                    id: '2',
+                    name: '2x',
+                    memory: '512 MB',
+                    cpu: '1',
+                    cpuType: '(共享)',
+                    free: true
+                }, {
+                    id: '3',
+                    name: '4x',
+                    memory: '1 GB',
+                    cpu: '1',
+                    cpuType: '(共享)',
+                    free: true
+                }, {
+                    id: '4',
+                    name: '8x',
+                    memory: '2 GB',
+                    cpu: '1',
+                    cpuType: '',
+                    free: true
+                }, {
+                    id: '5',
+                    name: '16x',
+                    memory: '4 GB',
+                    cpu: '1',
+                    cpuType: '',
+                    free: true
+                }]
             }
         },
 
@@ -88,12 +150,24 @@
 
             selectImage: function() {
                 this.showImageSelectorForm = true;
+            },
+
+            selectThisDockerConfig: function(dockerConfig, key) {
+                console.log(dockerConfig, key);
+                this.configIsActive[key].isActive = true;
+                if(key === this.currentActiveConfig) {
+                    this.configIsActive[this.currentActiveConfig].isActive = true;
+                }else {
+                    this.configIsActive[this.currentActiveConfig].isActive = false;
+                }
+                this.currentActiveConfig = key;
+                console.log(this.configIsActive, key);
             }
         },
 
         events: {
             'imageOnSelected': function(id) {
-                console.log(id);
+                this.showImageSelectorForm = false;
             }
         }
 

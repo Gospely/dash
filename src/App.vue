@@ -120,4 +120,48 @@
         cursor: pointer;
     }
 
+    .docker-config-box {
+        width: 90px;
+        margin-right: 20px;
+        float: left;
+        cursor: pointer;
+        overflow: hidden;
+        background: #f7fafc;
+        color: #666;
+        border: 1px solid #d3d6db;
+        margin-bottom: 10px;
+        border-bottom-left-radius: 2px;
+        border-bottom-right-radius: 2px;
+    }
+
+    .down-style {
+        position: relative;
+        width: 100%;
+        height: 36px;
+        background: #c9caca;
+        line-height: 36px;
+        text-align: center;
+        border-bottom-left-radius: 2px;
+        border-bottom-right-radius: 2px;
+        font-weight: 600;
+    }
+
+    .text-center {
+        text-align: center;
+    }
+
+    .parameter {
+        font-size: 12px;
+        color: #999;
+    }
+
+    .docker-config-box.active .down-style {
+        background: #3690ef!important;
+        color: #fff;
+    }
+
+    .docker-config-box.active .parameter {
+        color: #3690ef!important;
+    }
+
 </style>
