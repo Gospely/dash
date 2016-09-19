@@ -116,4 +116,8 @@
         padding: 15px;
     }
 
+    .back {
+        cursor: pointer;
+    }
+
 </style>

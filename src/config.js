@@ -30,6 +30,12 @@ let menu = {
             template: '<router-view></router-view>'
         },
         subRoutes: {
+            '/manage': {
+                name: 'manageide',
+                label: '管理',
+                hide: false,
+                component: makeComponent('./components/page/ide/Manage.vue')
+            },            
             '/visit': {
                 name: 'visitide',
                 label: '访问',
@@ -76,7 +82,7 @@ let menu = {
     },
     '/services': {
         icon: 'briefcase',
-        label: '服务集成',
+        label: '容器服务',
         isShowSubMenu: false,
         hide: false,
         component: {
@@ -85,13 +91,13 @@ let menu = {
         subRoutes: {
             '/list': {
                 name: 'serviceslist',
-                label: '服务列表',
+                label: '镜像列表',
                 hide: false,
                 component: makeComponent('./components/page/services/ServicesList.vue')
             },
             '/new': {
                 name: 'myservices',
-                label: '我的服务',
+                label: '数据卷服务',
                 hide: false,
                 component: makeComponent('./components/page/services/MyService.vue')
             }
@@ -125,6 +131,12 @@ let menu = {
                 label: '交易记录',
                 hide: false,
                 component: makeComponent('./components/page/accounts/Orders.vue')
+            },
+            '/messages': {
+                name: 'messages',
+                label: '我的消息',
+                hide: false,
+                component: makeComponent('./component/page/accounts/Messages.vue')
             },
             '/teams': {
                 name: 'teams',

@@ -86,6 +86,8 @@
                       </div>
                     </article>
 
+                    <span class="help is-tip">此项目非团队项目</span>
+
                 </div>
 
             </div>

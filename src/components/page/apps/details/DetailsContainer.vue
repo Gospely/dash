@@ -109,7 +109,7 @@
 
         components: {
             Chart,
-            Modal
+            Modal,
         },
 
         methods: {

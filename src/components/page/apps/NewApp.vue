@@ -5,6 +5,46 @@
         <hr>
         <div class="content">
             
+            <div class="columns">
+                
+                <div class="column is-half">
+                    
+                    <label class="label">应用名称</label>
+                    <p class="control">
+                        <input class="input" type="text" placeholder="给您的应用取个名字吧">
+                    </p>
+                    <label class="label">容器配置</label>
+                    <p class="control">
+
+                    </p>
+                    <label class="label">容器镜像</label>
+                    <p class="control">
+                        <a class="button is-primary">选择镜像</a>
+                    </p>
+                    <label class="label">用户名</label>
+                    <p class="control">
+                        <input class="input" type="text" value="root" disabled>
+                    </p>
+                    <label class="label">密码</label>
+                    <p class="control">
+                        <input class="input" type="password">
+                    </p>
+                    <p class="control">
+                        <label class="checkbox">
+                            <input type="checkbox">
+                            有状态服务
+                        </label>
+                    </p>
+                    <p class="control">
+                        <span class="help">Dodora容器云会帮您自动生成HTTP和SSH端口</span>
+                        <button class="button is-primary">立即创建</button>
+                        <button class="button is-link">取消</button>
+                    </p>
+
+                </div>
+
+            </div>
+
         </div>
     </div>
 </template>
