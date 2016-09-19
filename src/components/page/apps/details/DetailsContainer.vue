@@ -22,7 +22,7 @@
                         </div>
 
                         <div class="column">
-                            <label class="label">命令</label>
+                            <label class="label">启动命令</label>
                             <label class="label is-tip">"/bin/sh -c 'service "</label>
                         </div>
 
@@ -40,6 +40,14 @@
                             <label class="label is-tip">0.0.0.0:8980->22/tcp, 0.0.0.0:8877->8181/tcp</label>
                         </div>
 
+                    </div>
+
+                    <label class="label">数据卷</label>
+                    <hr class="split">            
+
+                    <div class="column">
+                        <button class="button is-primary">创建数据卷</button>
+                        <span class="help is-tip">您没有创建数据卷</span>
                     </div>
 
                 </div>
@@ -60,6 +68,7 @@
                             <a class="card-footer-item">更改</a>
                         </footer>
                     </div>
+
                 </div>
 
             </div>

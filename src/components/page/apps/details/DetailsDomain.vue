@@ -2,16 +2,26 @@
     <div class="container">
 
         <div class="columns">
-            <div class="column is-half">
-                      
-                <label class="label">修改子域名</label>
-                <p class="control">
-                    <input class="input" type="text" placeholder="">
-                    <span class="help">.gospely.com</span>
-                </p>
-                <p class="control">
-                    <button class="button is-primary" @click="saveChanges">保存更改</button>
-                </p>
+            <div class="column">
+
+                <label class="label">修改子域名</label>                
+                <div class="columns">
+                    
+                    <div class="column is-half">
+                        <p class="control">
+                            <input class="input" type="text" placeholder="">
+                        </p>                        
+                    </div>
+                    <span class="is-tip" style="line-height: 3.3;">.gospely.com</span>
+
+                    <div class="column">
+                        <p class="control">
+                            <button class="button is-primary" @click="saveChanges">保存更改</button>
+                        </p>                        
+                    </div>
+
+                </div>
+
                 <modal :is-html="true" :is-show.sync="showDomainAddingForm">
                     <div slot="header">{{domainInfoFormName}}</div>
                     <div slot="body">
