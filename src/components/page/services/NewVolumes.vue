@@ -22,10 +22,10 @@
               <div class="control-label">
                 <label class="label">数据卷配置</label>
               </div>
-              <div class="control is-grouped">
-                <div class="columns" style="margin-bottom:-10px">
+              <div class="control is-grouped" style="margin-left:-10px">
+                <div class="columns">
                     
-                    <div class="column">
+                    <div class="column" style="margin-left:0px">
                         <div class="docker-config-box active" @click="selectThisDockerConfig(val, key)">
                             <ul class="text-center parameter">
                                 <li><i style="font-size:20px" class="fa fa-database" aria-hidden="true"></i></li>
@@ -44,7 +44,7 @@
               <div class="control-label">
                 <label class="label">数据卷大小</label>
               </div>
-              <div class="control is-grouped">
+              <div class="control is-grouped" style="margin-left:16px">
                 <div class="columns">
                     <div class="column is-10">
                         <input v-model="volume.size" min="10" max="20" step="10" class="slider" type="range" style="margin-top:14px">                    
@@ -62,8 +62,8 @@
               <div class="control-label">
                 <label class="label">创建数据卷</label>
               </div>
-              <div class="control is-grouped">
-                        <button class="button is-primary" v-bind:class="{'is-loading': isCreateVolume}" @click="createVolume">立即创建</button>
+              <div class="control is-grouped" style="margin-left:-16px">
+                    <button class="button is-primary" v-bind:class="{'is-loading': isCreateVolume}" @click="createVolume">立即创建</button>
               </div>
             </div>
 

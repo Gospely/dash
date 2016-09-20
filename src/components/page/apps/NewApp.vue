@@ -33,7 +33,7 @@
               </div>
               <div class="control is-grouped">
 
-                <div class="columns">
+                <div class="columns" style="margin-left: 82px;">
                     
                     <div class="column is-2" v-for="(key, val) in dockerConfigs">
                         <div class="docker-config-box" v-bind:class="{'active': configIsActive[key].isActive}" @click="selectThisDockerConfig(val, key)">
@@ -56,7 +56,7 @@
               <div class="control-label">
                 <label class="label">容器镜像</label>
               </div>
-              <div class="control is-grouped">
+              <div class="control is-grouped" style="margin-left:-20px">
                 <p class="control is-expanded">
                     <a class="button is-primary" v-show="!withImage" @click="selectImage">选择镜像</a>
                     <span class="help" v-show="withImage">已选镜像：{{imageId}}</span>
@@ -97,7 +97,7 @@
               <div class="control-label">
                 <label class="label">状态服务</label>
               </div>
-              <div class="control is-grouped">
+              <div class="control is-grouped" style="margin-left:13px">
                 <p class="control is-expanded">
                     <input type="checkbox">
                     有状态服务
@@ -113,7 +113,7 @@
               <div class="control-label">
                 <label class="label">开始创建</label>
               </div>
-              <div class="control is-grouped">
+              <div class="control is-grouped" style="margin-left:-20px">
                 <p class="control is-expanded">
                     <button style="margin-top:6px" class="button is-primary" v-bind:class="{'is-loading': isCreateApp}" @click="createApp">立即创建</button>
                 </p>
