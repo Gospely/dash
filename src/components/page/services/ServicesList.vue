@@ -4,18 +4,18 @@
         <h2 class="subtitle">这里是<strong>dodora容器云</strong>官方提供的容器云集成服务</h2>
         <hr>
         <div class="content">
-            <a class="button is-primary">
-              创建服务
-            </a>
 
-            
-            
+            <image-viewer></image-viewer>
+
         </div>
     </div>
 </template>
 <style>
 </style>
 <script>
+
+    import ImageViewer from '../apps/ImageViewer.vue'
+
     export default{
         data () {
             return {
@@ -23,6 +23,13 @@
             }
         },
         components: {
+            ImageViewer
+        },
+
+        events: {
+            'imageOnSelected': function(id) {
+                this.$router.replace('/apps/new/' + id);
+            }
         }
     }
 </script>

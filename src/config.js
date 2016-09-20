@@ -72,6 +72,12 @@ let menu = {
                 hide: false,
                 component: makeComponent('./components/page/apps/NewApp.vue')
             },
+            '/new/:imageId': {
+                name: 'newappwithimageid',
+                label: '创建应用(已知镜像id)',
+                hide: true,
+                component: makeComponent('./components/page/apps/NewApp.vue')
+            },            
             '/detail/:containerId': {
                 name: 'appdetail',
                 label: '应用详情',
@@ -95,11 +101,17 @@ let menu = {
                 hide: false,
                 component: makeComponent('./components/page/services/ServicesList.vue')
             },
-            '/new': {
-                name: 'myservices',
+            '/volumes': {
+                name: 'volumes',
                 label: '数据卷服务',
                 hide: false,
-                component: makeComponent('./components/page/services/MyService.vue')
+                component: makeComponent('./components/page/services/Volumes.vue')
+            },
+            '/volumes/new': {
+                name: 'newvolumes',
+                label: '创建数据卷',
+                hide: false,
+                component: makeComponent('./components/page/services/NewVolumes.vue')
             }
 
         }

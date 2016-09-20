@@ -40,7 +40,8 @@
                     </p>
                     <label class="label">容器镜像</label>
                     <p class="control">
-                        <a class="button is-primary" @click="selectImage">选择镜像</a>
+                        <a class="button is-primary" v-show="!withImage" @click="selectImage">选择镜像</a>
+                        <span class="help" v-show="withImage">已选镜像：{{imageId}}</span>
                     </p>
                     <label class="label">用户名</label>
                     <p class="control">
@@ -77,9 +78,15 @@
     import Modal from '../../ui/Modal/Modal.vue'
     import ImageViewer from './ImageViewer.vue'
 
+    let ModalCtrl = Vue.extend(Modal);
+
     export default{
         data () {
             return {
+
+                withImage: false,
+                imageId: null,
+
                 showImageSelectorForm: false,
 
                 configIsActive: [{
@@ -93,6 +100,7 @@
                 }, {
                     isActive: false
                 }],
+
                 currentActiveConfig: 1,
 
                 dockerConfigs: [{
@@ -122,19 +130,24 @@
                     memory: '2 GB',
                     cpu: '1',
                     cpuType: '',
-                    free: true
+                    free: false
                 }, {
                     id: '5',
                     name: '16x',
                     memory: '4 GB',
                     cpu: '1',
                     cpuType: '',
-                    free: true
+                    free: false
                 }]
             }
         },
 
         created () {
+
+            if(typeof this.$route.params.imageId != 'undefined') {
+                this.$set('withImage', true);
+                this.$set('imageId', this.$route.params.imageId);
+            }
 
         },
 
@@ -153,7 +166,30 @@
             },
 
             selectThisDockerConfig: function(dockerConfig, key) {
-                console.log(dockerConfig, key);
+
+                if(!dockerConfig.free) {
+                    new ModalCtrl({
+                        el: document.createElement('div'),
+                        props: {
+                            isShow: false,
+                            header: {
+                                default: '充值提示'
+                            },
+                            body: {
+                                default: '该配置需要充值后使用'
+                            }
+                        },
+                        events: {
+                            'confirmed': function() {
+                                console.log('sssss');
+                                this.$destroy(true);
+                            }
+                        }
+                    }).show();
+
+                    return false;
+                }
+
                 this.configIsActive[key].isActive = true;
                 if(key === this.currentActiveConfig) {
                     this.configIsActive[this.currentActiveConfig].isActive = true;
@@ -161,13 +197,15 @@
                     this.configIsActive[this.currentActiveConfig].isActive = false;
                 }
                 this.currentActiveConfig = key;
-                console.log(this.configIsActive, key);
+
             }
         },
 
         events: {
             'imageOnSelected': function(id) {
                 this.showImageSelectorForm = false;
+                this.withImage = true;
+                this.imageId = id;
             }
         }
 

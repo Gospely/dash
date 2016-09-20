@@ -1,0 +1,38 @@
+<template>
+    <div class="container">
+        <h1 class="title">数据卷服务</h1>
+        <h2 class="subtitle">数据卷服务是<strong>dodora容器云</strong>持久化数据、共享数据的存储空间</h2>
+        <hr>
+        <div class="content">
+    
+            <a v-link="{name:'newvolumes'}" class="button is-primary">
+              创建数据卷
+            </a>
+
+            <a class="button is-primary" v-bind:class="{'is-loading': isRefresh}" @click="refreshAppList">
+              <i class="fa fa-refresh" aria-hidden="true"></i>
+            </a>
+
+
+        </div>
+    </div>
+</template>
+<style>
+</style>
+<script>
+    export default{
+        data () {
+            return {
+                isRefresh: false
+            }
+        },
+        components: {
+        },
+
+        methods: {
+            refreshAppList: function() {
+                this.isRefresh = true;
+            }
+        }
+    }
+</script>

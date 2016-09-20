@@ -8,6 +8,10 @@
               创建应用
             </a>
 
+            <a class="button is-primary" v-bind:class="{'is-loading': isRefresh}" @click="refreshAppList">
+              <i class="fa fa-refresh" aria-hidden="true"></i>
+            </a>
+
             <tab :active-index = "0" style= "width: 100%;">
                 <tab-item title="全部应用">
                     <table class="table">
@@ -150,7 +154,7 @@
     export default{
         data () {
             return {
-                msg: 'hello vue'
+                isRefresh: false
             }
         },
 
@@ -162,6 +166,10 @@
         methods: {
             stopThisAPP: function() {
 
+            },
+
+            refreshAppList: function() {
+                this.isRefresh = true;
             }
         }
     }
