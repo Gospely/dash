@@ -153,7 +153,7 @@ let menu = {
                 name: 'messages',
                 label: '我的消息',
                 hide: false,
-                component: makeComponent('./component/page/accounts/Messages.vue')
+                component: makeComponent('./components/page/accounts/Messages.vue')
             },
             '/teams': {
                 name: 'teams',
