@@ -166,6 +166,24 @@ let menu = {
                 label: '登录授权',
                 hide: false,
                 component: makeComponent('./components/page/accounts/Oauth.vue')
+            },
+            '/login': {
+                name: 'login',
+                label: '登录',
+                hide: false,
+                component: makeComponent('./components/page/accounts/Login.vue')
+            },
+            '/signup': {
+                name: 'signup',
+                label: '注册',
+                hide: false,
+                component: makeComponent('./components/page/accounts/Signup.vue')
+            },
+            '/register': {
+                name: 'signupa',
+                label: '注册',
+                hide: false,
+                component: makeComponent('./components/page/accounts/Register.vue')
             }
         }
     },
