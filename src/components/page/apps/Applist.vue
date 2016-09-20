@@ -150,7 +150,9 @@
 
 </style>
 <script>
+
     import {Tab, TabItem} from '../../ui/Tab'
+
     export default{
         data () {
             return {
