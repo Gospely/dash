@@ -188,4 +188,13 @@
         border-radius: 50%;
     }
 
+    .team {
+        display: block;
+        width: 100%;
+    }
+
+    .team .media {
+        width: 100%;
+    }
+
 </style>

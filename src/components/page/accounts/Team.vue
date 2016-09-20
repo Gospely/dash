@@ -16,14 +16,81 @@
             <hr>
 
             <div class="control is-horizontal user-center">
-              <div class="control-label">
-                <label class="label">组织列表</label>
-              </div>
-              <div class="control is-grouped">
+                <div class="control-label">
+                    <label class="label">组织列表</label>
+                </div>
+                <div class="control is-grouped">
 
+                    <div class="team">
+                    
+                        <article class="media">
+                            <figure class="media-left">
+                                <p class="image is-64x64">
+                                    <img src="https://dn-daoweb-prod.qbox.me/static/organization_200.png">
+                                </p>
+                            </figure>
+                            <div class="media-content">
+                                <div class="content">
+                                    <p>
+                                        <strong>团队名称</strong>
+                                        <br>
+                                        <div style="margin-top:5px">创建于:2016-08-23</div>
+                                    </p>
+                                </div>
+                            </div>
+                            <div class="media-right">
+                                <button class="delete"></button>
+                            </div>
+                        </article>
 
+                        <hr class="split">
 
-              </div>
+                        <article class="media">
+                            <figure class="media-left">
+                                <p class="image is-64x64">
+                                    <img src="https://dn-daoweb-prod.qbox.me/static/organization_200.png">
+                                </p>
+                            </figure>
+                            <div class="media-content">
+                                <div class="content">
+                                    <p>
+                                        <strong>团队名称</strong>
+                                        <br>
+                                        <div style="margin-top:5px">创建于:2016-08-23</div>
+                                    </p>
+                                </div>
+                            </div>
+                            <div class="media-right">
+                                <button class="delete"></button>
+                            </div>
+                        </article>
+
+                        <hr class="split">
+
+                        <article class="media">
+                            <figure class="media-left">
+                                <p class="image is-64x64">
+                                    <img src="https://dn-daoweb-prod.qbox.me/static/organization_200.png">
+                                </p>
+                            </figure>
+                            <div class="media-content">
+                                <div class="content">
+                                    <p>
+                                        <strong>团队名称</strong>
+                                        <br>
+                                        <div style="margin-top:5px">创建于:2016-08-23</div>
+                                    </p>
+                                </div>
+                            </div>
+                            <div class="media-right">
+                                <button class="delete"></button>
+                            </div>
+                        </article>
+
+                    </div>
+
+                </div>
+
             </div>
 
             <hr>
