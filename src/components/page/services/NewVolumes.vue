@@ -13,6 +13,7 @@
                     <p class="control">
                         <input class="input" type="text" placeholder="给您的应用取个名字吧">
                     </p>
+
                     <label class="label">数据卷配置</label>
                     <p class="control">
                         <div class="columns" style="margin-bottom:-10px">

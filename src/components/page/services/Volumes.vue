@@ -37,7 +37,7 @@
                             19.2kb
                           </td>
                           <td class="is-icon" title="进入数据卷">
-                            <a v-link="{path: 'volumes/details/123456'}">
+                            <a v-link="{path: 'volumes/33222'}">
                               <i class="fa fa-share"></i>
                             </a>
                           </td>

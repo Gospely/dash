@@ -83,14 +83,6 @@
         color: #777;
     }
 
-    .is-tip {
-        color: #777;
-    }
-
-    .split {
-        margin: 10px 0;
-    }
-
 </style>
 <script>
     import Vue from 'vue'

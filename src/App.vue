@@ -164,4 +164,28 @@
         color: #3690ef!important;
     }
 
+    .split {
+        margin: 10px 0;
+    }
+
+    .user-center .control-label{
+        text-align: left;
+    }
+
+    .user-center .control-label .label{
+        font-weight: 200;
+    }
+
+    .is-tip {
+        color: #777;
+    }
+
+    .is-big {
+        font-size: 18px;
+    }
+
+    .rounded-image{
+        border-radius: 50%;
+    }
+
 </style>
