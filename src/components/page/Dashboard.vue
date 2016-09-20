@@ -181,6 +181,7 @@
         padding: 0 10px;
         opacity: 0;
     }
+
 </style>
 <script>
     import Chart from '../ui/Chart.vue'
