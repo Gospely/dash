@@ -33,7 +33,7 @@ let menu = {
             '/manage': {
                 name: 'manageide',
                 label: '管理',
-                hide: false,
+                hide: true,
                 component: makeComponent('./components/page/ide/Manage.vue')
             },            
             '/visit': {
@@ -44,7 +44,7 @@ let menu = {
             },
             '/renew': {
                 name: 'renewide',
-                label: '续费',
+                label: '管理',
                 hide: false,
                 component: makeComponent('./components/page/ide/Renew.vue')
             }

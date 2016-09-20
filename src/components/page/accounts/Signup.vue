@@ -1,5 +1,5 @@
 <template>
-    <div class="container" style="min-height:800px">
+    <div class="container" style="min-height:100%">
 
         <div class="signup-form">
           <div class="signup-form__logo-box">
@@ -16,14 +16,14 @@
             </div>
           </div>
         </div>
-
-
+        
     </div>
 </template>
 <style>
 
     .container {
         background: #b72f20;
+        overflow: visible;
     }
 
     .app-main {

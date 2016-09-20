@@ -84,6 +84,7 @@
 
     .container {
         background: #b72f20;
+        overflow: visible;
     }
 
     .app-main {
