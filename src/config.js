@@ -163,7 +163,7 @@ let menu = {
             },
             '/oauth': {
                 name: 'oauth',
-                label: '登录绑定',
+                label: '登录授权',
                 hide: false,
                 component: makeComponent('./components/page/accounts/Oauth.vue')
             }
