@@ -14,57 +14,113 @@
                 </div>
             </modal>
 
-            <div class="columns">
-                
-                <div class="column is-three-quarters">
-                    
-                    <label class="label">应用名称</label>
-                    <p class="control">
-                        <input class="input" type="text" placeholder="给您的应用取个名字吧">
-                    </p>
-                    <label class="label">容器配置</label>
-                    <p class="control">
-                        <div class="columns">
-                            
-                            <div class="column is-2" v-for="(key, val) in dockerConfigs">
-                                <div class="docker-config-box" v-bind:class="{'active': configIsActive[key].isActive}" @click="selectThisDockerConfig(val, key)">
-                                    <ul class="text-center parameter">
-                                        <li>{{val.memory}} 内存</li>
-                                        {{val.cpu}} CPU{{val.cpuType}}
-                                    </ul>
-                                    <div class="down-style">{{val.name}}</div>
-                                </div>                                
-                            </div>
+            <div class="control is-horizontal user-center">
+              <div class="control-label">
+                <label class="label">应用名称</label>
+              </div>
+              <div class="control is-grouped">
+                <p class="control is-expanded">
+                    <input class="input" type="text" placeholder="给您的应用取个名字吧">
+                </p>
+              </div>
+            </div>
 
-                        </div>
-                    </p>
-                    <label class="label">容器镜像</label>
-                    <p class="control">
-                        <a class="button is-primary" v-show="!withImage" @click="selectImage">选择镜像</a>
-                        <span class="help" v-show="withImage">已选镜像：{{imageId}}</span>
-                    </p>
-                    <label class="label">用户名</label>
-                    <p class="control">
-                        <input class="input" type="text" value="root" disabled>
-                    </p>
-                    <label class="label">密码</label>
-                    <p class="control">
-                        <input class="input" type="password">
-                    </p>
-                    <p class="control">
-                        <label class="checkbox">
-                            <input type="checkbox">
-                            有状态服务
-                        </label>
-                    </p>
-                    <p class="control">
-                        <span class="help">Dodora容器云会帮您自动生成HTTP和SSH端口</span>
-                        <button class="button is-primary" v-bind:class="{'is-loading': isCreateApp}" @click="createApp">立即创建</button>
-                    </p>
+            <hr>
+
+            <div class="control is-horizontal user-center">
+              <div class="control-label">
+                <label class="label">容器配置</label>
+              </div>
+              <div class="control is-grouped">
+
+                <div class="columns">
+                    
+                    <div class="column is-2" v-for="(key, val) in dockerConfigs">
+                        <div class="docker-config-box" v-bind:class="{'active': configIsActive[key].isActive}" @click="selectThisDockerConfig(val, key)">
+                            <ul class="text-center parameter">
+                                <li>{{val.memory}} 内存</li>
+                                {{val.cpu}} CPU{{val.cpuType}}
+                            </ul>
+                            <div class="down-style">{{val.name}}</div>
+                        </div>                                
+                    </div>
 
                 </div>
 
+              </div>
             </div>
+
+            <hr>
+
+            <div class="control is-horizontal user-center">
+              <div class="control-label">
+                <label class="label">容器镜像</label>
+              </div>
+              <div class="control is-grouped">
+                <p class="control is-expanded">
+                    <a class="button is-primary" v-show="!withImage" @click="selectImage">选择镜像</a>
+                    <span class="help" v-show="withImage">已选镜像：{{imageId}}</span>
+                    <a style="margin-top:6px" class="button is-primary" v-show="withImage" @click="selectImage">重新选择</a>
+                </p>
+              </div>
+            </div>
+
+            <hr>
+
+            <div class="control is-horizontal user-center">
+              <div class="control-label">
+                <label class="label">用户名称</label>
+              </div>
+              <div class="control is-grouped">
+                <p class="control is-expanded">
+                    <input class="input" type="text" value="root" disabled>
+                </p>
+              </div>
+            </div>
+
+            <hr>
+
+            <div class="control is-horizontal user-center">
+              <div class="control-label">
+                <label class="label">用户密码</label>
+              </div>
+              <div class="control is-grouped">
+                <p class="control is-expanded">
+                    <input class="input" type="password">
+                </p>
+              </div>
+            </div>
+
+            <hr>
+
+            <div class="control is-horizontal user-center">
+              <div class="control-label">
+                <label class="label">状态服务</label>
+              </div>
+              <div class="control is-grouped">
+                <p class="control is-expanded">
+                    <input type="checkbox">
+                    有状态服务
+
+                    <span class="help">Dodora容器云会帮您自动生成HTTP和SSH端口</span>
+                </p>
+              </div>
+            </div>
+
+            <hr>
+
+            <div class="control is-horizontal user-center">
+              <div class="control-label">
+                <label class="label">开始创建</label>
+              </div>
+              <div class="control is-grouped">
+                <p class="control is-expanded">
+                    <button style="margin-top:6px" class="button is-primary" v-bind:class="{'is-loading': isCreateApp}" @click="createApp">立即创建</button>
+                </p>
+              </div>
+            </div>
+
+            <hr>
 
         </div>
     </div>
