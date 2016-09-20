@@ -59,8 +59,7 @@
                     </p>
                     <p class="control">
                         <span class="help">Dodora容器云会帮您自动生成HTTP和SSH端口</span>
-                        <button class="button is-primary">立即创建</button>
-                        <button class="button is-link">取消</button>
+                        <button class="button is-primary" v-bind:class="{'is-loading': isCreateApp}" @click="createApp">立即创建</button>
                     </p>
 
                 </div>
@@ -83,6 +82,8 @@
     export default{
         data () {
             return {
+
+                isCreateApp: false,
 
                 withImage: false,
                 imageId: null,
@@ -198,6 +199,10 @@
                 }
                 this.currentActiveConfig = key;
 
+            },
+
+            createApp: function() {
+                this.isCreateApp = true;
             }
         },
 

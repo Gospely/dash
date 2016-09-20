@@ -13,6 +13,39 @@
               <i class="fa fa-refresh" aria-hidden="true"></i>
             </a>
 
+            <tab :active-index = "0" style= "width: 100%;">
+                <tab-item title="我的数据卷">
+                    <table class="table">
+                      <thead>
+                        <tr>
+                          <th>名称</th>
+                          <th>配置</th>
+                          <th>容量</th>
+                          <th>用量</th>
+                          <th>操作</th>
+                          <th></th>                    
+                        </tr>
+                      </thead>
+                      <tbody>
+                        <tr>
+                          <td>Gospel_Volume</td>
+                          <td>分布式存储</td>
+                          <td>
+                            20GB
+                          </td>
+                          <td>
+                            19.2kb
+                          </td>
+                          <td class="is-icon" title="进入数据卷">
+                            <a v-link="{path: 'volumes/details/123456'}">
+                              <i class="fa fa-share"></i>
+                            </a>
+                          </td>
+                        </tr>
+                      </tbody>
+                    </table>
+                </tab-item>
+            </tab>
 
         </div>
     </div>
@@ -20,6 +53,9 @@
 <style>
 </style>
 <script>
+
+    import {Tab, TabItem} from '../../ui/Tab'
+
     export default{
         data () {
             return {
@@ -27,6 +63,8 @@
             }
         },
         components: {
+            Tab,
+            TabItem
         },
 
         methods: {

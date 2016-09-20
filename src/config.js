@@ -112,8 +112,13 @@ let menu = {
                 label: '创建数据卷',
                 hide: false,
                 component: makeComponent('./components/page/services/NewVolumes.vue')
+            },
+            '/volumes/details/:volumeId': {
+                name: 'volumesdetails',
+                label: '数据卷详情',
+                hide: true,
+                component: makeComponent('./components/page/services/VolumesDetail.vue')
             }
-
         }
     },
     '/accounts': {
