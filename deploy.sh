@@ -8,4 +8,4 @@ git add .
 git commit -a -m "$msg"
 git push -u origin master
 #sync
-ssh root@poimoe.com 'cd /var/www/gospely/dash && git pull'
+ssh root@119.29.153.143 'docker exec -d git pull'
