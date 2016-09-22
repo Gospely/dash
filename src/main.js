@@ -10,7 +10,7 @@ Vue.use(VueRouter)
 // You can pass in additional options here, but let's
 // keep it simple for now.
 var router = new VueRouter({
-    hashbang: false,
+    hashbang: true,
     history: true,
     saveScrollPosition: true,
     transitionOnLoad: true,
