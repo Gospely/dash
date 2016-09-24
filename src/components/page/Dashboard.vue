@@ -47,11 +47,6 @@
         <div class="columns">
             <div class="column">
                 <p class="notification has-text-centered">
-                    <span class="title">磁盘<br><span class="subtitle">10G</span></span>
-                </p>
-            </div>
-            <div class="column">
-                <p class="notification has-text-centered">
                     <span class="title">内存<br><span class="subtitle">10G</span></span>
                 </p>
             </div>
@@ -60,13 +55,23 @@
                     <span class="title">CPU<br><span class="subtitle">2核</span></span>
                 </p>
             </div>
+            <div class="column is-half">
+                <p class="notification has-text-centered">
+                    <span class="title">数据卷大小<br><span class="subtitle">10G</span></span>
+                </p>
+            </div>
+            <div class="column">
+                <p class="notification has-text-centered">
+                    <span class="title"><a class="button is-primary">提升配额</a><br><span class="subtitle">数据卷配额</span></span>
+                </p>
+            </div>
         </div>
 
         <h2>Dodora容器云 配额信息</h2>
         <div class="columns">
             <div class="column">
                 <p class="notification has-text-centered">
-                    <span class="title">数据卷<br><span class="subtitle">10</span></span>
+                    <span class="title">数据卷<br><span class="subtitle">10个</span></span>
                 </p>
             </div>
         </div>
