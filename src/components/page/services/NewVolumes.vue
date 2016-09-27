@@ -130,6 +130,12 @@
             createVolume: function() {
                 this.isCreateVolume = true;
             }
+        },
+
+        events: {
+            'cycSelected': function(cyc) {
+                console.log(cyc);
+            }
         }
     }
 </script>

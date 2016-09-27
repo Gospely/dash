@@ -117,13 +117,7 @@
                 <div slot="body">
                     <label class="label">升级时长</label>
                     <p class="control">
-                      <a class="button is-small">1个月</a>
-                      <a class="button is-small">2个月</a>
-                      <a class="button is-small">4个月</a>
-                      <a class="button is-small">6个月</a>
-                      <a class="button is-small">1年</a>
-                      <a v-show="isOther == false" class="button is-small" @click="enterEditOtherTime">{{otherTime || 其它}}</a>
-                      <input v-model="otherTime" v-show="isOther == true" class="input" type="text" @keydown.enter="isOther = false" style="position: absolute;width: 40px;height: 24px;box-shadow: none;margin-left:3px" />
+                      <cyc :show-tips="false"></cyc>
                     </p>
                     <label class="label">选择主版本</label>
                     <p class="control">
@@ -178,6 +172,7 @@
     import Modal from '../../ui/Modal/Modal.vue'
 
     import Slider from 'vue-bulma-slider'
+    import Cyc from '../../ui/Cyc.vue'
 
     export default{
         data () {
@@ -200,7 +195,8 @@
             TabItem,
             IdeState,
             Modal,
-            Slider
+            Slider,
+            Cyc
         },
 
         methods: {
@@ -210,13 +206,6 @@
 
             confirmRenew: function() {
 
-            },
-
-            enterEditOtherTime: function() {
-              if(this.otherTime == '其它') {
-                this.otherTime = '';
-              }
-              this.isOther = true;
             },
 
             confirmRenewIDEVolume: function() {
