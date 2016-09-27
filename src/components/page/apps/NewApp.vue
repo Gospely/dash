@@ -42,11 +42,30 @@
                                 {{val.cpu}} CPU{{val.cpuType}}
                             </ul>
                             <div class="down-style">{{val.name}}</div>
-                        </div>                                
+                        </div>
                     </div>
 
                 </div>
 
+              </div>
+            </div>
+
+            <hr v-show="showCaculateResourceSlider">
+
+            <div v-show="showCaculateResourceSlider" class="control is-horizontal user-center">
+              <div class="control-label">
+                <label class="label">使用时长</label>
+              </div>
+              <div class="control is-grouped" style="margin-left:30px">
+                <div class="columns">
+                    <div class="column">
+                        <a v-for="(key, val) in cyc" style="margin-right: 4px;" @click="selectCycBykey(key)" class="button" v-bind:class="{'is-primary': currentCyc == key}">{{val.label}}</a>
+                        <input v-model="otherTime" v-show="isOther == true" class="input" type="text" @keydown.enter="selectThisCustomCyc(cyc.length -1)" style="width: 40px;height: 32px;box-shadow: none;" /><span style="line-height: 2.3;margin-left: 4px;" v-show="isOther == true" class="is-tip">/月</span>
+                        <p style="text-align:right;margin-top:20px">
+                            <span class="is-tip">共计：30.0 元</span>
+                        </p>
+                    </div>                            
+                </div>
               </div>
             </div>
 
@@ -132,6 +151,7 @@
     import Vue from 'vue'
     import Modal from '../../ui/Modal/Modal.vue'
     import ImageViewer from './ImageViewer.vue'
+    import Slider from 'vue-bulma-slider'
 
     let ModalCtrl = Vue.extend(Modal);
 
@@ -145,6 +165,8 @@
                 imageId: null,
 
                 showImageSelectorForm: false,
+
+                showCaculateResourceSlider: false,
 
                 configIsActive: [{
                     isActive: false
@@ -195,7 +217,30 @@
                     cpu: '1',
                     cpuType: '',
                     free: false
-                }]
+                }],
+
+                otherTime: '其它',
+                isOther: false,
+
+                cyc: [{
+                    label: '1个月',
+                    cyc: '1'
+                }, {
+                    label: '3个月',
+                    cyc: '3'
+                }, {
+                    label: '6个月',
+                    cyc: '6'
+                }, {
+                    label: '12个月',
+                    cyc: '12'
+                }, {
+                    label: '其它',
+                    cyc: 0,
+                    isOther: true
+                }],
+                currentCyc: 0
+
             }
         },
 
@@ -210,7 +255,8 @@
 
         components: {
             Modal,
-            ImageViewer
+            ImageViewer,
+            Slider
         },
 
         methods: {
@@ -224,28 +270,7 @@
 
             selectThisDockerConfig: function(dockerConfig, key) {
 
-                if(!dockerConfig.free) {
-                    new ModalCtrl({
-                        el: document.createElement('div'),
-                        props: {
-                            isShow: false,
-                            header: {
-                                default: '充值提示'
-                            },
-                            body: {
-                                default: '该配置需要充值后使用'
-                            }
-                        },
-                        events: {
-                            'confirmed': function() {
-                                console.log('sssss');
-                                this.$destroy(true);
-                            }
-                        }
-                    }).show();
-
-                    return false;
-                }
+                this.showCaculateResourceSlider = !dockerConfig.free;
 
                 this.configIsActive[key].isActive = true;
                 if(key === this.currentActiveConfig) {
@@ -259,7 +284,33 @@
 
             createApp: function() {
                 this.isCreateApp = true;
+            },
+
+            enterEditOtherTime: function() {
+              if(this.otherTime == '其它') {
+                this.otherTime = '';
+              }
+              this.isOther = true;
+            },
+
+            selectCycBykey: function(key) {
+                if(key == this.currentCyc && !this.cyc[key].isOther) {
+                    return false;
+                }
+
+                this.currentCyc = key;
+
+                if(this.cyc[key].isOther) {
+                    this.enterEditOtherTime();
+                }
+            },
+
+            selectThisCustomCyc: function(key) {
+                this.selectCycBykey(key);
+                this.isOther = false;
+                this.cyc[key].label = this.otherTime + '个月';
             }
+
         },
 
         events: {

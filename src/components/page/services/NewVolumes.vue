@@ -47,7 +47,7 @@
               <div class="control is-grouped" style="margin-left:16px">
                 <div class="columns">
                     <div class="column is-10">
-                        <input v-model="volume.size" min="10" max="20" step="10" class="slider" type="range" style="margin-top:14px">                    
+                        <input v-model="volume.size" min="10" max="20" step="10" class="slider" type="range" style="margin-top:14px">        
                     </div>
                     <div class="column is-10">
                         <span class="help is-tip" style="margin: 6px;">{{volume.size}} G</span>               
@@ -66,8 +66,10 @@
                 <div class="columns">
                     <div class="column">
                         <a v-for="(key, val) in cyc" style="margin-right: 4px;" @click="selectCycBykey(key)" class="button" v-bind:class="{'is-primary': currentCyc == key}">{{val.label}}</a>
-                        <!-- <a v-show="isOther == false" v-bind:class="{'is-primary': currentCyc == 5}" class="button" @click="enterEditOtherTime">{{otherTime}}</a> -->
                         <input v-model="otherTime" v-show="isOther == true" class="input" type="text" @keydown.enter="selectThisCustomCyc(cyc.length -1)" style="width: 40px;height: 32px;box-shadow: none;" /><span style="line-height: 2.3;margin-left: 4px;" v-show="isOther == true" class="is-tip">/月</span>
+                        <p style="text-align:right;margin-top:20px">
+                            <span class="is-tip">共计：30.0 元</span>
+                        </p>
                     </div>                            
                 </div>
               </div>
@@ -175,7 +177,7 @@
             selectThisCustomCyc: function(key) {
                 this.selectCycBykey(key);
                 this.isOther = false;
-                this.cyc[key].label = this.otherTime;
+                this.cyc[key].label = this.otherTime + '个月';
             }
         }
     }
