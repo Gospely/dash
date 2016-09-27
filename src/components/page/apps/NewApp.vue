@@ -59,11 +59,7 @@
               <div class="control is-grouped" style="margin-left:30px">
                 <div class="columns">
                     <div class="column">
-                        <a v-for="(key, val) in cyc" style="margin-right: 4px;" @click="selectCycBykey(key)" class="button" v-bind:class="{'is-primary': currentCyc == key}">{{val.label}}</a>
-                        <input v-model="otherTime" v-show="isOther == true" class="input" type="text" @keydown.enter="selectThisCustomCyc(cyc.length -1)" style="width: 40px;height: 32px;box-shadow: none;" /><span style="line-height: 2.3;margin-left: 4px;" v-show="isOther == true" class="is-tip">/月</span>
-                        <p style="text-align:right;margin-top:20px">
-                            <span class="is-tip">共计：30.0 元</span>
-                        </p>
+                       <cyc></cyc>
                     </div>                            
                 </div>
               </div>
@@ -118,11 +114,31 @@
               </div>
               <div class="control is-grouped" style="margin-left:13px">
                 <p class="control is-expanded">
-                    <input type="checkbox">
+                    <input type="checkbox" v-model="isHaul">
                     有状态服务
 
                     <span class="help">Dodora容器云会帮您自动生成HTTP和SSH端口</span>
                 </p>
+              </div>
+            </div>
+
+            <hr v-show="isHaul">
+
+            <div v-show="isHaul" class="control is-horizontal user-center">
+              <div class="control-label">
+                <label class="label">选择数据卷</label>
+              </div>
+              <div class="control is-grouped" style="margin-left:-33px">
+
+                <div class="column" style="margin-left:0px">
+                    <div class="docker-config-box active" style="width:auto" @click="selectThisDockerConfig(val, key)">
+                        <ul class="text-center parameter">
+                            <li><i style="font-size:20px" class="fa fa-database" aria-hidden="true"></i></li>
+                        </ul>
+                        <div class="down-style" style="padding-left:5px;padding-right:5px">Gospel_volume</div>
+                    </div>                                
+                </div>
+
               </div>
             </div>
 
@@ -152,6 +168,7 @@
     import Modal from '../../ui/Modal/Modal.vue'
     import ImageViewer from './ImageViewer.vue'
     import Slider from 'vue-bulma-slider'
+    import Cyc from '../../ui/Cyc.vue'
 
     let ModalCtrl = Vue.extend(Modal);
 
@@ -219,28 +236,7 @@
                     free: false
                 }],
 
-                otherTime: '其它',
-                isOther: false,
-
-                cyc: [{
-                    label: '1个月',
-                    cyc: '1'
-                }, {
-                    label: '3个月',
-                    cyc: '3'
-                }, {
-                    label: '6个月',
-                    cyc: '6'
-                }, {
-                    label: '12个月',
-                    cyc: '12'
-                }, {
-                    label: '其它',
-                    cyc: 0,
-                    isOther: true
-                }],
-                currentCyc: 0
-
+                isHaul: false
             }
         },
 
@@ -256,7 +252,8 @@
         components: {
             Modal,
             ImageViewer,
-            Slider
+            Slider,
+            Cyc
         },
 
         methods: {
@@ -286,29 +283,8 @@
                 this.isCreateApp = true;
             },
 
-            enterEditOtherTime: function() {
-              if(this.otherTime == '其它') {
-                this.otherTime = '';
-              }
-              this.isOther = true;
-            },
+            toggleVolumesList: function() {
 
-            selectCycBykey: function(key) {
-                if(key == this.currentCyc && !this.cyc[key].isOther) {
-                    return false;
-                }
-
-                this.currentCyc = key;
-
-                if(this.cyc[key].isOther) {
-                    this.enterEditOtherTime();
-                }
-            },
-
-            selectThisCustomCyc: function(key) {
-                this.selectCycBykey(key);
-                this.isOther = false;
-                this.cyc[key].label = this.otherTime + '个月';
             }
 
         },
@@ -318,6 +294,10 @@
                 this.showImageSelectorForm = false;
                 this.withImage = true;
                 this.imageId = id;
+            },
+
+            'cycSelected': function(cyc) {
+                console.log(cyc);
             }
         }
 

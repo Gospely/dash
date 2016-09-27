@@ -21,7 +21,7 @@
                           <th>名称</th>
                           <th>配置</th>
                           <th>容量</th>
-                          <th>用量</th>
+                          <th>剩余</th>
                           <th>操作</th>
                           <th></th>                    
                         </tr>
