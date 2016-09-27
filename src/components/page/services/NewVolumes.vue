@@ -62,13 +62,15 @@
               <div class="control-label">
                 <label class="label">数据卷时长</label>
               </div>
-              <div class="control is-grouped" style="margin-left:16px">
+              <div class="control is-grouped" style="margin-left:20px">
                 <div class="columns">
-                    <div class="column is-10">
-                        <input v-model="volume.size" min="10" max="20" step="10" class="slider" type="range" style="margin-top:14px">                    
-                    </div>
-                    <div class="column is-10">
-                        <span class="help is-tip" style="margin: 6px;">{{volume.size}} G</span>               
+                    <div class="column">
+                        <a @click="selectThisCyc(0)" class="button is-primary" v-bind:class="{'is-primary': currentCyc == 0}">1个月</a>
+                        <a @click="selectThisCyc(1)" class="button" v-bind:class="{'is-primary': currentCyc == 1}">3个月</a>
+                        <a @click="selectThisCyc(2)" class="button" v-bind:class="{'is-primary': currentCyc == 2}">6个月</a>
+                        <a @click="selectThisCyc(3)" class="button" v-bind:class="{'is-primary': currentCyc == 3}">1年</a>
+                        <a v-show="isOther == false" v-bind:class="{'is-primary': currentCyc == 5}" class="button" @click="enterEditOtherTime">{{otherTime}}</a>
+                        <input v-model="otherTime" v-show="isOther == true" class="input" type="text" @keydown.enter="selectThisCustomCyc(5)" style="width: 40px;height: 32px;box-shadow: none;margin-left:3px" />
                     </div>                            
                 </div>
               </div>
@@ -81,7 +83,7 @@
                 <label class="label">创建数据卷</label>
               </div>
               <div class="control is-grouped" style="margin-left:-16px">
-                    <button class="button is-primary" v-bind:class="{'is-loading': isCreateVolume}" @click="createVolume">立即创建</button>
+                <button class="button is-primary" v-bind:class="{'is-loading': isCreateVolume}" @click="createVolume">立即创建</button>
               </div>
             </div>
 
@@ -110,7 +112,13 @@
 
                 volume: {
                     size: 10
-                }
+                },
+
+                otherTime: '其它',
+                isOther: false,
+
+                cyc: [true, false, false, false, false],
+                currentCyc: 0
             }
         },
         components: {
@@ -124,6 +132,24 @@
 
             createVolume: function() {
                 this.isCreateVolume = true;
+            },
+
+            enterEditOtherTime: function() {
+              if(this.otherTime == '其它') {
+                this.otherTime = '';
+              }
+              this.isOther = true;
+            },
+
+            selectThisCyc: function(key) {
+                this.cyc[key] = true;
+                this.cyc[this.currentCyc] = false;
+                this.currentCyc = key;
+            },
+
+            selectThisCustomCyc: function(key) {
+                this.selectThisCyc(key);
+                this.isOther = false;
             }
         }
     }
