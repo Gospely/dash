@@ -60,6 +60,24 @@
 
             <div class="control is-horizontal user-center">
               <div class="control-label">
+                <label class="label">数据卷时长</label>
+              </div>
+              <div class="control is-grouped" style="margin-left:16px">
+                <div class="columns">
+                    <div class="column is-10">
+                        <input v-model="volume.size" min="10" max="20" step="10" class="slider" type="range" style="margin-top:14px">                    
+                    </div>
+                    <div class="column is-10">
+                        <span class="help is-tip" style="margin: 6px;">{{volume.size}} G</span>               
+                    </div>                            
+                </div>
+              </div>
+            </div>
+
+            <hr>
+
+            <div class="control is-horizontal user-center">
+              <div class="control-label">
                 <label class="label">创建数据卷</label>
               </div>
               <div class="control is-grouped" style="margin-left:-16px">
