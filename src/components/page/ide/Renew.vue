@@ -17,6 +17,7 @@
                           <th>名称</th>
                           <th>创建时间</th>
                           <th>到期时间</th>
+                          <th>版本</th>
                           <th>操作</th>
                         </tr>
                       </thead>
@@ -27,6 +28,7 @@
                           <td>
                             2016-12-07
                           </td>
+                          <td>个人版</td>
                           <td class="is-icon" title="续费">
                             <a @click="showRenewForm = true">
                               <i class="fa fa-paypal"></i>
