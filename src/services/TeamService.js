@@ -7,7 +7,7 @@ module.exports = {
 
 		return {
 
-			userInfo: function(id) {
+			list: function(id) {
 				console.log(id);
 				return _this.$http.post(baseUrl + 'teams',{creator: id});
 			}

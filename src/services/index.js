@@ -1,4 +1,7 @@
 var UserService = require('./UserService.js');
+var TeamService = require('./TeamService.js');
+var TeamService = require('./VolumeService.js');
+
 var model = {
 	instance: undefined,
 	baseUrl: 'http://localhost:8089/'

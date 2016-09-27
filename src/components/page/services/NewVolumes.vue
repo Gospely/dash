@@ -11,7 +11,7 @@
               </div>
               <div class="control is-grouped">
                 <p class="control is-expanded">
-                    <input class="input" type="text" placeholder="给您的应用取个名字吧">
+                    <input class="input" type="text" placeholder="数据卷名称">
                 </p>
               </div>
             </div>
@@ -24,14 +24,14 @@
               </div>
               <div class="control is-grouped" style="margin-left:-10px">
                 <div class="columns">
-                    
+
                     <div class="column" style="margin-left:0px">
                         <div class="docker-config-box active" @click="selectThisDockerConfig(val, key)">
                             <ul class="text-center parameter">
                                 <li><i style="font-size:20px" class="fa fa-database" aria-hidden="true"></i></li>
                             </ul>
                             <div class="down-style">分布式存储</div>
-                        </div>                                
+                        </div>
                     </div>
 
                 </div>
@@ -47,11 +47,11 @@
               <div class="control is-grouped" style="margin-left:16px">
                 <div class="columns">
                     <div class="column is-10">
-                        <input v-model="volume.size" min="10" max="20" step="10" class="slider" type="range" style="margin-top:14px">        
+                        <input v-model="volume.size" min="10" max="20" step="10" class="slider" type="range" style="margin-top:14px">
                     </div>
                     <div class="column is-10">
-                        <span class="help is-tip" style="margin: 6px;">{{volume.size}} G</span>               
-                    </div>                            
+                        <span class="help is-tip" style="margin: 6px;">{{volume.size}} G</span>
+                    </div>
                 </div>
               </div>
             </div>
@@ -66,7 +66,7 @@
                 <div class="columns">
                     <div class="column">
                         <cyc price="100"></cyc>
-                    </div>                            
+                    </div>
                 </div>
               </div>
             </div>
@@ -129,6 +129,7 @@
 
             createVolume: function() {
                 this.isCreateVolume = true;
+                
             }
         },
 

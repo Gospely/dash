@@ -35,7 +35,7 @@ let menu = {
                 label: '管理',
                 hide: true,
                 component: makeComponent('./components/page/ide/Manage.vue')
-            },            
+            },
             '/visit': {
                 name: 'visitide',
                 label: '访问',
@@ -66,24 +66,19 @@ let menu = {
                 hide: false,
                 component: makeComponent('./components/page/apps/Applist.vue')
             },
-            '/new': {
-                name: 'newapp',
-                label: '创建应用',
-                hide: false,
-                component: makeComponent('./components/page/apps/NewApp.vue')
-            },
+
             '/new/:imageId': {
                 name: 'newappwithimageid',
                 label: '创建应用(已知镜像id)',
                 hide: true,
                 component: makeComponent('./components/page/apps/NewApp.vue')
-            },            
+            },
             '/detail/:containerId': {
                 name: 'appdetail',
                 label: '应用详情',
                 hide: true,
                 component: makeComponent('./components/page/apps/Details.vue')
-            }            
+            }
         }
     },
     '/services': {
@@ -95,6 +90,13 @@ let menu = {
             template: '<router-view></router-view>'
         },
         subRoutes: {
+
+            '/new': {
+                name: 'newapp',
+                label: '创建Docker',
+                hide: false,
+                component: makeComponent('./components/page/apps/NewApp.vue')
+            },
             '/list': {
                 name: 'serviceslist',
                 label: '镜像列表',
