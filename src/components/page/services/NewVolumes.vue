@@ -62,15 +62,12 @@
               <div class="control-label">
                 <label class="label">数据卷时长</label>
               </div>
-              <div class="control is-grouped" style="margin-left:20px">
+              <div class="control is-grouped" style="margin-left:30px">
                 <div class="columns">
                     <div class="column">
-                        <a @click="selectThisCyc(0)" class="button is-primary" v-bind:class="{'is-primary': currentCyc == 0}">1个月</a>
-                        <a @click="selectThisCyc(1)" class="button" v-bind:class="{'is-primary': currentCyc == 1}">3个月</a>
-                        <a @click="selectThisCyc(2)" class="button" v-bind:class="{'is-primary': currentCyc == 2}">6个月</a>
-                        <a @click="selectThisCyc(3)" class="button" v-bind:class="{'is-primary': currentCyc == 3}">1年</a>
-                        <a v-show="isOther == false" v-bind:class="{'is-primary': currentCyc == 5}" class="button" @click="enterEditOtherTime">{{otherTime}}</a>
-                        <input v-model="otherTime" v-show="isOther == true" class="input" type="text" @keydown.enter="selectThisCustomCyc(5)" style="width: 40px;height: 32px;box-shadow: none;margin-left:3px" />
+                        <a v-for="(key, val) in cyc" style="margin-right: 4px;" @click="selectCycBykey(key)" class="button" v-bind:class="{'is-primary': currentCyc == key}">{{val.label}}</a>
+                        <!-- <a v-show="isOther == false" v-bind:class="{'is-primary': currentCyc == 5}" class="button" @click="enterEditOtherTime">{{otherTime}}</a> -->
+                        <input v-model="otherTime" v-show="isOther == true" class="input" type="text" @keydown.enter="selectThisCustomCyc(cyc.length -1)" style="width: 40px;height: 32px;box-shadow: none;" /><span style="line-height: 2.3;margin-left: 4px;" v-show="isOther == true" class="is-tip">/月</span>
                     </div>                            
                 </div>
               </div>
@@ -117,12 +114,34 @@
                 otherTime: '其它',
                 isOther: false,
 
-                cyc: [true, false, false, false, false],
+                cyc: [{
+                    label: '1个月',
+                    cyc: '1'
+                }, {
+                    label: '3个月',
+                    cyc: '3'
+                }, {
+                    label: '6个月',
+                    cyc: '6'
+                }, {
+                    label: '12个月',
+                    cyc: '12'
+                }, {
+                    label: '其它',
+                    cyc: 0,
+                    isOther: true
+                }],
                 currentCyc: 0
             }
         },
         components: {
             Slider
+        },
+
+        ready () {
+
+            this.selectCycBykey(0);
+
         },
 
         methods: {
@@ -141,15 +160,22 @@
               this.isOther = true;
             },
 
-            selectThisCyc: function(key) {
-                this.cyc[key] = true;
-                this.cyc[this.currentCyc] = false;
+            selectCycBykey: function(key) {
+                if(key == this.currentCyc && !this.cyc[key].isOther) {
+                    return false;
+                }
+
                 this.currentCyc = key;
+
+                if(this.cyc[key].isOther) {
+                    this.enterEditOtherTime();
+                }
             },
 
             selectThisCustomCyc: function(key) {
-                this.selectThisCyc(key);
+                this.selectCycBykey(key);
                 this.isOther = false;
+                this.cyc[key].label = this.otherTime;
             }
         }
     }
