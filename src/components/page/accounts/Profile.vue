@@ -27,7 +27,7 @@
               </div>
               <div class="control">
                 <p class="control has-icon has-icon-right">
-                    <input class="input" type="text" placeholder="ivydom" value="ivydom" disabled>
+                    <input class="input" type="text" placeholder="ivydom" v-model="username" disabled>
                     <i class="fa fa-lock"></i>
                 </p>
               </div>
@@ -41,7 +41,7 @@
               </div>
               <div class="control">
                 <p class="control has-icon has-icon-right">
-                    <input class="input" type="text" placeholder="请输入手机号码" value="18000179176" v-bind:disabled="!changeMobileState">
+                    <input class="input" type="text" placeholder="请输入手机号码" v-model="phone" v-bind:disabled="!changeMobileState">
                     <i class="fa fa-check"></i>
                 </p>
                 <a @click="startChangeMobile" v-show="!changeMobileState" class="button is-primary" style="position:absolute;margin-left:15px"><i class="fa fa-pencil"></i></a>
@@ -71,7 +71,7 @@
               <div class="control">
 
                 <p class="control has-icon has-icon-right">
-                    <input class="input" type="email" placeholder="请输入邮箱帐号" value="597055914@qq.com" v-bind:disabled="!isVerifingEmail">
+                    <input class="input" type="email" placeholder="请输入邮箱帐号" v-model="email" v-bind:disabled="!isVerifingEmail">
                     <i class="fa fa-check"></i>
                 </p>
                 <a v-show="!isVerifingEmail" @click="verifyEmail" class="button is-primary" style="position:absolute;margin-left:15px"><i class="fa fa-pencil"></i></a>
@@ -149,16 +149,33 @@
 
     export default{
         data () {
+            var _self = this;
+            services.UserService.userInfo('1').then(function(res) {
+
+              if(res.status === 200) {
+                var data = JSON.parse(res.body);
+                _self.pictureUrl = data.fields.photo;
+                _self.username = data.fields.name;
+                _self.phone = data.fields.phone;
+                _self.email = data.fields.email;
+
+              }else {
+
+              }
+            }, function(err) {
+
+            });
             return {
-                changePwState: false,
-                isVerifingEmail: false,
-                changeMobileState: false,
-
-                pictureFile: null,
-                pictureUrl: ''
-            }
+                  changePwState: false,
+                  isVerifingEmail: false,
+                  changeMobileState: false,
+                  pictureFile: null,
+                  pictureUrl: '',
+                  username: '',
+                  phone: '',
+                  email: '',
+              }
         },
-
         components: {
             Modal,
             FileInput
@@ -179,6 +196,7 @@
             },
 
             confirmVerifyEmail: function() {
+
 
             },
 

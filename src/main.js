@@ -4,7 +4,25 @@ import VueRouter from 'vue-router'
 import App from './App'
 import {menu} from './config'
 
-Vue.use(VueRouter)
+import services from './services/index.js'
+
+if(document.domain == 'localhost') {
+	window.debug = true;
+}else {
+	document.domain = 'dash.dodora.cn';
+	window.debug = false;
+}
+
+//初始化用户登录状态
+localStorage.login = typeof localStorage.login == 'undefined' ? 'false' : localStorage.login;
+localStorage.userData = typeof localStorage.userData == 'undefined' ? '' : localStorage.userData;
+localStorage.accessToken = typeof localStorage.accessToken == 'undefined' ? '' : localStorage.accessToken;
+
+//初始化XMLHttpRequest RestfulAPI
+Vue.use(require('vue-resource'));
+
+Vue.use(VueRouter);
+
 
 // Create a router instance.
 // You can pass in additional options here, but let's
@@ -15,19 +33,36 @@ var router = new VueRouter({
     saveScrollPosition: true,
     transitionOnLoad: true,
     linkActiveClass: 'active'
-})
+});
+
+window.router = router;
 
 // Define some routes.
 // Each route should map to a component. The "component" can
 // either be an actual component constructor created via
 // Vue.extend(), or just a component options object.
 // We'll talk about nested routes later.
-router.map(menu)
+router.map(menu);
 
 router.redirect({
     '*': '/dashboard'
-})
+});
+
+
 // Now we can start the app!
 // The router will create an instance of App and mount to
 // the element matching the selector #app.
-router.start(App, 'app')
+router.start(App, 'app');
+new Vue({
+  el: 'title',
+
+	data: {
+		title: 'Gospel - 控制台'
+	},
+	ready: function() {
+    var store = services.init(this);
+    window.services = store;
+	}
+});
+
+window.Vue = Vue;
