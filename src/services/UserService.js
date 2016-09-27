@@ -10,6 +10,18 @@ module.exports = {
 			userInfo: function(id) {
 				console.log(id);
 				return _this.$http.get(baseUrl + 'users/'+id);
+			},
+			updatePwd: function(user) {
+
+				console.log(user);
+				return _this.$http.put(baseUrl + 'users',user);
+			},
+			register: function(user){
+
+				return _this.$http.post(baseUrl + 'users/register',user);
+			},
+			login: function(user) {
+				return _this.$http.post(baseUrl + 'users/login',user);
 			}
 
 		}

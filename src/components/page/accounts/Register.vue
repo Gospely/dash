@@ -10,16 +10,18 @@
               <span>
                   <div class="input-field-group">
                     <div class="input-field">
-                      <input type="text" placeholder="邮箱/手机号码" autocapitalize="off" style="border: none;"></div>
+                      <input type="text" v-model="phone" placeholder="邮箱/手机号码" autocapitalize="off" style="border: none;"></div>
                     <div class="input-field">
-                      <input type="text" placeholder="用户名,仅支持英文" autocapitalize="off" style="border: none;"></div>
+                      <input type="text"v-model='name' placeholder="用户名,仅支持英文" autocapitalize="off" style="border: none;"></div>
                     <div class="input-field">
-                      <input type="password" placeholder="请输入密码" autocapitalize="off" style="border: none;"></div>
+                      <input type="password" v-model="password" placeholder="请输入密码" autocapitalize="off" style="border: none;"></div>
                     <div class="input-field">
-                      <input type="text" placeholder="验证码" autocapitalize="off" style="border: none;"></div>
+                      <input type="password" v-model="rePwd" placeholder="重复密码" autocapitalize="off" style="border: none;"></div>
+                    <div class="input-field">
+                      <input type="text" v-model="authCode" placeholder="验证码" autocapitalize="off" style="border: none;"></div>
                   </div>
                   <ul class="error-msg-list"></ul>
-                  <button class="signup-form__submit">注册</button>
+                  <button class="signup-form__submit" @click="register">注册</button>
                   <div class="signup-form-nav">
                     <div class="left">
                     </div>
@@ -75,7 +77,11 @@
     export default{
         data () {
             return {
-                
+                phone:'',
+                name:'',
+                password:'',
+                rePwd:'',
+                authCode:''
             }
         },
         components: {
@@ -83,7 +89,25 @@
         },
 
         methods: {
-            
+          register: function(){
+            var user = {
+              phone: this.phone,
+              password: this.password,
+              name: this.name
+            };
+            services.UserService.register(user).then(function(res) {
+
+              if(res.status === 200){
+                notification.alert('登录成功');
+              }
+            },function(err){
+                notification.alert('服务器异常');
+            }
+            );
+          },
+          getTelCode: function() {
+
+          }
         }
     }
 </script>

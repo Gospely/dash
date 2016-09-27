@@ -6,6 +6,8 @@ import {menu} from './config'
 
 import services from './services/index.js'
 
+import notification from './lib/notification'
+
 if(document.domain == 'localhost') {
 	window.debug = true;
 }else {
@@ -22,7 +24,6 @@ localStorage.accessToken = typeof localStorage.accessToken == 'undefined' ? '' :
 Vue.use(require('vue-resource'));
 
 Vue.use(VueRouter);
-
 
 // Create a router instance.
 // You can pass in additional options here, but let's
@@ -66,3 +67,5 @@ new Vue({
 });
 
 window.Vue = Vue;
+
+window.notification = notification;

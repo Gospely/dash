@@ -11,12 +11,12 @@
                 <form>
                   <div class="input-field-group">
                     <div class="input-field">
-                      <input type="text" placeholder="邮箱/手机号码" autocapitalize="off" style="border: none;"></div>
+                      <input type="text" v-model='phone' placeholder="邮箱/手机号码" autocapitalize="off" style="border: none;"></div>
                     <div class="input-field">
-                      <input type="password" placeholder="请输入密码" autocapitalize="off" style="border: none;"></div>
+                      <input type="password" v-model='password' placeholder="请输入密码" autocapitalize="off" style="border: none;"></div>
                   </div>
                   <ul class="error-msg-list"></ul>
-                  <button type="submit" class="signup-form__submit">登录</button>
+                  <button type="submit" class="signup-form__submit" @click="login">登录</button>
                   <div class="signup-form-nav">
                     <div class="left">
                     </div>
@@ -73,7 +73,7 @@
                 <button v-show="hasSent" class="button is-success"
                     @click="verifyCode">
                 确认修改
-                </button>                
+                </button>
                 <button class="button" @click="showForgotPwForm = false">取消</button>
             </div>
         </modal>
@@ -118,7 +118,9 @@
         data () {
             return {
                 showForgotPwForm: false,
-                hasSent: false
+                hasSent: false,
+                phone: '',
+                password: ''
             }
         },
         components: {
@@ -130,8 +132,24 @@
                 this.hasSent = true;
             },
 
-            confirmVerify: function() {
+            verifyCode: function() {
 
+            },
+            login: function() {
+              var user = {
+                phone: this.phone,
+                password: this.password,
+              };
+              services.UserService.login(user).then(function(res) {
+
+                if(res.status === 200){
+                  notification.alert('登录成功');
+
+                }
+              },function(err){
+                  notification.alert('服务器异常');
+              }
+              );
             }
         }
     }

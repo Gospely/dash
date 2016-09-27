@@ -105,7 +105,7 @@
                     <i class="fa fa-lock"></i>
                 </p>
                 <a class="button is-danger" style="position:absolute;margin-left:15px" @click="startChangePw"><i class="fa fa-pencil"></i></a>
-                <a v-show="changePwState" class="button is-primary" style="position:absolute;margin-left:55px"><i class="fa fa-check"></i></a>
+                <a v-show="changePwState" @click="confirmUpdatePwd" class="button is-primary" style="position:absolute;margin-left:55px"><i class="fa fa-check"></i></a>
               </div>
             </div>
 
@@ -115,7 +115,7 @@
               </div>
               <div class="control">
                 <p class="control has-icon has-icon-right">
-                    <input class="input" type="password" placeholder="密码">
+                    <input class="input" type="password" v-model="password" placeholder="密码">
                     <i class="fa fa-lock"></i>
                 </p>
               </div>
@@ -127,7 +127,7 @@
               </div>
               <div class="control">
                 <p class="control has-icon has-icon-right">
-                    <input class="input" type="password" placeholder="密码">
+                    <input class="input" type="password" v-model="rePwd"  placeholder="重复密码">
                     <i class="fa fa-lock"></i>
                 </p>
               </div>
@@ -174,6 +174,8 @@
                   username: '',
                   phone: '',
                   email: '',
+                  rePwd: '',
+                  password: ''
               }
         },
         components: {
@@ -208,6 +210,22 @@
                 this.changeMobileState = false;
             },
 
+            confirmUpdatePwd: function(){
+
+                var user = {
+                  id: '1',
+                  password: this.password
+                };
+                services.UserService.updatePwd(user).then(function(res) {
+
+                  if(res.status === 200){
+                    notification.alert('修改密码成功');
+                  }
+                },function(err){
+                    notification.alert('服务器异常');
+                }
+                );
+            },
             fileSelectedHandler: function(fileInput, event) {
                 var self = this
                 var files = fileInput.files
