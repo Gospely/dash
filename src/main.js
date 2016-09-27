@@ -8,12 +8,12 @@ import services from './services/index.js'
 
 import notification from './lib/notification'
 
-if(document.domain == 'localhost') {
-	window.debug = true;
-}else {
-	document.domain = 'dash.dodora.cn';
-	window.debug = false;
-}
+// if(document.domain == 'localhost') {
+// 	window.debug = true;
+// }else {
+// 	document.domain = 'dash.dodora.cn';
+// 	window.debug = false;
+// }
 
 //初始化用户登录状态
 localStorage.login = typeof localStorage.login == 'undefined' ? 'false' : localStorage.login;
