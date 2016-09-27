@@ -11,42 +11,111 @@
 
             <tab :active-index = "0" style= "width: 100%;">
                 <tab-item title="我的IDE">
-                    <table class="table">
-                      <thead>
-                        <tr>
-                          <th>名称</th>
-                          <th>创建时间</th>
-                          <th>到期时间</th>
-                          <th>版本</th>
-                          <th>操作</th>
-                        </tr>
-                      </thead>
-                      <tbody>
-                        <tr>
-                          <td>Gospel_Volume</td>
-                          <td>2015-12-07</td>
-                          <td>
-                            2016-12-07
-                          </td>
-                          <td>个人版</td>
-                          <td class="is-icon" title="续费">
-                            <a @click="showRenewForm = true">
-                              <i class="fa fa-paypal"></i>
-                            </a>
-                          </td>
-                        </tr>
-                      </tbody>
-                    </table>
+                  <table class="table">
+                    <thead>
+                      <tr>
+                        <th>名称</th>
+                        <th>创建时间</th>
+                        <th>到期时间</th>
+                        <th>版本</th>
+                        <th>操作</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr>
+                        <td>Gospel_Volume</td>
+                        <td>2015-12-07</td>
+                        <td>
+                          2016-12-07
+                        </td>
+                        <td>个人版</td>
+                        <td class="is-icon" title="升降级">
+                          <a @click="showRenewForm = true">
+                            <i class="fa fa-level-up"></i>
+                          </a>
+                        </td>
+                      </tr>
+                    </tbody>
+                  </table>
                 </tab-item>
                 <tab-item title="状态监控">
-                    <ide-state></ide-state>
+                  <ide-state></ide-state>
+                </tab-item>
+                <tab-item title="磁盘管理">
+                  <table class="table">
+                    <thead>
+                      <tr>
+                        <th>磁盘名称</th>                      
+                        <th>磁盘类型</th>
+                        <th>创建时间</th>
+                        <th>容量</th>
+                        <th>剩余</th>
+                        <th>操作</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr>
+                        <td>Gospel_volume</td>
+                        <td>IDE专用存储卷</td>
+                        <td>2015-12-07</td>
+                        <td>
+                          20 GB
+                        </td>
+                        <td>10 GB</td>
+                        <td class="is-icon" title="升降级">
+                          <a @click="renewIDEVolumeForm = true">
+                            <i class="fa fa-level-up"></i>
+                          </a>
+                        </td>
+                      </tr>
+                    </tbody>
+                  </table>
                 </tab-item>
             </tab>
 
-            <modal :is-html="true" :is-show.sync="showRenewForm">
-                <div slot="header">续费IDE</div>
+            <modal :is-html="true" :is-show.sync="renewIDEVolumeForm">
+                <div slot="header">升降级IDE专用数据卷</div>
                 <div slot="body">
-                    <label class="label">续费时长</label>
+
+                    <div class="control is-horizontal user-center">
+                      <div class="control-label">
+                        <label class="label">数据卷大小</label>
+                      </div>
+                      <div class="control is-grouped" style="margin-left:16px">
+                        <div class="columns">
+                            <div class="column is-10">
+                                <input v-model="volume.size" min="10" max="100" step="10" class="slider" type="range" style="margin-top:14px">                    
+                            </div>
+                            <div class="column is-10">
+                                <span class="help is-tip" style="margin: 8px;">{{volume.size}} G</span>               
+                            </div>                            
+                        </div>
+                      </div>
+                    </div>
+
+                    <div class="media-content">
+                      <div class="content">
+                        <div class="media-right" style="text-align:right">
+                            <span class="is-tip">合计：</span>
+                            <span class="is-big">1200.00 元</span>
+                        </div>
+                      </div>
+                    </div>
+
+                </div>
+                <div slot="footer">
+                    <button class="button is-success"
+                        @click="confirmRenewIDEVolume">
+                    确定
+                    </button>
+                    <button class="button" @click="renewIDEVolumeForm = false">取消</button>
+                </div>
+            </modal>
+
+            <modal :is-html="true" :is-show.sync="showRenewForm">
+                <div slot="header">升级时长</div>
+                <div slot="body">
+                    <label class="label">升级时长</label>
                     <p class="control">
                       <a class="button is-small">1个月</a>
                       <a class="button is-small">2个月</a>
@@ -108,6 +177,8 @@
     import IdeState from './IDEState'
     import Modal from '../../ui/Modal/Modal.vue'
 
+    import Slider from 'vue-bulma-slider'
+
     export default{
         data () {
             return {
@@ -115,14 +186,21 @@
                 showRenewForm: false,
 
                 isOther: false,
-                otherTime: '其它'
+                otherTime: '其它',
+
+                renewIDEVolumeForm: false,
+
+                volume: {
+                  size: 20
+                }
             }
         },
         components: {
             Tab,
             TabItem,
             IdeState,
-            Modal
+            Modal,
+            Slider
         },
 
         methods: {
@@ -139,6 +217,10 @@
                 this.otherTime = '';
               }
               this.isOther = true;
+            },
+
+            confirmRenewIDEVolume: function() {
+
             }
         }
     }
