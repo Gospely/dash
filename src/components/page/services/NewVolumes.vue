@@ -47,10 +47,10 @@
               <div class="control is-grouped" style="margin-left:16px">
                 <div class="columns">
                     <div class="column is-10">
-                        <input v-model="volume.size" min="10" max="20" step="10" class="slider" type="range" style="margin-top:14px">
+                        <input v-model="volume.size" min="{{volume.min}}" max="{{volume.max}}" step="{{step}}" class="slider" type="range" style="margin-top:14px">
                     </div>
                     <div class="column is-10">
-                        <span class="help is-tip" style="margin: 6px;">{{volume.size}} G</span>
+                        <span class="help is-tip" >{{volume.size}}G</span>
                     </div>
                 </div>
               </div>
@@ -107,7 +107,10 @@
                 isCreateVolume: false,
 
                 volume: {
-                    size: 10
+                    size: 10,
+                    min: 0,
+                    max: 100,
+                    step: 10
                 }
             }
         },
@@ -129,7 +132,16 @@
 
             createVolume: function() {
                 this.isCreateVolume = true;
-                
+
+            },
+            selectCycBykey: function() {
+
+            },
+            selectThisDockerConfig: function(val,key) {
+
+                this.volume.max = 50;
+                this.volume.min = 0;
+                console.log(this.volume.max);
             }
         },
 

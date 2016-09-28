@@ -2,8 +2,8 @@
     <div class="container">
         <h1 class="title">我的组织</h1>
         <hr>
-        <div class="content">            
-            
+        <div class="content">
+
             <div class="control is-horizontal user-center">
               <div class="control-label">
                 <label class="label">创建组织</label>
@@ -21,72 +21,29 @@
                 </div>
                 <div class="control is-grouped">
 
-                    <div class="team">
-                    
-                        <article class="media">
-                            <figure class="media-left">
-                                <p class="image is-64x64">
-                                    <img src="https://dn-daoweb-prod.qbox.me/static/organization_200.png">
-                                </p>
-                            </figure>
-                            <div class="media-content">
-                                <div class="content">
-                                    <p>
-                                        <strong>团队名称</strong>
-                                        <br>
-                                        <div style="margin-top:5px">创建于:2016-08-23</div>
-                                    </p>
-                                </div>
-                            </div>
-                            <div class="media-right">
-                                <button class="delete"></button>
-                            </div>
-                        </article>
+                    <div class="team" v-for="item in items">
 
-                        <hr class="split">
+                      <article class="media">
+                          <figure class="media-left">
+                              <p class="image is-64x64">
+                                  <img src="https://dn-daoweb-prod.qbox.me/static/organization_200.png">
+                              </p>
+                          </figure>
+                          <div class="media-content">
+                              <div class="content">
+                                  <p>
+                                      <strong>{{item.name}}</strong>
+                                      <br>
+                                      <div style="margin-top:5px" >{{item.createdAt}}</div>
+                                  </p>
+                              </div>
+                          </div>
+                          <div class="media-right">
+                              <button class="delete"></button>
+                          </div>
+                      </article>
 
-                        <article class="media">
-                            <figure class="media-left">
-                                <p class="image is-64x64">
-                                    <img src="https://dn-daoweb-prod.qbox.me/static/organization_200.png">
-                                </p>
-                            </figure>
-                            <div class="media-content">
-                                <div class="content">
-                                    <p>
-                                        <strong>团队名称</strong>
-                                        <br>
-                                        <div style="margin-top:5px">创建于:2016-08-23</div>
-                                    </p>
-                                </div>
-                            </div>
-                            <div class="media-right">
-                                <button class="delete"></button>
-                            </div>
-                        </article>
-
-                        <hr class="split">
-
-                        <article class="media">
-                            <figure class="media-left">
-                                <p class="image is-64x64">
-                                    <img src="https://dn-daoweb-prod.qbox.me/static/organization_200.png">
-                                </p>
-                            </figure>
-                            <div class="media-content">
-                                <div class="content">
-                                    <p>
-                                        <strong>团队名称</strong>
-                                        <br>
-                                        <div style="margin-top:5px">创建于:2016-08-23</div>
-                                    </p>
-                                </div>
-                            </div>
-                            <div class="media-right">
-                                <button class="delete"></button>
-                            </div>
-                        </article>
-
+                      <hr class="split">
                     </div>
 
                 </div>
@@ -100,7 +57,7 @@
                 <div slot="body">
                     <label class="label">组织名称</label>
                     <p class="control">
-                      <input class="input" type="text" placeholder="给您的团队取个名字吧">
+                      <input class="input" type="text" v-model="team.name" placeholder="给您的团队取个名字吧">
                     </p>
                 </div>
                 <div slot="footer">
@@ -127,7 +84,15 @@
     export default{
         data () {
             return {
-                showTeamAddingForm: false
+                showTeamAddingForm: false,
+                items: [{
+                    name: '团队1',
+                    createdAt: '2016-09-01'
+                  }
+                ],
+                team:{
+                  name: ''
+                }
             }
         },
         components: {
@@ -140,7 +105,16 @@
             },
 
             confirmCreateTeam: function() {
+
+                console.log(this.team.name);
                 this.showTeamAddingForm = false;
+
+                services.TeamService.create(this.team).then(function(res){
+
+                    notification.alert('成功');
+                },function(err){
+                    notification.alert('失败');
+                });
             }
         }
     }

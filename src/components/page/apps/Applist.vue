@@ -4,10 +4,6 @@
         <h2 class="subtitle">这里有您在<strong>dodora容器云</strong>上部署的所有应用</h2>
         <hr>
         <div class="content">
-            <a v-link="{name:'newapp'}" class="button is-primary">
-              创建应用
-            </a>
-
             <a class="button is-primary" v-bind:class="{'is-loading': isRefresh}" @click="refreshAppList">
               <i class="fa fa-refresh" aria-hidden="true"></i>
             </a>
@@ -22,7 +18,7 @@
                           <th>运行环境</th>
                           <th>状态</th>
                           <th>操作</th>
-                          <th></th>                    
+                          <th></th>
                         </tr>
                       </thead>
                       <tbody>
@@ -44,7 +40,7 @@
                             <a href="#" @click="stopThisAPP()">
                               <i class="fa fa-times"></i>
                             </a>
-                          </td>                          
+                          </td>
                         </tr>
                       </tbody>
                     </table>
@@ -58,7 +54,7 @@
                           <th>运行环境</th>
                           <th>状态</th>
                           <th>操作</th>
-                          <th></th>                      
+                          <th></th>
                         </tr>
                       </thead>
                       <tbody>
@@ -80,7 +76,7 @@
                             <a href="#">
                               <i class="fa fa-times "></i>
                             </a>
-                          </td>                          
+                          </td>
                         </tr>
                         <tr>
                           <td>Gospel_docker_test</td>
@@ -100,7 +96,7 @@
                             <a href="#">
                               <i class="fa fa-times "></i>
                             </a>
-                          </td>                          
+                          </td>
                         </tr>
                       </tbody>
                     </table>
@@ -114,7 +110,7 @@
                           <th>运行环境</th>
                           <th>状态</th>
                           <th>操作</th>
-                          <th></th>                        
+                          <th></th>
                         </tr>
                       </thead>
                       <tbody>
@@ -136,7 +132,7 @@
                             <a href="#">
                               <i class="fa fa-times "></i>
                             </a>
-                          </td>                          
+                          </td>
                         </tr>
                       </tbody>
                     </table>
