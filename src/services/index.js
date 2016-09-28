@@ -6,7 +6,7 @@ var OrderService = require('./OrderService');
 
 var model = {
 	instance: undefined,
-	baseUrl: 'http://119.29.153.143:9999/'
+	baseUrl: 'http://localhost:8089/'
 };
 
 module.exports = {
