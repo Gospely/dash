@@ -153,6 +153,7 @@
             services.UserService.userInfo('1').then(function(res) {
 
               if(res.status === 200) {
+
                 var data = JSON.parse(res.body);
                 _self.pictureUrl = data.fields.photo;
                 _self.username = data.fields.name;
@@ -227,12 +228,32 @@
                 );
             },
             fileSelectedHandler: function(fileInput, event) {
-                var self = this
-                var files = fileInput.files
+                var self = this;
+                var files = fileInput.files;
                 if (files.length > 0) {
-                    var file = files[0]
-                    self.pictureFile = file.name
-                    self.pictureUrl = window.URL.createObjectURL(file)
+                    var file = files[0];
+                    self.pictureFile = file.name;
+                    self.pictureUrl = window.URL.createObjectURL(file);
+
+                    //图片转base64
+                    var reader = new FileReader();
+                    reader.readAsDataURL(file);
+                    reader.onload = function(e){
+                      var user = {
+                        id: '1',
+                        photo: this.result
+                      }
+                      services.UserService.uploadHead(user).then(function(res) {
+
+                        if(res.status === 200){
+                          notification.alert('修改头像成功');
+                        }
+                      },function(err){
+                          notification.alert('服务器异常');
+                      }
+                      );
+                    }
+
                 }
             }
 

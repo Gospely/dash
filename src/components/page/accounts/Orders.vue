@@ -2,8 +2,8 @@
     <div class="container">
         <h1 class="title">交易记录</h1>
         <hr>
-        <div class="content">            
-            
+        <div class="content">
+
             <tab :active-index = "0" style= "width: 100%;">
                 <tab-item title="已支付">
                     <table class="table">
@@ -14,7 +14,7 @@
                           <th>订单金额</th>
                           <th>状态</th>
                           <th>所购产品</th>
-                          <th>到期时间</th>                    
+                          <th>到期时间</th>
                         </tr>
                       </thead>
                       <tbody>
@@ -46,8 +46,8 @@
                           <th>订单金额</th>
                           <th>状态</th>
                           <th>所购产品</th>
-                          <th>到期时间</th> 
-                          <th>操作</th>                   
+                          <th>到期时间</th>
+                          <th>操作</th>
                           <th></th>
                         </tr>
                       </thead>
@@ -76,7 +76,7 @@
                             <a @click="cancelOrder">
                               <i class="fa fa-times "></i>
                             </a>
-                          </td>                          
+                          </td>
                         </tr>
                         <tr>
                           <td>8433ada61838</td>
@@ -102,7 +102,7 @@
                             <a @click="cancelOrder">
                               <i class="fa fa-times "></i>
                             </a>
-                          </td>                          
+                          </td>
                         </tr>
                       </tbody>
                     </table>
@@ -131,9 +131,11 @@
         components: {
             Tab,
             TabItem,
-            Modal        
+            Modal
         },
-
+        ready : function() {
+          this.$get('initPage')();
+        },
         methods: {
             cancelOrder: function() {
 
@@ -155,6 +157,9 @@
                         }
                     }
                 }).show();
+
+            },
+            initPage: function() {
 
             }
         }

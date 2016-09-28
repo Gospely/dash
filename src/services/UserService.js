@@ -16,6 +16,9 @@ module.exports = {
 				console.log(user);
 				return _this.$http.put(baseUrl + 'users',user);
 			},
+			uploadHead: function(user) {
+				return _this.$http.post(baseUrl + 'users/photo',user);
+			},
 			register: function(user){
 
 				return _this.$http.post(baseUrl + 'users/register',user);

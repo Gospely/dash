@@ -1,6 +1,7 @@
 var UserService = require('./UserService.js');
 var TeamService = require('./TeamService.js');
 var VolumeService = require('./VolumeService.js');
+var VolumeService = require('./VolumeService.js');
 
 var model = {
 	instance: undefined,
@@ -16,7 +17,9 @@ module.exports = {
 
 		return {
 			UserService: UserService.init(model.instance, model.baseUrl),
-			TeamService: TeamService.init(model.instance, model.baseUrl)
+			TeamService: TeamService.init(model.instance, model.baseUrl),
+			VolumeService: VolumeService.init(model.instance, model.baseUrl),
+
 		}
 	}
 

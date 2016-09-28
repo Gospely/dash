@@ -16,42 +16,41 @@
             <hr>
 
             <div class="control is-horizontal user-center">
-                <div class="control-label">
-                    <label class="label">组织列表</label>
-                </div>
-                <div class="control is-grouped">
+                  <div class="control-label">
+                      <label class="label">组织列表</label>
+                  </div>
+                  <div class="control is-grouped" >
 
-                    <div class="team" v-for="item in items">
+                      <div class="team" >
 
-                      <article class="media">
-                          <figure class="media-left">
-                              <p class="image is-64x64">
-                                  <img src="https://dn-daoweb-prod.qbox.me/static/organization_200.png">
-                              </p>
-                          </figure>
-                          <div class="media-content">
-                              <div class="content">
-                                  <p>
-                                      <strong>{{item.name}}</strong>
-                                      <br>
-                                      <div style="margin-top:5px" >{{item.createdAt}}</div>
-                                  </p>
-                              </div>
-                          </div>
-                          <div class="media-right">
-                              <button class="delete"></button>
-                          </div>
-                      </article>
+                        <article class="media" v-for="item in items">
+                            <figure class="media-left">
+                                <p class="image is-64x64">
+                                    <img src="https://dn-daoweb-prod.qbox.me/static/organization_200.png">
+                                </p>
+                            </figure>
+                            <div class="media-content">
+                                <div class="content">
+                                    <p>
+                                        <strong>{{item.name}}</strong>
+                                        <br>
+                                        <div style="margin-top:5px" >{{item.createdAt}}</div>
+                                    </p>
+                                </div>
+                            </div>
+                            <div class="media-right">
+                                <button class="delete" @click="delete(item.id)"></button>
+                            </div>
+                        </article>
 
-                      <hr class="split">
-                    </div>
+                        <hr class="split">
+                      </div>
 
-                </div>
+                  </div>
 
-            </div>
+              </div>
 
-            <hr>
-
+              <hr>
             <modal :is-html="true" :is-show.sync="showTeamAddingForm">
                 <div slot="header">创建组织</div>
                 <div slot="body">
@@ -87,7 +86,7 @@
                 showTeamAddingForm: false,
                 items: [{
                     name: '团队1',
-                    createdAt: '2016-09-01'
+                    createat: '2016-09-01'
                   }
                 ],
                 team:{
@@ -100,22 +99,58 @@
         },
 
         methods: {
+
+
             startCreateTeam: function() {
                 this.showTeamAddingForm = true;
             },
 
             confirmCreateTeam: function() {
 
+                var _self = this;
                 console.log(this.team.name);
                 this.showTeamAddingForm = false;
 
                 services.TeamService.create(this.team).then(function(res){
 
                     notification.alert('成功');
+                    _self.$get('teamList')(_self);
                 },function(err){
                     notification.alert('失败');
                 });
+            },
+            teamList: function(ctx) {
+
+
+              services.TeamService.list().then(function(res) {
+                if(res.status === 200) {
+
+                  var data = JSON.parse(res.body);
+                  ctx.items = data.fields;
+                }else {
+
+                }
+              }, function(err){
+
+              });
+            },
+            delete: function(id) {
+                var _self = this;
+              services.TeamService.delete(id).then(function(res) {
+                if(res.status === 200) {
+
+                  _self.$get('teamList')(_self);
+                  notification.alert('删除成功');
+                }else {
+
+                }
+              }, function(err){
+                  notification.alert('服务器异常');
+              });
             }
-        }
+        },
+        ready: function() {
+          this.$get('teamList')(this);
+        },
     }
 </script>
