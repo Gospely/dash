@@ -14,24 +14,20 @@
                           <th>订单金额</th>
                           <th>状态</th>
                           <th>所购产品</th>
-                          <th>到期时间</th>
                         </tr>
                       </thead>
                       <tbody>
-                        <tr>
-                          <td>8433ada61838</td>
-                          <td>2016-08-27</td>
+                        <tr v-for="item in items1">
+                          <td>{{item.id}}</td>
+                          <td>{{item.createat}}</td>
                           <td>
-                            ¥ 7.00 元
+                            {{item.price}} RMB
                           </td>
                           <td>
                             已支付
                           </td>
                           <td>
                               企业版Gospel集成开发环境
-                          </td>
-                          <td>
-                              2017-08-27
                           </td>
                         </tr>
                       </tbody>
@@ -46,54 +42,25 @@
                           <th>订单金额</th>
                           <th>状态</th>
                           <th>所购产品</th>
-                          <th>到期时间</th>
                           <th>操作</th>
                           <th></th>
+
                         </tr>
                       </thead>
                       <tbody>
-                        <tr>
-                          <td>8433ada61838</td>
-                          <td>2016-08-27</td>
-                          <td>
-                            ¥ 109.00 元
-                          </td>
-                          <td>
-                            未支付
-                          </td>
-                          <td>
-                              专业版Dodora容器云
-                          </td>
-                          <td>
-                              2017-08-27
-                          </td>
-                          <td class="is-icon" title="继续支付">
-                            <a href="#">
-                              <i class="fa fa-share"></i>
-                            </a>
-                          </td>
-                          <td class="is-icon" title="取消订单">
-                            <a @click="cancelOrder">
-                              <i class="fa fa-times "></i>
-                            </a>
-                          </td>
-                        </tr>
-                        <tr>
-                          <td>8433ada61838</td>
-                          <td>2016-08-27</td>
-                          <td>
-                            ¥ 77.00 元
-                          </td>
-                          <td>
-                            未支付
-                          </td>
-                          <td>
-                              企业版Dodora容器云
-                          </td>
-                          <td>
-                              2017-08-27
-                          </td>
-                          <td class="is-icon" title="进入应用">
+                        <tr v-for="item in items2">
+                            <td>{{item.id}}</td>
+                            <td>{{item.createat}}</td>
+                            <td>
+                              {{item.price}} RMB
+                            </td>
+                            <td>
+                              未支付
+                            </td>
+                            <td>
+                                企业版Gospel集成开发环境
+                            </td>
+                            <td class="is-icon" title="进入应用">
                             <a href="#">
                               <i class="fa fa-share"></i>
                             </a>
@@ -125,7 +92,9 @@
     export default{
         data () {
             return {
-                msg: 'hello vue'
+                msg: 'hello vue',
+                items1: [],
+                items2: []
             }
         },
         components: {
@@ -152,7 +121,6 @@
                     },
                     events: {
                         'confirmed': function() {
-                            console.log('sssss');
                             this.$destroy(true);
                         }
                     }
@@ -161,7 +129,42 @@
             },
             initPage: function() {
 
+              var _self = this;
+              var order = {
+
+                status: 0
+              }
+                services.OrderService.list(order).then(function(res) {
+                  if(res.status === 200) {
+
+                    var data = JSON.parse(res.body);
+                    console.log(data.fields);
+                    _self.items1 = data.fields;
+
+                  }else {
+
+                  }
+                }, function(err) {
+
+                });
+
+                order.status = 1;
+                services.OrderService.list(order).then(function(res) {
+                  if(res.status === 200) {
+
+                    var data = JSON.parse(res.body);
+                    _self.items2 = data.fields;
+
+                  }else {
+
+                  }
+                }, function(err) {
+
+                });
             }
+        },
+        ready: function() {
+            this.$get('initPage')();
         }
     }
 </script>

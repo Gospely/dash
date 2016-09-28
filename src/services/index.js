@@ -1,11 +1,12 @@
 var UserService = require('./UserService.js');
 var TeamService = require('./TeamService.js');
 var VolumeService = require('./VolumeService.js');
-var VolumeService = require('./VolumeService.js');
+var OrderService = require('./VolumeService.js');
+var OrderService = require('./OrderService');
 
 var model = {
 	instance: undefined,
-	baseUrl: 'http://localhost:8089/'
+	baseUrl: 'http://119.29.153.143:9999/'
 };
 
 module.exports = {
@@ -19,6 +20,7 @@ module.exports = {
 			UserService: UserService.init(model.instance, model.baseUrl),
 			TeamService: TeamService.init(model.instance, model.baseUrl),
 			VolumeService: VolumeService.init(model.instance, model.baseUrl),
+			OrderService: OrderService.init(model.instance, model.baseUrl)
 
 		}
 	}

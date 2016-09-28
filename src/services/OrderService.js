@@ -1,3 +1,4 @@
+var utils = require('../lib/utils');
 
 module.exports = {
 
@@ -15,9 +16,10 @@ module.exports = {
 				console.log(id);
 				return _this.$http.get(baseUrl + 'orders',{creator: id});
 			},
-      list: function(orders) {
-				console.log(id);
-				return _this.$http.get(baseUrl + 'orders',orders);
+      list: function(order) {
+				console.log(order.status);
+				console.log(utils.toParam(order));
+				return _this.$http.get(baseUrl + 'orders?' + utils.toParam(order) );
 			},
 
 		}

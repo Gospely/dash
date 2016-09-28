@@ -12,7 +12,7 @@
                 <p class="control is-expanded">
                     <img class="rounded-image" style="width:100px;height:100px" :src = "pictureUrl">
                     <file-input name = "file1" accept = "image/jpg;image/gif;image/png" @changed = "fileSelectedHandler">
-                        <a class="button is-primary">选择图片</a>
+                        <a class="button is-primary">修改头像</a>
                     </file-input>
                     <span class="help is-tip">支持 JPG, GIF, PNG 格式，文件小于 1M。</span>
                 </p>
