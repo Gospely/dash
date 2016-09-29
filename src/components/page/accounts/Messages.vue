@@ -30,6 +30,7 @@
                         </tr>
                       </tbody>
                     </table>
+                     <page :cur.sync="cur" :all.sync="all" v-on:btn-click="listen"></page>
                 </tab-item>
                 <tab-item title="已读">
                     <table class="table">
@@ -103,6 +104,7 @@
     import Vue from 'vue'
     import {Tab, TabItem} from '../../ui/Tab'
     import Modal from '../../ui/Modal/Modal.vue'
+    import Page from '../../ui/Page/Page.vue'
 
     let ModalCtrl = Vue.extend(Modal);
 
@@ -114,16 +116,23 @@
                 sender: '1',
                 createat: '2016-9-29'
                 }
-              ]
+              ],
+              cur: 1,
+              all: 8,
             }
         },
         components: {
             Tab,
             TabItem,
-            Modal
+            Modal,
+            Page
         },
 
         methods: {
+
+            listen: function(data) {
+              console.log('你点击了'+data+ '页');
+            },
             cancelOrder: function() {
 
                 new ModalCtrl({
