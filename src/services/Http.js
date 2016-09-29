@@ -45,18 +45,22 @@ module.exports = {
 
                   var data = JSON.parse(res.body);
 
-                  if(!isObject(res)){
-                    notification.alert(res);
-                  }
                   //判断返回的数据是否是数组
                   if(isArray(data.fields)){
                       //数组绑定
                       options.ctx[options.target] = data.fields;
                   }else{
-                      //当个对象绑定，遍历target绑定
-                      options.target.map(function (target){
-                          options.ctx[options.target] = data.fields[target];
-                      });
+
+                      console.log(options.ctx.$data);
+                      for(var field in data.fields){
+                          console.log(typeof field);
+                          //暂时判断，todo:转换成一个escape模块
+                          if( field != 'password' ) {
+                              if(Reflect.has(options.ctx.$data, field)){
+                                  Reflect.set(options.ctx.$data, field, Reflect.get(data.fields, field))
+                              }
+                          }
+                      }
                   }
                   //分页参数处理
               }else{

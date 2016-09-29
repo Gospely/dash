@@ -10,7 +10,7 @@
               </div>
               <div class="control is-grouped">
                 <p class="control is-expanded">
-                    <img class="rounded-image" style="width:100px;height:100px" :src = "pictureUrl">
+                    <img class="rounded-image" style="width:100px;height:100px" :src = "photo">
                     <file-input name = "file1" accept = "image/jpg;image/gif;image/png" @changed = "fileSelectedHandler">
                         <a class="button is-primary">修改头像</a>
                     </file-input>
@@ -27,7 +27,7 @@
               </div>
               <div class="control">
                 <p class="control has-icon has-icon-right">
-                    <input class="input" type="text" placeholder="ivydom" v-model="username" disabled>
+                    <input class="input" type="text" placeholder="ivydom" v-model="name" disabled>
                     <i class="fa fa-lock"></i>
                 </p>
               </div>
@@ -150,29 +150,37 @@
     export default{
         data () {
             var _self = this;
-            services.UserService.userInfo('1').then(function(res) {
-
-              if(res.status === 200) {
-
-                var data = JSON.parse(res.body);
-                _self.pictureUrl = data.fields.photo;
-                _self.username = data.fields.name;
-                _self.phone = data.fields.phone;
-                _self.email = data.fields.email;
-
-              }else {
-
-              }
-            }, function(err) {
-
-            });
+            var options = {
+              param: {
+                id: 1
+              },
+              url: "users",
+              ctx: _self
+            }
+            services.Common.getOne(options);
+            // services.UserService.userInfo('1').then(function(res) {
+            //
+            //   if(res.status === 200) {
+            //
+            //     var data = JSON.parse(res.body);
+            //     _self.pictureUrl = data.fields.photo;
+            //     _self.username = data.fields.name;
+            //     _self.phone = data.fields.phone;
+            //     _self.email = data.fields.email;
+            //
+            //   }else {
+            //
+            //   }
+            // }, function(err) {
+            //
+            // });
             return {
                   changePwState: false,
                   isVerifingEmail: false,
                   changeMobileState: false,
                   pictureFile: null,
-                  pictureUrl: '',
-                  username: '',
+                  photo: '',
+                  name: '',
                   phone: '',
                   email: '',
                   rePwd: '',
