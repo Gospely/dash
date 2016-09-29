@@ -23,7 +23,6 @@ module.exports = {
 			VolumeService: VolumeService.init(model.instance, model.baseUrl),
 			OrderService: OrderService.init(model.instance, model.baseUrl),
 			Common: Common.init(model.instance, model.baseUrl),
-
 		}
 	}
 

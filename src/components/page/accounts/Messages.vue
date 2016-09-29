@@ -30,7 +30,7 @@
                         </tr>
                       </tbody>
                     </table>
-                     <page :cur.sync="cur" :all.sync="all" v-on:btn-click="listen"></page>
+                    <page :cur.sync="cur" :all.sync="all" v-on:btn-click="listen"></page>
                 </tab-item>
                 <tab-item title="已读">
                     <table class="table">
@@ -132,6 +132,7 @@
 
             listen: function(data) {
               console.log('你点击了'+data+ '页');
+              this.$get('init')(data);
             },
             cancelOrder: function() {
 
@@ -155,20 +156,23 @@
                 }).show();
 
             },
-            init: function() {
+            init: function(cur) {
               var _self = this;
               function cb(res) {
                 if(res.status === 200){
-                    console.log('cb');
                     var data = JSON.parse(res.body);
-                    console.log(data);
                     _self.items = data.fields;
+                    _self.all = data.all;
                 }
               }
               var options = {
-                  param: {},
+                  param: {
+                    limit: 1,
+                    cur: cur
+                  },
                   url: 'notices',
                   cb: cb
+
               };
               services.Common.list(options);
 
@@ -176,7 +180,7 @@
             }
         },
         ready: function() {
-            this.$get('init')();
+            this.$get('init')(1);
         }
     }
 </script>

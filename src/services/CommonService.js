@@ -1,3 +1,4 @@
+//post，get,delete,put等基本请求通用服务
 var utils = require('../lib/utils');
 var HTTP = require('./Http')
 module.exports ={
@@ -17,7 +18,7 @@ module.exports ={
         console.log(options.param);
         var url = options.url;
         if(query != null && query != undefined && query != '' ){
-            options.url = "?"+query;
+            options.url = options.url+"?"+query;
         }
         console.log(query);
 				return request.get(options);

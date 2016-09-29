@@ -45,6 +45,7 @@ module.exports = {
 
                   var data = JSON.parse(res.body);
 
+									console.log("safas");
                   //判断返回的数据是否是数组
                   if(isArray(data.fields)){
                       //数组绑定
@@ -52,15 +53,18 @@ module.exports = {
                   }else{
 
                       console.log(options.ctx.$data);
+											console.log("test");
+											options.ctx.$data.all = data.fields[0].all;
                       for(var field in data.fields){
                           console.log(typeof field);
                           //暂时判断，todo:转换成一个escape模块
-                          if( field != 'password' ) {
+                          if( !(field == 'password' || field == 'all' || field == 'cur')   ) {
                               if(Reflect.has(options.ctx.$data, field)){
                                   Reflect.set(options.ctx.$data, field, Reflect.get(data.fields, field))
                               }
                           }
                       }
+											console.log(options.ctx.$data.all);
                   }
                   //分页参数处理
               }else{
