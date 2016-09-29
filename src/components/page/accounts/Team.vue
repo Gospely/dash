@@ -84,11 +84,7 @@
         data () {
             return {
                 showTeamAddingForm: false,
-                items: [{
-                    name: '团队1',
-                    createat: '2016-09-01'
-                  }
-                ],
+                items: '',
                 team:{
                   name: ''
                 }
@@ -107,17 +103,25 @@
 
             confirmCreateTeam: function() {
 
-                var _self = this;
-                console.log(this.team.name);
                 this.showTeamAddingForm = false;
+                var _self = this;
 
-                services.TeamService.create(this.team).then(function(res){
-
-                    notification.alert('成功');
+                function cb(res) {
+                  if(res.status === 200) {
                     _self.$get('teamList')(_self);
-                },function(err){
-                    notification.alert('失败');
-                });
+                    notification.alert('添加');
+                  }else {
+
+                  }
+                }
+                var options = {
+                    param: this.team,
+                    cb: cb,
+                    url: 'teams'
+                };
+
+
+                services.Common.create(options);
             },
             teamList: function(ctx) {
 
@@ -136,17 +140,22 @@
             },
             delete: function(id) {
                 var _self = this;
-              services.TeamService.delete(id).then(function(res) {
-                if(res.status === 200) {
+                function cb(res) {
+                  if(res.status === 200) {
+                    _self.$get('teamList')(_self);
+                    notification.alert('删除成功');
+                  }else {
 
-                  _self.$get('teamList')(_self);
-                  notification.alert('删除成功');
-                }else {
-
+                  }
                 }
-              }, function(err){
-                  notification.alert('服务器异常');
-              });
+                var options = {
+                    param: {
+                      id: id
+                    },
+                    url: 'teams',
+                    cb: cb
+                };
+                services.Common.delete(options);
             }
         },
         ready: function() {

@@ -1,4 +1,5 @@
 var utils = require('../lib/utils');
+var notification = require('../lib/notification');
 
 module.exports = {
 
@@ -21,9 +22,16 @@ module.exports = {
 				console.log(utils.toParam(order));
 				return _this.$http.get(baseUrl + 'orders?' + utils.toParam(order) );
 			},
+			delete: function(id) {
+
+			}
 
 		}
 
+		function HTTP() {
+
+
+		}
 	}
 
 };

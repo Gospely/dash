@@ -3,6 +3,7 @@ var TeamService = require('./TeamService.js');
 var VolumeService = require('./VolumeService.js');
 var OrderService = require('./VolumeService.js');
 var OrderService = require('./OrderService');
+var Common = require('./CommonService');
 
 var model = {
 	instance: undefined,
@@ -20,7 +21,8 @@ module.exports = {
 			UserService: UserService.init(model.instance, model.baseUrl),
 			TeamService: TeamService.init(model.instance, model.baseUrl),
 			VolumeService: VolumeService.init(model.instance, model.baseUrl),
-			OrderService: OrderService.init(model.instance, model.baseUrl)
+			OrderService: OrderService.init(model.instance, model.baseUrl),
+			Common: Common.init(model.instance, model.baseUrl),
 
 		}
 	}

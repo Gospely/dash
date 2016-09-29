@@ -2,10 +2,10 @@
     <div class="container">
         <h1 class="title">我的消息</h1>
         <hr>
-        <div class="content">      
+        <div class="content">
 
-            <button class="button is-primary">全部标记为已读</button>      
-            
+            <button class="button is-primary">全部标记为已读</button>
+
             <tab :active-index = "0" style= "width: 100%;">
                 <tab-item title="未读">
                     <table class="table">
@@ -14,15 +14,15 @@
                           <th>发送人</th>
                           <th>标题</th>
                           <th>发送时间</th>
-                          <th>操作</th>                    
+                          <th>操作</th>
                         </tr>
                       </thead>
                       <tbody>
-                        <tr>
-                          <td>系统</td>
-                          <td>您的实例已生效</td>
+                        <tr v-for='item in items'>
+                          <td>{{item.sender}}</td>
+                          <td>{{item.title}}</td>
                           <td>
-                            2016-08-27
+                            {{item.createat}}
                           </td>
                           <td class="is-icon">
                               <a @click="showMessageDetailForm = true"><i class="fa fa-search"></i></a>
@@ -38,7 +38,7 @@
                           <th>发送人</th>
                           <th>标题</th>
                           <th>发送时间</th>
-                          <th>操作</th>                    
+                          <th>操作</th>
                         </tr>
                       </thead>
                       <tbody>
@@ -109,13 +109,18 @@
     export default{
         data () {
             return {
-              showMessageDetailForm: false
+              showMessageDetailForm: false,
+              items:[{
+                sender: '1',
+                createat: '2016-9-29'
+                }
+              ]
             }
         },
         components: {
             Tab,
             TabItem,
-            Modal        
+            Modal
         },
 
         methods: {
@@ -140,7 +145,29 @@
                     }
                 }).show();
 
+            },
+            init: function() {
+              var _self = this;
+              function cb(res) {
+                if(res.status === 200){
+                    console.log('cb');
+                    var data = JSON.parse(res.body);
+                    console.log(data);
+                    _self.items = data.fields;
+                }
+              }
+              var options = {
+                  param: {},
+                  url: 'notices',
+                  cb: cb
+              };
+              services.Common.list(options);
+
+
             }
+        },
+        ready: function() {
+            this.$get('init')();
         }
     }
 </script>
