@@ -15,7 +15,6 @@ module.exports ={
 			list: function(options) {
 
         var query = utils.toParam(options.param);
-        console.log(options.param);
         var url = options.url;
         if(query != null && query != undefined && query != '' ){
             options.url = options.url+"?"+query;

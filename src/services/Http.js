@@ -1,7 +1,4 @@
 //统一请求，统一处理请求结果和绑定,异常通知,可选择callback方式处理请求结果
-var utils = require('../lib/utils');
-var notification = require('../lib/notification');
-
 module.exports = {
 
 	init: function(obj, bu) {
@@ -34,7 +31,7 @@ module.exports = {
 
           HTTP(options).then(options.cb,function(err){
 
-              notification.alert("服务器异常");
+						//提示
           }
           );
         }else{
@@ -43,36 +40,50 @@ module.exports = {
               //请求成功，统一处理
               if(res.status === 200){
 
-                  var data = JSON.parse(res.body);
+									console.log(res);
+                  var data = res.body;
 
-									console.log("safas");
-                  //判断返回的数据是否是数组
-                  if(isArray(data.fields)){
-                      //数组绑定
-                      options.ctx[options.target] = data.fields;
-                  }else{
+									console.log(data);
+									if(data != 'Done!') {
+										//判断返回的数据是否是数组
+										if(isArray(data.fields)){
+												//数组绑定
+												options.ctx.$data.all = data.all;
+												if(options.ctx[options.target] == null || options.ctx[options.target] == undefined ){
+														options.ctx.fields = data.fields
+												}else{
+														options.ctx[options.target] = data.fields;
+												}
+										}else{
 
-                      console.log(options.ctx.$data);
-											console.log("test");
-											options.ctx.$data.all = data.fields[0].all;
-                      for(var field in data.fields){
-                          console.log(typeof field);
-                          //暂时判断，todo:转换成一个escape模块
-                          if( !(field == 'password' || field == 'all' || field == 'cur')   ) {
-                              if(Reflect.has(options.ctx.$data, field)){
-                                  Reflect.set(options.ctx.$data, field, Reflect.get(data.fields, field))
-                              }
-                          }
-                      }
-											console.log(options.ctx.$data.all);
-                  }
+												console.log(options.ctx.$data);
+												for(var field in data.fields){
+														console.log(typeof field);
+														//暂时判断，todo:转换成一个escape模块
+														if( !(field == 'password' || field == 'all' || field == 'cur')   ) {
+																if(Reflect.has(options.ctx.$data, field)){
+																		Reflect.set(options.ctx.$data, field, Reflect.get(data.fields, field))
+																}
+														}
+												}
+										}
+									}
+									//提示
+									if(options.reload != null && options.reload != undefined){
+
+											console.log("reload");
+											options.reload(options.ctx.$data.cur);
+									}
                   //分页参数处理
               }else{
-                  notification.alert(res);
+
+								//提示
+
               }
           },function(err){
 
-              notification.alert("服务器异常");
+							//切换提醒方式
+							//提示
           }
           );
         }

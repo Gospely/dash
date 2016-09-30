@@ -1,5 +1,4 @@
 var utils = require('../lib/utils');
-var notification = require('../lib/notification');
 
 module.exports = {
 

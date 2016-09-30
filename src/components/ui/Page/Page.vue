@@ -60,7 +60,6 @@ export default {
           this.$dispatch('btn-click',this.cur);
         }
     }
-  }
 }
 </script>
 
