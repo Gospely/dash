@@ -41,10 +41,7 @@ module.exports = {
               //请求成功，统一处理
               if(res.status === 200){
 
-									console.log(res);
-                  var data = res.body;
-
-									console.log(data);
+                  var data = res.data;
 									if(data != 'Done!') {
 										//判断返回的数据是否是数组
 										if(isArray(data.fields)){
@@ -57,12 +54,10 @@ module.exports = {
 														options.ctx[options.target] = data.fields;
 												}
 										}else{
-
-												console.log(options.ctx.$data);
 												for(var field in data.fields){
-														console.log(typeof field);
+
 														//暂时判断，todo:转换成一个escape模块
-														if( !(field == 'password' || field == 'all' || field == 'cur')   ) {
+														if( field != 'password' && field != 'all' && field != 'cur'   ) {
 																if(Reflect.has(options.ctx.$data, field)){
 																		Reflect.set(options.ctx.$data, field, Reflect.get(data.fields, field))
 																}
@@ -88,7 +83,7 @@ module.exports = {
 								}
               }
           },function(err){
-
+							notification.alert("服务器异常");
 							//切换提醒方式
 
           }
