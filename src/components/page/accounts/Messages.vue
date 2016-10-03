@@ -112,10 +112,7 @@
         data () {
             return {
               showMessageDetailForm: false,
-              items:[{
-                sender: '1',
-                createat: '2016-9-29'
-                }
+              fields: [],
               ],
               cur: 1,
               all: 8,
@@ -158,25 +155,15 @@
             },
             init: function(cur) {
               var _self = this;
-              function cb(res) {
-                if(res.status === 200){
-                    var data = JSON.parse(res.body);
-                    _self.items = data.fields;
-                    _self.all = data.all;
-                }
-              }
               var options = {
                   param: {
                     limit: 1,
-                    cur: cur
+                    cur: cur,
+                    isread: false,
                   },
                   url: 'notices',
-                  cb: cb
-
               };
               services.Common.list(options);
-
-
             }
         },
         ready: function() {
