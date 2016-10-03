@@ -1,3 +1,4 @@
+var notification = require('../lib/notification');
 //统一请求，统一处理请求结果和绑定,异常通知,可选择callback方式处理请求结果
 module.exports = {
 
@@ -31,7 +32,7 @@ module.exports = {
 
           HTTP(options).then(options.cb,function(err){
 
-						//提示
+						notification.alert("服务器异常");
           }
           );
         }else{
@@ -49,6 +50,7 @@ module.exports = {
 										if(isArray(data.fields)){
 												//数组绑定
 												options.ctx.$data.all = data.all;
+
 												if(options.ctx[options.target] == null || options.ctx[options.target] == undefined ){
 														options.ctx.fields = data.fields
 												}else{
@@ -68,22 +70,27 @@ module.exports = {
 												}
 										}
 									}
-									//提示
+									if(options.msg != null && options.msg != undefined){
+											notification.alert(options.msg.success);
+									}
 									if(options.reload != null && options.reload != undefined){
 
 											console.log("reload");
+											console.log("data cur" + options.ctx.$data.cur);
+											console.log("data" + data.cur);
+
 											options.reload(options.ctx.$data.cur);
 									}
                   //分页参数处理
               }else{
-
-								//提示
-
+								if(options.msg != null && options.msg != undefined){
+										notification.alert(options.msg.failed);
+								}
               }
           },function(err){
 
 							//切换提醒方式
-							//提示
+
           }
           );
         }
