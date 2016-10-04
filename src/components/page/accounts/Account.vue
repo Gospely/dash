@@ -2,7 +2,7 @@
     <div class="container">
         <h1 class="title">账户信息</h1>
         <hr>
-        <div class="content">       
+        <div class="content">
 
             <modal :is-html="true" :is-show.sync="showTopupForm">
                 <div slot="header">账户充值</div>
@@ -45,7 +45,7 @@
 
                     <div v-show="setMeal.currentStep == 1" class="step1">
                         <span class="help is-tip">您当前的版本为：个人版</span>
-                            
+
                         <hr class="split">
 
                         <article class="message">
