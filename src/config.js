@@ -59,13 +59,7 @@ let menu = {
         component: {
             template: '<router-view></router-view>'
         },
-        subRoutes: {
-            '/new': {
-                name: 'newapp',
-                label: '创建应用',
-                hide: false,
-                component: makeComponent('./components/page/apps/NewApp.vue')
-            },            
+        subRoutes: {          
             '/list': {
                 name: 'applist',
                 label: '我的应用',
@@ -95,6 +89,12 @@ let menu = {
             template: '<router-view></router-view>'
         },
         subRoutes: {
+            '/new': {
+                name: 'newapp',
+                label: '创建容器',
+                hide: false,
+                component: makeComponent('./components/page/apps/NewApp.vue')
+            },
             '/list': {
                 name: 'serviceslist',
                 label: '镜像列表',
