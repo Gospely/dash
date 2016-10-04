@@ -39,32 +39,20 @@
                           <th>发送人</th>
                           <th>标题</th>
                           <th>发送时间</th>
-                          <th>操作</th>
                         </tr>
                       </thead>
                       <tbody>
-                        <tr>
-                          <td>系统</td>
-                          <td>您的实例已生效</td>
+                        <tr v-for='item in fields2'>
+                          <td>{{item.sender}}</td>
+                          <td>{{item.title}}</td>
                           <td>
-                            2016-08-27
-                          </td>
-                          <td class="is-icon">
-                              <a><i class="fa fa-search"></i></a>
-                          </td>
-                        </tr>
-                        <tr>
-                          <td>系统</td>
-                          <td>您的实例已生效</td>
-                          <td>
-                            2016-08-27
-                          </td>
-                          <td class="is-icon">
-                              <a><i class="fa fa-search"></i></a>
+                            {{item.createat}}
                           </td>
                         </tr>
                       </tbody>
                     </table>
+
+                    <page :cur.sync="cur1" :all.sync="all1" v-on:btn-click="listen1"></page>
                 </tab-item>
             </tab>
 
@@ -113,8 +101,11 @@
             return {
               showMessageDetailForm: false,
               fields: [],
+              fields2: [],
               cur: 1,
               all: 8,
+              cur1: 1,
+              all1: 10,
             }
         },
         components: {
@@ -127,6 +118,10 @@
         methods: {
 
             listen: function(data) {
+              console.log('你点击了'+data+ '页');
+              this.$get('init1')(data);
+            },
+            listen1: function(data) {
               console.log('你点击了'+data+ '页');
               this.$get('init')(data);
             },
@@ -158,7 +153,23 @@
                   param: {
                     limit: 1,
                     cur: cur,
-                    read: 1,
+                    user: 1,
+                    read: 1
+                  },
+                  target: 'fields2',
+                  all: 'all1',
+                  url: 'notices',
+                  ctx: _self
+              };
+              services.Common.list(options);
+            },
+            init1: function(cur) {
+
+              var _self = this;
+              var options = {
+                  param: {
+                    limit: 1,
+                    cur: cur,
                     user: 1
                   },
                   url: 'notices',
@@ -169,6 +180,7 @@
         },
         ready: function() {
             this.$get('init')(1);
+            this.$get('init1')(1);
         }
     }
 </script>

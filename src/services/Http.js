@@ -46,11 +46,16 @@ module.exports = {
 										//判断返回的数据是否是数组
 										if(isArray(data.fields)){
 												//数组绑定
-												options.ctx.$data.all = data.all;
+
 
 												if(options.ctx[options.target] == null || options.ctx[options.target] == undefined ){
+
+															options.ctx.$data.all = data.all;
 														options.ctx.fields = data.fields
 												}else{
+
+														console.log("target" + options.target);
+															options.ctx.$data[options.all] = data.all;
 														options.ctx[options.target] = data.fields;
 												}
 										}else{
