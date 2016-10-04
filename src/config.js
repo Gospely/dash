@@ -62,7 +62,7 @@ let menu = {
         subRoutes: {
             '/list': {
                 name: 'applist',
-                label: '应用列表',
+                label: '我的容器',
                 hide: false,
                 component: makeComponent('./components/page/apps/Applist.vue')
             },
@@ -93,7 +93,7 @@ let menu = {
 
             '/new': {
                 name: 'newapp',
-                label: '创建Docker',
+                label: '创建容器',
                 hide: false,
                 component: makeComponent('./components/page/apps/NewApp.vue')
             },
@@ -105,7 +105,7 @@ let menu = {
             },
             '/volumes': {
                 name: 'volumes',
-                label: '数据卷服务',
+                label: '我的数据卷',
                 hide: false,
                 component: makeComponent('./components/page/services/Volumes.vue')
             },

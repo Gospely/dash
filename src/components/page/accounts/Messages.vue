@@ -113,7 +113,6 @@
             return {
               showMessageDetailForm: false,
               fields: [],
-              ],
               cur: 1,
               all: 8,
             }
