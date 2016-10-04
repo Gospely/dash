@@ -59,14 +59,13 @@ let menu = {
         component: {
             template: '<router-view></router-view>'
         },
-        subRoutes: {
+        subRoutes: {          
             '/list': {
                 name: 'applist',
-                label: '应用列表',
+                label: '我的应用',
                 hide: false,
                 component: makeComponent('./components/page/apps/Applist.vue')
             },
-
             '/new/:imageId': {
                 name: 'newappwithimageid',
                 label: '创建应用(已知镜像id)',
@@ -90,10 +89,9 @@ let menu = {
             template: '<router-view></router-view>'
         },
         subRoutes: {
-
             '/new': {
                 name: 'newapp',
-                label: '创建Docker',
+                label: '创建容器',
                 hide: false,
                 component: makeComponent('./components/page/apps/NewApp.vue')
             },
@@ -105,7 +103,7 @@ let menu = {
             },
             '/volumes': {
                 name: 'volumes',
-                label: '数据卷服务',
+                label: '我的数据卷',
                 hide: false,
                 component: makeComponent('./components/page/services/Volumes.vue')
             },

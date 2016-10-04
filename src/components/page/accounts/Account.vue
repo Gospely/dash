@@ -40,28 +40,13 @@
             </modal>
 
             <modal :is-html="true" :is-show.sync="showSetMealForm">
-                <div slot="header">选择套餐</div>
+                <div slot="header">版本</div>
                 <div slot="body">
 
                     <div v-show="setMeal.currentStep == 1" class="step1">
                         <span class="help is-tip">您当前的版本为：个人版</span>
                             
                         <hr class="split">
-
-                        <article class="message">
-                            <div class="message-body">
-                                <div class="message-title">
-                                    <h4>专业版</h4>
-                                    <div class="meal-set-right">
-                                        <a class="button is-small is-success"><i class="fa fa-check"></i></a>
-                                    </div>
-                                    <hr class="split">
-                                </div>
-                                <span class="help">包含个人版所有功能，另外支持：</span>
-
-
-                            </div>
-                        </article>
 
                         <article class="message">
                             <div class="message-body">
@@ -95,7 +80,7 @@
 
                     <div v-show="setMeal.currentStep == 2" class="step2">
 
-                        <span class="help is-tip">您将要订阅的套餐（从 2016年09月20日到 2016年10月20日）：</span>
+                        <span class="help is-tip">您将要订购的套餐（从 2016年09月20日到 2016年10月20日）：</span>
 
                         <hr class="split">
 
@@ -121,16 +106,7 @@
 
                         <hr class="split">
 
-                        <article class="media" style="margin-top:25px">
-                            <div class="media-content">
-                              <div class="content">
-                                <div class="media-right">
-                                    <span class="is-tip">合计：</span>
-                                    <span class="is-big">20.00 元/月</span>
-                                </div>
-                              </div>
-                            </div>
-                        </article>
+                        <cyc></cyc>
 
                     </div>
 
@@ -155,7 +131,7 @@
                 </div>
             </modal>
 
-            <div class="control is-horizontal user-center">
+<!--             <div class="control is-horizontal user-center">
               <div class="control-label">
                 <label class="label">账户余额</label>
               </div>
@@ -167,11 +143,11 @@
               </div>
             </div>
 
-            <hr>
+            <hr> -->
 
             <div class="control is-horizontal user-center">
               <div class="control-label">
-                <label class="label">当前版本</label>
+                <label class="label">当前IDE版本</label>
               </div>
               <div class="control">
 
@@ -189,7 +165,7 @@
                         <p class="title is-5" style="margin-bottom:7px">个人版</p>
                         <p class="subtitle is-6" style="margin-top:0px">免费</p>
                         <div class="text-right">
-                            <a @click="changeSetMeal" class="button is-small is-warning">更改套餐</a>
+                            <a @click="changeSetMeal" class="button is-small is-warning">更改</a>
                         </div>
                       </div>
                     </div>
@@ -235,6 +211,7 @@
 <script>
 
     import Modal from '../../ui/Modal/Modal.vue'
+    import Cyc from '../../ui/Cyc.vue'
 
     export default{
         data () {
@@ -253,7 +230,8 @@
         },
 
         components: {
-            Modal
+            Modal,
+            Cyc
         },
 
         methods: {

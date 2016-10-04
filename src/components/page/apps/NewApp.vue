@@ -1,6 +1,6 @@
 <template>
     <div class="container">
-        <h1 class="title">创建应用</h1>
+        <h1 class="title">创建容器</h1>
         <h2 class="subtitle">您可以在这里创建基于<strong>dodora容器云</strong>，并使用Gospel集成开发环境进行开发的应用</h2>
         <hr>
         <div class="content">
@@ -16,11 +16,11 @@
 
             <div class="control is-horizontal user-center">
               <div class="control-label">
-                <label class="label">应用名称</label>
+                <label class="label">容器名称</label>
               </div>
               <div class="control is-grouped">
                 <p class="control is-expanded">
-                    <input class="input" type="text" placeholder="给您的应用取个名字吧">
+                    <input class="input" type="text" placeholder="给您的容器取个名字吧">
                 </p>
               </div>
             </div>
