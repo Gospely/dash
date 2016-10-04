@@ -18,7 +18,7 @@
                         </tr>
                       </thead>
                       <tbody>
-                        <tr v-for='item in items'>
+                        <tr v-for='item in fields'>
                           <td>{{item.sender}}</td>
                           <td>{{item.title}}</td>
                           <td>
@@ -113,7 +113,6 @@
             return {
               showMessageDetailForm: false,
               fields: [],
-              ],
               cur: 1,
               all: 8,
             }
@@ -159,9 +158,11 @@
                   param: {
                     limit: 1,
                     cur: cur,
-                    isread: false,
+                    read: 1,
+                    user: 1
                   },
                   url: 'notices',
+                  ctx: _self
               };
               services.Common.list(options);
             }
