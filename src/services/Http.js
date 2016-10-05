@@ -55,7 +55,10 @@ module.exports = {
 												}else{
 
 														console.log("target" + options.target);
-															options.ctx.$data[options.all] = data.all;
+														if(options.ctx.$data[options.all] != undefined){
+																options.ctx.$data[options.all] = data.all;
+														}
+
 														options.ctx[options.target] = data.fields;
 												}
 										}else{

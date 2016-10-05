@@ -90,7 +90,7 @@
 </style>
 
 <script>
-	
+
 	import {Tab, TabItem} from '../../ui/Tab'
 
     export default{
@@ -108,7 +108,7 @@
         methods: {
 
         	selectThisImage: function(id) {
-				this.$dispatch('imageOnSelected', id);        		
+				        this.$dispatch('imageOnSelected', id);        		
         	}
 
         }

@@ -34,7 +34,7 @@
               <div class="control is-grouped">
 
                 <div class="columns" style="margin-left: 82px;">
-                    
+
                     <div class="column is-2" v-for="(key, val) in dockerConfigs">
                         <div class="docker-config-box" v-bind:class="{'active': configIsActive[key].isActive}" @click="selectThisDockerConfig(val, key)">
                             <ul class="text-center parameter">
@@ -60,7 +60,7 @@
                 <div class="columns">
                     <div class="column">
                        <cyc></cyc>
-                    </div>                            
+                    </div>
                 </div>
               </div>
             </div>
@@ -136,7 +136,7 @@
                             <li><i style="font-size:20px" class="fa fa-database" aria-hidden="true"></i></li>
                         </ul>
                         <div class="down-style" style="padding-left:5px;padding-right:5px">Gospel_volume</div>
-                    </div>                                
+                    </div>
                 </div>
 
               </div>
@@ -285,10 +285,39 @@
 
             toggleVolumesList: function() {
 
+            },
+            initConfig: function() {
+
+                var _self =  this;
+                function callback(res){
+
+                    console.log("callback");
+                    var data = res.data;
+                    var arr = new Array();
+
+                    for(var i=0; i<data.fields.length; i++){
+                      arr.push({
+                          isActive: false
+                      });
+                    }
+                    _self.dockerConfigs = data.fields;
+                    _self.configIsActive = arr;
+                }
+
+
+                var options = {
+
+                    ctx: _self,
+                    url: "dockers_configs",
+                    cb: callback
+                }
+                services.Common.list(options);
             }
 
         },
-
+        ready: function() {
+            this.$get('initConfig')();
+        },
         events: {
             'imageOnSelected': function(id) {
                 this.showImageSelectorForm = false;
