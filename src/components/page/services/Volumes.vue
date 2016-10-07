@@ -4,7 +4,7 @@
         <h2 class="subtitle">数据卷服务是<strong>dodora容器云</strong>持久化数据、共享数据的存储空间</h2>
         <hr>
         <div class="content">
-    
+
             <a v-link="{name:'newvolumes'}" class="button is-primary">
               创建数据卷
             </a>
@@ -23,21 +23,21 @@
                           <th>容量</th>
                           <th>剩余</th>
                           <th>操作</th>
-                          <th></th>                    
+                          <th></th>
                         </tr>
                       </thead>
                       <tbody>
-                        <tr>
-                          <td>Gospel_Volume</td>
-                          <td>分布式存储</td>
+                        <tr v-for="item in fields">
+                          <td v-model="name">{{item.name}}</td>
+                          <td v-model="">{{item.type}}</td>
                           <td>
-                            20GB
+                            {{item.size}}
                           </td>
                           <td>
-                            19.2kb
+                            {{item.rest}}
                           </td>
                           <td class="is-icon" title="进入数据卷">
-                            <a v-link="{path: 'volumes/33222'}">
+                            <a v-link="{path: item.link}">
                               <i class="fa fa-share"></i>
                             </a>
                           </td>
@@ -59,7 +59,8 @@
     export default{
         data () {
             return {
-                isRefresh: false
+                isRefresh: false,
+                fields: []
             }
         },
         components: {
@@ -70,7 +71,22 @@
         methods: {
             refreshAppList: function() {
                 this.isRefresh = true;
+            },
+            initVolume: function(cur) {
+
+                var _self = this;
+
+                services.Common.list(
+                  {
+                    url: "volumes",
+                    ctx: _self,
+                    creator: "1"
+                  }
+                );
             }
+        },
+        ready: function() {
+            this.$get("initVolume")();
         }
     }
 </script>

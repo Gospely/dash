@@ -25,12 +25,12 @@
               <div class="control is-grouped" style="margin-left:-10px">
                 <div class="columns">
 
-                    <div class="column" style="margin-left:0px">
-                        <div class="docker-config-box active" @click="selectThisDockerConfig(val, key)">
+                    <div class="column" style="margin-left:0px" v-for="volume in volumes">
+                        <div class="docker-config-box active" @click="selectThisDockerConfig(volume.min, volume.max)">
                             <ul class="text-center parameter">
                                 <li><i style="font-size:20px" class="fa fa-database" aria-hidden="true"></i></li>
                             </ul>
-                            <div class="down-style">分布式存储</div>
+                            <div class="down-style">{{volume.name}}</div>
                         </div>
                     </div>
 
@@ -111,7 +111,8 @@
                     min: 0,
                     max: 100,
                     step: 10
-                }
+                },
+                volumes:[]
             }
         },
         components: {
@@ -139,12 +140,26 @@
             },
             selectThisDockerConfig: function(val,key) {
 
-                this.volume.max = 50;
-                this.volume.min = 0;
-                console.log(this.volume.max);
+                this.volume.min = val;
+                this.volume.max = key;
+                console.log("max" + this.volume.max);
+            },
+            initVolumesConfigs: function() {
+                var _self = this;
+
+                services.Common.list(
+                  {
+                    url:"volumes_configs",
+                    target: 'volumes',
+                    ctx: _self
+                  }
+                );
             }
         },
+        ready:function() {
 
+            this.$get("initVolumesConfigs")();
+        },
         events: {
             'cycSelected': function(cyc) {
                 console.log(cyc);

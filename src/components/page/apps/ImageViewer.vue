@@ -15,17 +15,17 @@
 	                </tr>
 	              </thead>
 	              <tbody>
-	                <tr>
-	                  <td>Gospel_docker</td>
-	                  <td>8433ada61838</td>
+                  <tr v-for="item in fields2">
+	                  <td>{{item.name}}</td>
+	                  <td>{{item.description}}</td>
 	                  <td>
-	                    latest
+	                    {{item.label}}
 	                  </td>
 	                  <td>
-	                    4小时前
+	                    {{item.updateat}}
 	                  </td>
-	                  <td class="is-icon" title="选择">
-	                    <a @click="selectThisImage('8433ada61838')">
+	                  <td class="is-icon" title="">
+	                    <a @click="selectThisImage(item.id)">
 	                      <i class="fa fa-check"></i>
 	                    </a>
 	                  </td>
@@ -45,32 +45,17 @@
 	                </tr>
 	              </thead>
 	              <tbody>
-	                <tr>
-	                  <td>Gospel_docker</td>
-	                  <td>8433ada61838</td>
+	                <tr v-for="item in fields">
+	                  <td>{{item.name}}</td>
+	                  <td>{{item.description}}</td>
 	                  <td>
-	                    latest
+	                    {{item.label}}
 	                  </td>
 	                  <td>
-	                    4小时前
+	                    {{item.updateat}}
 	                  </td>
 	                  <td class="is-icon" title="">
-	                    <a @click="selectThisImage('8433ada61838')">
-	                      <i class="fa fa-check"></i>
-	                    </a>
-	                  </td>
-	                </tr>
-	                <tr>
-	                  <td>Gospel_docker_test</td>
-	                  <td>8433ada61838</td>
-	                  <td>
-	                    Latest
-	                  </td>
-	                  <td>
-	                    4小时前
-	                  </td>
-	                  <td class="is-icon" title="">
-	                    <a @click="selectThisImage('8433ada61838')">
+	                    <a @click="selectThisImage(item.id)">
 	                      <i class="fa fa-check"></i>
 	                    </a>
 	                  </td>
@@ -96,7 +81,8 @@
     export default{
         data () {
             return {
-
+                fields: [],
+                fields2: []
             }
         },
 
@@ -108,9 +94,44 @@
         methods: {
 
         	selectThisImage: function(id) {
-				        this.$dispatch('imageOnSelected', id);        		
-        	}
+				        this.$dispatch('imageOnSelected', id);
+        	},
+          init_docker_hub: function(cur){
 
+              var _self = this;
+              var options = {
+
+                param: {
+                  type: 'docker_hub'
+                },
+                url: 'images',
+                ctx: _self
+              }
+              services.Common.list(options);
+          },
+          init_gospel_hub: function(cur){
+
+              var _self = this;
+              var options = {
+
+                param: {
+
+                  type: 'gospel_hub'
+                },
+                url: 'images',
+                target: 'fields2',
+                ctx: _self
+              }
+              services.Common.list(options);
+          }
+
+        },
+
+        ready: function(){
+
+            console.log("init hub");
+            this.$get("init_docker_hub")();
+            this.$get("init_gospel_hub")();
         }
     }
 
