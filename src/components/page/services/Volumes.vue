@@ -80,7 +80,9 @@
                   {
                     url: "volumes",
                     ctx: _self,
-                    creator: "1"
+                    param: {
+                      creator: "1"
+                    }
                   }
                 );
             }

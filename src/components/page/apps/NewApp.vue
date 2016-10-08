@@ -20,7 +20,7 @@
               </div>
               <div class="control is-grouped">
                 <p class="control is-expanded">
-                    <input class="input" type="text" placeholder="给您的容器取个名字吧">
+                    <input class="input" type="text" placeholder="给您的容器取个名字吧" v-model="application.name">
                 </p>
               </div>
             </div>
@@ -88,7 +88,7 @@
               </div>
               <div class="control is-grouped">
                 <p class="control is-expanded">
-                    <input class="input" type="text" value="root" disabled>
+                    <input class="input" type="text" value="root" disabled v-model="application.username">
                 </p>
               </div>
             </div>
@@ -101,7 +101,7 @@
               </div>
               <div class="control is-grouped">
                 <p class="control is-expanded">
-                    <input class="input" type="password">
+                    <input class="input" type="password" v-model="application.password">
                 </p>
               </div>
             </div>
@@ -130,12 +130,12 @@
               </div>
               <div class="control is-grouped" style="margin-left:-33px">
 
-                <div class="column" style="margin-left:0px">
-                    <div class="docker-config-box active" style="width:auto" @click="selectThisDockerConfig(val, key)">
+                <div class="column" style="margin-left:0px"  v-for="(key, val) in volumes">
+                    <div v-bind:class="{'active': volumeIsActive[key].isActive}"  @click="selectVolume(val, key)">
                         <ul class="text-center parameter">
                             <li><i style="font-size:20px" class="fa fa-database" aria-hidden="true"></i></li>
                         </ul>
-                        <div class="down-style" style="padding-left:5px;padding-right:5px">Gospel_volume</div>
+                        <div class="down-style" style="padding-left:5px;padding-right:5px">{{val.name}}</div>
                     </div>
                 </div>
 
@@ -157,6 +157,7 @@
 
             <hr>
 
+
         </div>
     </div>
 </template>
@@ -175,7 +176,16 @@
     export default{
         data () {
             return {
+                application:{
+                    name: '',
+                    config: '',
+                    image: '',
+                    volume: '',
+                    username: '',
+                    password: ''
 
+                },
+                volumes: [],
                 isCreateApp: false,
 
                 withImage: false,
@@ -184,7 +194,7 @@
                 showImageSelectorForm: false,
 
                 showCaculateResourceSlider: false,
-
+                volumeIsActive: [],
                 configIsActive: [{
                     isActive: false
                 }, {
@@ -198,6 +208,7 @@
                 }],
 
                 currentActiveConfig: 1,
+                currentVolume: '',
 
                 dockerConfigs: [{
                     id: '1',
@@ -245,6 +256,7 @@
             if(typeof this.$route.params.imageId != 'undefined') {
                 this.$set('withImage', true);
                 this.$set('imageId', this.$route.params.imageId);
+
             }
 
         },
@@ -267,6 +279,8 @@
 
             selectThisDockerConfig: function(dockerConfig, key) {
 
+                console.log(dockerConfig);
+                this.application.config = dockerConfig.id
                 this.showCaculateResourceSlider = !dockerConfig.free;
 
                 this.configIsActive[key].isActive = true;
@@ -278,8 +292,36 @@
                 this.currentActiveConfig = key;
 
             },
+            selectVolume: function(volume,key){
+                console.log(this.currentVolume);
+                console.log("111");
+                this.application.volume = volume.id
+                this.volumeIsActive[key].isActive = true;
+                if(key === this.curentVolume) {
+                    this.volumeIsActive[this.currentVolume].isActive = true;
+                }else {
+                    this.volumeIsActive[this.currentVolume].isActive = false;
+                }
+                this.currentVolume = key;
 
+            },
             createApp: function() {
+                this.application.image = this.imageId;
+                this.application.creator = '1';
+                console.log(this.application);
+                var _self = this;
+                var options = {
+
+                    param: this.application,
+                    url: "dockers",
+
+                    msg: {
+                      success: "新建容器成功",
+                      failed : "新建容器失败",
+                    },
+                    ctx: _self
+                };
+                services.Common.create(options);
                 this.isCreateApp = true;
             },
 
@@ -312,11 +354,40 @@
                     cb: callback
                 }
                 services.Common.list(options);
+            },
+            initVolumes: function() {
+
+                var _self =  this;
+                function callback(res){
+
+                    console.log("callback");
+                    var data = res.data;
+                    var arr = new Array();
+
+                    for(var i=0; i<data.fields.length; i++){
+                      arr.push({
+                          isActive: false
+                      });
+                    }
+                    _self.currentVolume = data.fields[0].id
+                    _self.volumes = data.fields;
+                    _self.volumeIsActive = arr;
+                }
+                var options = {
+                  url: "volumes",
+                  ctx: _self,
+                  cb: callback,
+                  param: {
+                    creator: "1"
+                  }
+                }
+                services.Common.list(options);
             }
 
         },
         ready: function() {
             this.$get('initConfig')();
+            this.$get('initVolumes')();
         },
         events: {
             'imageOnSelected': function(id) {

@@ -11,7 +11,7 @@
               </div>
               <div class="control is-grouped">
                 <p class="control is-expanded">
-                    <input class="input" type="text" placeholder="数据卷名称">
+                    <input class="input" type="text" placeholder="数据卷名称" v-model="volume.name">
                 </p>
               </div>
             </div>
@@ -26,7 +26,7 @@
                 <div class="columns">
 
                     <div class="column" style="margin-left:0px" v-for="volume in volumes">
-                        <div class="docker-config-box active" @click="selectThisDockerConfig(volume.min, volume.max)">
+                        <div class="docker-config-box active" @click="selectThisDockerConfig(volume)">
                             <ul class="text-center parameter">
                                 <li><i style="font-size:20px" class="fa fa-database" aria-hidden="true"></i></li>
                             </ul>
@@ -110,7 +110,11 @@
                     size: 10,
                     min: 0,
                     max: 100,
-                    step: 10
+                    step: 10,
+                    config: '',
+                    time: '',
+                    unit: '',
+                    name: ''
                 },
                 volumes:[]
             }
@@ -133,15 +137,29 @@
 
             createVolume: function() {
                 this.isCreateVolume = true;
+                console.log( this.volume);
+                this.volume.creator = '1';
+                var _self = this;
+                var options = {
 
+                    param: this.volume,
+                    url: "volumes",
+                    msg: {
+                      success: "新建数据卷成功",
+                      failed : "新建数据卷失败",
+                    },
+                    ctx: _self
+                };
+                services.Common.create(options);
             },
             selectCycBykey: function() {
 
             },
-            selectThisDockerConfig: function(val,key) {
+            selectThisDockerConfig: function(volume) {
 
-                this.volume.min = val;
-                this.volume.max = key;
+                this.volume.min = volume.min;
+                this.volume.max = volume.max;
+                this.volume.config = volume.id;
                 console.log("max" + this.volume.max);
             },
             initVolumesConfigs: function() {
@@ -163,6 +181,8 @@
         events: {
             'cycSelected': function(cyc) {
                 console.log(cyc);
+                this.volume.time = cyc.cyc;
+                this.volume.unit = cyc.unit
             }
         }
     }

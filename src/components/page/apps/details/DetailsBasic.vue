@@ -1,14 +1,14 @@
 <template>
     <div class="container">
         <div class="basic-wrapper">
-            
+
             <div class="columns">
-                
+
                 <div class="column is-three-quarters">
 
                     <div class="columns">
                         <div class="column is-half">
-                            
+
                             <h4>Gospel_docker</h4>
                             <h4 class="subtitle">部署于：24小时前</h4>
 
@@ -19,7 +19,7 @@
                         </div>
 
                         <div class="column is-half">
-                            
+
                             <span class="help is-tip">状态: <span style="display:inline" class="help is-success">正在运行</span></span>
                             <span class="help is-tip">访问方式: HTTP/SSH, HTTP端口：8889, SSH端口：8876</span>
                             <span class="help is-tip">运行环境: Dodora云平台</span>
@@ -32,7 +32,7 @@
                 </div>
 
                 <div class="column">
-                    
+
                     <h4>团队成员</h4>
 
                     <article class="media">
@@ -44,7 +44,7 @@
                       <div class="media-content">
                         <div class="content">
                           <p>
-                            <strong>ivy</strong> 
+                            <strong>ivy</strong>
                             <br>
                             <small>@ivydom</small>
                           </p>
@@ -61,7 +61,7 @@
                       <div class="media-content">
                         <div class="content">
                           <p>
-                            <strong>SharksevenRo</strong> 
+                            <strong>SharksevenRo</strong>
                             <br>
                             <small>@SharksevenRo</small>
                           </p>
@@ -78,7 +78,7 @@
                       <div class="media-content">
                         <div class="content">
                           <p>
-                            <strong>shiPengtao</strong> 
+                            <strong>shiPengtao</strong>
                             <br>
                             <small>@shiPengtao</small>
                           </p>
@@ -118,7 +118,8 @@
             return {
                 showDomainAddingForm: false,
                 isEditDomain: false,
-                domainInfoFormName: '绑定域名'
+                domainInfoFormName: '绑定域名',
+                fields: ''
             }
         },
 
