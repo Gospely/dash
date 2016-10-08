@@ -4,7 +4,7 @@
         <h2 class="subtitle">在这里您可以管理您的<strong>Gospel集成开发环境</strong></h2>
         <hr>
         <div class="content">
-    
+
             <a class="button is-primary" v-bind:class="{'is-loading': isRefresh}" @click="refreshIDEState">
               <i class="fa fa-refresh" aria-hidden="true"></i>
             </a>
@@ -45,7 +45,7 @@
                   <table class="table">
                     <thead>
                       <tr>
-                        <th>磁盘名称</th>                      
+                        <th>磁盘名称</th>
                         <th>磁盘类型</th>
                         <th>创建时间</th>
                         <th>容量</th>
@@ -84,11 +84,11 @@
                       <div class="control is-grouped" style="margin-left:16px">
                         <div class="columns">
                             <div class="column is-10">
-                                <input v-model="volume.size" min="10" max="100" step="10" class="slider" type="range" style="margin-top:14px">                    
+                                <input v-model="volume.size" min="10" max="100" step="10" class="slider" type="range" style="margin-top:14px">
                             </div>
                             <div class="column is-10">
-                                <span class="help is-tip" style="margin: 8px;">{{volume.size}} G</span>               
-                            </div>                            
+                                <span class="help is-tip" style="margin: 8px;">{{volume.size}} G</span>
+                            </div>
                         </div>
                       </div>
                     </div>
@@ -121,32 +121,17 @@
                     </p>
                     <label class="label">选择主版本</label>
                     <p class="control">
-                      <span class="select">
-                        <select>
-                          <option>个人版</option>
-                          <option>企业版</option>
-                          <option>教育版</option>    
+                      <span class="select" >
+                        <select v-model="selected">
+                          <option v-for="item in fields" :value="item" >{{item.name}}</option>
                         </select>
                       </span>
                     </p>
-
-                    <label class="label">选择次版本</label>
-                    <p class="control">
-                      <span class="select">
-                        <select>
-                          <option>旗舰版</option>
-                          <option>Web App版</option>
-                          <option>Hybrid App版</option>    
-                          <option>微信小程序版</option>    
-                        </select>
-                      </span>
-                    </p>
-
                     <div class="media-content">
                       <div class="content">
                         <div class="media-right" style="text-align:right">
                             <span class="is-tip">合计：</span>
-                            <span class="is-big">1200.00 元</span>
+                            <span class="is-big">{{price}} 元</span>
                         </div>
                       </div>
                     </div>
@@ -184,6 +169,8 @@
                 otherTime: '其它',
 
                 renewIDEVolumeForm: false,
+                fields: [],
+                price: 0,
 
                 volume: {
                   size: 20
@@ -210,7 +197,26 @@
 
             confirmRenewIDEVolume: function() {
 
+            },
+            initIdes: function() {
+
+                var _self = this;
+                services.Common.list({
+                    url: "products",
+                    ctx: _self
+                });
             }
-        }
+        },
+        ready: function() {
+
+            this.$get("initIdes")();
+        },
+        watch: {
+           selected: function(item) {
+
+              this.price = item.price;
+              console.log();
+           }
+       },
     }
 </script>
