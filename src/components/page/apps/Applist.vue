@@ -41,6 +41,7 @@
                         </tr>
                       </tbody>
                     </table>
+                    <page :cur.sync="cur" :all.sync="all" v-on:btn-click="listen"></page>
                 </tab-item>
                 <tab-item title="已停止">
                     <table class="table">
@@ -73,6 +74,7 @@
                         </tr>
                       </tbody>
                     </table>
+                    <page :cur.sync="cur_stop" :all.sync="all_stop" v-on:btn-click="listen_stop"></page>
                 </tab-item>
                 <tab-item title="未绑定">
                     <table class="table">
@@ -96,6 +98,7 @@
                         </tr>
                       </tbody>
                     </table>
+                      <page :cur.sync="cur_unBind" :all.sync="all_unBind" v-on:btn-click="listen_unBind"></page>
                 </tab-item>
             </tab>
         </div>
@@ -107,6 +110,7 @@
 <script>
 
     import {Tab, TabItem} from '../../ui/Tab'
+    import Page from '../../ui/Page/Page.vue'
 
     export default{
         data () {
@@ -114,16 +118,36 @@
                 isRefresh: false,
                 fields: [],
                 fields_stop: [],
-                fields_unBind: []
+                fields_unBind: [],
+                cur: 1,
+                all: 8,
+                cur_stop: 1,
+                all_stop: 8,
+                all_unBind: 8,
+                cur_unBind: 1,
             }
         },
 
         components: {
             Tab,
-            TabItem
+            TabItem,
+            Page
         },
 
         methods: {
+
+            listen: function(data) {
+              console.log('你点击了'+data+ '页');
+              this.$get('init')(data);
+            },
+            listen_stop: function(data) {
+              console.log('你点击了'+data+ '页');
+              this.$get('initStop')(data);
+            },
+            listen_unBind: function(data) {
+              console.log('你点击了'+data+ '页');
+              this.$get('initUnBind')(data);
+            },
             stopThisAPP: function() {
 
             },
@@ -136,6 +160,8 @@
                 var _self = this;
                 var options = {
                   param: {
+                    limit: 1,
+                    cur: cur,
                     status: 1,
                     creator: 1
                   },
@@ -152,10 +178,13 @@
 
                   url: "applications",
                   param: {
+                    limit: 1,
+                    cur: cur,
                     status: 0,
                     creator: 1
                   },
                   target: 'fields_stop',
+                  all: 'all_stop',
                   ctx: _self
                 }
 
@@ -167,11 +196,14 @@
                 var options = {
 
                   param: {
+                    limit: 1,
+                    cur: cur,
                     status: -1,
                     creator: 1
                   },
                   url: "applications",
                   target: 'fields_unBind',
+                  all: 'all_unBind',
                   ctx: _self
 
                 }
@@ -181,9 +213,9 @@
         },
         ready: function() {
 
-            this.$get("init")();
-            this.$get("initStop")();
-            this.$get("initUnBind")();
+            this.$get("init")(1);
+            this.$get("initStop")(1);
+            this.$get("initUnBind")(1);
         }
     }
 </script>

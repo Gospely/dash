@@ -32,6 +32,7 @@
 	                </tr>
 	              </tbody>
 	            </table>
+              <page :cur.sync="cur_gospel" :all.sync="all_gospel" v-on:btn-click="listen_gospel"></page>
 	        </tab-item>
 	        <tab-item title="DockerHub">
 	            <table class="table">
@@ -62,6 +63,7 @@
 	                </tr>
 	              </tbody>
 	            </table>
+              <page :cur.sync="cur" :all.sync="all" v-on:btn-click="listen"></page>
 	        </tab-item>
 	    </tab>
 
@@ -77,22 +79,36 @@
 <script>
 
 	import {Tab, TabItem} from '../../ui/Tab'
+  import Page from '../../ui/Page/Page.vue'
 
     export default{
         data () {
             return {
                 fields: [],
-                fields2: []
+                fields2: [],
+                cur: 1,
+                all: 8,
+                cur_gospel: 1,
+                all_gospel: 8,
             }
         },
 
         components: {
             Tab,
-            TabItem
+            TabItem,
+            Page
         },
 
         methods: {
 
+          listen: function(data) {
+            console.log('你点击了'+data+ '页');
+            this.$get('init_docker_hub')(data);
+          },
+          listen_gospel: function(data) {
+            console.log('你点击了'+data+ '页');
+            this.$get('init_gospel_hub')(data);
+          },
         	selectThisImage: function(id) {
 				        this.$dispatch('imageOnSelected', id);
         	},
@@ -102,7 +118,9 @@
               var options = {
 
                 param: {
-                  type: 'docker_hub'
+                  type: 'docker_hub',
+                  limit: 1,
+                  cur: cur,
                 },
                 url: 'images',
                 ctx: _self
@@ -115,10 +133,12 @@
               var options = {
 
                 param: {
-
+                  limit: 1,
+                  cur: cur,
                   type: 'gospel_hub'
                 },
                 url: 'images',
+                all: 'all_gospel',
                 target: 'fields2',
                 ctx: _self
               }
@@ -130,8 +150,8 @@
         ready: function(){
 
             console.log("init hub");
-            this.$get("init_docker_hub")();
-            this.$get("init_gospel_hub")();
+            this.$get("init_docker_hub")(1);
+            this.$get("init_gospel_hub")(1);
         }
     }
 

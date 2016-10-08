@@ -44,6 +44,7 @@
                         </tr>
                       </tbody>
                     </table>
+                    <page :cur.sync="cur" :all.sync="all" v-on:btn-click="listen"></page>
                 </tab-item>
             </tab>
 
@@ -55,20 +56,29 @@
 <script>
 
     import {Tab, TabItem} from '../../ui/Tab'
+    import Page from '../../ui/Page/Page.vue'
 
     export default{
         data () {
             return {
                 isRefresh: false,
-                fields: []
+                fields: [],
+                all: 8,
+                cur: 1,
             }
         },
         components: {
             Tab,
-            TabItem
+            TabItem,
+            Page
         },
 
         methods: {
+
+          listen: function(data) {
+            console.log('你点击了'+data+ '页');
+            this.$get('initVolume')(data);
+          },
             refreshAppList: function() {
                 this.isRefresh = true;
             },
@@ -81,6 +91,8 @@
                     url: "volumes",
                     ctx: _self,
                     param: {
+                      cur: cur,
+                      limit: 1,
                       creator: "1"
                     }
                   }
@@ -88,7 +100,7 @@
             }
         },
         ready: function() {
-            this.$get("initVolume")();
+            this.$get("initVolume")(1);
         }
     }
 </script>
