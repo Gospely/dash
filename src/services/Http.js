@@ -1,4 +1,5 @@
-var notification = require('../lib/notification');
+// console.log(notification);
+var notification = require('../lib/notification').default;
 //统一请求，统一处理请求结果和绑定,异常通知,可选择callback方式处理请求结果
 module.exports = {
 
@@ -31,8 +32,7 @@ module.exports = {
         if(options.cb !=null && options.cb != undefined ){
 
           HTTP(options).then(options.cb,function(err){
-
-						notification.alert("服务器异常");
+			notification.alert("服务器异常");
           }
           );
         }else{

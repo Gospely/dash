@@ -8,12 +8,17 @@ import services from './services/index.js'
 
 import notification from './lib/notification'
 
+import 'animate.css'
+
 // if(document.domain == 'localhost') {
 // 	window.debug = true;
 // }else {
 // 	document.domain = 'dash.dodora.cn';
 // 	window.debug = false;
 // }
+
+document.title = 'Dodora 龙猫云';
+window.notification = notification;
 
 //初始化用户登录状态
 localStorage.login = typeof localStorage.login == 'undefined' ? 'false' : localStorage.login;
@@ -49,11 +54,22 @@ router.redirect({
     '*': '/dashboard'
 });
 
-
 // Now we can start the app!
 // The router will create an instance of App and mount to
 // the element matching the selector #app.
 router.start(App, 'app');
+
+//路由请求开始时调用
+router.beforeEach(function (route) {
+    document.title = route.to.label + ' | Dodora 龙猫云';
+    route.next();
+});
+
+//路由请求结束后调用
+router.afterEach(function () {
+    
+});
+
 new Vue({
   el: 'title',
 
@@ -68,4 +84,3 @@ new Vue({
 
 window.Vue = Vue;
 
-window.notification = notification;
