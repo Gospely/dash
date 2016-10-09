@@ -5,6 +5,24 @@
         <hr>
         <div class="content">
 
+            <modal :is-html="true" :width="800" :is-show.sync="showPayForm">
+                <div slot="header">付款</div>
+                <div slot="body">
+
+                    <pay-method></pay-method>
+                    
+                    <div class="media-content">
+                      <div class="content">
+                        <div class="media-right" style="text-align:right">
+                            <span class="is-tip">合计：</span>
+                            <span class="is-big">1200.00 元</span>
+                        </div>
+                      </div>
+                    </div>
+
+                </div>
+            </modal>
+
             <div class="control is-horizontal user-center">
               <div class="control-label">
                 <label class="label">数据卷名称</label>
@@ -99,6 +117,9 @@
     import Slider from 'vue-bulma-slider'
     import Cyc from '../../ui/Cyc.vue'
 
+    import Modal from '../../ui/Modal/Modal.vue'
+    import PayMethod from '../../ui/PayMethod.vue'
+
     export default{
         data () {
             return {
@@ -116,12 +137,16 @@
                     unit: '',
                     name: ''
                 },
-                volumes:[]
+                volumes:[],
+
+                showPayForm: false
             }
         },
         components: {
             Slider,
-            Cyc
+            Cyc,
+            Modal,
+            PayMethod
         },
 
         ready () {
@@ -136,6 +161,9 @@
             },
 
             createVolume: function() {
+
+                this.showPayForm = true;
+
                 this.isCreateVolume = true;
                 console.log( this.volume);
                 this.volume.creator = '1';

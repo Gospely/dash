@@ -419,6 +419,13 @@
         content: ''
     }
     
+    .notification.noty {
+        position: absolute;
+        width: 280px;
+        right: 20px;
+        top: 20px;
+        z-index: 6550;
+    }
 </style>
 <script>
     export default{

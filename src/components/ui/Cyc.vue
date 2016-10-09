@@ -34,23 +34,23 @@
         			return [{
 	                    label: '1个月',
 	                    cyc: '1',
-											unit: '月'
+						unit: '月'
 	                }, {
 	                    label: '3个月',
 	                    cyc: '3',
-											unit: '月'
+						unit: '月'
 	                }, {
 	                    label: '6个月',
 	                    cyc: '6',
-											unit: '月'
+						unit: '月'
 	                }, {
 	                    label: '12个月',
 	                    cyc: '12',
-											unit: '月'
+						unit: '月'
 	                }, {
 	                    label: '其它',
 	                    cyc: 0,
-											unit: '月',
+						unit: '月',
 	                    isOther: true
 	                }];
         		}
@@ -91,7 +91,7 @@
                 }else {
 	                this.$dispatch('cycSelected', {
 	                	cyc: this.cyc[key].cyc,
-										unit: this.cyc[key].unit
+						unit: this.cyc[key].unit
 	                });
                 }
             },

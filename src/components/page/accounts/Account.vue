@@ -12,23 +12,7 @@
                       <input class="input" type="text" placeholder="请输入充值金额">
                     </p>
                     <label class="label">支付方式</label>
-                    <p class="control has-icon has-icon-right">
-                        <p class="control has-addons">
-                          <a class="button is-success" @click="useWechat" v-bind:class="{'is-active': isWechat}">
-                            <span class="icon is-small">
-                              <i class="fa fa-wechat"></i>
-                            </span>
-                            <span>微信</span>
-                          </a>
-                          <a class="button is-success" @click="useAlipay" v-bind:class="{'is-active': isAlipay}">
-                            <span class="icon is-small">
-                              <i class="fa fa-paypal"></i>
-                            </span>
-                            <span>支付宝</span>
-                          </a>
-                        </p>
-                      <span class="help is-success">支持支付宝和微信支付</span>
-                    </p>
+                    <pay-method @weixin="useWeinxin" @alipay="useAlipay"></pay-method>
                 </div>
                 <div slot="footer">
                     <button class="button is-success"
@@ -213,6 +197,8 @@
     import Modal from '../../ui/Modal/Modal.vue'
     import Cyc from '../../ui/Cyc.vue'
 
+    import PayMethod from '../../ui/PayMethod.vue'
+
     export default{
         data () {
             return {
@@ -231,26 +217,18 @@
 
         components: {
             Modal,
-            Cyc
+            Cyc,
+            PayMethod
         },
 
         methods: {
             topUp: function() {
                 this.showTopupForm = true;
+                console.log('topup');
             },
 
             toTopup: function() {
 
-            },
-
-            useAlipay: function() {
-                this.isWechat = false;
-                this.isAlipay = true;
-            },
-
-            useWechat: function() {
-                this.isWechat = true;
-                this.isAlipay = false;
             },
 
             changeSetMeal: function() {
@@ -267,6 +245,14 @@
 
             setMealPrevStep: function() {
                 this.setMeal.currentStep--;
+            },
+
+            useAlipay: function() {
+
+            },
+
+            useWeinxin: function() {
+                
             }
 
         }

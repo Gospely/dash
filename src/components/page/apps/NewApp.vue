@@ -14,6 +14,24 @@
                 </div>
             </modal>
 
+            <modal :is-html="true" :width="800" :is-show.sync="showPayForm">
+                <div slot="header">付款</div>
+                <div slot="body">
+
+                    <pay-method></pay-method>
+                    
+                    <div class="media-content">
+                      <div class="content">
+                        <div class="media-right" style="text-align:right">
+                            <span class="is-tip">合计：</span>
+                            <span class="is-big">1200.00 元</span>
+                        </div>
+                      </div>
+                    </div>
+
+                </div>
+            </modal>
+
             <div class="control is-horizontal user-center">
               <div class="control-label">
                 <label class="label">容器名称</label>
@@ -171,6 +189,8 @@
     import Slider from 'vue-bulma-slider'
     import Cyc from '../../ui/Cyc.vue'
 
+    import PayMethod from '../../ui/PayMethod.vue';
+
     let ModalCtrl = Vue.extend(Modal);
 
     export default{
@@ -185,6 +205,9 @@
                     password: ''
 
                 },
+
+                showPayForm: false,
+
                 volumes: [],
                 isCreateApp: false,
 
@@ -265,7 +288,8 @@
             Modal,
             ImageViewer,
             Slider,
-            Cyc
+            Cyc,
+            PayMethod
         },
 
         methods: {
@@ -306,6 +330,9 @@
 
             },
             createApp: function() {
+
+                this.showPayForm = true;
+
                 this.application.image = this.imageId;
                 this.application.creator = '1';
                 console.log(this.application);
