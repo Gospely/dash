@@ -24,10 +24,15 @@
         overflow: hidden;
         background-color: $bg_side_bar_light;
         .fa-connectdevelop{
-            position: relative;
-            font-size: 38px;
-            color: #97cd76;
+            color: $bg_side_bar_light;
+            font-size: 0px;
             vertical-align: middle;
+            background-image: url(http://i63.tinypic.com/343oqxe.png);
+            background-position: center center;
+            background-size: 70%;
+            background-repeat: no-repeat;
+            width: 80%;
+            height: 80%;
         }
     }
 
