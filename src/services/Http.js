@@ -50,7 +50,7 @@ module.exports = {
 
 												if(options.ctx[options.target] == null || options.ctx[options.target] == undefined ){
 
-															options.ctx.$data.all = data.all;
+														options.ctx.$data.all = data.all;
 														options.ctx.fields = data.fields
 												}else{
 

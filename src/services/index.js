@@ -8,6 +8,7 @@ var Common = require('./CommonService');
 var model = {
 	instance: undefined,
 	baseUrl: 'http://localhost:8089/'
+//	baseUrl: 'http://api.gospely.com/'
 };
 
 module.exports = {
@@ -23,6 +24,7 @@ module.exports = {
 			VolumeService: VolumeService.init(model.instance, model.baseUrl),
 			OrderService: OrderService.init(model.instance, model.baseUrl),
 			Common: Common.init(model.instance, model.baseUrl),
+
 		}
 	}
 
