@@ -17,6 +17,10 @@ import 'animate.css'
 // 	window.debug = false;
 // }
 
+if(document.domain != 'localhost') {
+    document.domain = 'gospely.com';
+}
+
 document.title = 'Dodora 龙猫云';
 window.notification = notification;
 

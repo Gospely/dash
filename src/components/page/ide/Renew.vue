@@ -93,6 +93,14 @@
                       </div>
                     </div>
 
+                    <div class="control is-horizontal user-center">
+                      <div class="control-label">
+                        <label class="label">支付方式</label>
+                      </div>
+                    </div>
+
+                    <pay-method :qrcode.sync="qrcode" @weixin="useWeixin" @alipay="useAlipay"></pay-method>
+
                     <div class="media-content">
                       <div class="content">
                         <div class="media-right" style="text-align:right">
@@ -127,6 +135,7 @@
                         </select>
                       </span>
                     </p>
+                    <pay-method :qrcode.sync="qrcode" @weixin="useWeixin" @alipay="useAlipay"></pay-method>
                     <div class="media-content">
                       <div class="content">
                         <div class="media-right" style="text-align:right">
@@ -159,6 +168,8 @@
     import Slider from 'vue-bulma-slider'
     import Cyc from '../../ui/Cyc.vue'
 
+    import PayMethod from '../../ui/PayMethod.vue'
+
     export default{
         data () {
             return {
@@ -174,7 +185,11 @@
 
                 volume: {
                   size: 20
-                }
+                },
+
+                isWeixin: false,
+
+                qrcode: 'http://qr.api.cli.im/qr?data=http%253A%252F%252Fivydom.com&level=H&transparent=false&bgcolor=%23ffffff&forecolor=%23000000&blockpixel=12&marginblock=1&logourl=&size=280&kid=cliim&key=fa75fe444c541a16f37237eebf2a3426'
             }
         },
         components: {
@@ -183,7 +198,8 @@
             IdeState,
             Modal,
             Slider,
-            Cyc
+            Cyc,
+            PayMethod
         },
 
         methods: {
@@ -205,6 +221,14 @@
                     url: "products",
                     ctx: _self
                 });
+            },
+
+            useWeixin: function() {
+
+            },
+
+            useAlipay: function() {
+
             }
         },
         ready: function() {
