@@ -64,7 +64,7 @@
         display: inline-block;
         width: 180px;
         height: 70px;
-        background-image: url(https://ss0.bdstatic.com/5aV1bjqh_Q23odCf/static/superman/img/logo/bd_logo1_31bdc765.png);
+        background-image: url(http://i65.tinypic.com/zm0gns.png);
         background-repeat: no-repeat;
         background-size: 100%;
         background-position: center;
