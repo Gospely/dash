@@ -46,7 +46,7 @@
     .signup-form {
         width: 300px;
         position: absolute;
-        top: 20%;
+        top: 5%;
         left: 50%;
         text-align: center;
         background-color: rgba(255, 255, 255, 0.92);
@@ -55,10 +55,6 @@
         padding: 50px 0;
         border-radius: 4px;
         font-size: 16px;
-    }
-
-    .signup-form__logo-box {
-        margin-bottom: 40px;
     }
 
     .logo, .signup-form__logo {
@@ -77,7 +73,6 @@
 
     .btn-sns, .btn-gplus, .btn-facebook, .btn-twitter, .btn-weibo { width: 80px; height: 40px; margin-top: 10px; }
 
-    .signup-form { width: 300px; position: absolute; top: 20%; left: 50%; text-align: center; background-color: rgba(255, 255, 255, 0.92); width: 363px; margin-left: -181.5px; padding: 50px 0; border-radius: 4px; font-size: 16px; }
     @media (max-width 540px) { .signup-form { top: 50px; width: 310px; margin-left: -160px; background-color: #eeeeee; } }
 
     .signup-form__logo-box {
@@ -112,19 +107,6 @@
 
     .signup-form__submit--login:hover {
         color: #fff;
-    }
-
-    .signup-form {
-        width: 300px;
-        position: absolute;
-        top: 20%;
-        left: 50%;
-        text-align: center;
-        background-color: hsla(0, 0%, 100%, .92);
-        width: 363px;
-        margin-left: -181.5px;
-        padding: 50px 0;
-        border-radius: 4px
     }
 
     @media (max-width:540px) {
@@ -257,16 +239,6 @@
     .signup-form .input-field-group > .input-field:last-child {
         border-radius: 0 0 4px 4px;
         border-bottom: 1px solid #dfebf2
-    }
-
-    .signup-form .signup-form__logo-box {
-        margin-bottom: 40px
-    }
-
-    @media (max-width:540px) {
-        .signup-form .signup-form__logo-box {
-            margin-bottom: 24px
-        }
     }
 
     .signup-form .signup-form__logo, .signup-form .signup-form__logo-booth {

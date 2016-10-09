@@ -1,6 +1,6 @@
 <template>
-    <div class="container" style="min-height:800px">
-
+    <div class="container">
+        <bg></bg>
         <div class="signup-form ">
           <div class="signup-form__logo-box">
             <div class="signup-form__logo"></div>
@@ -83,12 +83,7 @@
 <style>
 
     .container {
-        background: #b72f20;
         overflow: visible;
-    }
-
-    .app-main {
-        background: #b72f20;
     }
 
     .side-bar {
@@ -104,8 +99,9 @@
     }
 
     .app-main-body {
-        background: #b72f20;
         padding-left: 0px;
+        padding: 0px;
+        margin-top: 0px;
     }
 
 </style>
@@ -113,6 +109,7 @@
 
     import Vue from 'vue'
     import Modal from '../../ui/Modal/Modal.vue'
+    import bg from '../../ui/Bg.vue';
 
     export default{
         data () {
@@ -124,7 +121,8 @@
             }
         },
         components: {
-            Modal
+            Modal,
+            bg
         },
 
         methods: {
