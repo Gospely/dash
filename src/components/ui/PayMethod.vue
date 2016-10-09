@@ -18,7 +18,7 @@
 	 	<span v-show="showTips" class="help is-success">{{tips}}</span>
 
         <div v-show="isWechat">
-            <div style="background-image:url({{qrcode}});background-position:center center;background-size:100%;width:130px;height:130px"></div>
+            <div v-bind:style="{backgroundImage: 'url(' + qrcode + ')'}" style="background-position:center center;background-size:100%;width:130px;height:130px"></div>
             <span class="help is-success">请使用微信扫码支付</span>
         </div>
 
