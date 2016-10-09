@@ -1,6 +1,7 @@
 <template>
     <div id="app" :class="{'collapsed':collapsed}">
         <side-navi :collapsed.sync="collapsed"></side-navi>
+        <progress id="global-loader" v-show="false" class="progress is-info" style="position: fixed!important;left: 0px;z-index: 65555;width: 100%;height: 4px;" value="{{loaderProgress}}" max="100"></progress>
         <section class="app-main">
             <div class="app-main-header">
                 <header-bar></header-bar>
@@ -21,11 +22,13 @@
     export default {
         data () {
             return {
-                collapsed: false
+                collapsed: false,
+
+                loaderProgress: 0
             }
         },
         ready () {
-            this.appMainBody = this.$el.getElementsByClassName('app-main-body')[0]
+            this.appMainBody = this.$el.getElementsByClassName('app-main-body')[0];
         },
         watch: {
             '$route.name': {

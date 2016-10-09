@@ -1,5 +1,6 @@
 <template>
     <nav class="nav header-bar">
+
         <div class="nav-left">
 
         </div>
@@ -425,6 +426,13 @@
         right: 20px;
         top: 20px;
         z-index: 6550;
+    }
+
+    .global-laoder {
+        position: fixed!important;
+        left: 0px;
+        z-index: 65555;
+        width: 100%;
     }
 </style>
 <script>

@@ -29,14 +29,33 @@ module.exports = {
     //统一出异常和绑定数据
     function requestAndHandlerError(options) {
 
+    	var globalLoader = document.getElementById('global-loader'),
+    		loaderValue = 0;
+
+    	globalLoader.style.display = "block";
+
+    	var loaderInterval = setInterval(function() {
+    		loaderValue += 10;
+	    	globalLoader.setAttribute('value', loaderValue);
+
+	    	if(loaderValue >= 60) {
+	    		clearInterval(loaderInterval);
+	    	}
+    	}, 200);
+
         if(options.cb !=null && options.cb != undefined ){
 
           HTTP(options).then(options.cb,function(err){
 			notification.alert("服务器异常");
+	    	globalLoader.setAttribute('value', 100);
+	    	globalLoader.style.display = 'none';
           }
           );
         }else{
           HTTP(options).then(function(res){
+
+	    	globalLoader.setAttribute('value', 100);
+	    	globalLoader.style.display = 'none';
 
               //请求成功，统一处理
               if(res.status === 200){
