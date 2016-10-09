@@ -1,14 +1,20 @@
 <template lang="html">
-  <div class="page-bar">
-    <ul>
-    <li v-if="cur!=1"><a v-on:click="last">上一页</a></li>
-    <li v-for="index in indexs"  v-bind:class="{ active: cur == index}">
-        <a v-on:click="btnClick(index)">{{ index }}</a>
-        </li>
-        <li v-if="cur!=all"><a v-on:click="next">下一页</a></li>
-        <li><a>共<i>{{all}}</i>页</a></li>
-    </ul>
-  </div>
+
+ <div class="columns is-mobile">     
+    <div class="column is-8 is-offset-4">
+        <div class="page-bar">
+            <ul class="page-ul">
+                <li style="margin-right: -4px;"><a v-on:click="last">上一页</a></li>
+                <li v-for="index in indexs"  v-bind:class="{ active: cur == index}">
+                    <a v-on:click="btnClick(index)">{{ index }}</a>
+                </li>
+                <li style="margin-left: -4px;"><a v-on:click="next">下一页</a></li>
+                <li style="margin-left: -4px;"><a>共<i>{{all}}</i>页</a></li>
+            </ul>
+        </div>
+    </div>
+ </div>
+
 </template>
 
 <script>
@@ -52,12 +58,25 @@ export default {
             }
         },
         next: function() {
-          this.cur++;
-          this.$dispatch('btn-click',this.cur);
+            var next = this.cur + 1;
+
+            if(next > this.all) {
+                return false;
+            }
+
+            this.cur++;
+            this.$dispatch('btn-click',this.cur);
         },
         last: function() {
-          this.cur--;
-          this.$dispatch('btn-click',this.cur);
+
+            var prev = this.cur - 1;
+
+            if(prev <= 0) {
+                return false;
+            }
+
+            this.cur--;
+            this.$dispatch('btn-click',this.cur);
         }
     }
 }
@@ -68,15 +87,23 @@ ul,li{
     margin: 0px;
     padding: 0px;
 }
+
+.page-ul {
+    display: block!important;
+    text-align: right;
+    border-bottom: none!important;
+}
+
 .page-bar li{
     list-style: none;
     display: inline-block;
+    border: 1px solid #ddd;
+    margin-left: -1px;
 }
 .page-bar li:first-child>a {
-   margin-left: 0px
+   margin-left: 0px;
 }
 .page-bar a{
-    border: 1px solid #ddd;
     text-decoration: none;
     position: relative;
     float: left;
