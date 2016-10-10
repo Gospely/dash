@@ -19,7 +19,7 @@
                 <div slot="body">
 
                     <pay-method></pay-method>
-                    
+
                     <div class="media-content">
                       <div class="content">
                         <div class="media-right" style="text-align:right">
@@ -77,7 +77,7 @@
               <div class="control is-grouped" style="margin-left:30px">
                 <div class="columns">
                     <div class="column">
-                       <cyc></cyc>
+                       <cyc :price.sync= "price"></cyc>
                     </div>
                 </div>
               </div>
@@ -205,7 +205,9 @@
                     password: ''
 
                 },
-
+                price: '10 X 100 = 1000',
+                unitPrice: 0,
+                unitPrice: '10',
                 showPayForm: false,
 
                 volumes: [],
@@ -313,7 +315,10 @@
                 }else {
                     this.configIsActive[this.currentActiveConfig].isActive = false;
                 }
+
                 this.currentActiveConfig = key;
+                this.unitPrice = dockerConfig.price;
+                this.price = this.unitPrice +"X 1月 = "+this.unitPrice ;
 
             },
             selectVolume: function(volume,key){
@@ -376,8 +381,11 @@
 
                 var options = {
 
+                    param: {
+                        type: 'docker'
+                    },
                     ctx: _self,
-                    url: "dockers_configs",
+                    url: "products",
                     cb: callback
                 }
                 services.Common.list(options);
@@ -424,6 +432,9 @@
             },
 
             'cycSelected': function(cyc) {
+
+                var total = cyc.cyc * this.unitPrice;
+                this.price = this.unitPrice +" X "+ cyc.cyc+" "+cyc.unit +" = "+total;
                 console.log(cyc);
             }
         }

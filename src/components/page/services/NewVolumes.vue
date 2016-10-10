@@ -5,24 +5,6 @@
         <hr>
         <div class="content">
 
-            <modal :is-html="true" :width="800" :is-show.sync="showPayForm">
-                <div slot="header">付款</div>
-                <div slot="body">
-
-                    <pay-method></pay-method>
-                    
-                    <div class="media-content">
-                      <div class="content">
-                        <div class="media-right" style="text-align:right">
-                            <span class="is-tip">合计：</span>
-                            <span class="is-big">1200.00 元</span>
-                        </div>
-                      </div>
-                    </div>
-
-                </div>
-            </modal>
-
             <div class="control is-horizontal user-center">
               <div class="control-label">
                 <label class="label">数据卷名称</label>
@@ -83,7 +65,7 @@
               <div class="control is-grouped" style="margin-left:30px">
                 <div class="columns">
                     <div class="column">
-                        <cyc price="100"></cyc>
+                        <cyc :price.sync="price"></cyc>
                     </div>
                 </div>
               </div>
@@ -117,9 +99,6 @@
     import Slider from 'vue-bulma-slider'
     import Cyc from '../../ui/Cyc.vue'
 
-    import Modal from '../../ui/Modal/Modal.vue'
-    import PayMethod from '../../ui/PayMethod.vue'
-
     export default{
         data () {
             return {
@@ -138,15 +117,15 @@
                     name: ''
                 },
                 volumes:[],
-
-                showPayForm: false
+                price: 0,
+                unitPrice: 0,
+                month: 1,
+                freeSize: 5
             }
         },
         components: {
             Slider,
-            Cyc,
-            Modal,
-            PayMethod
+            Cyc
         },
 
         ready () {
@@ -161,9 +140,6 @@
             },
 
             createVolume: function() {
-
-                this.showPayForm = true;
-
                 this.isCreateVolume = true;
                 console.log( this.volume);
                 this.volume.creator = '1';
@@ -188,14 +164,18 @@
                 this.volume.min = volume.min;
                 this.volume.max = volume.max;
                 this.volume.config = volume.id;
+
+                this.unitPrice = volume.price;
                 console.log("max" + this.volume.max);
+                this.freeSize = volume.freeSize;
             },
             initVolumesConfigs: function() {
                 var _self = this;
 
                 services.Common.list(
                   {
-                    url:"volumes_configs",
+                    param: { type: 'volume'},
+                    url:"products",
                     target: 'volumes',
                     ctx: _self
                   }
@@ -208,9 +188,30 @@
         },
         events: {
             'cycSelected': function(cyc) {
-                console.log(cyc);
-                this.volume.time = cyc.cyc;
-                this.volume.unit = cyc.unit
+
+                if(this.volume.size <= this.freeSize){
+                    this.price = 0;
+                }else {
+                  var total = cyc.cyc * this.unitPrice * this.volume.size;
+                  this.price = this.unitPrice +" X "+ this.volume.size + " G " + " X " +cyc.cyc+" "+cyc.unit +" = "+total;
+                  console.log(cyc);
+                }
+
+
+            }
+        },
+        watch: {
+
+            "volume.size": function(val,oldVal) {
+
+              if(this.volume.size <= this.freeSize){
+                  this.price = 0;
+              }else {
+                  var total =   this.month * this.unitPrice * this.volume.size;
+                  this.price = this.unitPrice +" X "+ this.volume.size + " G " + " X " +this.month+" 月 = "+total;
+                  console.log(val);
+              }
+
             }
         }
     }
