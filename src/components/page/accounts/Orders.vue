@@ -4,6 +4,32 @@
         <hr>
         <div class="content">
 
+            <modal :is-html="true" :is-show.sync="showRePayForm">
+                <div slot="header">继续支付</div>
+                <div slot="body">
+                    <label class="label">所购产品</label>
+                    <p class="control">
+                      集成开发环境
+                    </p>
+                    <pay-method :qrcode.sync="qrcode" @weixin="useWeixin" @alipay="useAlipay"></pay-method>
+                    <div class="media-content">
+                      <div class="content">
+                        <div class="media-right" style="text-align:right">
+                            <span class="is-tip">合计：</span>
+                            <span class="is-big">{{price}} 元</span>
+                        </div>
+                      </div>
+                    </div>
+                </div>
+                <div slot="footer">
+                    <button class="button is-success"
+                        @click="confirmRenew">
+                    确定
+                    </button>
+                    <button class="button" @click="showRePayForm = false">取消</button>
+                </div>
+            </modal>
+
             <tab :active-index = "0" style= "width: 100%;">
                 <tab-item title="已支付">
                     <table class="table">
@@ -60,12 +86,12 @@
                             <td>
                                 企业版Gospel集成开发环境
                             </td>
-                            <td class="is-icon" title="进入应用">
-                            <a href="#">
+                            <td class="is-icon" title="继续支付">
+                            <a @click="continueToPay">
                               <i class="fa fa-share"></i>
                             </a>
                           </td>
-                          <td class="is-icon" title="停止应用">
+                          <td class="is-icon" title="取消订单">
                             <a @click="cancelOrder">
                               <i class="fa fa-times "></i>
                             </a>
@@ -87,6 +113,8 @@
     import {Tab, TabItem} from '../../ui/Tab'
     import Modal from '../../ui/Modal/Modal.vue'
 
+    import PayMethod from '../../ui/PayMethod.vue';
+
     let ModalCtrl = Vue.extend(Modal);
 
     export default{
@@ -94,13 +122,16 @@
             return {
                 msg: 'hello vue',
                 items1: [],
-                items2: []
+                items2: [],
+
+                showRePayForm: false
             }
         },
         components: {
             Tab,
             TabItem,
-            Modal
+            Modal,
+            PayMethod
         },
         ready : function() {
           this.$get('initPage')();
@@ -127,6 +158,13 @@
                 }).show();
 
             },
+
+            continueToPay: function() {
+
+              this.showRePayForm = true;
+
+            },
+
             initPage: function() {
 
               var _self = this;
