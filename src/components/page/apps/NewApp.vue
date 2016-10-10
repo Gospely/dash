@@ -208,14 +208,13 @@
                 price: '10 X 100 = 1000',
                 unitPrice: 0,
                 unitPrice: '10',
-                showPayForm: false,
+                total: 0,
 
+                showPayForm: false,
                 volumes: [],
                 isCreateApp: false,
-
                 withImage: false,
                 imageId: null,
-
                 showImageSelectorForm: false,
 
                 showCaculateResourceSlider: false,
@@ -318,6 +317,7 @@
 
                 this.currentActiveConfig = key;
                 this.unitPrice = dockerConfig.price;
+                this.total = this.unitPrice;
                 this.price = this.unitPrice +"X 1月 = "+this.unitPrice ;
 
             },
@@ -433,8 +433,8 @@
 
             'cycSelected': function(cyc) {
 
-                var total = cyc.cyc * this.unitPrice;
-                this.price = this.unitPrice +" X "+ cyc.cyc+" "+cyc.unit +" = "+total;
+                this.total = cyc.cyc * this.unitPrice;
+                this.price = this.unitPrice +" X "+ cyc.cyc+" "+cyc.unit +" = "+this.total;
                 console.log(cyc);
             }
         }

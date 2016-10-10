@@ -112,6 +112,7 @@
     import Vue from 'vue'
     import {Tab, TabItem} from '../../ui/Tab'
     import Modal from '../../ui/Modal/Modal.vue'
+    import Page from '../../ui/Page/Page.vue'
 
     import PayMethod from '../../ui/PayMethod.vue';
 
@@ -131,7 +132,8 @@
             Tab,
             TabItem,
             Modal,
-            PayMethod
+            PayMethod,
+            Page
         },
         ready : function() {
           this.$get('initPage')();
