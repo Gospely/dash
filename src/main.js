@@ -29,8 +29,17 @@ localStorage.login = typeof localStorage.login == 'undefined' ? 'false' : localS
 localStorage.userData = typeof localStorage.userData == 'undefined' ? '' : localStorage.userData;
 localStorage.accessToken = typeof localStorage.accessToken == 'undefined' ? '' : localStorage.accessToken;
 
+
 //初始化XMLHttpRequest RestfulAPI
 Vue.use(require('vue-resource'));
+
+Vue.http.options.root = 'http://api.gospely.com/';
+Vue.http.headers['x-gospely'] = 'moha';
+Vue.http.headers.withCredentials = true;
+if(localStorage.login == 'true') {
+	Vue.http.headers.common['Authorization'] = 'Basic ' + localStorage.accessToken;
+}
+Vue.http.headers.common['Authorization'] = 'test';
 
 Vue.use(VueRouter);
 
@@ -71,7 +80,7 @@ router.beforeEach(function (route) {
 
 //路由请求结束后调用
 router.afterEach(function () {
-    
+
 });
 
 new Vue({
@@ -81,10 +90,10 @@ new Vue({
 		title: 'Gospel - 控制台'
 	},
 	ready: function() {
+
     var store = services.init(this);
     window.services = store;
 	}
 });
 
 window.Vue = Vue;
-

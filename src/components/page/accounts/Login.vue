@@ -1,6 +1,6 @@
 <template>
-    <div class="container">
-        <bg></bg>
+    <div class="container" style="min-height:800px">
+
         <div class="signup-form ">
           <div class="signup-form__logo-box">
             <div class="signup-form__logo"></div>
@@ -31,7 +31,7 @@
           <div class="signup-form__sns-btn-area">
             <div>我们支持通过微信和Github登录</div>
             <div class="sns-button-list">
-              <a><span class="icon"><i class="fa fa-wechat"></i></span></a>
+              <a href="https://open.weixin.qq.com/connect/qrconnect?appid=wx48e0c6824ebf0d3a&redirect_uri=http://api.gospely.com/weixin/callback&response_type=code&scope=snsapi_login&state=12123#wechat_redirect"><span class="icon"><i class="fa fa-wechat"></i></span></a>
               <a><span class="icon"><i class="fa fa-github"></i></span></a>
             </div>
           </div>
@@ -77,13 +77,18 @@
                 <button class="button" @click="showForgotPwForm = false">取消</button>
             </div>
         </modal>
-
     </div>
+
 </template>
 <style>
 
     .container {
+        background: #b72f20;
         overflow: visible;
+    }
+
+    .app-main {
+        background: #b72f20;
     }
 
     .side-bar {
@@ -99,9 +104,8 @@
     }
 
     .app-main-body {
+        background: #b72f20;
         padding-left: 0px;
-        padding: 0px;
-        margin-top: 0px;
     }
 
 </style>
@@ -109,45 +113,27 @@
 
     import Vue from 'vue'
     import Modal from '../../ui/Modal/Modal.vue'
-    import bg from '../../ui/Bg.vue';
+    import Qrcanvas from 'jsqrgen-vue';
 
     export default{
         data () {
             return {
                 showForgotPwForm: false,
-                hasSent: false,
-                phone: '',
-                password: ''
+                hasSent: false
             }
         },
         components: {
             Modal,
-            bg
+            Qrcanvas
         },
 
         methods: {
             sendCode: function() {
-                this.hasSent = true;
+              
             },
 
-            verifyCode: function() {
+            confirmVerify: function() {
 
-            },
-            login: function() {
-              var user = {
-                phone: this.phone,
-                password: this.password,
-              };
-              services.UserService.login(user).then(function(res) {
-
-                if(res.status === 200){
-                  notification.alert('登录成功');
-
-                }
-              },function(err){
-                  notification.alert('服务器异常');
-              }
-              );
             }
         }
     }
