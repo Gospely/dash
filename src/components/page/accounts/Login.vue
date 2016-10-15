@@ -119,7 +119,9 @@
         data () {
             return {
                 showForgotPwForm: false,
-                hasSent: false
+                hasSent: false,
+                phone: '',
+                password: ''
             }
         },
         components: {
@@ -129,11 +131,38 @@
 
         methods: {
             sendCode: function() {
-              
+
             },
 
             confirmVerify: function() {
 
+            },
+            login: function() {
+
+              var user = {
+                  phone: this.phone,
+                  password: this.password
+              }
+              services.UserService.login(user).then(function(res) {
+
+                if(res.status === 200){
+                  console.log(res.data);
+                  if(res.data.code != 1){
+                      notification.alert(res.data.message,'danger');
+                  }else{
+
+                    localStorage.setItem("user",res.data.fields.token);
+                    localStorage.setItem("token",res.data.fields.token);
+                    notification.alert('登录成功');
+                    window.location.href = 'http://localhost:8088';
+                  }
+                }
+              },function(err){
+                  notification.alert('服务器异常','danger');
+                  this.phone = '';
+                  this.password = '';
+              }
+              );
             }
         }
     }

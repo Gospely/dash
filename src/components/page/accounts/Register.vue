@@ -96,10 +96,15 @@
             services.UserService.register(user).then(function(res) {
 
               if(res.status === 200){
-                notification.alert('登录成功');
+                notification.alert('注册成功');
+                window.location.href = 'http://localhost:8088';
               }
             },function(err){
                 notification.alert('服务器异常');
+                this.phone = '';
+                this.name = '';
+                this.password = '';
+                this.rePwd = '';
             }
             );
           },
