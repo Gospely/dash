@@ -24,29 +24,16 @@ if(document.domain != 'localhost') {
 document.title = 'Dodora 龙猫云';
 window.notification = notification;
 
-function getCookie(name){
-         var strCookie=document.cookie;
-         var arrCookie=strCookie.split("; ");
-         for(var i=0;i<arrCookie.length;i++){
-               var arr=arrCookie[i].split("=");
-               if(arr[0]==name)return arr[1];
-         }
-         return "";
-}
 //初始化用户登录状态
 localStorage.login = typeof localStorage.login == 'undefined' ? 'false' : localStorage.login;
 localStorage.userData = typeof localStorage.userData == 'undefined' ? '' : localStorage.userData;
 localStorage.accessToken = typeof localStorage.accessToken == 'undefined' ? '' : localStorage.accessToken;
-//从cookie中获取token
-if(localStorage.accessToken == undefined) {
-    localStorage.accessToken = getCookie('token');
-    console.log(accessToken);
-}
+
 
 //初始化XMLHttpRequest RestfulAPI
 Vue.use(require('vue-resource'));
 
-Vue.http.options.root = 'http://api.gospely.com/';
+Vue.http.options.root = 'http://api.gos.com/';
 Vue.http.headers['x-gospely'] = 'moha';
 Vue.http.headers.withCredentials = true;
 if(localStorage.login == 'true') {
