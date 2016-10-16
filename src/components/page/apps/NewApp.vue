@@ -24,11 +24,18 @@
                       <div class="content">
                         <div class="media-right" style="text-align:right">
                             <span class="is-tip">合计：</span>
-                            <span class="is-big">1200.00 元</span>
+                            <span class="is-big">{{price}} 元</span>
                         </div>
                       </div>
                     </div>
 
+                </div>
+                <div slot="footer">
+                    <button class="button is-success"
+                        @click="confirmRenew">
+                    确定
+                    </button>
+                    <button class="button" @click="showRenewForm = false">取消</button>
                 </div>
             </modal>
 
@@ -209,6 +216,8 @@
                 unitPrice: 0,
                 unitPrice: '10',
                 total: 0,
+                products: '',
+                size: 1,
 
                 showPayForm: false,
                 volumes: [],
@@ -305,6 +314,7 @@
             selectThisDockerConfig: function(dockerConfig, key) {
 
                 console.log(dockerConfig);
+                this.products = dockerConfig.id;
                 this.application.config = dockerConfig.id
                 this.showCaculateResourceSlider = !dockerConfig.free;
 
@@ -417,6 +427,20 @@
                   }
                 }
                 services.Common.list(options);
+            },
+            confirmRenew: function(){
+                console.log("pay");
+                services.OrderService.order({
+                  products: this.products,
+                  price: this.size * this.unitPrice,
+                  size: this.size,
+                  unitPrice: this.unitPrice
+                }).then(function(res){
+                    console.log(res);
+                    window.location.href = res.body;
+                },function(err,res){
+
+                });
             }
 
         },
@@ -434,6 +458,7 @@
             'cycSelected': function(cyc) {
 
                 this.total = cyc.cyc * this.unitPrice;
+                this.size = cyc.cyc;
                 this.price = this.unitPrice +" X "+ cyc.cyc+" "+cyc.unit +" = "+this.total;
                 console.log(cyc);
             }

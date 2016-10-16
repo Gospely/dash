@@ -120,7 +120,8 @@
                 price: 0,
                 unitPrice: 0,
                 month: 1,
-                freeSize: 5
+                freeSize: 5,
+                size: 1,
             }
         },
         components: {
@@ -141,6 +142,20 @@
 
             createVolume: function() {
                 this.isCreateVolume = true;
+
+                if(this.price != 0){
+                  services.OrderService.order({
+                    products: this.volume.config,
+                    price: this.size * this.unitPrice,
+                    size: this.size,
+                    unitPrice: this.unitPrice
+                  }).then(function(res){
+                      console.log(res);
+                      window.location.href = res.body;
+                  },function(err,res){
+
+                  });
+                }
                 console.log( this.volume);
                 this.volume.creator = '1';
                 var _self = this;
@@ -192,6 +207,7 @@
                 if(this.volume.size <= this.freeSize){
                     this.price = 0;
                 }else {
+                  this.size = cyc.cyc;
                   var total = cyc.cyc * this.unitPrice * this.volume.size;
                   this.price = this.unitPrice +" X "+ this.volume.size + " G " + " X " +cyc.cyc+" "+cyc.unit +" = "+total;
                   console.log(cyc);
