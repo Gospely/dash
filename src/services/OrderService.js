@@ -8,9 +8,9 @@ module.exports = {
 
 		return {
 
-			create: function(order) {
-				console.log(team.name);
-				return _this.$http.post(baseUrl + 'teams',team);
+			order: function(order){
+
+				return _this.$http.post(baseUrl + 'orders/order',order);
 			},
 			getOne: function(id) {
 				console.log(id);

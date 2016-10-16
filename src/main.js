@@ -37,14 +37,13 @@ function getCookie(name){
 
 //初始化XMLHttpRequest RestfulAPI
 Vue.use(require('vue-resource'));
-
 Vue.http.options.root = 'http://api.gospely.com/';
 Vue.http.headers['x-gospely'] = 'moha';
 Vue.http.headers.withCredentials = true;
 if(localStorage.getItem('token') != '' && localStorage.getItem('token') != undefined) {
 	Vue.http.headers.common['Authorization'] = localStorage.getItem('token');
 }
-console.log(localStorage.getItem('token') );
+console.log("token" + localStorage.getItem('token') );
 Vue.use(VueRouter);
 
 // Create a router instance.

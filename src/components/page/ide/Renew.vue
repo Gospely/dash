@@ -180,8 +180,10 @@
 
                 renewIDEVolumeForm: false,
                 fields: [],
-                price: 0,
-
+                price: 1,
+                unitPrice: 0,
+                size: 1,
+                products: '',
                 volume: {
                   size: 20
                 },
@@ -207,9 +209,18 @@
             },
 
             confirmRenew: function() {
+                services.OrderService.order({
+                  products: this.products,
+                  price: this.size * this.unitPrice,
+                  size: this.size,
+                  unitPrice: this.unitPrice
+                }).then(function(res){
+                    console.log(res);
+                    window.location.href = res.body;
+                },function(err,res){
 
+                });
             },
-
             confirmRenewIDEVolume: function() {
 
             },
@@ -237,9 +248,19 @@
         watch: {
            selected: function(item) {
 
-              this.price = item.price;
-              console.log();
+              this.products = item.id;
+              this.unitPrice = item.price;
+              this.price = this.unitPrice +" X 1 月 = "+this.unitPrice;
            }
        },
+       events: {
+         'cycSelected': function(cyc) {
+
+             this.size = cyc.cyc;
+             this.total = cyc.cyc * this.unitPrice;
+             this.price = this.unitPrice +" X "+ cyc.cyc+" "+cyc.unit +" = "+this.total;
+             console.log(cyc);
+         }
+       }
     }
 </script>
