@@ -34,7 +34,7 @@ function getCookie(name){
          }
          return "";
 }
-
+window.baseUrl ="http://"+ window.location.host
 //初始化XMLHttpRequest RestfulAPI
 Vue.use(require('vue-resource'));
 Vue.http.options.root = 'http://api.gospely.com/';
@@ -42,6 +42,13 @@ Vue.http.headers['x-gospely'] = 'moha';
 Vue.http.headers.withCredentials = true;
 //localStorage.removeItem('token');
 if(localStorage.getItem('token') != '' && localStorage.getItem('token') != undefined) {
+
+  var urls = window.location.href.split('?')
+  if(urls[0] == window.baseUrl + "/" && urls[1] !=''){
+    console.log(window.location.search);
+    localStorage.setItem("token" , window.location.search.split("%20=%20")[1].trim());
+    console.log(window.location.search.split("%20=%20")[1]);
+  }
 	Vue.http.headers.common['Authorization'] = localStorage.getItem('token');
 }
 Vue.use(VueRouter);
@@ -82,9 +89,11 @@ router.beforeEach(function (route) {
 
 //路由请求结束后调用
 console.log(window.location.host);
+
+
 router.afterEach(function () {
 
-  var base = "http://"+ window.location.host 
+  var base = "http://"+ window.location.host
   var loginUrl =base + "/#!/accounts/login";
 
   var register = base + '/#!/accounts/register';
@@ -110,5 +119,5 @@ new Vue({
     window.services = store;
 	}
 });
-window.baseUrl ="http://"+ window.location.host
+
 window.Vue = Vue;

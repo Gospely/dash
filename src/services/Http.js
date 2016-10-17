@@ -47,9 +47,10 @@ module.exports = {
         if(options.cb !=null && options.cb != undefined ){
 
           HTTP(options).then(options.cb,function(err){
-			notification.alert("服务器异常");
-	    	globalLoader.setAttribute('value', 100);
-	    	globalLoader.style.display = 'none';
+						console.log(err);
+						notification.alert("服务器异常",'danger');
+	    			globalLoader.setAttribute('value', 100);
+	    			globalLoader.style.display = 'none';
           }
           );
         }else{
@@ -62,36 +63,46 @@ module.exports = {
               if(res.status === 200){
 
                   var data = res.data;
-									if(data != 'Done!') {
-										//判断返回的数据是否是数组
-										if(isArray(data.fields)){
-												//数组绑定
+									if(data.code === 1) {
+										if(data != 'Done!') {
+											//判断返回的数据是否是数组
+											if(isArray(data.fields)){
+													//数组绑定
 
 
-												if(options.ctx[options.target] == null || options.ctx[options.target] == undefined ){
+													if(options.ctx[options.target] == null || options.ctx[options.target] == undefined ){
 
-														options.ctx.$data.all = data.all;
-														options.ctx.fields = data.fields
-												}else{
+															options.ctx.$data.all = data.all;
+															options.ctx.fields = data.fields
+													}else{
 
-														console.log("target" + options.target);
-														if(options.ctx.$data[options.all] != undefined){
-																options.ctx.$data[options.all] = data.all;
-														}
+															console.log("target" + options.target);
+															if(options.ctx.$data[options.all] != undefined){
+																	options.ctx.$data[options.all] = data.all;
+															}
 
-														options.ctx[options.target] = data.fields;
-												}
-										}else{
-												for(var field in data.fields){
+															options.ctx[options.target] = data.fields;
+													}
+											}else{
+													for(var field in data.fields){
 
-														//暂时判断，todo:转换成一个escape模块
-														if( field != 'password' && field != 'all' && field != 'cur'   ) {
-																if(Reflect.has(options.ctx.$data, field)){
-																		Reflect.set(options.ctx.$data, field, Reflect.get(data.fields, field))
-																}
-														}
-												}
+															//暂时判断，todo:转换成一个escape模块
+															if( field != 'password' && field != 'all' && field != 'cur'   ) {
+																	if(Reflect.has(options.ctx.$data, field)){
+																			Reflect.set(options.ctx.$data, field, Reflect.get(data.fields, field))
+																	}
+															}
+													}
+											}
 										}
+									}
+									if(data.code === -100){
+
+										notification.alert(data.message,'danger');
+										setTimeout(function(){
+
+												window.location.href = window.baseUrl + "/#!/accounts/login"
+										},1000)
 									}
 									if(options.msg != null && options.msg != undefined){
 											notification.alert(options.msg.success);
@@ -106,8 +117,9 @@ module.exports = {
 									}
                   //分页参数处理
               }else{
+
 								if(options.msg != null && options.msg != undefined){
-										notification.alert(options.msg.failed);
+										notification.alert(options.msg.failed,'danger');
 								}
               }
           },function(err){
