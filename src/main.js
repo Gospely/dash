@@ -109,5 +109,5 @@ new Vue({
     window.services = store;
 	}
 });
-
+window.baseUrl ="http://"+ document.domain + ":" +window.location.port
 window.Vue = Vue;
