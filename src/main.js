@@ -43,13 +43,15 @@ Vue.http.headers.withCredentials = true;
 //localStorage.removeItem('token');
 if(localStorage.getItem('token') != '' && localStorage.getItem('token') != undefined) {
 
+
+	Vue.http.headers.common['Authorization'] = localStorage.getItem('token');
+}else {
   var urls = window.location.href.split('?')
   if(urls[0] == window.baseUrl + "/" && urls[1] !=''){
     console.log(window.location.search);
-    localStorage.setItem("token" , window.location.search.split("%20=%20")[1].trim());
+    localStorage.setItem("token" , window.location.search.split("%20=%20")[1]);
     console.log(window.location.search.split("%20=%20")[1]);
   }
-	Vue.http.headers.common['Authorization'] = localStorage.getItem('token');
 }
 Vue.use(VueRouter);
 // Create a router instance.
