@@ -150,7 +150,7 @@
                   if(res.data.code != 1){
                       notification.alert(res.data.message,'danger');
                   }else{
-                    localStorage.setItem("user",res.data.fields.token);
+                    localStorage.setItem("user",res.data.fields);
                     localStorage.setItem("token",res.data.fields.token);
                     notification.alert('登录成功');
                     window.location.href = baseUrl;

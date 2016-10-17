@@ -83,7 +83,7 @@ router.beforeEach(function (route) {
 //路由请求结束后调用
 router.afterEach(function () {
 
-  var base = "http://"+ document.domain + ":" +window.location.port
+  var base = "http://"+ window.location.host + ":" +window.location.port
   var loginUrl =base + "/#!/accounts/login";
 
   var register = base + '/#!/accounts/register';
@@ -109,5 +109,5 @@ new Vue({
     window.services = store;
 	}
 });
-window.baseUrl ="http://"+ document.domain + ":" +window.location.port
+window.baseUrl ="http://"+ window.location.host + ":" +window.location.port
 window.Vue = Vue;
