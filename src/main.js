@@ -45,7 +45,6 @@ if(localStorage.getItem('token') != '' && localStorage.getItem('token') != undef
 }
 console.log("token" + localStorage.getItem('token') );
 Vue.use(VueRouter);
-
 // Create a router instance.
 // You can pass in additional options here, but let's
 // keep it simple for now.
@@ -83,6 +82,18 @@ router.beforeEach(function (route) {
 
 //路由请求结束后调用
 router.afterEach(function () {
+  console.log(window.location.href);
+  var base = "http://"+ document.domain + ":" +window.location.port
+  var loginUrl =base + "/#!/accounts/login";
+
+  var register = base + '/#!/accounts/register';
+  if(window.location.href == loginUrl || window.location.href == register){
+
+  }else{
+    if(localStorage.getItem('token') == '' || localStorage.getItem('token') == undefined) {
+        window.location.href = loginUrl
+    }
+  }
 
 });
 
