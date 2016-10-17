@@ -84,7 +84,7 @@ router.beforeEach(function (route) {
 console.log(window.location.host);
 router.afterEach(function () {
 
-  var base = "http://"+ window.location.host + ":" +window.location.port
+  var base = "http://"+ window.location.host 
   var loginUrl =base + "/#!/accounts/login";
 
   var register = base + '/#!/accounts/register';
