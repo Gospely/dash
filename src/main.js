@@ -81,6 +81,7 @@ router.beforeEach(function (route) {
 });
 
 //路由请求结束后调用
+console.log(window.location.host);
 router.afterEach(function () {
 
   var base = "http://"+ window.location.host + ":" +window.location.port
@@ -109,5 +110,5 @@ new Vue({
     window.services = store;
 	}
 });
-window.baseUrl ="http://"+ window.location.host + ":" +window.location.port
+window.baseUrl ="http://"+ window.location.host
 window.Vue = Vue;

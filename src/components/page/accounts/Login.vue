@@ -153,7 +153,8 @@
                     localStorage.setItem("user",res.data.fields);
                     localStorage.setItem("token",res.data.fields.token);
                     notification.alert('登录成功');
-                    window.location.href = baseUrl;
+                    alert(window.baseUrl);
+                    window.location.href = window.baseUrl;
                   }
                 }
               },function(err){
