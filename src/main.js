@@ -40,10 +40,10 @@ Vue.use(require('vue-resource'));
 Vue.http.options.root = 'http://api.gospely.com/';
 Vue.http.headers['x-gospely'] = 'moha';
 Vue.http.headers.withCredentials = true;
+//localStorage.removeItem('token');
 if(localStorage.getItem('token') != '' && localStorage.getItem('token') != undefined) {
 	Vue.http.headers.common['Authorization'] = localStorage.getItem('token');
 }
-console.log("token" + localStorage.getItem('token') );
 Vue.use(VueRouter);
 // Create a router instance.
 // You can pass in additional options here, but let's
@@ -82,7 +82,7 @@ router.beforeEach(function (route) {
 
 //路由请求结束后调用
 router.afterEach(function () {
-  console.log(window.location.href);
+
   var base = "http://"+ document.domain + ":" +window.location.port
   var loginUrl =base + "/#!/accounts/login";
 

@@ -10,7 +10,6 @@
           <div id="container-login">
             <div data-reactroot="" id="LoginComponent">
               <span>
-                <form>
                   <div class="input-field-group">
                     <div class="input-field">
                       <input type="text" v-model='phone' placeholder="邮箱/手机号码" autocapitalize="off" style="border: none;"></div>
@@ -18,7 +17,7 @@
                       <input type="password" v-model='password' placeholder="请输入密码" autocapitalize="off" style="border: none;"></div>
                   </div>
                   <ul class="error-msg-list"></ul>
-                  <button type="submit" class="signup-form__submit" @click="login">登录</button>
+                  <button  class="signup-form__submit" @click="login">登录</button>
                   <div class="signup-form-nav">
                     <div class="left">
                     </div>
@@ -26,7 +25,6 @@
                       <a v-link="{name:'signupa'}">注册新账户</a>&nbsp;&nbsp;<a @click="showForgotPwForm = true">忘记密码</a>
                     </div>
                   </div>
-                </form>
               </span>
             </div>
           </div>
@@ -139,22 +137,21 @@
             },
             login: function() {
 
+              alert("begin");
               var user = {
                   phone: this.phone,
                   password: this.password
               }
+
               services.UserService.login(user).then(function(res) {
 
+                alert(res.data.fields);
                 if(res.status === 200){
-                  console.log(res.data);
                   if(res.data.code != 1){
                       notification.alert(res.data.message,'danger');
                   }else{
-
                     localStorage.setItem("user",res.data.fields.token);
-                    localStorage.removeItem("token");
                     localStorage.setItem("token",res.data.fields.token);
-                    console.log(res.data.fields.token);
                     notification.alert('登录成功');
                     window.location.href = 'http://localhost:8088';
                   }
@@ -165,6 +162,7 @@
                   this.password = '';
               }
               );
+              alert("finish");
             }
         }
     }
