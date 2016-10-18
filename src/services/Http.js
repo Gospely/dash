@@ -63,7 +63,7 @@ module.exports = {
               if(res.status === 200){
 
                   var data = res.data;
-									if(data.code === 1) {
+									if(data.code == 1) {
 										if(data != 'Done!') {
 											//判断返回的数据是否是数组
 											if(isArray(data.fields)){

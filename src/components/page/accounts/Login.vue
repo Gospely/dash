@@ -15,6 +15,8 @@
                       <input type="text" v-model='phone' placeholder="邮箱/手机号码" autocapitalize="off" style="border: none;"></div>
                     <div class="input-field">
                       <input type="password" v-model='password' placeholder="请输入密码" autocapitalize="off" style="border: none;"></div>
+                      <div class="input-field">
+                        <img src="http://localhost:8089/users/code" alt="验证码" />
                   </div>
                   <ul class="error-msg-list"></ul>
                   <button  class="signup-form__submit" @click="login">登录</button>
@@ -118,7 +120,8 @@
                 showForgotPwForm: false,
                 hasSent: false,
                 phone: '',
-                password: ''
+                password: '',
+                img: '',
             }
         },
         components: {
@@ -161,6 +164,8 @@
                   notification.alert('服务器异常','danger');
                   this.phone = '';
                   this.password = '';
+
+                  this.img = 'http://localhost:8089/users/code'
               }
               );
               alert("finish");
