@@ -30,7 +30,7 @@
                         </td>
                         <td>个人版</td>
                         <td class="is-icon" title="升降级">
-                          <a @click="showRenewForm = true">
+                          <a @click="reNewIDE">
                             <i class="fa fa-level-up"></i>
                           </a>
                         </td>
@@ -207,7 +207,21 @@
             refreshIDEState: function() {
                 this.isRefresh = true;
             },
+            reNewIDE: function() {
+                this.showRenewForm = true;
+                services.OrderService.order({
+                  products: this.products,
+                  price: this.size * this.unitPrice,
+                  size: this.size,
+                  unitPrice: this.unitPrice,
+                  type: 'wechat'
+                }).then(function(res){
+                    console.log(res);
+                    //window.location.href = res.body;
+                },function(err,res){
 
+                });
+            },
             confirmRenew: function() {
                 services.OrderService.order({
                   products: this.products,
