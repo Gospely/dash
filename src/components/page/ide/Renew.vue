@@ -99,7 +99,7 @@
                       </div>
                     </div>
 
-                    <pay-method :qrcode.sync="qrcode" @weixin="useWeixin" @alipay="useAlipay"></pay-method>
+                    <pay-method :val.sync="qrcode" @weixin="useWeixin" @alipay="useAlipay"></pay-method>
 
                     <div class="media-content">
                       <div class="content">
@@ -135,7 +135,7 @@
                         </select>
                       </span>
                     </p>
-                    <pay-method :qrcode.sync="qrcode" @weixin="useWeixin" @alipay="useAlipay"></pay-method>
+                    <pay-method :val.sync="qrcode" @weixin="useWeixin" @alipay="useAlipay"></pay-method>
                     <div class="media-content">
                       <div class="content">
                         <div class="media-right" style="text-align:right">
@@ -190,7 +190,7 @@
 
                 isWeixin: false,
 
-                qrcode: 'http://qr.api.cli.im/qr?data=http%253A%252F%252Fivydom.com&level=H&transparent=false&bgcolor=%23ffffff&forecolor=%23000000&blockpixel=12&marginblock=1&logourl=&size=280&kid=cliim&key=fa75fe444c541a16f37237eebf2a3426'
+                qrcode: 'http://www.baidu.com'
             }
         },
         components: {
@@ -208,6 +208,8 @@
                 this.isRefresh = true;
             },
             reNewIDE: function() {
+
+                var _self = this;
                 this.showRenewForm = true;
                 services.OrderService.order({
                   products: this.products,
@@ -217,6 +219,7 @@
                   type: 'wechat'
                 }).then(function(res){
                     console.log(res);
+                    _self.qrcode = res.data.code_url;
                     //window.location.href = res.body;
                 },function(err,res){
 
@@ -265,6 +268,7 @@
               this.products = item.id;
               this.unitPrice = item.price;
               this.price = this.unitPrice +" X 1 月 = "+this.unitPrice;
+               this.reNewIDE();
            }
        },
        events: {
@@ -274,6 +278,7 @@
              this.total = cyc.cyc * this.unitPrice;
              this.price = this.unitPrice +" X "+ cyc.cyc+" "+cyc.unit +" = "+this.total;
              console.log(cyc);
+             this.reNewIDE();
          }
        }
     }

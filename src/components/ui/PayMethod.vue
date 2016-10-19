@@ -18,7 +18,14 @@
 	 	<span v-show="showTips" class="help is-success">{{tips}}</span>
 
         <div v-show="isWechat">
-            <div v-bind:style="{backgroundImage: 'url(' + qrcode + ')'}" style="background-position:center center;background-size:100%;width:130px;height:130px"></div>
+					<div>
+							<canvas
+								:style="{height: size + 'px', width: size + 'px'}"
+								height={{size}}
+								width={{size}}
+								v-el:qr
+							></canvas>
+					</div>
             <span class="help is-success">请使用微信扫码支付</span>
         </div>
 
@@ -27,7 +34,7 @@
 </template>
 
 <script>
-
+import qr from 'qr.js'
 	export default {
 
 		data () {
@@ -54,14 +61,24 @@
 					return '支持支付宝和微信支付';
 				}
 			},
-
-			qrcode: {
-				type: String,
-				default () {
-					return 'http://qr.api.cli.im/qr?data=http%253A%252F%252Fivydom.com&level=H&transparent=false&bgcolor=%23ffffff&forecolor=%23000000&blockpixel=12&marginblock=1&logourl=&size=280&kid=cliim&key=fa75fe444c541a16f37237eebf2a3426';
-				}
-			}
-
+			val: {
+	      type: String,
+	      required: true
+	    },
+	    size: {
+	      type: Number,
+	      default: 200
+	    },
+	    // 'L', 'M', 'Q', 'H'
+	    level: String,
+	    bgColor: {
+	      type: String,
+	      default: '#FFFFFF'
+	    },
+	    fgColor: {
+	      type: String,
+	      default: '#000000'
+	    }
 		},
 
 		methods: {
@@ -76,12 +93,62 @@
                 this.isWechat = true;
                 this.isAlipay = false;
                 this.$dispatch('weixin');
-            }
-
-		}
-
+            },
+				    update () {
+				      var size = this.size
+				      var bgColor = this.bgColor
+				      var fgColor = this.fgColor
+				      var $qr = this.$els.qr
+				      var qrcode = qr(this.val)
+				      var ctx = $qr.getContext('2d')
+				      var cells = qrcode.modules
+				      var tileW = size / cells.length
+				      var tileH = size / cells.length
+				      var scale = (window.devicePixelRatio || 1) / getBackingStorePixelRatio(ctx)
+				      $qr.height = $qr.width = size * scale
+				      ctx.scale(scale, scale)
+				      cells.forEach(function (row, rdx) {
+				        row.forEach(function (cell, cdx) {
+				          ctx.fillStyle = cell ? fgColor : bgColor
+				          var w = (Math.ceil((cdx + 1) * tileW) - Math.floor(cdx * tileW))
+				          var h = (Math.ceil((rdx + 1) * tileH) - Math.floor(rdx * tileH))
+				          ctx.fillRect(Math.round(cdx * tileW), Math.round(rdx * tileH), w, h)
+				        })
+				      })
+				    }
+		},
+		watch: {
+				 size: function(){
+					 this.update()
+				 },
+				 val: function(){
+					 console.log("val");
+					 this.update()
+				 },
+				 level: function(){
+					 this.update()
+				 },
+				 bgColor: function(){
+					 this.update()
+				 },
+				 fgColor: function(){
+					 this.update()
+				 }
+			 },
+	 ready () {
+		 this.update()
+	 },
 	}
-
+	function getBackingStorePixelRatio (ctx) {
+	  return (
+	    ctx.webkitBackingStorePixelRatio ||
+	    ctx.mozBackingStorePixelRatio ||
+	    ctx.msBackingStorePixelRatio ||
+	    ctx.oBackingStorePixelRatio ||
+	    ctx.backingStorePixelRatio ||
+	    1
+	  )
+	}
 </script>
 
 <style>
