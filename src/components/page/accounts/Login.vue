@@ -140,7 +140,6 @@
             },
             login: function() {
 
-              alert("begin");
               var user = {
                   phone: this.phone,
                   password: this.password
@@ -170,7 +169,6 @@
                   this.img = 'http://localhost:8089/users/code'
               }
               );
-              alert("finish");
             }
         }
     }
