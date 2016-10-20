@@ -4,20 +4,20 @@
         <div class="columns">
             <div class="column">
 
-                <label class="label">修改子域名</label>                
+                <label class="label">修改子域名</label>
                 <div class="columns">
-                    
+
                     <div class="column is-half">
                         <p class="control">
-                            <input class="input" type="text" placeholder="">
-                        </p>                        
+                            <input class="input" type="text" placeholder=""  v-model="subDomain">
+                        </p>
                     </div>
                     <span class="is-tip" style="line-height: 3.3;">.gospely.com</span>
 
                     <div class="column">
                         <p class="control">
                             <button class="button is-primary" @click="saveChanges">保存更改</button>
-                        </p>                        
+                        </p>
                     </div>
 
                 </div>
@@ -49,7 +49,7 @@
 
         <div class="columns">
             <div class="column">
-                      
+
                 <label class="label">绑定域名</label>
                 <p class="control">
                     <button class="button is-success" @click="addDomain">增加</button>
@@ -57,20 +57,20 @@
 
                 <table class="table">
                   <thead>
-                    <tr>
+                    <tr >
                       <th>域名</th>
                       <th>CNAME</th>
                       <th>绑定时间</th>
-                      <th></th>                        
-                      <th></th>                        
+                      <th></th>
+                      <th></th>
                     </tr>
                   </thead>
                   <tbody>
-                    <tr>
-                      <td>ivydom.com</td>
-                      <td>192.168.1.1</td>
+                    <tr v-for="item in fields">
+                      <td>{{item.domain}}</td>
+                      <td>{{item.ip}}</td>
                       <td>
-                      2016-08-07
+                      {{item.createat}}
                       </td>
                       <td class="is-icon" title="编辑信息">
                         <a @click="editThisDomain()">
@@ -81,7 +81,7 @@
                         <a @click="removeThisDomain()">
                           <i class="fa fa-times "></i>
                         </a>
-                      </td>                          
+                      </td>
                     </tr>
                   </tbody>
                 </table>
@@ -103,7 +103,11 @@
             return {
                 showDomainAddingForm: false,
                 isEditDomain: false,
-                domainInfoFormName: '绑定域名'
+                domainInfoFormName: '绑定域名',
+                application: '',
+                fields: [],
+                subDomain: '',
+                oldDomain: ''
             }
         },
 
@@ -161,8 +165,75 @@
 
             saveChanges: function() {
 
+                var _self = this;
+                if(this.domains !=  this.oldDomain){
+
+                    services.Common.create({
+                        param:{
+                          domain: this.domain + '.gospely.com',
+                          creator: currentUser,
+                          application: _self.application
+                        },
+                        url: 'domains',
+                        cb:function(res){
+                            if(res.status == 200){
+
+                                services.Common.update({
+                                    param:{
+                                      id: _self.application,
+                                      domain:  _self.domain + '.gospely.com',
+                                    },
+                                    url: 'applications',
+                                    ctx: _self
+                                });
+                            }
+                        }
+                    });
+                }else{
+                    notification.alert("未修改域名，请确认");
+                }
+            },
+            initDomains: function() {
+
+                var _self = this;
+                services.Common.list({
+
+                    param:{
+                        application: _self.application,
+                    },
+                    url: 'domains',
+                    ctx: _self,
+                });
+            },
+            initApplication:function(){
+              var _self = this;
+              services.Common.getOne({
+
+                  param:{
+                      id: _self.application,
+                  },
+                  url: 'applications',
+                  cb: function(res){
+                      if(res.status == 200){
+
+                          var data = res.data;
+
+                          if(data.code == 1){
+                              _self.subDomain = data.fields.domain.replace(".gospely.com","");
+                              _self.oldDomain = data.fields.domain.replace(".gospely.com","");
+                          }
+                      }
+                  }
+              });
             }
 
+        },
+        ready: function() {
+
+            var split = window.location.href.split("/")
+            this.application = split[split.length -1 ];
+            this.$get("initDomains")();
+            this.$get("initApplication")();
         }
     }
 </script>
