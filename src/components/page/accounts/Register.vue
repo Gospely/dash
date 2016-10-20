@@ -20,9 +20,9 @@
                     <div class="input-field">
                       <input type="text" v-model="authCode" placeholder="验证码" autocapitalize="off" style="border: none;" v-show="isPhone" ></div>
                   </div>
-                  <a class="button" @click="getTelCode" v-show="isPhone">{{btn_info}}</a>
+                  <a class="button" @click="getTelCode" v-show="isPhone" :disabled="btn_disabled">{{btn_info}}</a>
                   <ul class="error-msg-list"></ul>
-                  <button class="signup-form__submit" @click="register" :disabled="btn_disabled">注册</button>
+                  <button class="signup-form__submit" @click="register" >注册</button>
                   <div class="signup-form-nav">
                     <div class="left">
                     </div>
@@ -117,15 +117,14 @@
 
             var _self = this;
 
-
             _self.btn_info = _self.wait;
             if (_self.wait == 0) {
-                _self.btn_info_self.wait="免费获取验证码";
-                _self.btn_disabled = true;
+                _self.btn_info = "免费获取验证码";
+                _self.btn_disabled = false;
                 _self.wait = 60;
             } else {
                 _self.btn_info="重新发送(" +_self.wait + ")";
-                _self.btn_disabled = false;
+                _self.btn_disabled = true;
                 _self.wait--;
                 setTimeout(function() {
                     _self.getTelCode()
