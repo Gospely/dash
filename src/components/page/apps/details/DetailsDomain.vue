@@ -27,11 +27,11 @@
                     <div slot="body">
                         <label class="label">域名名称</label>
                         <p class="control">
-                          <input class="input" type="text" placeholder="域名名称">
+                          <input class="input" type="text" placeholder="域名名称" v-model='edit.domain'>
                         </p>
                         <label class="label">CNAME</label>
                         <p class="control has-icon has-icon-right">
-                          <input class="input is-success" type="text" placeholder="CNAME" value="">
+                          <input class="input is-success" type="text" placeholder="CNAME" v-model='edit.ip'>
                           <i class="fa fa-check"></i>
                           <span class="help is-success">指向域名</span>
                         </p>
@@ -73,12 +73,12 @@
                       {{item.createat}}
                       </td>
                       <td class="is-icon" title="编辑信息">
-                        <a @click="editThisDomain()">
+                        <a @click="editThisDomain(item)">
                           <i class="fa fa-edit"></i>
                         </a>
                       </td>
                       <td class="is-icon" title="删除绑定">
-                        <a @click="removeThisDomain()">
+                        <a @click="removeThisDomain(item)">
                           <i class="fa fa-times "></i>
                         </a>
                       </td>
@@ -107,7 +107,12 @@
                 application: '',
                 fields: [],
                 subDomain: '',
-                oldDomain: ''
+                oldDomain: '',
+                edit:{
+                  domain: '',
+                  ip: '',
+                  id: ''
+                },
             }
         },
 
@@ -133,16 +138,39 @@
             },
 
             confirmAddDomain: function() {
+
+                var _self = this;
+                if(this.isEditDomain){
+                    services.Common.update({
+                      param: _self.edit,
+                      url: 'domains',
+                      ctx: _self,
+                      reload: _self.$get("initDomains")()
+                    });
+                }else{
+                  services.Common.save({
+                    domain: edit.domain,
+                    ip: edit.ip,
+                    creator: currentUser,
+                    application: _self.application,
+                    ctx: _self,
+                    reload: _self.$get("initDomains")()
+                  });
+                }
                 this.hideAddDomainForm();
             },
 
-            editThisDomain: function() {
+            editThisDomain: function(item) {
                 this.domainInfoFormName = '修改域名';
                 this.isEditDomain = true;
+                this.edit = item;
                 this.showAddDomainForm();
             },
 
-            removeThisDomain: function() {
+            removeThisDomain: function(item) {
+
+
+                var _self = this;
                 new ModalCtrl({
                     el: document.createElement('div'),
                     props: {
@@ -156,8 +184,20 @@
                     },
                     events: {
                         'confirmed': function() {
-                            console.log('sssss');
+                            console.log(item);
+
+
+                            services.Common.delete({
+
+                                param:{
+                                    id: item.id,
+                                },
+                                url: 'domains',
+                                ctx: _self,
+                                reload: _self.$get("initDomains")(),
+                            });
                             this.$destroy(true);
+
                         }
                     }
                 }).show();
@@ -170,9 +210,11 @@
 
                     services.Common.create({
                         param:{
-                          domain: this.domain + '.gospely.com',
+                          domain: _self.subDomain + '.gospely.com',
                           creator: currentUser,
-                          application: _self.application
+                          application: _self.application,
+                          reload: _self.$get("initDomains")()
+
                         },
                         url: 'domains',
                         cb:function(res){
@@ -181,11 +223,13 @@
                                 services.Common.update({
                                     param:{
                                       id: _self.application,
-                                      domain:  _self.domain + '.gospely.com',
+                                      domain:  _self.subDomain + '.gospely.com',
                                     },
                                     url: 'applications',
-                                    ctx: _self
+                                    ctx: _self,
+                                    reload: _self.$get("initApplication")()
                                 });
+
                             }
                         }
                     });
