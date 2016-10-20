@@ -63,13 +63,12 @@ module.exports = {
               if(res.status === 200){
 
                   var data = res.data;
+
 									if(data.code == 1) {
 										if(data != 'Done!') {
 											//判断返回的数据是否是数组
 											if(isArray(data.fields)){
 													//数组绑定
-
-
 													if(options.ctx[options.target] == null || options.ctx[options.target] == undefined ){
 
 															options.ctx.$data.all = data.all;
@@ -123,9 +122,8 @@ module.exports = {
 								}
               }
           },function(err){
-							notification.alert("服务器异常");
+							notification.alert("服务器异常",'danger');
 							//切换提醒方式
-
           }
           );
         }

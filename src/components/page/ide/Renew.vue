@@ -268,7 +268,7 @@
               this.products = item.id;
               this.unitPrice = item.price;
               this.price = this.unitPrice +" X 1 月 = "+this.unitPrice;
-               this.reNewIDE();
+              this.reNewIDE();
            }
        },
        events: {

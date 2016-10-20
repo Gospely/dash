@@ -18,7 +18,7 @@
                 <div slot="header">付款</div>
                 <div slot="body">
 
-                    <pay-method></pay-method>
+                    <pay-method :val.sync="qrcode"></pay-method>
 
                     <div class="media-content">
                       <div class="content">
@@ -218,6 +218,7 @@
                 total: 0,
                 products: '',
                 size: 1,
+                qrcode: '' ,
 
                 showPayForm: false,
                 volumes: [],
@@ -303,6 +304,25 @@
         },
 
         methods: {
+
+          genQrcode: function() {
+
+              var _self = this;
+              this.showRenewForm = true;
+              services.OrderService.order({
+                products: this.products,
+                price: this.size * this.unitPrice,
+                size: this.size,
+                unitPrice: this.unitPrice,
+                type: 'wechat'
+              }).then(function(res){
+                  console.log(res);
+                  _self.qrcode = res.data.code_url;
+                  //window.location.href = res.body;
+              },function(err,res){
+
+              });
+          },
             hideImageSelectorForm: function() {
                 this.showImageSelectorForm = false;
             },
@@ -430,6 +450,7 @@
             },
             confirmRenew: function(){
                 console.log("pay");
+                this.genQrcode();
                 services.OrderService.order({
                   products: this.products,
                   price: this.size * this.unitPrice,

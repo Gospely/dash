@@ -24,16 +24,16 @@ if(document.domain != 'localhost') {
 document.title = 'Dodora 龙猫云';
 window.notification = notification;
 
-function getCookie(name){
-         var strCookie=document.cookie;
-         console.log(strCookie);
-         var arrCookie=strCookie.split("; ");
-         for(var i=0;i<arrCookie.length;i++){
-               var arr=arrCookie[i].split("=");
-               if(arr[0]==name)return arr[1];
-         }
-         return "";
-}
+// function getCookie(name){
+//          var strCookie=document.cookie;
+//          console.log(strCookie);
+//          var arrCookie=strCookie.split("; ");
+//          for(var i=0;i<arrCookie.length;i++){
+//                var arr=arrCookie[i].split("=");
+//                if(arr[0]==name)return arr[1];
+//          }
+//          return "";
+// }
 window.baseUrl ="http://"+ window.location.host
 //初始化XMLHttpRequest RestfulAPI
 Vue.use(require('vue-resource'));

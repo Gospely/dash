@@ -12,7 +12,7 @@
                       <input class="input" type="text" placeholder="请输入充值金额">
                     </p>
                     <label class="label">支付方式</label>
-                    <pay-method @weixin="useWeinxin" @alipay="useAlipay"></pay-method>
+                    <pay-method :val.sync="qrcode" @weixin="useWeinxin" @alipay="useAlipay"></pay-method>
                 </div>
                 <div slot="footer">
                     <button class="button is-success"
@@ -32,31 +32,16 @@
 
                         <hr class="split">
 
-                        <article class="message">
+                        <article class="message" v-for="item in fields" v-show="item.show" >
                             <div class="message-body">
                                 <div class="message-title">
-                                    <h4>企业版</h4>
+                                    <h4>{{item.name}}</h4>
                                     <div class="meal-set-right">
                                         <a class="button is-small"><i class="fa fa-check"></i></a>
                                     </div>
                                     <hr class="split">
                                 </div>
-                                sem eget, facilisis sodales sem.
-                            </div>
-                        </article>
-
-                        <article class="message">
-                            <div class="message-body">
-                                <div class="message-title">
-                                    <h4>教育版</h4>
-                                    <div class="meal-set-right">
-                                        <a class="button is-small"><i class="fa fa-check"></i></a>
-                                    </div>
-                                    <hr class="split">
-                                </div>
-                                Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-                                id porttitor mi magna a neque. Donec dui urna, vehicula et
-                                sem eget, facilisis sodales sem.
+                                {{item.description}}
                             </div>
                         </article>
 
@@ -191,6 +176,7 @@
         text-align: right;
     }
 
+
 </style>
 <script>
 
@@ -202,12 +188,31 @@
     export default{
         data () {
             return {
+                currentIDE: '1',
+                fields: [{
+                  id: 1,
+                  name: '专业版',
+                  description: '最适合开发着的版本',
+                  show: true
+                },
+                  {
+                    id: 2,
+                    name: '教育版',
+                    description: '最适合开发着的版本',
+                    show: true
+                },
+                {
+                  id: 3,
+                  name: '个人版',
+                  description: '最适合开发着的版本',
+                  show: false
+                },],
                 showTopupForm: false,
                 showSetMealForm: false,
 
                 isWechat: true,
                 isAlipay: false,
-
+                qrcode: 'ssasdsadas',
                 setMeal: {
                     totalStep: 2,
                     currentStep: 1
@@ -232,11 +237,15 @@
             },
 
             changeSetMeal: function() {
+
                 this.showSetMealForm = true;
             },
 
             chooseSetMeal: function() {
 
+                this.showSetMealForm = false;
+                this.showTopupForm = true;
+                this.genQrcode();
             },
 
             setMealNextStep: function() {
@@ -252,7 +261,25 @@
             },
 
             useWeinxin: function() {
-                
+
+            },
+            genQrcode: function() {
+
+                var _self = this;
+                this.showRenewForm = true;
+                services.OrderService.order({
+                  products: this.products,
+                  price: this.size * this.unitPrice,
+                  size: this.size,
+                  unitPrice: this.unitPrice,
+                  type: 'wechat'
+                }).then(function(res){
+                    console.log(res);
+                    _self.qrcode = res.data.code_url;
+                    //window.location.href = res.body;
+                },function(err,res){
+
+                });
             }
 
         }
