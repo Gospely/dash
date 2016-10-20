@@ -28,11 +28,11 @@
                 <div slot="body">
 
                     <div v-show="setMeal.currentStep == 1" class="step1">
-                        <span class="help is-tip">您当前的版本为：个人版</span>
+                        <span class="help is-tip">您当前的版本为：教育版</span>
 
                         <hr class="split">
 
-                        <article class="message" v-for="item in fields" v-show="item.show" >
+                        <article class="message" v-for="item in fields"  >
                             <div class="message-body">
                                 <div class="message-title">
                                     <h4>{{item.name}}</h4>
@@ -189,24 +189,7 @@
         data () {
             return {
                 currentIDE: '1',
-                fields: [{
-                  id: 1,
-                  name: '专业版',
-                  description: '最适合开发着的版本',
-                  show: true
-                },
-                  {
-                    id: 2,
-                    name: '教育版',
-                    description: '最适合开发着的版本',
-                    show: true
-                },
-                {
-                  id: 3,
-                  name: '个人版',
-                  description: '最适合开发着的版本',
-                  show: false
-                },],
+                fields: [],
                 showTopupForm: false,
                 showSetMealForm: false,
 
@@ -280,8 +263,40 @@
                 },function(err,res){
 
                 });
-            }
+            },
+            initIDE: function(){
 
+                var _self = this;
+                services.Common.list({
+                  param:{
+                    type: 'ide'
+                  },
+                  url: 'products',
+                  cb: function(res){
+
+                        if(res.status == 200){
+
+                            var data = res.data;
+                            if(data.code == 1){
+
+                                console.log(data.fields);
+                                var show = new Array();
+                                for(var i = 0; i<= data.fields.length-1; i++){
+                                    if(data.fields[i].id != _self.currentIDE){
+                                      show.push(data.fields[i])
+                                    }
+                                }
+                                console.log(show);
+                                _self.fields = show;
+                            }
+                        }
+
+                  }
+                });
+            }
+        },
+        ready: function(){
+            this.$get("initIDE")();
         }
     }
 </script>

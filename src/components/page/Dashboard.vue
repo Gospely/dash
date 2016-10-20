@@ -6,25 +6,25 @@
             <div class="column">
                 <div class="notification is-success has-text-centered">
                     <p class="title">应用</p>
-                    <p class="subtitle">22</p>
+                    <p class="subtitle">{{applicationsCount}}</p>
                 </div>
             </div>
             <div class="column">
                 <div class="notification is-info has-text-centered">
                     <p class="title">域名</p>
-                    <p class="subtitle">22</p>
+                    <p class="subtitle">{{domainsCount}}</p>
                 </div>
             </div>
             <div class="column">
                 <div class=" notification is-warning has-text-centered">
                     <p class="title">运行中</p>
-                    <p class="subtitle">20</p>
+                    <p class="subtitle">{{application_running}}</p>
                 </div>
             </div>
             <div class="column">
                 <div class="notification is-danger has-text-centered">
                     <p class="title">已停止</p>
-                    <p class="subtitle">2</p>
+                    <p class="subtitle">{{application_stop}}</p>
                 </div>
             </div>
         </div>
@@ -33,7 +33,7 @@
         <div class="columns">
             <div class="column is-one-third">
                 <p class="notification has-text-centered">
-                    <span class="title">版本<br><span class="subtitle">个人版</span></span>
+                    <span class="title">版本<br><span class="subtitle">{{version}}</span></span>
                 </p>
             </div>
             <div class="column">
@@ -175,10 +175,6 @@
 <style>
     /* always present */
     .expand-transition {
-        transition: all .3s ease;
-        height: 30px;
-        padding: 10px;
-        background-color: #eee;
         overflow: hidden;
     }
 
@@ -197,6 +193,11 @@
     export default{
         data () {
             return {
+                applicationsCount: 0,
+                domainsCount: 0,
+                application_running: 0,
+                application_stop: 0,
+                version: '个人版',
                 doughnutData: [200, 300, 400],
                 barData: {
                     labels: ['January', 'February', 'March', 'April', 'May', 'June', 'July'],
@@ -253,6 +254,77 @@
                     ]
                 }
             }
+        },
+        ready: function() {
+
+            if(localStorage.getItem('ideName') != undefined){
+                  this.version = localStorage.getItem('ideName');
+            }
+
+            var _self = this;
+            console.log(currentUser);
+            services.Common.count({
+                url: 'applications',
+                param: {
+                    creator: currentUser
+                },
+                cb: function(res){
+                      if(res.status == 200){
+                          var data = res.data;
+                          if(data.code == 1){
+
+                              _self.applicationsCount = data.fields;
+                          }
+                      }
+                }
+            });
+            services.Common.count({
+                url: 'applications',
+                param: {
+                    creator: currentUser,
+                    status:0,
+                },
+                cb: function(res){
+                      if(res.status == 200){
+                          var data = res.data;
+                          if(data.code == 1){
+
+                              _self.application_stop = data.fields;
+                          }
+                      }
+                }
+            });
+            services.Common.count({
+                url: 'applications',
+                param: {
+                    creator: currentUser,
+                    status:1,
+                },
+                cb: function(res){
+                      if(res.status == 200){
+                          var data = res.data;
+                          if(data.code == 1){
+
+                              _self.application_running = data.fields;
+                          }
+                      }
+                }
+            });
+            services.Common.count({
+                url: 'domains',
+                param: {
+                    creator: currentUser
+                },
+                cb: function(res){
+                      if(res.status == 200){
+                          var data = res.data;
+                          if(data.code == 1){
+
+                              _self.domainsCount = data.fields;
+                          }
+                      }
+                }
+            });
         },
         computed: {
             dynamicDoughnutData () {

@@ -153,10 +153,12 @@
                   if(res.data.code != 1){
                       notification.alert(res.data.message,'danger');
                   }else{
-                    localStorage.setItem("user",res.data.fields);
+                    console.log(res.data.fields);
+                    localStorage.setItem("user",res.data.fields.id);
+                    localStorage.setItem("ide",res.data.fields.ide);
+                    localStorage.setItem("ideName",res.data.fields.ideName);
                     localStorage.setItem("token",res.data.fields.token);
                     notification.alert('登录成功');
-                    alert(window.baseUrl);
                     window.location.href = window.baseUrl;
                   }
                 }

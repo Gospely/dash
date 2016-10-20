@@ -29,6 +29,16 @@ module.exports ={
       getOne: function(options) {
         options.url = options.url + "/" + options.param.id
         request.get(options);
+      },
+      count: function(options) {
+
+        var query = utils.toParam(options.param);
+        var url = options.url;
+        if(query != null && query != undefined && query != '' ){
+            options.url = options.url+"/number?"+query;
+        }
+        console.log(query);
+        request.get(options);
       }
 
 		}
