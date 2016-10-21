@@ -157,7 +157,7 @@
                   });
                 }
                 console.log( this.volume);
-                this.volume.creator = '1';
+                this.volume.creator = currentUser;
                 var _self = this;
                 var options = {
 

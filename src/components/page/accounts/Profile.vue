@@ -248,7 +248,7 @@
                     reader.readAsDataURL(file);
                     reader.onload = function(e){
                       var user = {
-                        id: '1',
+                        id: currentUser,
                         photo: this.result
                       }
                       services.UserService.uploadHead(user).then(function(res) {

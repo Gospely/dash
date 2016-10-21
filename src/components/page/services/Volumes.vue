@@ -5,17 +5,17 @@
         <hr>
         <div class="content">
 
-            <a v-link="{name:'newvolumes'}" class="button is-primary">
+            <!-- <a v-link="{name:'newvolumes'}" class="button is-primary">
               创建数据卷
             </a>
 
             <a class="button is-primary" v-bind:class="{'is-loading': isRefresh}" @click="refreshAppList">
               <i class="fa fa-refresh" aria-hidden="true"></i>
-            </a>
+            </a> -->
 
             <tab :active-index = "0" style= "width: 100%;">
                 <tab-item title="基本型数据卷">
-                    <table class="table">
+                    <!-- <table class="table">
                       <thead>
                         <tr>
                           <th>名称</th>
@@ -27,18 +27,18 @@
                         </tr>
                       </thead>
                       <tbody></tbody>
-                    </table>
+                    </table> -->
                     <section class="section">
                         <div class="columns">
                             <div class="column is-half">
                                 <div class="box">
-                                    <h3 class="title">Basic</h3>
+                                    <h3 class="title">已使用</h3>
                                     <chart :type = "'pie'" :data = "chartData"></chart>
                                 </div>
                             </div>
                             <div class="column is-half">
                                 <div class="box">
-                                    <h3 class="title">Dynamic</h3>
+                                    <h3 class="title">全部数据卷</h3>
                                     <chart :type = "'pie'" :data = "dynamicChartData"></chart>
                                 </div>
                             </div>
@@ -46,7 +46,7 @@
                     </section>
                 </tab-item>
                 <tab-item title="拓展型数据卷">
-                    <table class="table">
+                    <!-- <table class="table">
                       <thead>
                         <tr>
                           <th>名称</th>
@@ -58,18 +58,18 @@
                         </tr>
                       </thead>
                         <tbody></tbody>
-                    </table>
+                    </table> -->
                     <section class="section">
                         <div class="columns">
                             <div class="column is-half">
                                 <div class="box">
-                                    <h3 class="title">Basic</h3>
+                                    <h3 class="title">已使用</h3>
                                     <chart :type = "'pie'" :data = "chartData"></chart>
                                 </div>
                             </div>
                             <div class="column is-half">
                                 <div class="box">
-                                    <h3 class="title">Dynamic</h3>
+                                    <h3 class="title">全部数据卷</h3>
                                     <chart :type = "'pie'" :data = "dynamicChartData"></chart>
                                 </div>
                             </div>
@@ -84,7 +84,7 @@
 <style>
 </style>
 <script>
-import Chart from '../../ui/Chart.vue'
+    import Chart from '../../ui/Chart.vue'
     import {Tab, TabItem} from '../../ui/Tab'
     import Page from '../../ui/Page/Page.vue'
 
@@ -98,7 +98,7 @@ import Chart from '../../ui/Chart.vue'
                       'Yellow'
                   ],
                   datasets: [{
-                      data: this.data,
+                      data: this.dynamicData,
                       backgroundColor: [
                           '#FF6384',
                           '#36A2EB',
@@ -110,16 +110,14 @@ import Chart from '../../ui/Chart.vue'
           dynamicChartData () {
               return {
                   labels: [
-                      'Red',
-                      'Blue',
-                      'Yellow'
+                      '已使用',
+                      '未使用',
                   ],
                   datasets: [{
-                      data: this.dynamicData,
+                      data: this.data,
                       backgroundColor: [
                           '#FF6384',
                           '#36A2EB',
-                          '#FFCE56'
                       ]
                   }]
               }

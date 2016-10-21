@@ -71,7 +71,7 @@
         <div class="columns">
             <div class="column">
                 <p class="notification has-text-centered">
-                    <span class="title">数据卷<br><span class="subtitle">10个</span></span>
+                    <span class="title">数据卷<br><span class="subtitle">使用图表展示</span></span>
                 </p>
             </div>
         </div>

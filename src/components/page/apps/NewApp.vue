@@ -369,7 +369,7 @@
                 this.showPayForm = true;
 
                 this.application.image = this.imageId;
-                this.application.creator = '1';
+                this.application.creator = currentUser;
                 console.log(this.application);
                 var _self = this;
                 var options = {
@@ -443,7 +443,7 @@
                   ctx: _self,
                   cb: callback,
                   param: {
-                    creator: "1"
+                    creator: currentUser
                   }
                 }
                 services.Common.list(options);

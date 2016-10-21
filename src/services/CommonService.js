@@ -30,6 +30,9 @@ module.exports ={
         options.url = options.url + "/" + options.param.id
         request.get(options);
       },
+      update: function(options) {
+        request.put(options);
+      },
       count: function(options) {
 
         var query = utils.toParam(options.param);
