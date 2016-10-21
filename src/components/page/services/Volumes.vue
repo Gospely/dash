@@ -63,13 +63,13 @@
                         <div class="columns">
                             <div class="column is-half">
                                 <div class="box">
-                                    <h3 class="title">已使用</h3>
+                                    <h3 class="title">全部数据卷</h3>
                                     <chart :type = "'pie'" :data = "chartData"></chart>
                                 </div>
                             </div>
                             <div class="column is-half">
                                 <div class="box">
-                                    <h3 class="title">全部数据卷</h3>
+                                    <h3 class="title">已使用</h3>
                                     <chart :type = "'pie'" :data = "dynamicChartData"></chart>
                                 </div>
                             </div>
@@ -93,6 +93,21 @@
           chartData () {
               return {
                   labels: [
+                    '已使用',
+                    '未使用',
+                  ],
+                  datasets: [{
+                      data: this.data,
+                      backgroundColor: [
+                          '#FF6384',
+                          '#36A2EB',
+                      ]
+                  }]
+              }
+          },
+          dynamicChartData () {
+              return {
+                  labels: [
                       'Red',
                       'Blue',
                       'Yellow'
@@ -103,21 +118,6 @@
                           '#FF6384',
                           '#36A2EB',
                           '#FFCE56'
-                      ]
-                  }]
-              }
-          },
-          dynamicChartData () {
-              return {
-                  labels: [
-                      '已使用',
-                      '未使用',
-                  ],
-                  datasets: [{
-                      data: this.data,
-                      backgroundColor: [
-                          '#FF6384',
-                          '#36A2EB',
                       ]
                   }]
               }
@@ -138,7 +138,7 @@
       },
         data () {
             return {
-              data: [200, 300, 200],
+              data: [ 300, 200],
               dynamicData: [200, 300, 400],
                 isRefresh: false,
                 fields: [],
