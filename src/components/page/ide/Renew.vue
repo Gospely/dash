@@ -38,9 +38,6 @@
                     </tbody>
                   </table>
                 </tab-item>
-                <tab-item title="状态监控">
-                  <ide-state></ide-state>
-                </tab-item>
                 <tab-item title="磁盘管理">
                   <table class="table">
                     <thead>

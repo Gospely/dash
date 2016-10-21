@@ -7,7 +7,7 @@ export default {
 
 		var current = window.noty.length - 1;
 
-    type = type || 'success';
+    	type = type || 'success';
 		var timestamp = Date.parse(new Date());
 		var body = document.body;
 		var div = document.createElement("div");
