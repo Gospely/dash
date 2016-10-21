@@ -14,7 +14,7 @@
             </a>
 
             <tab :active-index = "0" style= "width: 100%;">
-                <tab-item title="我的数据卷">
+                <tab-item title="基本型数据卷">
                     <table class="table">
                       <thead>
                         <tr>
@@ -26,25 +26,55 @@
                           <th></th>
                         </tr>
                       </thead>
-                      <tbody>
-                        <tr v-for="item in fields">
-                          <td v-model="name">{{item.name}}</td>
-                          <td v-model="">{{item.type}}</td>
-                          <td>
-                            {{item.size}}
-                          </td>
-                          <td>
-                            {{item.rest}}
-                          </td>
-                          <td class="is-icon" title="进入数据卷">
-                            <a v-link="{path: item.link}">
-                              <i class="fa fa-share"></i>
-                            </a>
-                          </td>
-                        </tr>
-                      </tbody>
+                      <tbody></tbody>
                     </table>
-                    <page :cur.sync="cur" :all.sync="all" v-on:btn-click="listen"></page>
+                    <section class="section">
+                        <div class="columns">
+                            <div class="column is-half">
+                                <div class="box">
+                                    <h3 class="title">Basic</h3>
+                                    <chart :type = "'pie'" :data = "chartData"></chart>
+                                </div>
+                            </div>
+                            <div class="column is-half">
+                                <div class="box">
+                                    <h3 class="title">Dynamic</h3>
+                                    <chart :type = "'pie'" :data = "dynamicChartData"></chart>
+                                </div>
+                            </div>
+                        </div>
+                    </section>
+                </tab-item>
+                <tab-item title="拓展型数据卷">
+                    <table class="table">
+                      <thead>
+                        <tr>
+                          <th>名称</th>
+                          <th>配置</th>
+                          <th>容量</th>
+                          <th>剩余</th>
+                          <th>操作</th>
+                          <th></th>
+                        </tr>
+                      </thead>
+                        <tbody></tbody>
+                    </table>
+                    <section class="section">
+                        <div class="columns">
+                            <div class="column is-half">
+                                <div class="box">
+                                    <h3 class="title">Basic</h3>
+                                    <chart :type = "'pie'" :data = "chartData"></chart>
+                                </div>
+                            </div>
+                            <div class="column is-half">
+                                <div class="box">
+                                    <h3 class="title">Dynamic</h3>
+                                    <chart :type = "'pie'" :data = "dynamicChartData"></chart>
+                                </div>
+                            </div>
+                        </div>
+                    </section>
                 </tab-item>
             </tab>
 
@@ -54,13 +84,64 @@
 <style>
 </style>
 <script>
-
+import Chart from '../../ui/Chart.vue'
     import {Tab, TabItem} from '../../ui/Tab'
     import Page from '../../ui/Page/Page.vue'
 
     export default{
+      computed: {
+          chartData () {
+              return {
+                  labels: [
+                      'Red',
+                      'Blue',
+                      'Yellow'
+                  ],
+                  datasets: [{
+                      data: this.data,
+                      backgroundColor: [
+                          '#FF6384',
+                          '#36A2EB',
+                          '#FFCE56'
+                      ]
+                  }]
+              }
+          },
+          dynamicChartData () {
+              return {
+                  labels: [
+                      'Red',
+                      'Blue',
+                      'Yellow'
+                  ],
+                  datasets: [{
+                      data: this.dynamicData,
+                      backgroundColor: [
+                          '#FF6384',
+                          '#36A2EB',
+                          '#FFCE56'
+                      ]
+                  }]
+              }
+          }
+      },
+      created () {
+          var self = this
+          this.timer = setInterval(function () {
+              self.dynamicData.forEach(function (item, i) {
+                  self.dynamicData.$set(i, Math.ceil(Math.random() * 1000))
+              })
+          }, 1024)
+      },
+      beforeDestroy () {
+          if (this.timer) {
+              clearInterval(this.timer)
+          }
+      },
         data () {
             return {
+              data: [200, 300, 200],
+              dynamicData: [200, 300, 400],
                 isRefresh: false,
                 fields: [],
                 all: 8,
@@ -68,6 +149,7 @@
             }
         },
         components: {
+            Chart,
             Tab,
             TabItem,
             Page
