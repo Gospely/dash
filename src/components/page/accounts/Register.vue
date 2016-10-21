@@ -20,7 +20,7 @@
                     <div class="input-field">
                       <input type="text" v-model="authCode" placeholder="验证码" autocapitalize="off" style="border: none;" v-show="isPhone" ></div>
                   </div>
-                  <a class="button" @click="getTelCode" v-show="isPhone" :disabled="btn_disabled">{{btn_info}}</a>
+                  <a class="button" @click="getTelCode" v-show="isPhone" :disabled="btn_disabled" style="position: absolute; margin-top: -42px; height: 41px; right: 30px; border: 1px solid #dfebf2;">{{btn_info}}</a>
                   <ul class="error-msg-list"></ul>
                   <button class="signup-form__submit" @click="register" >注册</button>
                   <div class="signup-form-nav">

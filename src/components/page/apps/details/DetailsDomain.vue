@@ -210,7 +210,7 @@
 
                     services.Common.create({
                         param:{
-                          domain: _self.subDomain + '.gospely.com',
+                          domain: _self.subDomain,
                           creator: currentUser,
                           application: _self.application,
                           reload: _self.$get("initDomains")()
