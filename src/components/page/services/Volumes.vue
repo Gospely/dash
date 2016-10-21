@@ -32,13 +32,13 @@
                         <div class="columns">
                             <div class="column is-half">
                                 <div class="box">
-                                    <h3 class="title">已使用</h3>
+                                    <h3 class="title">全部数据卷</h3>
                                     <chart :type = "'pie'" :data = "chartData"></chart>
                                 </div>
                             </div>
                             <div class="column is-half">
                                 <div class="box">
-                                    <h3 class="title">全部数据卷</h3>
+                                    <h3 class="title">已使用</h3>
                                     <chart :type = "'pie'" :data = "dynamicChartData"></chart>
                                 </div>
                             </div>
