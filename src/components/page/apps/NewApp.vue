@@ -41,11 +41,11 @@
 
             <div class="control is-horizontal user-center">
               <div class="control-label">
-                <label class="label">容器名称</label>
+                <label class="label">应用名称</label>
               </div>
               <div class="control is-grouped">
                 <p class="control is-expanded">
-                    <input class="input" type="text" placeholder="给您的容器取个名字吧" v-model="application.name">
+                    <input class="input" type="text" placeholder="给您的应用取个名字吧" v-model="application.name">
                 </p>
               </div>
             </div>

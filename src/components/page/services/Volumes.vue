@@ -14,22 +14,9 @@
             </a> -->
 
             <tab :active-index = "0" style= "width: 100%;">
-                <tab-item title="基本型数据卷">
-                    <!-- <table class="table">
-                      <thead>
-                        <tr>
-                          <th>名称</th>
-                          <th>配置</th>
-                          <th>容量</th>
-                          <th>剩余</th>
-                          <th>操作</th>
-                          <th></th>
-                        </tr>
-                      </thead>
-                      <tbody></tbody>
-                    </table> -->
+                <tab-item title="基本型">
                     <section class="section">
-                        <button class="button is-primary">sss</button>
+                        <!-- <button class="button is-primary">sss</button> -->
                         <div class="columns">
                             <div class="column is-half">
                                 <div class="box">
@@ -46,20 +33,7 @@
                         </div>
                     </section>
                 </tab-item>
-                <tab-item title="拓展型数据卷">
-                    <!-- <table class="table">
-                      <thead>
-                        <tr>
-                          <th>名称</th>
-                          <th>配置</th>
-                          <th>容量</th>
-                          <th>剩余</th>
-                          <th>操作</th>
-                          <th></th>
-                        </tr>
-                      </thead>
-                        <tbody></tbody>
-                    </table> -->
+                <tab-item title="拓展型">
                     <section class="section">
                         <div class="columns">
                             <div class="column is-half">

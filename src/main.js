@@ -21,7 +21,7 @@ if(document.domain != 'localhost') {
     document.domain = 'gospely.com';
 }
 
-document.title = 'Dodora 龙猫云';
+document.title = 'Gospel控制面板 - Dodora 龙猫云';
 window.notification = notification;
 
 function getCookie(name){
@@ -86,7 +86,7 @@ router.start(App, 'app');
 
 //路由请求开始时调用
 router.beforeEach(function (route) {
-    document.title = route.to.label + ' | Dodora 龙猫云';
+    document.title = route.to.label + ' | Gospel控制面板 - Dodora 龙猫云';
     route.next();
 });
 
