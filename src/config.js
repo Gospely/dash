@@ -59,13 +59,19 @@ let menu = {
         component: {
             template: '<router-view></router-view>'
         },
-        subRoutes: {          
+        subRoutes: {   
+            '/new': {
+                name: 'newapp',
+                label: '创建应用',
+                hide: false,
+                component: makeComponent('./components/page/apps/NewApp.vue')
+            },    
             '/list': {
                 name: 'applist',
                 label: '我的应用',
                 hide: false,
                 component: makeComponent('./components/page/apps/Applist.vue')
-            },
+            },        
             '/new/:imageId': {
                 name: 'newappwithimageid',
                 label: '创建应用(已知镜像id)',
@@ -77,29 +83,6 @@ let menu = {
                 label: '应用详情',
                 hide: true,
                 component: makeComponent('./components/page/apps/Details.vue')
-            }
-        }
-    },
-    '/services': {
-        icon: 'briefcase',
-        label: '容器服务',
-        isShowSubMenu: false,
-        hide: false,
-        component: {
-            template: '<router-view></router-view>'
-        },
-        subRoutes: {
-            '/new': {
-                name: 'newapp',
-                label: '创建容器',
-                hide: false,
-                component: makeComponent('./components/page/apps/NewApp.vue')
-            },
-            '/list': {
-                name: 'serviceslist',
-                label: '镜像列表',
-                hide: false,
-                component: makeComponent('./components/page/services/ServicesList.vue')
             },
             '/volumes': {
                 name: 'volumes',
@@ -107,17 +90,34 @@ let menu = {
                 hide: false,
                 component: makeComponent('./components/page/services/Volumes.vue')
             },
-            '/volumes/new': {
-                name: 'newvolumes',
-                label: '创建数据卷',
-                hide: false,
-                component: makeComponent('./components/page/services/NewVolumes.vue')
-            },
             '/volumes/:volumeId': {
                 name: 'volumesdetails',
                 label: '数据卷详情',
                 hide: true,
                 component: makeComponent('./components/page/services/volumes/VolumesDetails.vue')
+            }
+        }
+    },
+    '/services': {
+        icon: 'briefcase',
+        label: '镜像服务',
+        isShowSubMenu: false,
+        hide: false,
+        component: {
+            template: '<router-view></router-view>'
+        },
+        subRoutes: {
+            '/list': {
+                name: 'serviceslist',
+                label: '镜像列表',
+                hide: false,
+                component: makeComponent('./components/page/services/ServicesList.vue')
+            },
+            '/volumes/new': {
+                name: 'newvolumes',
+                label: '创建数据卷',
+                hide: true,
+                component: makeComponent('./components/page/services/NewVolumes.vue')
             }
         }
     },

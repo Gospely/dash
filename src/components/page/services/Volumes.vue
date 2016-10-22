@@ -29,6 +29,7 @@
                       <tbody></tbody>
                     </table> -->
                     <section class="section">
+                        <button class="button is-primary">sss</button>
                         <div class="columns">
                             <div class="column is-half">
                                 <div class="box">
