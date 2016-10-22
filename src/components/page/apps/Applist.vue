@@ -76,7 +76,7 @@
                     </table>
                     <page :cur.sync="cur_stop" :all.sync="all_stop" v-on:btn-click="listen_stop"></page>
                 </tab-item>
-                <tab-item title="未绑定">
+<!--                 <tab-item title="未绑定">
                     <table class="table">
                       <thead>
                         <tr>
@@ -99,7 +99,7 @@
                       </tbody>
                     </table>
                       <page :cur.sync="cur_unBind" :all.sync="all_unBind" v-on:btn-click="listen_unBind"></page>
-                </tab-item>
+                </tab-item> -->
             </tab>
         </div>
     </div>

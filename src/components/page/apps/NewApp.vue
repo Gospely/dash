@@ -131,7 +131,7 @@
               </div>
             </div>
 
-            <hr>
+<!--             <hr>
 
             <div class="control is-horizontal user-center">
               <div class="control-label">
@@ -165,7 +165,7 @@
                 </div>
 
               </div>
-            </div>
+            </div> -->
 
             <hr>
 
