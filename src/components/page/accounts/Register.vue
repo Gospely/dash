@@ -81,6 +81,7 @@
                 password:'',
                 rePwd:'',
                 authCode:'',
+                token: '',
                 isPhone: false,
                 btn_info: "获取验证码",
                 btn_disabled: false,
@@ -113,7 +114,28 @@
             }
             );
           },
-          getTelCode: function() {
+          getTelCode: function(){
+
+              var _self = this;
+              services.Common.list({
+                url: 'users/phone/code',
+                param: {
+                  phone: _self.phone,
+                },
+                cb: function(res) {
+                    if(res.status == 200){
+                      var data = res.data;
+                      if(data.code ==1){
+
+                        this.token = data.fields;
+                        notification.alert(data.message);
+                      }
+                    }
+                }
+              });
+              _self.renderButton();
+          },
+          renderButton: function() {
 
             var _self = this;
 
@@ -127,7 +149,7 @@
                 _self.btn_disabled = true;
                 _self.wait--;
                 setTimeout(function() {
-                    _self.getTelCode()
+                    _self.renderButton()
                 },
                 1000)
             }

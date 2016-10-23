@@ -1,4 +1,3 @@
-var utils = require('../lib/utils');
 module.exports = {
 
 	init: function(obj, bu) {
