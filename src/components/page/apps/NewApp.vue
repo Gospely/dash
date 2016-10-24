@@ -283,7 +283,7 @@
 
                 isHaul: false,
 
-                imageName: 'sss'
+                imageName: 'null'
             }
         },
 
@@ -444,9 +444,12 @@
                           isActive: false
                       });
                     }
-                    _self.currentVolume = data.fields[0].id
-                    _self.volumes = data.fields;
-                    _self.volumeIsActive = arr;
+
+                    if(data.fields.length > 0) {
+                        _self.currentVolume = data.fields[0].id
+                        _self.volumes = data.fields;
+                        _self.volumeIsActive = arr;
+                    }
                 }
                 var options = {
                   url: "volumes",
@@ -477,7 +480,7 @@
         },
         ready: function() {
             this.$get('initConfig')();
-            this.$get('initVolumes')();
+            // this.$get('initVolumes')();
         },
         events: {
             'imageOnSelected': function(item) {

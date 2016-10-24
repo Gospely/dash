@@ -27,6 +27,14 @@
                     <p class="subtitle">{{application_stop}}</p>
                 </div>
             </div>
+            <div class="column">
+                <div class="notification has-text-centered">
+                    <p class="title">
+                        <button class="button is-primary" @click="toNewApp">创建新应用</button>
+                    </p>
+                    <p class="subtitle" style="font-size:15px">享受一站式开发</p>
+                </div>
+            </div>
         </div>
 
         <h2>集成开发环境</h2>
@@ -212,6 +220,16 @@
                 }
             });
         },
+
+        methods: {
+
+            toNewApp: function() {
+                console.log('ssss');
+                this.$router.replace('/apps/new');
+            }
+
+        },
+
         computed: {
             dynamicDoughnutData () {
                 return {
