@@ -99,7 +99,7 @@
               <div class="control is-grouped" style="margin-left:-20px">
                 <p class="control is-expanded">
                     <a class="button is-primary" v-show="!withImage" @click="selectImage">选择镜像</a>
-                    <span class="help" v-show="withImage">已选镜像：{{imageId}}</span>
+                    <span class="help" v-show="withImage">已选镜像：{{imageName}}</span>
                     <a style="margin-top:6px" class="button is-primary" v-show="withImage" @click="selectImage">重新选择</a>
                 </p>
               </div>
@@ -470,14 +470,14 @@
             this.$get('initVolumes')();
         },
         events: {
-            'imageOnSelected': function(id) {
+            'imageOnSelected': function(item) {
                 this.showImageSelectorForm = false;
                 this.withImage = true;
-                this.imageId = id;
+                this.imageId = item.id;
+                this.imageName = item.name;
             },
 
             'cycSelected': function(cyc) {
-
                 this.total = cyc.cyc * this.unitPrice;
                 this.size = cyc.cyc;
                 this.price = this.unitPrice +" X "+ cyc.cyc+" "+cyc.unit +" = "+this.total;

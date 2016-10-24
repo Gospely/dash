@@ -4,67 +4,14 @@
 
 	    <tab :active-index = "0" style= "width: 100%;">
 	        <tab-item title="官方镜像">
-	            <table class="table">
-	              <thead>
-	                <tr>
-	                  <th>镜像名称</th>
-	                  <th>镜像描述</th>
-	                  <th>标签</th>
-	                  <th>更新时间</th>
-	                  <th>操作</th>
-	                </tr>
-	              </thead>
-	              <tbody>
-                  <tr v-for="item in fields2">
-	                  <td>{{item.name}}</td>
-	                  <td>{{item.description}}</td>
-	                  <td>
-	                    {{item.label}}
-	                  </td>
-	                  <td>
-	                    {{item.updateat}}
-	                  </td>
-	                  <td class="is-icon" title="">
-	                    <a @click="selectThisImage(item.id)">
-	                      <i class="fa fa-check"></i>
-	                    </a>
-	                  </td>
-	                </tr>
-	              </tbody>
-	            </table>
-              <page :cur.sync="cur_gospel" :all.sync="all_gospel" v-on:btn-click="listen_gospel"></page>
-	        </tab-item>
-<!-- 	        <tab-item title="DockerHub">
-	            <table class="table">
-	              <thead>
-	                <tr>
-	                  <th>镜像名称</th>
-	                  <th>镜像描述</th>
-	                  <th>标签</th>
-	                  <th>更新时间</th>
-	                  <th>操作</th>
-	                </tr>
-	              </thead>
-	              <tbody>
-	                <tr v-for="item in fields">
-	                  <td>{{item.name}}</td>
-	                  <td>{{item.description}}</td>
-	                  <td>
-	                    {{item.label}}
-	                  </td>
-	                  <td>
-	                    {{item.updateat}}
-	                  </td>
-	                  <td class="is-icon" title="">
-	                    <a @click="selectThisImage(item.id)">
-	                      <i class="fa fa-check"></i>
-	                    </a>
-	                  </td>
-	                </tr>
-	              </tbody>
-	            </table>
-              <page :cur.sync="cur" :all.sync="all" v-on:btn-click="listen"></page>
-	        </tab-item> -->
+            <div class="columns">
+              <div class="column" v-for="item in fields2">
+                <div @click="selectThisImage(item)" class="creation-modal-choice" style="background-image:url({{item.description}})">
+                  {{item.name}}
+                </div>
+              </div>
+            </div>
+            <page :cur.sync="cur_gospel" :all.sync="all_gospel" v-on:btn-click="listen_gospel"></page>
 	    </tab>
 
     </div>
@@ -72,6 +19,24 @@
 </template>
 
 <style>
+
+  .creation-modal-choice {
+      cursor: pointer;
+      width: 100px;
+      display: inline-block;
+      height: 100px;
+      padding: 75px 0 0 0;
+      text-align: center;
+      margin-right: calc((600px - 2rem - 500px) / 8);
+      background-size: contain;
+      border-radius: 2px;
+  }
+
+  .creation-modal-choice:hover {
+    background: #f5f5f5;
+    background-position: center;
+    background-size: 100%;
+  }
 
 
 </style>
@@ -109,8 +74,8 @@
             console.log('你点击了'+data+ '页');
             this.$get('init_gospel_hub')(data);
           },
-        	selectThisImage: function(id) {
-				        this.$dispatch('imageOnSelected', id);
+        	selectThisImage: function(item) {
+				        this.$dispatch('imageOnSelected', item);
         	},
           init_docker_hub: function(cur){
 
@@ -119,7 +84,7 @@
 
                 param: {
                   type: 'docker_hub',
-                  limit: 1,
+                  limit: 10,
                   cur: cur,
                 },
                 url: 'images',
@@ -133,9 +98,8 @@
               var options = {
 
                 param: {
-                  limit: 1,
-                  cur: cur,
-                  type: 'gospel_hub'
+                  limit: 20,
+                  cur: cur
                 },
                 url: 'images',
                 all: 'all_gospel',
