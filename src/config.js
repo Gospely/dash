@@ -74,7 +74,7 @@ let menu = {
             },        
             '/new/:imageId': {
                 name: 'newappwithimageid',
-                label: '创建应用(已知镜像id)',
+                label: '创建应用',
                 hide: true,
                 component: makeComponent('./components/page/apps/NewApp.vue')
             },
@@ -170,19 +170,19 @@ let menu = {
             '/login': {
                 name: 'login',
                 label: '登录',
-                hide: false,
+                hide: true,
                 component: makeComponent('./components/page/accounts/Login.vue')
             },
             '/signup': {
                 name: 'signup',
                 label: '注册',
-                hide: false,
+                hide: true,
                 component: makeComponent('./components/page/accounts/Signup.vue')
             },
             '/register': {
                 name: 'signupa',
                 label: '注册',
-                hide: false,
+                hide: true,
                 component: makeComponent('./components/page/accounts/Register.vue')
             }
         }

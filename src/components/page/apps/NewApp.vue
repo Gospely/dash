@@ -291,6 +291,14 @@
                 this.$set('withImage', true);
                 this.$set('imageId', this.$route.params.imageId);
 
+                try {
+                    var currentImage = JSON.parse(sessionStorage.currentImage);
+                    this.$set('imageName', currentImage.name);
+                }catch(error) {
+                    notification.alert('镜像丢失，请重新选择镜像', 'warning');
+                }
+
+                sessionStorage.currentImage = '';
             }
 
         },
