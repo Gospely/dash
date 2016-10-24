@@ -215,7 +215,7 @@
 
             this.$get("init")(1);
             this.$get("initStop")(1);
-            this.$get("initUnBind")(1);
+            // this.$get("initUnBind")(1);
         }
     }
 </script>

@@ -10,7 +10,7 @@
             </a>
 
             <tab :active-index = "0" style= "width: 100%;">
-                <tab-item title="我的IDE">
+                <tab-item title="基础信息">
                   <table class="table">
                     <thead>
                       <tr>
@@ -38,7 +38,7 @@
                     </tbody>
                   </table>
                 </tab-item>
-                <tab-item title="磁盘管理">
+                <tab-item title="磁盘信息">
                   <table class="table">
                     <thead>
                       <tr>

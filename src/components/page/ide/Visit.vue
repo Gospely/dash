@@ -18,6 +18,12 @@
             }
         },
         components: {
+        },
+
+        ready () {
+
+            window.location.href = "http://ide.gospely.com";
+
         }
     }
 </script>
