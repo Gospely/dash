@@ -3,7 +3,7 @@
     <div class="container">
 
 	    <tab :active-index = "0" style= "width: 100%;">
-	        <tab-item title="Dodora官方">
+	        <tab-item title="官方镜像">
 	            <table class="table">
 	              <thead>
 	                <tr>
@@ -34,7 +34,7 @@
 	            </table>
               <page :cur.sync="cur_gospel" :all.sync="all_gospel" v-on:btn-click="listen_gospel"></page>
 	        </tab-item>
-	        <tab-item title="DockerHub">
+<!-- 	        <tab-item title="DockerHub">
 	            <table class="table">
 	              <thead>
 	                <tr>
@@ -64,7 +64,7 @@
 	              </tbody>
 	            </table>
               <page :cur.sync="cur" :all.sync="all" v-on:btn-click="listen"></page>
-	        </tab-item>
+	        </tab-item> -->
 	    </tab>
 
     </div>
@@ -150,7 +150,7 @@
         ready: function(){
 
             console.log("init hub");
-            this.$get("init_docker_hub")(1);
+            // this.$get("init_docker_hub")(1);
             this.$get("init_gospel_hub")(1);
         }
     }
