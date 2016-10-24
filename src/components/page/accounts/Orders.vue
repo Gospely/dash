@@ -11,7 +11,7 @@
                     <p class="control">
                       集成开发环境
                     </p>
-                    <pay-method :qrcode.sync="qrcode" @weixin="useWeixin" @alipay="useAlipay"></pay-method>
+                    <pay-method :val.sync="qrcode" @weixin="useWeixin" @alipay="useAlipay"></pay-method>
                     <div class="media-content">
                       <div class="content">
                         <div class="media-right" style="text-align:right">
@@ -87,12 +87,12 @@
                                 企业版Gospel集成开发环境
                             </td>
                             <td class="is-icon" title="继续支付">
-                            <a @click="continueToPay">
+                            <a @click="continueToPay(item)">
                               <i class="fa fa-share"></i>
                             </a>
                           </td>
                           <td class="is-icon" title="取消订单">
-                            <a @click="cancelOrder">
+                            <a @click="cancelOrder(item)">
                               <i class="fa fa-times "></i>
                             </a>
                           </td>
@@ -124,7 +124,7 @@
                 msg: 'hello vue',
                 items1: [],
                 items2: [],
-
+                qrcode: 'test',
                 showRePayForm: false
             }
         },
@@ -161,12 +161,29 @@
 
             },
 
-            continueToPay: function() {
+            continueToPay: function(item) {
 
               this.showRePayForm = true;
+              var _self = this;
+              this.showRenewForm = true;
+              services.OrderService.get({
+                products: this.products,
+                price: this.size * this.unitPrice,
+                size: this.size,
+                unitPrice: this.unitPrice,
+                type: 'wechat'
+              }).then(function(res){
+                  console.log(res);
+                  _self.qrcode = res.data.code_url;
+                  //window.location.href = res.body;
+              },function(err,res){
+
+              });
 
             },
+            confirmRenew: function() {
 
+            },
             initPage: function() {
 
               var _self = this;
