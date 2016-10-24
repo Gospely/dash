@@ -84,7 +84,7 @@
               <div class="control is-grouped" style="margin-left:30px">
                 <div class="columns">
                     <div class="column">
-                       <cyc :price.sync= "price"></cyc>
+                       <cyc :price.sync="price"></cyc>
                     </div>
                 </div>
               </div>
@@ -281,7 +281,9 @@
                     free: false
                 }],
 
-                isHaul: false
+                isHaul: false,
+
+                imageName: 'sss'
             }
         },
 
