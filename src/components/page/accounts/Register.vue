@@ -97,7 +97,8 @@
             var user = {
               phone: this.phone,
               password: this.password,
-              name: this.name
+              name: this.name,
+              token: this.token,
             };
             services.UserService.register(user).then(function(res) {
 
