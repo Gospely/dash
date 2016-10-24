@@ -157,7 +157,7 @@
                       var count = localStorage.getItem('error');
                       if(count != null &&  count != undefined && count != ''){
 
-                        if(count >3){
+                        if(count > 3){
                           _self.code_show = true;
                           _self.code_src = 'http://api.gospely.com/users/code';
                         }
@@ -167,6 +167,7 @@
                       }
                   }else{
                     console.log(res.data.fields);
+                    localStorage.removeItem('error');
                     localStorage.setItem("user",res.data.fields.id);
                     localStorage.setItem("ide",res.data.fields.ide);
                     localStorage.setItem("ideName",res.data.fields.ideName);
