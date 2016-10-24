@@ -166,11 +166,10 @@
               this.showRePayForm = true;
               var _self = this;
               this.showRenewForm = true;
-              services.OrderService.get({
-                products: this.products,
-                price: this.size * this.unitPrice,
-                size: this.size,
-                unitPrice: this.unitPrice,
+              services.OrderService.order({
+
+                out_trade_no: item.orderNo,
+                price: item.price,
                 type: 'wechat'
               }).then(function(res){
                   console.log(res);
