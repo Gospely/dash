@@ -16,7 +16,7 @@
                     <div class="input-field">
                       <input type="password" v-model='password' placeholder="请输入密码" autocapitalize="off" style="border: none;"></div>
                       <div class="input-field">
-                        <img src="http://localhost:8089/users/code" alt="验证码" />
+                        <img :src="code_src" alt="验证码" v-show='code_show'/>
                   </div>
                   <ul class="error-msg-list"></ul>
                   <button  class="signup-form__submit" @click="login">登录</button>
@@ -122,6 +122,8 @@
                 phone: '',
                 password: '',
                 img: '',
+                code_src: '',
+                code_show: false
             }
         },
         components: {
@@ -140,6 +142,7 @@
             },
             login: function() {
 
+              var _self = this;
               var user = {
                   phone: this.phone,
                   password: this.password
@@ -151,8 +154,20 @@
                 if(res.status === 200){
                   if(res.data.code != 1){
                       notification.alert(res.data.message,'danger');
+                      var count = localStorage.getItem('error');
+                      if(count != null &&  count != undefined && count != ''){
+
+                        if(count > 3){
+                          _self.code_show = true;
+                          _self.code_src = 'http://api.gospely.com/users/code';
+                        }
+                        localStorage.setItem('error',count+1);
+                      }else{
+                        localStorage.setItem('error',1);
+                      }
                   }else{
                     console.log(res.data.fields);
+                    localStorage.removeItem('error');
                     localStorage.setItem("user",res.data.fields.id);
                     localStorage.setItem("ide",res.data.fields.ide);
                     localStorage.setItem("ideName",res.data.fields.ideName);
@@ -165,8 +180,17 @@
                   notification.alert('服务器异常','danger');
                   this.phone = '';
                   this.password = '';
+                  var count = localStorage.getItem('error');
+                  if(count != null &&  count != undefined && count != ''){
 
-                  this.img = 'http://localhost:8089/users/code'
+                    if(count >3){
+                      _self.code_show = true;
+                      _self.code_src = 'http://api.gospely.com/users/code';
+                    }
+                    localStorage.setItem('error',count+1);
+                  }else{
+                    localStorage.setItem('error',1);
+                  }
               }
               );
             }
