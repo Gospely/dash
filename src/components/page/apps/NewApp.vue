@@ -326,7 +326,7 @@
             selectThisDockerConfig: function(dockerConfig, key) {
 
                 this.products = dockerConfig.id;
-                this.application.config = dockerConfig.id
+                this.application.config = dockerConfig.id;
                 this.showCaculateResourceSlider = !dockerConfig.free;
 
                 this.configIsActive[key].isActive = true;
@@ -356,8 +356,6 @@
             },
 
             realCreateApp: function() {
-                this.application.image = this.imageId;
-                this.application.creator = currentUser;
                 var _self = this;
                 var options = {
 
@@ -381,11 +379,13 @@
 
             createApp: function() {
 
+                this.application.image = this.imageId;
+                this.application.creator = currentUser;
+
                 if(
                     this.application.name == '' || 
                     this.application.config == '' || 
                     this.application.image == '' ||
-                    this.application.volume == '' ||
                     this.application.username == '' || 
                     this.application.password == ''
                 ) {
