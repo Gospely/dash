@@ -366,7 +366,15 @@
                       success: "新建容器成功",
                       failed : "新建容器失败",
                     },
-                    ctx: _self
+                    ctx: _self,
+
+                    cb: function(res) {
+                        console.log(data);
+                        notification.alert('即将跳转至IDE...');
+                        setTimeout(function() {
+                            window.location.href = "http://ide.gospely.com/#!/archive/";
+                        }, 2000);
+                    }
                 };
                 services.Common.create(options);
                 this.isCreateApp = true;
