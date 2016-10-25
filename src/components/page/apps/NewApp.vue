@@ -15,10 +15,26 @@
             </modal>
 
             <modal :is-html="true" :width="800" :is-show.sync="showPayForm">
-                <div slot="header">付款</div>
+                <div slot="header">您选择了增至服务，需要进行付款操作</div>
                 <div slot="body">
 
-                    <pay-method :val.sync="qrcode"></pay-method>
+                    <div class="columns">
+                        <div class="column">
+                            <pay-method :val.sync="qrcode"></pay-method>
+                        </div>
+                        <div class="column">
+                            <h4>选择的服务</h4>
+
+                            <div class="docker-config-box active">
+                                <ul class="text-center parameter">
+                                    <li>{{dockerConfigs[currentActiveConfig].memory}} 内存</li>
+                                    {{dockerConfigs[currentActiveConfig].cpu}} CPU{{dockerConfigs[currentActiveConfig].cpuType}}
+                                </ul>
+                                <div class="down-style">{{dockerConfigs[currentActiveConfig].name}}</div>
+                            </div>
+
+                        </div>
+                    </div>
 
                     <div class="media-content">
                       <div class="content">
@@ -32,10 +48,10 @@
                 </div>
                 <div slot="footer">
                     <button class="button is-success"
-                        @click="confirmRenew">
+                        @click="confirmPayToCreateApp">
                     确定
                     </button>
-                    <button class="button" @click="showRenewForm = false">取消</button>
+                    <button class="button" @click="showPayForm = false">重新选择</button>
                 </div>
             </modal>
 
@@ -244,42 +260,7 @@
                 currentActiveConfig: 1,
                 currentVolume: '',
 
-                dockerConfigs: [{
-                    id: '1',
-                    name: '1x',
-                    memory: '256 MB',
-                    cpu: '1',
-                    cpuType: '(共享)',
-                    free: true
-                }, {
-                    id: '2',
-                    name: '2x',
-                    memory: '512 MB',
-                    cpu: '1',
-                    cpuType: '(共享)',
-                    free: true
-                }, {
-                    id: '3',
-                    name: '4x',
-                    memory: '1 GB',
-                    cpu: '1',
-                    cpuType: '(共享)',
-                    free: true
-                }, {
-                    id: '4',
-                    name: '8x',
-                    memory: '2 GB',
-                    cpu: '1',
-                    cpuType: '',
-                    free: false
-                }, {
-                    id: '5',
-                    name: '16x',
-                    memory: '4 GB',
-                    cpu: '1',
-                    cpuType: '',
-                    free: false
-                }],
+                dockerConfigs: [],
 
                 isHaul: false,
 
@@ -343,7 +324,6 @@
 
             selectThisDockerConfig: function(dockerConfig, key) {
 
-                console.log(dockerConfig);
                 this.products = dockerConfig.id;
                 this.application.config = dockerConfig.id
                 this.showCaculateResourceSlider = !dockerConfig.free;
@@ -374,27 +354,40 @@
                 this.currentVolume = key;
 
             },
-            createApp: function() {
 
-                this.showPayForm = true;
-
+            realCreateApp: function() {
                 this.application.image = this.imageId;
                 this.application.creator = currentUser;
-                console.log(this.application);
                 var _self = this;
                 var options = {
 
                     param: this.application,
-                    url: "applications",
+                    url: "dockers",
 
                     msg: {
-                      success: "新建应用成功",
-                      failed : "新建应用失败",
+                      success: "新建容器成功",
+                      failed : "新建容器失败",
                     },
                     ctx: _self
                 };
                 services.Common.create(options);
                 this.isCreateApp = true;
+            },
+
+            confirmPayToCreateApp: function() {
+                this.showPayForm = false;
+                this.isCreateApp = true;
+            },
+
+            createApp: function() {
+
+                var activeDockerConfig = this.dockerConfigs[this.currentActiveConfig];
+
+                if(!activeDockerConfig.free) {
+                    this.showPayForm = true;
+                }else {
+                    this.realCreateApp();
+                }
             },
 
             toggleVolumesList: function() {
