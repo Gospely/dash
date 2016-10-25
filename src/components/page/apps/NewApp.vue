@@ -224,7 +224,7 @@
                     config: '',
                     image: '',
                     volume: '',
-                    username: '',
+                    username: 'root',
                     password: ''
 
                 },
@@ -314,7 +314,7 @@
 
               });
           },
-          
+
             hideImageSelectorForm: function() {
                 this.showImageSelectorForm = false;
             },
@@ -353,7 +353,6 @@
                     this.volumeIsActive[this.currentVolume].isActive = false;
                 }
                 this.currentVolume = key;
-
             },
 
             realCreateApp: function() {
@@ -381,6 +380,18 @@
             },
 
             createApp: function() {
+
+                if(
+                    this.application.name == '' || 
+                    this.application.config == '' || 
+                    this.application.image == '' ||
+                    this.application.volume == '' ||
+                    this.application.username == '' || 
+                    this.application.password == ''
+                ) {
+                    notification.alert('请完整填写内容', 'warning');
+                    return false;
+                }
 
                 var activeDockerConfig = this.dockerConfigs[this.currentActiveConfig];
 
