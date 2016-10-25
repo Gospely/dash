@@ -376,7 +376,9 @@
             },
             createApp: function() {
 
-                this.showPayForm = true;
+                if(this.unitPrice != 0){
+                    this.showPayForm = true;
+                }
 
                 this.application.image = this.imageId;
                 this.application.creator = currentUser;
