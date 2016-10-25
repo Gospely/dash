@@ -23,12 +23,12 @@
 
                         <div class="column">
                             <label class="label">启动命令</label>
-                            <label class="label is-tip">"/bin/sh -c 'service "</label>
+                            <label class="label is-tip">{{fields.Args}}</label>
                         </div>
 
                         <div class="column">
                             <label class="label">创建于</label>
-                            <label class="label is-tip">{{fields.createat}}</label>
+                            <label class="label is-tip">{{fields.Created}}</label>
                         </div>
 
                     </div>
@@ -37,7 +37,7 @@
 
                         <div class="column">
                             <label class="label">开放端口</label>
-                            <label class="label is-tip">{{fields.port}}</label>
+                            <label class="label is-tip">{{fields.HostConfig.PortBindings.8089/tcp.HostPort}}</label>
                         </div>
 
                     </div>
@@ -86,6 +86,7 @@
     export default{
         data () {
             return {
+              appId: "",
                 fields: {},
                 showDomainAddingForm: false,
                 isEditDomain: false,
@@ -98,21 +99,36 @@
             Modal,
         },
         ready (){
-            this.inspect();
-            this.logme();
+          var self = this;
+          self.$set("appId", self.$route.params.containerId)
+          self.inspect();
+          self.logme();
         },
         methods: {
-          inspect : function(){
-            var self = this;
-            var option ={
-              param: {
-              containerName : "gospel_api",
-              },
-              url: "/container/inspect/",
-              target: "fields",
-            };
-            services.Common.list(option);
-          },
+        //   inspect : function(){
+        //     var self = this;
+        //     var option ={
+        //       param: {
+        //         // limit:1,
+        //       containerName : self.appId,
+        //       },
+        //       url: "container/inspect",
+        //       // target: "fields",
+        //     };
+        //   services.Common.containerOperation(option);
+        //   },
+        // },
+        inspect: function(){
+          var self = this;
+          var option = {
+            param: {
+              containerName: self.appId,
+            },
+            url: "container/inspect"
+          };
+          services.Common.containerOperation(option);
+        },
+
           logme: function(){
             console.log("docker",this.fields);
           },

@@ -44,7 +44,7 @@ module.exports ={
         request.get(options);
       },
       containerOperate: function(options) {
-        options.url = options.url + "/" + options.containerName
+        options.url = options.url + "/" + options.param.containerName
         request.get(options);
       },
 
