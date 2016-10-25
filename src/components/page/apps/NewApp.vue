@@ -354,6 +354,14 @@
                 this.currentVolume = key;
 
             },
+<<<<<<< HEAD
+=======
+            createApp: function() {
+
+                if(this.unitPrice != 0){
+                    this.showPayForm = true;
+                }
+>>>>>>> 536e212a4298279a44bf98233877c3600a6b08a0
 
             realCreateApp: function() {
                 this.application.image = this.imageId;
