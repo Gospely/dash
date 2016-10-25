@@ -42,7 +42,11 @@ module.exports ={
         }
         console.log(query);
         request.get(options);
-      }
+      },
+      containerOperate: function(options) {
+        options.url = options.url + "/" + options.containerName
+        request.get(options);
+      },
 
 		}
 
