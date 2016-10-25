@@ -385,11 +385,11 @@
                 var options = {
 
                     param: this.application,
-                    url: "dockers",
+                    url: "applications",
 
                     msg: {
-                      success: "新建容器成功",
-                      failed : "新建容器失败",
+                      success: "新建应用成功",
+                      failed : "新建应用失败",
                     },
                     ctx: _self
                 };
