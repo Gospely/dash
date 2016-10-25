@@ -12,10 +12,10 @@
                             <h4>Gospel_docker</h4>
                             <h4 class="subtitle">部署于：24小时前</h4>
 
-                            <button class="button is-primary">启动</button>
-                            <button class="button is-warning">停止</button>
-                            <button class="button is-success">重新启动</button>
-                            <button class="button is-primary">从IDE打开</button>
+                            <button class="button is-primary" v-on:click="start">启动</button>
+                            <button class="button is-warning" v-on:click="stop">停止</button>
+                            <button class="button is-success" v-on:click="restart">重新启动</button>
+                            <button class="button is-primary" v-on:click="openInIde">从IDE打开</button>
                         </div>
 
                         <div class="column is-half">
@@ -116,6 +116,7 @@
     export default{
         data () {
             return {
+                appId: "",
                 showDomainAddingForm: false,
                 isEditDomain: false,
                 domainInfoFormName: '绑定域名',
@@ -127,8 +128,44 @@
             Chart,
             Modal
         },
-
+        ready (){
+          this.$set("appId", this.$route.params.containerId);
+          console.log(this.$get("appId"));
+        },
         methods: {
+          start: function(){
+            var self = this;
+            var option = {
+              param: {
+                containerName: self.appId,
+              },
+              url: "/container/start/"
+            };
+            services.Common.containerOperation(option);
+          },
+          openInIde: function(){
+            window.location.href = "http://ide.gospely.com/#!/archive/" + this.appId;
+          },
+          stop: function(){
+            var self = this;
+            var option = {
+              param: {
+                containerName: self.appId,
+              },
+              url: "/container/stop/"
+            };
+            services.Common.containerOperation(option);
+          },
+          restart: function(){
+            var self = this;
+            var option = {
+              param: {
+                containerName: "gospel_api",
+              },
+              url: "/container/restart/"
+            };
+            services.Common.list(option);
+          },
 
             saveChanges: function() {
 

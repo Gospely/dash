@@ -1,24 +1,24 @@
 <template>
     <div class="container">
         <div class="basic-wrapper">
-            
+
             <div class="columns">
-                
+
                 <div class="column is-three-quarters">
-                          
+
                     <label class="label">基本信息</label>
                     <hr class="split">
 
                     <div class="columns">
-                        
+
                         <div class="column">
                             <label class="label">名称</label>
-                            <label class="label is-tip">fuck</label>
+                            <label class="label is-tip">{{fields.name}}</label>
                         </div>
 
                         <div class="column">
                             <label class="label">ID</label>
-                            <label class="label is-tip">f8d14eaa248a</label>
+                            <label class="label is-tip">{{fields.id}}</label>
                         </div>
 
                         <div class="column">
@@ -28,32 +28,25 @@
 
                         <div class="column">
                             <label class="label">创建于</label>
-                            <label class="label is-tip">44小时之前</label>
+                            <label class="label is-tip">{{fields.createat}}</label>
                         </div>
 
                     </div>
 
                     <div class="columns">
-                        
+
                         <div class="column">
                             <label class="label">开放端口</label>
-                            <label class="label is-tip">0.0.0.0:8980->22/tcp, 0.0.0.0:8877->8181/tcp</label>
+                            <label class="label is-tip">{{fields.port}}</label>
                         </div>
 
                     </div>
 
-                    <label class="label">数据卷</label>
-                    <hr class="split">            
-
-                    <div class="column">
-                        <button class="button is-primary">创建数据卷</button>
-                        <span class="help is-tip">您没有创建数据卷</span>
-                    </div>
 
                 </div>
 
                 <div class="column">
-                    
+
                     <label class="label">配置信息</label>
                     <hr class="split">
                     <div class="card is-fullwidth">
@@ -93,6 +86,7 @@
     export default{
         data () {
             return {
+                fields: {},
                 showDomainAddingForm: false,
                 isEditDomain: false,
                 domainInfoFormName: '绑定域名'
@@ -103,9 +97,25 @@
             Chart,
             Modal,
         },
-
+        ready (){
+            this.inspect();
+            this.logme();
+        },
         methods: {
-
+          inspect : function(){
+            var self = this;
+            var option ={
+              param: {
+              containerName : "gospel_api",
+              },
+              url: "/container/inspect/",
+              target: "fields",
+            };
+            services.Common.list(option);
+          },
+          logme: function(){
+            console.log("docker",this.fields);
+          },
         }
     }
 </script>

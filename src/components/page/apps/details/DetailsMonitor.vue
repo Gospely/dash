@@ -11,7 +11,7 @@
         <hr>
 
         <h5>网络监控</h5>
-        <chart :type = "'line'" :data = "CPUChartData"></chart>        
+        <chart :type = "'line'" :data = "CPUChartData"></chart>
     </div>
 </template>
 <style>
@@ -53,6 +53,24 @@
                     }]
                 }
             }
+        },
+
+        mounted (){
+          var self = this;
+          self.stats();
+        },
+
+        methods: {
+          stats: function(){
+            var _self = this;
+            var option = {
+              param: {
+                  containerName: "",
+              },
+              url: "" ,
+            };
+            services.Common.list(option);
+          },
         },
 
         components: {
