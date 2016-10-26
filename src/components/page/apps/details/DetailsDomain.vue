@@ -263,8 +263,12 @@
                           var data = res.data;
 
                           if(data.code == 1){
+                            try {
                               _self.subDomain = data.fields.domain.replace(".gospely.com","");
                               _self.oldDomain = data.fields.domain.replace(".gospely.com","");
+                            }catch(err) {
+                              notification.alert('解析数据失败: ' + err.toString(), 'warning');
+                            }
                           }
                       }
                   }

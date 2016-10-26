@@ -9,8 +9,8 @@
                     <div class="columns">
                         <div class="column is-half">
 
-                            <h4>{{inspectInfo.name}}</h4>
-                            <h4 class="subtitle">部署于：{{inspectInfo.createat}}</h4>
+                            <h4>{{inspectInfo.Name}}</h4>
+                            <h4 class="subtitle">部署于：{{inspectInfo.State.StartedAt}}</h4>
 
                             <button class="button is-primary" v-on:click="start">启动</button>
                             <button class="button is-warning" v-on:click="stop">停止</button>
@@ -20,7 +20,7 @@
 
                         <div class="column is-half">
 
-                            <span class="help is-tip">状态: <span style="display:inline" class="help is-success">正在运行</span></span>
+                            <span class="help is-tip">状态: <span style="display:inline" class="help is-success">{{inspectInfo.State.Status}}</span></span>
                             <span class="help is-tip">访问方式: HTTP/SSH, HTTP端口：{{inspectInfo.port}}, SSH端口：{{inspectInfo.sshPort}}</span>
                             <span class="help is-tip">运行环境: Dodora云平台</span>
                             <span class="help is-tip">运行系统: Linux Ubuntu</span>
@@ -172,7 +172,14 @@
                 if(res.data.code == 500) {
                   notification.alert(res.data.message, 'warning');
                 }else {
-                  self.inspectInfo = res.data.fields;
+                  try {
+
+                    self.inspectInfo = JSON.parse(res.data.fields)[0];
+
+                    console.log(self.inspectInfo);
+                  }catch(err) {
+                    notification.alert('解析数据失败', 'warning');
+                  }
                 }
               },
               url: "container/inspect",
