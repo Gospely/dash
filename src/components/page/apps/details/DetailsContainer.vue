@@ -99,32 +99,34 @@
             Modal,
         },
         ready (){
-          var self = this;
-          self.$set("appId", self.$route.params.containerId)
-          self.inspect();
-          self.logme();
+            var self = this;
+            self.$set("appId", self.$route.params.containerId)
+            self.inspect();
+            self.logme();
         },
         methods: {
-        inspect: function(){
-          var self = this;
-          var option = {
-            param: {
-              containerName: self.appId,
+            inspect: function(){
+              var self = this;
+              var option = {
+                param: {
+                  containerName: self.appId,
+                },
+                cb: function(res) {
+                    if(res.status == 200){
+                        this.fields = JSON.parse(fields)[0];
+                    }else {
+                        notification.alert(data.message, 'warning');
+                    }
+                },
+                url: "container/inspect",
+                target: self.fields,
+              };
+              services.Common.containerOperate(option);
             },
-            cb: function(res) {
-                if(res.status == 200){
-                    notification.alert(data.message);
-                }
-            },
-            url: "container/inspect",
-            target: self.fields,
-          };
-          services.Common.containerOperate(option);
-        },
 
-          logme: function(){
-            console.log("docker",this.fields);
-          },
+            logme: function(){
+                console.log("docker",this.fields);
+            },
         }
     }
 </script>

@@ -12,10 +12,10 @@
                             <h4>{{inspectInfo.Name}}</h4>
                             <h4 class="subtitle">部署于：{{inspectInfo.State.StartedAt}}</h4>
 
-                            <button class="button is-primary" v-on:click="start">启动</button>
-                            <button class="button is-warning" v-on:click="stop">停止</button>
-                            <button class="button is-success" v-on:click="restart">重新启动</button>
-                            <button class="button is-primary" v-on:click="openInIde">从IDE打开</button>
+                            <button class="button is-primary" v-bind:class="{'is-loading': isLoading}" v-on:click="start">启动</button>
+                            <button class="button is-warning" v-bind:class="{'is-loading': isLoading}" v-on:click="stop">停止</button>
+                            <button class="button is-success" v-bind:class="{'is-loading': isLoading}" v-on:click="restart">重新启动</button>
+                            <button class="button is-primary" v-bind:class="{'is-loading': isLoading}" v-on:click="openInIde">从IDE打开</button>
                         </div>
 
                         <div class="column is-half">
@@ -124,7 +124,9 @@
               domainInfoFormName: '绑定域名',
               fields: '',
 
-              inspectInfo: {}
+              inspectInfo: {},
+
+              isLoading: false
             }
         },
 
@@ -147,13 +149,17 @@
                 containerName: self.appId,
               },
               cb: function(res) {
-                  if(res.status == 200){
-                      notification.alert(data.message);
-                  }
+                if(res.status == 200){
+                    notification.alert(res.data.message);
+                }else {
+                  notification.alert(res.body);
+                }
+                self.isLoading = false;
               },
               url: "container/start",
               target: self.baseFields,
             };
+            this.isLoading = true;
             services.Common.containerOperate(option)
           },
 
@@ -173,18 +179,18 @@
                   notification.alert(res.data.message, 'warning');
                 }else {
                   try {
-
                     self.inspectInfo = JSON.parse(res.data.fields)[0];
-
-                    console.log(self.inspectInfo);
                   }catch(err) {
                     notification.alert('解析数据失败', 'warning');
                   }
                 }
+
+                self.isLoading = false;
               },
               url: "container/inspect",
               target: self.inspectInfo,
             };
+            this.isLoading = true;
             services.Common.containerOperate(option);
           },
 
@@ -196,12 +202,14 @@
               },
               cb: function(res) {
                   if(res.status == 200){
-                      notification.alert(data.message);
+                      notification.alert(res.data.message);
                   }
+                  self.isLoading = false;
               },
               url: "container/stop",
-             target: self.baseFields,
+              target: self.baseFields,
             };
+            this.isLoading = true;
             services.Common.containerOperate(option);
           },
 
@@ -213,17 +221,15 @@
               },
               cb: function(res) {
                   if(res.status == 200){
-                      notification.alert(data.message);
+                      notification.alert(res.data.message);
                   }
+                  self.isLoading = false;
               },
               url: "container/restart",
               target: self.baseFields,
             };
+            this.isLoading = true;
             services.Common.containerOperate(option);
-          },
-
-          saveChanges: function() {
-
           }
 
         }

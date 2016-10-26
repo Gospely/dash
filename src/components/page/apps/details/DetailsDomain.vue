@@ -267,7 +267,7 @@
                               _self.subDomain = data.fields.domain.replace(".gospely.com","");
                               _self.oldDomain = data.fields.domain.replace(".gospely.com","");
                             }catch(err) {
-                              notification.alert('解析数据失败: ' + err.toString(), 'warning');
+                              notification.alert('解析域名数据失败: ' + err.toString(), 'warning');
                             }
                           }
                       }
