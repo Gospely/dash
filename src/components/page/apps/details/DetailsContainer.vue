@@ -113,7 +113,7 @@
             },
             url: "container/inspect"
           };
-          services.Common.containerOperation(option);
+          services.Common.containerOperate(option);
         },
 
           logme: function(){

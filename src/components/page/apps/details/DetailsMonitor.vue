@@ -134,7 +134,7 @@
               },
               url: "container/stats"
             };
-            services.Common.containerOperation(option);
+            services.Common.containerOperate(option);
           },
 
         },
