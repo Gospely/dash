@@ -1,12 +1,10 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
-
 import App from './App'
 import {menu} from './config'
-
 import services from './services/index.js'
-
 import notification from './lib/notification'
+import filter from './filter/index.js'
 
 import 'animate.css'
 
@@ -91,9 +89,6 @@ router.beforeEach(function (route) {
 });
 
 //路由请求结束后调用
-console.log(window.location.host);
-
-
 router.afterEach(function () {
 
   var base = "http://"+ window.location.host
@@ -110,6 +105,9 @@ router.afterEach(function () {
 
 });
 
+//初始化过滤器
+filter.init(Vue);
+
 new Vue({
   el: 'title',
 
@@ -124,3 +122,4 @@ new Vue({
 });
 
 window.Vue = Vue;
+

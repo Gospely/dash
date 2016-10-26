@@ -61,14 +61,10 @@ default;
 						globalLoader.setAttribute('value', 100);
 						globalLoader.style.display = 'none';
 
-						console.log('fuck', res);
-
 						//请求成功，统一处理
 						if (res.status === 200) {
 
 							var data = res.data;
-
-							console.log(data);
 
 							if (data.code == 1) {
 								if (data != 'Done!') {
