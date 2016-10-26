@@ -3,7 +3,7 @@
         <h1 class="title"><back></back> 应用详情</h1>
         <hr>
         <div class="content">
-            <tab :active-index = "0" style= "width: 100%;">
+            <tab v-show="!isLoading" :active-index = "0" style= "width: 100%;">
                 <tab-item title="基本">
                     <basic></basic>
                 </tab-item>
@@ -37,15 +37,23 @@
     export default{
         data () {
             return {
-                containerId: null
+                containerId: null,
+
+                isLoading: false
             }
         },
         ready () {
             this.$set('containerId', this.$route.params.containerId);
+
+            var containerId = this.$get('containerId');
+            if(!containerId) {
+
+            }
         },
         methods: {
 
             showid: function() {
+
                 console.log(this.containerId);
             }
 

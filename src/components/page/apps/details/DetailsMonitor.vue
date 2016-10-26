@@ -129,7 +129,7 @@
               },
               url: "container/stats"
             };
-            services.Common.containerOperate(option)
+            services.Common.containerOperate(option);
           },
 
         },

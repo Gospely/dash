@@ -119,7 +119,7 @@
             url: "container/inspect",
             target: self.fields,
           };
-          services.Common.containerOperate(option)
+          services.Common.containerOperate(option);
         },
 
           logme: function(){

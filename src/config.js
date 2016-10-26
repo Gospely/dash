@@ -59,7 +59,7 @@ let menu = {
         component: {
             template: '<router-view></router-view>'
         },
-        subRoutes: {   
+        subRoutes: {
             '/new': {
                 name: 'newapp',
                 label: '创建应用',
@@ -80,6 +80,12 @@ let menu = {
             },
             '/detail/:containerId': {
                 name: 'appdetail',
+                label: '应用详情',
+                hide: true,
+                component: makeComponent('./components/page/apps/Details.vue')
+            },
+            '/detail': {
+                name: 'appdetail_without_id',
                 label: '应用详情',
                 hide: true,
                 component: makeComponent('./components/page/apps/Details.vue')
