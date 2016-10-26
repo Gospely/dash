@@ -113,10 +113,7 @@
             },
             cb: function(res) {
                 if(res.status == 200){
-                  var data = res.data;
-                  if(data.code ==1){
                     notification.alert(data.message);
-                  }
                 }
             },
             url: "container/inspect",
