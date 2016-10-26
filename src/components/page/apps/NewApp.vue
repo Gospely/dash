@@ -327,6 +327,13 @@
 
                 this.products = dockerConfig.id;
                 this.application.config = dockerConfig.id;
+                var unit = '';
+                if(dockerConfig.memoryUnit == "MB"){
+                    unit = 'm'
+                }else{
+                    unit = 'g'
+                }
+                this.application.memory = dockerConfig.memory + unit;
                 this.showCaculateResourceSlider = !dockerConfig.free;
 
                 this.configIsActive[key].isActive = true;
@@ -360,20 +367,26 @@
                 var options = {
 
                     param: this.application,
-                    url: "dockers",
+                    url: "applications",
 
                     msg: {
-                      success: "新建容器成功",
-                      failed : "新建容器失败",
+                      success: "新建应用成功",
+                      failed : "新建应用失败",
                     },
                     ctx: _self,
 
                     cb: function(res) {
-                        console.log(data);
+                      
                         notification.alert('即将跳转至IDE...');
                         setTimeout(function() {
                             window.location.href = "http://ide.gospely.com/#!/archive/";
                         }, 2000);
+                    },
+                    reload: function() {
+
+                      console.log("reload ");
+                      this.application = null;
+                      this.isCreateApp = false;
                     }
                 };
                 services.Common.create(options);
@@ -391,10 +404,10 @@
                 this.application.creator = currentUser;
 
                 if(
-                    this.application.name == '' || 
-                    this.application.config == '' || 
+                    this.application.name == '' ||
+                    this.application.config == '' ||
                     this.application.image == '' ||
-                    this.application.username == '' || 
+                    this.application.username == '' ||
                     this.application.password == ''
                 ) {
                     notification.alert('请完整填写内容', 'warning');
