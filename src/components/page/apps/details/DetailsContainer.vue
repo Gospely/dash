@@ -13,22 +13,17 @@
 
                         <div class="column">
                             <label class="label">名称</label>
-                            <label class="label is-tip">{{fields.name}}</label>
+                            <label class="label is-tip" title="{{containerInfo.Name}}">{{containerInfo.Name | dockerNamefilter}}</label>
                         </div>
 
                         <div class="column">
                             <label class="label">ID</label>
-                            <label class="label is-tip">{{fields.id}}</label>
-                        </div>
-
-                        <div class="column">
-                            <label class="label">启动命令</label>
-                            <label class="label is-tip">{{fields.Args}}</label>
+                            <label class="label is-tip" title="{{containerInfo.Id}}">{{containerInfo.Id}}</label>
                         </div>
 
                         <div class="column">
                             <label class="label">创建于</label>
-                            <label class="label is-tip">{{fields.Created}}</label>
+                            <label class="label is-tip" title="{{containerInfo.Created}}">{{containerInfo.Created}}</label>
                         </div>
 
                     </div>
@@ -37,11 +32,15 @@
 
                         <div class="column">
                             <label class="label">开放端口</label>
-                            <label class="label is-tip">{{fields.HostConfig.PortBindings.8089/tcp.HostPort}}</label>
+                            <label class="label is-tip" v-for="host in containerInfo.HostConfig.PortBindings">{{host | hostConfig}}</label>
+                        </div>
+
+                        <div class="column">
+                            <label class="label">启动命令</label>
+                            <label style="word-wrap:break-word" class="label is-tip" title="{{containerInfo.Args}}">{{containerInfo.Args}}</label>
                         </div>
 
                     </div>
-
 
                 </div>
 
@@ -52,7 +51,7 @@
                     <div class="card is-fullwidth">
                         <header class="card-header">
                             <p class="card-header-title">
-                            256MB/<span class="is-tip">内存</span>
+                            {{containerInfo.HostConfig.Memory | memory}}/<span class="is-tip">内存</span>
                             </p>
                         </header>
                         <footer class="card-footer">
@@ -87,7 +86,7 @@
         data () {
             return {
                 appId: "",
-                fields: [],
+                containerInfo: [],
                 showDomainAddingForm: false,
                 isEditDomain: false,
                 domainInfoFormName: '绑定域名'
@@ -101,8 +100,7 @@
         ready (){
             var self = this;
             self.$set("appId", self.$route.params.containerId)
-            self.inspect();
-            self.logme();
+            self.$get('inspect')();
         },
         methods: {
             inspect: function(){
@@ -113,20 +111,20 @@
                 },
                 cb: function(res) {
                     if(res.status == 200){
-                        this.fields = JSON.parse(fields)[0];
+                        var data = res.data;
+                        self.containerInfo = JSON.parse(data.fields);
+                        if(self.containerInfo.length > 0) {
+                            self.containerInfo = self.containerInfo[0];
+                        }
                     }else {
-                        notification.alert(data.message, 'warning');
+                        notification.alert(data.body, 'warning');
                     }
                 },
                 url: "container/inspect",
-                target: self.fields,
+                target: self.containerInfo,
               };
               services.Common.containerOperate(option);
-            },
-
-            logme: function(){
-                console.log("docker",this.fields);
-            },
+            }
         }
     }
 </script>

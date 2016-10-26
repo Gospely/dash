@@ -9,7 +9,7 @@
                     <div class="columns">
                         <div class="column is-half">
 
-                            <h4>{{inspectInfo.Name}}</h4>
+                            <h4>{{inspectInfo.Name | dockerNameFilter}}</h4>
                             <h4 class="subtitle">部署于：{{inspectInfo.State.StartedAt}}</h4>
 
                             <button class="button is-primary" v-bind:class="{'is-loading': isLoading}" v-on:click="start">启动</button>
