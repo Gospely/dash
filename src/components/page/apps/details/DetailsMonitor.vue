@@ -126,15 +126,13 @@
                   if(res.status == 200){
                     var data = res.data;
                     if(data.code ==1){
-
-                      this.token = data.fields;
                       notification.alert(data.message);
                     }
                   }
               },
               url: "container/stats"
             };
-            services.Common.containerOperation(option);
+            services.Common.containerOperate(option)
           },
 
         },
