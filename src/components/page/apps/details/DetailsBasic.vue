@@ -144,6 +144,7 @@
         methods: {
           start: function(){
             var self = this;
+            notification.alert('正在启动...');
             var option = {
               param: {
                 containerName: self.appId,
@@ -195,43 +196,80 @@
           },
 
           stop: function(){
+
             var self = this;
-            var option = {
-              param: {
-                containerName: self.appId,
-              },
-              cb: function(res) {
-                  if(res.status == 200){
-                      notification.alert(res.data.message);
-                  }
-                  self.isLoading = false;
-              },
-              url: "container/stop",
-              target: self.baseFields,
-            };
-            this.isLoading = true;
-            services.Common.containerOperate(option);
+
+            new ModalCtrl({
+                el: document.createElement('div'),
+                props: {
+                    isShow: false,
+                    header: {
+                        default: '停止应用'
+                    },
+                    body: {
+                        default: '您确定要停止此应用吗？'
+                    }
+                },
+                events: {
+                    'confirmed': function() {
+                      var option = {
+                        param: {
+                          containerName: self.appId,
+                        },
+                        cb: function(res) {
+                            if(res.status == 200){
+                                notification.alert(res.data.message);
+                            }
+                            self.isLoading = false;
+                        },
+                        url: "container/stop",
+                        target: self.baseFields,
+                      };
+                      self.isLoading = true;
+                      services.Common.containerOperate(option);
+                      this.$destroy(true);
+                    }
+                }
+            }).show();
           },
 
           restart: function(){
-            var self = this;
-            var option = {
-              param: {
-                containerName: self.appId,
-              },
-              cb: function(res) {
-                  if(res.status == 200){
-                      notification.alert(res.data.message);
-                  }
-                  self.isLoading = false;
-              },
-              url: "container/restart",
-              target: self.baseFields,
-            };
-            this.isLoading = true;
-            services.Common.containerOperate(option);
-          }
 
+            var self = this;
+            new ModalCtrl({
+                el: document.createElement('div'),
+                props: {
+                    isShow: false,
+                    header: {
+                        default: '停止应用'
+                    },
+                    body: {
+                        default: '您确定要停止此应用吗？'
+                    }
+                },
+                events: {
+                  'confirmed': function() {
+                      var option = {
+                        param: {
+                          containerName: self.appId,
+                        },
+                        cb: function(res) {
+                            if(res.status == 200){
+                                notification.alert(res.data.message);
+                            }
+                            self.isLoading = false;
+                        },
+                        url: "container/restart",
+                        target: self.baseFields
+                      }
+                      self.isLoading = true;
+                      services.Common.containerOperate(option);
+                      this.$destroy(true);
+                  }
+                }
+            }).show();
+
+          }
         }
     }
 </script>
