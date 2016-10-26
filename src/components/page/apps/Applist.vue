@@ -14,7 +14,7 @@
                       <thead>
                         <tr>
                           <th>应用名称</th>
-                          <th>应用ID</th>
+                          <th>所属镜像</th>
                           <th>状态</th>
                           <th>操作</th>
                           <th></th>
@@ -76,30 +76,6 @@
                     </table>
                     <page :cur.sync="cur_stop" :all.sync="all_stop" v-on:btn-click="listen_stop"></page>
                 </tab-item>
-<!--                 <tab-item title="未绑定">
-                    <table class="table">
-                      <thead>
-                        <tr>
-                          <th>应用名称</th>
-                          <th>应用ID</th>
-                          <th>运行环境</th>
-                          <th>状态</th>
-                        </tr>
-                      </thead>
-                      <tbody>
-                        <tr>
-                          <tr v-for="item in fields_unBind">
-                            <td>{{item.name}}</td>
-                            <td>{{item.id}}</td>
-                          <td>
-                          <td>
-                            未绑定
-                          </td>
-                        </tr>
-                      </tbody>
-                    </table>
-                      <page :cur.sync="cur_unBind" :all.sync="all_unBind" v-on:btn-click="listen_unBind"></page>
-                </tab-item> -->
             </tab>
         </div>
     </div>
@@ -160,7 +136,7 @@
                 var _self = this;
                 var options = {
                   param: {
-                    limit: 1,
+                    limit: 10,
                     cur: cur,
                     status: 1,
                     creator: 1
@@ -178,7 +154,7 @@
 
                   url: "applications",
                   param: {
-                    limit: 1,
+                    limit: 10,
                     cur: cur,
                     status: 0,
                     creator: currentUser
@@ -189,33 +165,12 @@
                 }
 
                 services.Common.list(options);
-            },
-            initUnBind: function(cur) {
-
-                var _self = this;
-                var options = {
-
-                  param: {
-                    limit: 1,
-                    cur: cur,
-                    status: -1,
-                    creator: 1
-                  },
-                  url: "applications",
-                  target: 'fields_unBind',
-                  all: 'all_unBind',
-                  ctx: _self
-
-                }
-
-                services.Common.list(options);
             }
         },
         ready: function() {
 
             this.$get("init")(1);
             this.$get("initStop")(1);
-            // this.$get("initUnBind")(1);
         }
     }
 </script>

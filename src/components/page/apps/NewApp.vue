@@ -3,7 +3,14 @@
         <h1 class="title">创建应用</h1>
         <h2 class="subtitle">您可以在这里创建基于<strong>dodora容器云</strong>，并使用Gospel集成开发环境进行开发的应用</h2>
         <hr>
-        <div class="content" v-if="!isCreateApp">
+
+        <div class="spinner loading-shade" v-show="isCreateApp">
+            <div class="bounce1"></div>
+            <div class="bounce2"></div>
+            <div class="bounce3"></div>
+        </div>
+
+        <div class="content">
 
             <modal :is-html="true" :width="800" :is-show.sync="showImageSelectorForm">
                 <div slot="header">选择镜像</div>
@@ -198,22 +205,20 @@
 
             <hr>
 
-
-        </div>
-
-        <div class="content" v-else>
-
-            <div class="spinner">
-                <div class="bounce1"></div>
-                <div class="bounce2"></div>
-                <div class="bounce3"></div>
-            </div>
-
         </div>
 
     </div>
 </template>
 <style>
+
+    .loading-shade {
+        position: absolute;
+        height: 100%;
+        top: 50%;
+        width: 100%;
+        z-index: 65535;
+    }
+
 </style>
 <script>
 
