@@ -88,6 +88,7 @@ default;
 
 											options.ctx[options.target] = data.fields;
 										}
+										notification.alert(data.message);
 									} else {
 										for (var field in data.fields) {
 
@@ -145,8 +146,11 @@ default;
 						if (options.reload != null && options.reload != undefined) {
 
 							console.log("reload");
-							console.log("data cur" + options.ctx.$data.cur);
-							console.log("data" + data.cur);
+							if(options.ctx.$data.cur != undefined){
+								options.reload(options.ctx.$data.cur);
+							}else{
+								options.reload();
+							}
 
 							options.reload(options.ctx.$data.cur);
 						}
