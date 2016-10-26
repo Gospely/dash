@@ -142,12 +142,7 @@
               },
               cb: function(res) {
                   if(res.status == 200){
-                    var data = res.data;
-                    if(data.code ==1){
-
-                      this.token = data.fields;
                       notification.alert(data.message);
-                    }
                   }
               },
               url: "container/start",
@@ -166,15 +161,11 @@
               },
               cb: function(res) {
                   if(res.status == 200){
-                    var data = res.data;
-                    if(data.code ==1){
-
-                      this.token = data.fields;
                       notification.alert(data.message);
-                    }
                   }
               },
               url: "container/stop",
+             target: self.baseFields,
             };
             services.Common.containerOperate(option)
           },
@@ -187,15 +178,11 @@
               },
               cb: function(res) {
                   if(res.status == 200){
-                    var data = res.data;
-                    if(data.code ==1){
-
-                      this.token = data.fields;
                       notification.alert(data.message);
-                    }
                   }
               },
               url: "container/restart",
+              target: self.baseFields,
             };
             services.Common.containerOperate(option)
           },

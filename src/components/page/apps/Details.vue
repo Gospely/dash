@@ -37,7 +37,7 @@
     export default{
         data () {
             return {
-                containerId: null
+                containerId: null,
             }
         },
         ready () {

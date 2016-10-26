@@ -224,7 +224,6 @@
         methods: {
 
             toNewApp: function() {
-                console.log('ssss');
                 this.$router.replace('/apps/new');
             }
 
