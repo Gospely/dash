@@ -182,7 +182,7 @@
 
               </div>
             </div> -->
-
+<!--  -->
             <hr>
 
             <div class="control is-horizontal user-center">
@@ -376,7 +376,7 @@
                     ctx: _self,
 
                     cb: function(res) {
-                      
+
                         notification.alert('即将跳转至IDE...');
                         setTimeout(function() {
                             window.location.href = "http://ide.gospely.com/#!/archive/";

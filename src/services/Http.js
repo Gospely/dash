@@ -120,6 +120,7 @@ module.exports = {
 								if(options.msg != null && options.msg != undefined){
 										notification.alert(options.msg.failed,'danger');
 								}
+								notification.alert("服务器繁忙，请重试");
 								if(options.reload != null && options.reload != undefined){
 
 										console.log("reload");
