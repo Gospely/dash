@@ -120,8 +120,24 @@ module.exports = {
 								if(options.msg != null && options.msg != undefined){
 										notification.alert(options.msg.failed,'danger');
 								}
+								if(options.reload != null && options.reload != undefined){
+
+										console.log("reload");
+										console.log("data cur" + options.ctx.$data.cur);
+										console.log("data" + data.cur);
+
+										options.reload(options.ctx.$data.cur);
+								}
               }
           },function(err){
+							if(options.reload != null && options.reload != undefined){
+
+									console.log("reload");
+									console.log("data cur" + options.ctx.$data.cur);
+									console.log("data" + data.cur);
+
+									options.reload(options.ctx.$data.cur);
+							}
 							notification.alert("服务器异常",'danger');
 							//切换提醒方式
           }

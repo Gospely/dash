@@ -86,8 +86,8 @@
     export default{
         data () {
             return {
-              appId: "",
-                fields: {},
+                appId: "",
+                fields: [],
                 showDomainAddingForm: false,
                 isEditDomain: false,
                 domainInfoFormName: '绑定域名'
@@ -111,7 +111,16 @@
             param: {
               containerName: self.appId,
             },
-            url: "container/inspect"
+            cb: function(res) {
+                if(res.status == 200){
+                  var data = res.data;
+                  if(data.code ==1){
+                    notification.alert(data.message);
+                  }
+                }
+            },
+            url: "container/inspect",
+            target: self.fields,
           };
           services.Common.containerOperate(option);
         },

@@ -181,7 +181,7 @@
                     limit: 1,
                     cur: cur,
                     status: 0,
-                    creator: 1
+                    creator: currentUser
                   },
                   target: 'fields_stop',
                   all: 'all_stop',
