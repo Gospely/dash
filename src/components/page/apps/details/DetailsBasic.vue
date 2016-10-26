@@ -9,8 +9,8 @@
                     <div class="columns">
                         <div class="column is-half">
 
-                            <h4>Gospel_docker</h4>
-                            <h4 class="subtitle">部署于：24小时前</h4>
+                            <h4>{{inspectInfo.name}}</h4>
+                            <h4 class="subtitle">部署于：{{inspectInfo.createat}}</h4>
 
                             <button class="button is-primary" v-on:click="start">启动</button>
                             <button class="button is-warning" v-on:click="stop">停止</button>
@@ -21,10 +21,10 @@
                         <div class="column is-half">
 
                             <span class="help is-tip">状态: <span style="display:inline" class="help is-success">正在运行</span></span>
-                            <span class="help is-tip">访问方式: HTTP/SSH, HTTP端口：8889, SSH端口：8876</span>
+                            <span class="help is-tip">访问方式: HTTP/SSH, HTTP端口：{{inspectInfo.port}}, SSH端口：{{inspectInfo.sshPort}}</span>
                             <span class="help is-tip">运行环境: Dodora云平台</span>
                             <span class="help is-tip">运行系统: Linux Ubuntu</span>
-                            <span class="help is-tip">访问地址: http://gospel-docker.gospely.com</span>
+                            <span class="help is-tip">访问地址: {{inspectInfo.domain}}</span>
 
                         </div>
                     </div>
@@ -32,7 +32,7 @@
                 </div>
 
                 <div class="column">
-
+                  <div v-show="inspectInfo.team">
                     <h4>团队成员</h4>
 
                     <article class="media">
@@ -84,9 +84,10 @@
                           </p>
                         </div>
                       </div>
-                    </article>
+                    </article>                    
+                  </div>
 
-                    <span class="help is-tip">此项目非团队项目</span>
+                  <span  v-show="!inspectInfo.team" class="help is-tip">此项目非团队项目</span>
 
                 </div>
 
@@ -117,11 +118,13 @@
         data () {
             return {
               baseFields: [],
-                appId: "",
-                showDomainAddingForm: false,
-                isEditDomain: false,
-                domainInfoFormName: '绑定域名',
-                fields: ''
+              appId: "",
+              showDomainAddingForm: false,
+              isEditDomain: false,
+              domainInfoFormName: '绑定域名',
+              fields: '',
+
+              inspectInfo: {}
             }
         },
 
@@ -129,10 +132,13 @@
             Chart,
             Modal
         },
+
         ready (){
           this.$set("appId", this.$route.params.containerId);
           console.log(this.$get("appId"));
+          this.$get('inspect')();
         },
+
         methods: {
           start: function(){
             var self = this;
@@ -150,9 +156,31 @@
             };
             services.Common.containerOperate(option)
           },
+
           openInIde: function(){
             window.location.href = "http://ide.gospely.com/#!/archive/" + this.appId;
           },
+
+          inspect: function() {
+            var self = this;
+            var option = {
+              param: {
+                containerName: self.appId,
+              },
+              cb: function(res) {
+
+                if(res.data.code == 500) {
+                  notification.alert(res.data.message, 'warning');
+                }else {
+                  self.inspectInfo = res.data.fields;
+                }
+              },
+              url: "container/inspect",
+              target: self.inspectInfo,
+            };
+            services.Common.containerOperate(option);
+          },
+
           stop: function(){
             var self = this;
             var option = {
@@ -167,7 +195,7 @@
               url: "container/stop",
              target: self.baseFields,
             };
-            services.Common.containerOperate(option)
+            services.Common.containerOperate(option);
           },
 
           restart: function(){
@@ -184,13 +212,12 @@
               url: "container/restart",
               target: self.baseFields,
             };
-            services.Common.containerOperate(option)
+            services.Common.containerOperate(option);
           },
 
+          saveChanges: function() {
 
-            saveChanges: function() {
-
-            }
+          }
 
         }
     }
