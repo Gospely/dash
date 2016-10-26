@@ -153,10 +153,7 @@
               url: "container/start",
               target: self.baseFields,
             };
-            services.Common.containerOperate(option).then( function(res){
-              console.log("res",res);
-              console.log(self.baseFields);
-            })
+            services.Common.containerOperate(option)
           },
           openInIde: function(){
             window.location.href = "http://ide.gospely.com/#!/archive/" + this.appId;
@@ -167,18 +164,16 @@
               param: {
                 containerName: self.appId,
               },
-              msg: {
-                success:{
-                  title: '新增IDE版本',
-                  message: '新增IDE版本成功',
-                  type: 'primary'
-                },
-                failed: {
-                  title: '新增IDE版本',
-                  message: '新增IDE版本失败',
-                  type: 'warning'
-                }
-            },
+              cb: function(res) {
+                  if(res.status == 200){
+                    var data = res.data;
+                    if(data.code ==1){
+
+                      this.token = data.fields;
+                      notification.alert(data.message);
+                    }
+                  }
+              },
               url: "container/stop",
             };
             services.Common.containerOperate(option)
@@ -190,18 +185,16 @@
               param: {
                 containerName: self.appId,
               },
-              msg: {
-                success:{
-                  title: '新增IDE版本',
-                  message: '新增IDE版本成功',
-                  type: 'primary'
-                },
-                failed: {
-                  title: '新增IDE版本',
-                  message: '新增IDE版本失败',
-                  type: 'warning'
-                }
-            },
+              cb: function(res) {
+                  if(res.status == 200){
+                    var data = res.data;
+                    if(data.code ==1){
+
+                      this.token = data.fields;
+                      notification.alert(data.message);
+                    }
+                  }
+              },
               url: "container/restart",
             };
             services.Common.containerOperate(option)

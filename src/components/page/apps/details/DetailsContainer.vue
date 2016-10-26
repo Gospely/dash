@@ -105,19 +105,6 @@
           self.logme();
         },
         methods: {
-        //   inspect : function(){
-        //     var self = this;
-        //     var option ={
-        //       param: {
-        //         // limit:1,
-        //       containerName : self.appId,
-        //       },
-        //       url: "container/inspect",
-        //       // target: "fields",
-        //     };
-        //   services.Common.containerOperation(option);
-        //   },
-        // },
         inspect: function(){
           var self = this;
           var option = {
