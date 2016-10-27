@@ -394,6 +394,7 @@
                     },
                     ctx: _self,
 
+<<<<<<< HEAD
                     cb: function(res) {
 
                         notification.alert('即将跳转至IDE...');
@@ -409,6 +410,12 @@
                             }else{
                               notification.alert(data.message,'danger');
                             }
+=======
+                    cb: function(res) {                      
+                        if(res.status == 200) {
+                            notification.alert('创建成功');
+                            _self.$router.replace('/apps/detail');
+>>>>>>> b3635a0d23e0bb848a4ee1346beaaaffcdc48e84
                         }else {
                             notification.alert('创建失败: ' + res.statusText);
                         }
