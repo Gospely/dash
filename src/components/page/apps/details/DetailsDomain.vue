@@ -149,8 +149,8 @@
                     });
                 }else{
                   services.Common.save({
+                    url: 'domians/bind',
                     domain: edit.domain,
-                    ip: edit.ip,
                     creator: currentUser,
                     application: _self.application,
                     ctx: _self,
@@ -238,7 +238,7 @@
                 }
             },
             initDomains: function() {
-
+                console.log(11);
                 var _self = this;
                 services.Common.list({
 
