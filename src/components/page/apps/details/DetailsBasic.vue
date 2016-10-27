@@ -9,11 +9,11 @@
                     <div class="columns">
                         <div class="column is-half">
 
-                            <h4>{{inspectInfo.name}}</h4>
+                            <h4>{{inspectInfo.name}}  <button class="button is-active">{{status}}</button></h4>
                             <h4 class="subtitle">部署于：{{inspectInfo.createat}}</h4>
 
-                            <button class="button is-primary" v-bind:class="{'is-loading': isLoading}" v-on:click="start">启动</button>
-                            <button class="button is-warning" v-bind:class="{'is-loading': isLoading}" v-on:click="stop">停止</button>
+                            <button class="button is-primary" v-bind:class="{'is-loading': isLoading}" v-on:click="start" v-show="status_running">启动</button>
+                            <button class="button is-warning" v-bind:class="{'is-loading': isLoading}" v-on:click="stop" v-show="status_stop">停止</button>
                             <button class="button is-success" v-bind:class="{'is-loading': isLoading}" v-on:click="restart">重新启动</button>
                             <button class="button is-primary" v-bind:class="{'is-loading': isLoading}" v-on:click="openInIde">从IDE打开</button>
                         </div>
@@ -125,7 +125,9 @@
               fields: '',
 
               inspectInfo: {},
-
+              status: '',
+              status_stop: false,
+              status_running: false,
               isLoading: false
             }
         },
@@ -151,13 +153,14 @@
               cb: function(res) {
                 if(res.status == 200){
                     notification.alert(res.data.message);
+                    reload: self.$get("inspect")()
                 }else {
                   notification.alert(res.body);
                 }
                 self.isLoading = false;
               },
               url: "container/start",
-              target: self.baseFields,
+              target: self.baseFields
             };
             this.isLoading = true;
             services.Common.containerOperate(option)
@@ -181,6 +184,17 @@
                   if(data.code == 1){
 
                     self.inspectInfo = data.fields;
+
+                    if(data.fields.status == 1){
+                        self.status = '已启动';
+                        self.status_stop = true;
+                        self.status_running = false;
+                    }
+                    if(data.fields.status == -1 ){
+                        self.status_running = true;
+                        self.status_stop = false;
+                        self.status = '已停止';
+                    }
                   }
                 }
               },
@@ -215,6 +229,7 @@
                         cb: function(res) {
                             if(res.status == 200){
                                 notification.alert(res.data.message);
+                                self.$get("inspect")();
                             }
                             self.isLoading = false;
                         },
@@ -253,11 +268,12 @@
                         cb: function(res) {
                             if(res.status == 200){
                                 notification.alert(res.data.message);
+                                self.$get("inspect")();
                             }
                             self.isLoading = false;
                         },
                         url: "container/restart",
-                        target: self.baseFields
+                        target: self.baseFields,
                       }
                       self.isLoading = true;
                       services.Common.containerOperate(option);
