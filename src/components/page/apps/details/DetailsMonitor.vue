@@ -32,16 +32,38 @@
         data () {
             return {
                 appId: "",
-                msg: 'hello vue'
+                msg: 'hello vue',
+
+                network: {
+                    inner: [],
+                    outer: []
+                },
+
+                cpu: {
+                    data: []
+                },
+
+                memory: {
+                    data: []
+                },
+
+                timeLabel: [],
+
+                interval: 0,
+
+                start: false
             }
         },
 
         computed: {
             CPUChartData () {
+
+                var self = this;
+
                 return {
-                    labels: ['January', 'February', 'March', 'April', 'May', 'June', 'July'],
+                    labels: self.timeLabel,
                     datasets: [{
-                        label: 'CPU使用率',
+                        label: 'CPU使用率 (%)',
                         backgroundColor: 'rgba(151, 187, 205, 0.5)',
                         borderColor: '#CCCCCC',
                         borderWidth: 2,
@@ -60,15 +82,18 @@
                         pointHoverBorderWidth: 2,
                         pointRadius: 4,
                         pointHitRadius: 2,
-                        data: [30, 45, 67, 83, 89, 64, 50]
+                        data: self.cpu.data
                     }]
                 }
             },
             memoryChartData () {
+
+                var self = this;
+
                 return {
-                    labels: ['January', 'February', 'March', 'April', 'May', 'June', 'July'],
+                    labels: self.timeLabel,
                     datasets: [{
-                        label: '内存 (MB)',
+                        label: '内存使用率 (%)',
                         backgroundColor: 'rgba(151, 187, 205, 0.5)',
                         borderColor: '#CCCCCC',
                         borderWidth: 2,
@@ -87,13 +112,16 @@
                         pointHoverBorderWidth: 2,
                         pointRadius: 4,
                         pointHitRadius: 2,
-                        data: [30, 45, 67, 83, 89, 64, 50]
+                        data: self.memory.data
                     }]
                 }
             },
             netChartData () {
+
+                var self = this;
+
                 return {
-                    labels: ['January', 'February', 'March', 'April', 'May', 'June', 'July'],
+                    labels: self.timeLabel,
                     datasets: [{
                         label: '入带宽 (kb/s)',
                         backgroundColor: 'rgba(237, 237, 237, 0.5)',
@@ -114,7 +142,7 @@
                         pointHoverBorderWidth: 2,
                         pointRadius: 4,
                         pointHitRadius: 2,
-                        data: [65, 59, 80, 81, 56, 55, 40]
+                        data: self.network.inner
                     },{
                         label: '出带宽 (kb/s)',
                         backgroundColor: 'rgba(151, 187, 205, 0.5)',
@@ -135,7 +163,7 @@
                         pointHoverBorderWidth: 2,
                         pointRadius: 4,
                         pointHitRadius: 2,
-                        data: [30, 45, 67, 83, 89, 64, 50]
+                        data: self.network.outer
                     }]
                 }
             }
@@ -143,34 +171,108 @@
 
         ready (){
             this.$set("appId", this.$route.params.containerId);
-            this.$get('stats')();
+            var self = this;
+        },
+
+        events: {
+
+            'start-monitor': function() {
+                console.log('start');
+                this.start = true;
+                this.startMonitor();
+            },
+
+            'stop-monitor': function() {
+                console.log('stop');
+                this.start = false;
+                this.stopMonitor();
+            }
+
         },
 
         methods: {
-          stats: function(){
-            var self = this;
-            var option = {
-                param: {
-                    containerName: self.appId,
-                },
-                cb: function(res) {
-                    console.log(res);
-                    if(res.status == 200){
-                        var data = res.data;
 
-                        if(data.code == 200) {
-                            var stats = JSON.parse(data.fields);
-                                
-                            console.log(stats);
+            startMonitor: function() {
+                if(this.start) {
+                    this.interval = setInterval( () => {
+                        this.stats();
+                    }, 1000);       
+                }
+            },
 
-                        }else {
-                            console.log(data.message);
+            stopMonitor: function() {
+                clearInterval(this.interval);
+            },
+
+            stats: function() {
+                var self = this;
+                console.log('stats');
+                var option = {
+                    param: {
+                        containerName: self.appId,
+                    },
+                    cb: function(res) {
+                        if(res.status == 200){
+                            var data = res.data;
+
+                            if(data.code == 200) {
+                                var stats = JSON.parse(data.fields);
+                                    
+                                console.log(stats);
+
+                                var time = stats.read.substring(11, 19);
+                                console.log(time);
+                                self.timeLabel.push(time);
+
+                                if(self.timeLabel.length > 7) {
+                                    self.timeLabel.splice(0, 1);
+                                }
+
+                                console.log(self.cpu.data, self.timeLabel);
+
+                                //CPU
+                                var totalCPU = stats.cpu_stats.system_cpu_usage;
+                                var usage = stats.cpu_stats.cpu_usage.total_usage;
+                                usage = ((usage / totalCPU) * 100).toFixed(2);
+                                self.cpu.data.push(usage);
+
+                                if(self.cpu.data.length > 7) {
+                                    self.cpu.data.splice(0, 1);
+                                }
+
+                                //Memory
+
+                                var memory = stats.memory_stats;
+                                var totalMemory = memory.limit;
+                                var usage = (memory.usage / totalMemory * 100).toFixed(2);
+                                self.memory.data.push(usage);
+
+                                if(self.memory.data.length > 7) {
+                                    self.memory.data.splice(0, 1);
+                                }
+
+                                //Network
+
+                                var network = stats.networks.eth0;
+                                var rx = (network.rx_bytes / 1024).toFixed(2);
+                                var tx = (network.tx_bytes / 1024).toFixed(2);
+
+                                self.network.inner.push(rx);
+                                self.network.outer.push(tx);
+
+                                if(self.network.inner.length > 7) {
+                                    self.network.inner.splice(0, 1);
+                                    self.network.outer.splice(0, 1);
+                                }
+
+                            }else {
+                                console.log(data.message);
+                            }
                         }
-                    }
-                },
-                url: "container/stats"
-            };
-            services.Common.containerOperate(option);
+                    },
+                    url: "container/stats"
+                };
+                services.Common.containerOperate(option);
           },
 
         },

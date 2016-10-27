@@ -13,7 +13,7 @@
                 <tab-item title="域名">
                     <domain></domain>
                 </tab-item>
-                <tab-item title="监控">
+                <tab-item @selected="startMonitorEvent" @deselected="stopMonitorEvent" title="监控">
                     <Monitor></Monitor>
                 </tab-item>                
                 <tab-item title="设置"> 
@@ -47,6 +47,14 @@
 
             showid: function() {
                 console.log(this.containerId);
+            },
+
+            startMonitorEvent: function() {
+                this.$broadcast('start-monitor');
+            },
+
+            stopMonitorEvent: function() {
+                this.$broadcast('stop-monitor');
             }
 
         },

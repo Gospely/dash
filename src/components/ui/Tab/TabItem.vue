@@ -29,7 +29,12 @@
         },
         events: {
             'change': function () {
-                this.show = this.$parent.activeIndex === this.index
+                this.show = this.$parent.activeIndex === this.index;
+                if(this.show) {
+                    this.$dispatch('selected');                    
+                }else {
+                    this.$dispatch('deselected');
+                }
             }
         },
         components: {
