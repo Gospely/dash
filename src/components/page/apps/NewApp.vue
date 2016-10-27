@@ -400,10 +400,11 @@
                         if(res.status == 200) {
 
                             var data = res.data;
+                            console.log(data);
                             if(data.code == '1') {
-                              _self.$router.replace('/apps/detail' + data.fields.id);
+                              _self.$router.replace('/apps/detail/' + data.fields.id);
                               setTimeout(function() {
-                                  window.location.href = "http://ide.gospely.com/#!/archive/" + data.failes.id;
+                                  window.location.href = "http://ide.gospely.com/#!/archive/" + data.fields.id;
                               }, 1000);
                             }else{
                               notification.alert(data.message,'danger');
