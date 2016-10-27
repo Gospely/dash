@@ -395,13 +395,20 @@
                     ctx: _self,
 
                     cb: function(res) {
-                      
+
                         notification.alert('即将跳转至IDE...');
-                        setTimeout(function() {
-                            window.location.href = "http://ide.gospely.com/#!/archive/";
-                        }, 2000);
+
                         if(res.status == 200) {
-                            _self.$router.replace('/apps/detail');
+
+                            var data = res.data;
+                            if(data.code == '1') {
+                              _self.$router.replace('/apps/detail' + data.fields.id);
+                              setTimeout(function() {
+                                  window.location.href = "http://ide.gospely.com/#!/archive/" + data.failes.id;
+                              }, 1000);
+                            }else{
+                              notification.alert(data.message,'danger');
+                            }
                         }else {
                             notification.alert('创建失败: ' + res.statusText);
                         }

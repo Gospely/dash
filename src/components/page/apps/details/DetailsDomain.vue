@@ -208,30 +208,15 @@
                 var _self = this;
                 if(this.domains !=  this.oldDomain){
 
-                    services.Common.create({
+                    services.Common.update({
                         param:{
-                          domain: _self.subDomain,
+                          subDomain: _self.subDomain,
+                          oldDomain: _self.oldDomain,
                           creator: currentUser,
                           application: _self.application,
                           reload: _self.$get("initDomains")()
-
                         },
                         url: 'domains',
-                        cb:function(res){
-                            if(res.status == 200){
-
-                                services.Common.update({
-                                    param:{
-                                      id: _self.application,
-                                      domain:  _self.subDomain + '.gospely.com',
-                                    },
-                                    url: 'applications',
-                                    ctx: _self,
-                                    reload: _self.$get("initApplication")()
-                                });
-
-                            }
-                        }
                     });
                 }else{
                     notification.alert("未修改域名，请确认");

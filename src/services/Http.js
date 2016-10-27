@@ -84,7 +84,9 @@ default;
 
 											options.ctx[options.target] = data.fields;
 										}
-										notification.alert(data.message);
+										if(data.message != undefined) {
+											notification.alert(data.message);
+										}
 									} else {
 										for (var field in data.fields) {
 
@@ -119,6 +121,9 @@ default;
 								options.reload(options.ctx.$data.cur);
 							}
 							if(options.code === 500) {
+								notification.alert(data.message, 'danger');
+							}
+							if(data.code === -1) {
 								notification.alert(data.message, 'danger');
 							}
 							//分页参数处理
