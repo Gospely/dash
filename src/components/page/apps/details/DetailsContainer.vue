@@ -4,9 +4,9 @@
 
             <div class="columns">
 
-                <div class="column is-three-quarters">
+                <div class="column">
 
-                    <label class="label">基本信息</label>
+                    <label class="label">容器信息</label>
                     <hr class="split">
 
                     <div class="columns">
@@ -26,11 +26,16 @@
                             <label class="label is-tip" title="{{containerInfo.Created}}">{{containerInfo.Created}}</label>
                         </div>
 
+                        <div class="column">
+                            <label class="label">内存</label>
+                            <label class="label is-tip" title="{{containerInfo.Args}}">{{containerInfo.HostConfig.Memory | memory}}</label>
+                        </div>
+
                     </div>
 
                     <div class="columns">
 
-                        <div class="column">
+                        <div class="column is-3">
                             <label class="label">开放端口</label>
                             <label class="label is-tip" v-for="host in containerInfo.HostConfig.PortBindings">{{host | hostConfig}}</label>
                         </div>
@@ -44,7 +49,7 @@
 
                 </div>
 
-                <div class="column">
+<!--                 <div class="column">
 
                     <label class="label">配置信息</label>
                     <hr class="split">
@@ -61,7 +66,7 @@
                         </footer>
                     </div>
 
-                </div>
+                </div> -->
 
             </div>
 

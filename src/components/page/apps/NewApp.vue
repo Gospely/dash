@@ -394,13 +394,9 @@
                     },
                     ctx: _self,
 
-                    cb: function(res) {
-                      
-                        notification.alert('即将跳转至IDE...');
-                        setTimeout(function() {
-                            window.location.href = "http://ide.gospely.com/#!/archive/";
-                        }, 2000);
+                    cb: function(res) {                      
                         if(res.status == 200) {
+                            notification.alert('创建成功');
                             _self.$router.replace('/apps/detail');
                         }else {
                             notification.alert('创建失败: ' + res.statusText);

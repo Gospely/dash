@@ -9,8 +9,8 @@
                     <div class="columns">
                         <div class="column is-half">
 
-                            <h4>{{inspectInfo.Name | dockerNameFilter}}</h4>
-                            <h4 class="subtitle">部署于：{{inspectInfo.State.StartedAt}}</h4>
+                            <h4>{{inspectInfo.name}}</h4>
+                            <h4 class="subtitle">部署于：{{inspectInfo.createat}}</h4>
 
                             <button class="button is-primary" v-bind:class="{'is-loading': isLoading}" v-on:click="start">启动</button>
                             <button class="button is-warning" v-bind:class="{'is-loading': isLoading}" v-on:click="stop">停止</button>
@@ -20,7 +20,7 @@
 
                         <div class="column is-half">
 
-                            <span class="help is-tip">状态: <span style="display:inline" class="help is-success">{{inspectInfo.State.Status}}</span></span>
+                            <span class="help is-tip">状态: <span style="display:inline" class="help is-success">{{inspectInfo.status}}</span></span>
                             <span class="help is-tip">访问方式: HTTP/SSH, HTTP端口：{{inspectInfo.port}}, SSH端口：{{inspectInfo.sshPort}}</span>
                             <span class="help is-tip">运行环境: Dodora云平台</span>
                             <span class="help is-tip">运行系统: Linux Ubuntu</span>
@@ -137,7 +137,6 @@
 
         ready (){
           this.$set("appId", this.$route.params.containerId);
-          console.log(this.$get("appId"));
           this.$get('inspect')();
         },
 
@@ -172,23 +171,12 @@
             var self = this;
             var option = {
               param: {
-                containerName: self.appId,
+                id: self.appId,
               },
               cb: function(res) {
-
-                if(res.data.code == 500) {
-                  notification.alert(res.data.message, 'warning');
-                }else {
-                  try {
-                    self.inspectInfo = JSON.parse(res.data.fields)[0];
-                  }catch(err) {
-                    notification.alert('解析数据失败', 'warning');
-                  }
-                }
-
                 self.isLoading = false;
               },
-              url: "container/inspect",
+              url: "applications",
               target: self.inspectInfo,
             };
             this.isLoading = true;
@@ -212,6 +200,7 @@
                 },
                 events: {
                     'confirmed': function() {
+                      notification.alert('正在停止...');
                       var option = {
                         param: {
                           containerName: self.appId,
@@ -249,6 +238,7 @@
                 },
                 events: {
                   'confirmed': function() {
+                      notification.alert('正在重启...');
                       var option = {
                         param: {
                           containerName: self.appId,
