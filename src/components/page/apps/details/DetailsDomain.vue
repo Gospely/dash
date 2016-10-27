@@ -263,8 +263,7 @@
         },
         ready: function() {
 
-            var split = window.location.href.split("/")
-            this.application = split[split.length -1 ];
+            this.$set("application", this.$route.params.containerId);
             this.$get("initDomains")();
             this.$get("initApplication")();
         }

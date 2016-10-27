@@ -84,7 +84,7 @@
                           </p>
                         </div>
                       </div>
-                    </article>                    
+                    </article>
                   </div>
 
                   <span  v-show="!inspectInfo.team" class="help is-tip">此项目非团队项目</span>
@@ -175,12 +175,19 @@
               },
               cb: function(res) {
                 self.isLoading = false;
+                if(res.status == 200){
+
+                  var data = res.data;
+                  if(data.code == 1){
+
+                    self.inspectInfo = data.fields;
+                  }
+                }
               },
               url: "applications",
-              target: self.inspectInfo,
             };
             this.isLoading = true;
-            services.Common.containerOperate(option);
+            services.Common.getOne(option);
           },
 
           stop: function(){
