@@ -197,7 +197,7 @@ let menu = {
         icon: 'laptop',
         label: '组件',
         isShowSubMenu: false,
-        hide: false,
+        hide: true,
         component: {
             template: '<router-view></router-view>'
         },
@@ -251,7 +251,7 @@ let menu = {
         icon: 'table',
         name: 'grid',
         label: '布局',
-        hide: false,
+        hide: true,
         component: {
             template: '<router-view></router-view>'
         },
@@ -327,7 +327,7 @@ let menu = {
         icon: 'bar-chart',
         name: 'charts',
         isShowSubMenu: false,
-        hide: false,
+        hide: true,
         component: {
             template: '<router-view></router-view>'
         },

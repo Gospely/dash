@@ -218,8 +218,6 @@
                             if(data.code == 200) {
                                 var stats = JSON.parse(data.fields);
                                     
-                                console.log(stats);
-
                                 var time = stats.read.substring(11, 19);
                                 console.log(time);
                                 self.timeLabel.push(time);
@@ -227,8 +225,6 @@
                                 if(self.timeLabel.length > 7) {
                                     self.timeLabel.splice(0, 1);
                                 }
-
-                                console.log(self.cpu.data, self.timeLabel);
 
                                 //CPU
                                 var totalCPU = stats.cpu_stats.system_cpu_usage;
