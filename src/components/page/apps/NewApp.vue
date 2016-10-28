@@ -400,8 +400,9 @@
                         if(res.status == 200) {
 
                             var data = res.data;
+                            console.log(data);
                             if(data.code == '1') {
-                              _self.$router.replace('/apps/detail' + data.fields.id);
+                              _self.$router.replace('/apps/detail/' + data.fields.id);
                               setTimeout(function() {
                                   window.location.href = "http://localhost:8080/#!/archive/" + data.failes.id;
                               }, 1000);
