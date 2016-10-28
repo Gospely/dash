@@ -164,7 +164,7 @@
           },
 
           openInIde: function(){
-            window.location.href = "http://ide.gospely.com/#!/archive/" + this.appId;
+            window.location.href = "http://localhost:8080/#!/archive/" + this.appId;
           },
 
           inspect: function() {

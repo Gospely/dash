@@ -403,7 +403,7 @@
                             if(data.code == '1') {
                               _self.$router.replace('/apps/detail' + data.fields.id);
                               setTimeout(function() {
-                                  window.location.href = "http://ide.gospely.com/#!/archive/" + data.failes.id;
+                                  window.location.href = "http://localhost:8080/#!/archive/" + data.failes.id;
                               }, 1000);
                             }else{
                               notification.alert(data.message,'danger');
