@@ -167,7 +167,7 @@
           },
 
           openInIde: function(){
-            window.location.href = "http://localhost:8080/#!/archive/" + this.appId;
+            window.open("http://localhost:8080/#!/archive/" + this.appId);
           },
 
           inspect: function() {

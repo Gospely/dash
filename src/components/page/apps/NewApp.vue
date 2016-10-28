@@ -395,17 +395,11 @@
                     ctx: _self,
                     cb: function(res) {
 
-                        notification.alert('即将跳转至IDE...');
-
                         if(res.status == 200) {
-
                             var data = res.data;
-                            console.log(data);
+                            notification.alert(data.message);
                             if(data.code == '1') {
                               _self.$router.replace('/apps/detail/' + data.fields.id);
-                              setTimeout(function() {
-                                  window.location.href = "http://localhost:8080/#!/archive/" + data.failes.id;
-                              }, 1000);
                             }else{
                               notification.alert(data.message,'danger');
                             }
