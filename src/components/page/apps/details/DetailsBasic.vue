@@ -9,7 +9,7 @@
                     <div class="columns">
                         <div class="column is-half">
 
-                            <h4>{{inspectInfo.name}}  <button class="button is-active">{{status}}</button></h4>
+                            <h4><button class="button is-small" v-bind:class="{'is-success': !status_running, 'is-danger': !status_stop}">{{status}}</button> {{inspectInfo.name}}</h4>
                             <h4 class="subtitle">部署于：{{inspectInfo.createat}}</h4>
 
                             <button class="button is-primary" v-bind:class="{'is-loading': isLoading}" v-on:click="start" v-show="status_running">启动</button>
