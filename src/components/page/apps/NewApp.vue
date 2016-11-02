@@ -542,6 +542,7 @@
                 this.withImage = true;
                 this.imageId = item.id;
                 this.application.imageName = item.name;
+                this.imageName = item.name;
             },
 
             'cycSelected': function(cyc) {
