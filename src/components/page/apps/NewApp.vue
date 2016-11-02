@@ -243,8 +243,8 @@
                     image: '',
                     volume: '',
                     username: 'root',
-                    password: ''
-
+                    password: '',
+                    imageName: ''
                 },
                 price: '10 X 100 = 1000',
                 unitPrice: 0,
@@ -541,7 +541,7 @@
                 this.showImageSelectorForm = false;
                 this.withImage = true;
                 this.imageId = item.id;
-                this.imageName = item.name;
+                this.application.imageName = item.name;
             },
 
             'cycSelected': function(cyc) {
