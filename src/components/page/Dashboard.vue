@@ -176,7 +176,7 @@
                 url: 'applications',
                 param: {
                     creator: currentUser,
-                    status:0,
+                    status: -1,
                 },
                 cb: function(res){
                       if(res.status == 200){
@@ -192,7 +192,7 @@
                 url: 'applications',
                 param: {
                     creator: currentUser,
-                    status:1,
+                    status: 1,
                 },
                 cb: function(res){
                       if(res.status == 200){

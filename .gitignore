@@ -10,3 +10,4 @@ static/
 *.sublime-project
 *.sublime-workspace
 .tern-project
+dist.zip

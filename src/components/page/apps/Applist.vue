@@ -17,7 +17,6 @@
                           <th>所属镜像</th>
                           <th>状态</th>
                           <th>操作</th>
-                          <th></th>
                         </tr>
                       </thead>
                       <tbody>
@@ -33,11 +32,6 @@
                               <i class="fa fa-share"></i>
                             </a>
                           </td>
-                          <td class="is-icon" title="停止应用">
-                            <a href="#">
-                              <i class="fa fa-times "></i>
-                            </a>
-                          </td>
                         </tr>
                       </tbody>
                     </table>
@@ -51,7 +45,6 @@
                           <th>应用ID</th>
                           <th>状态</th>
                           <th>操作</th>
-                          <th></th>
                         </tr>
                       </thead>
                       <tbody>
@@ -64,11 +57,6 @@
                           <td class="is-icon" title="进入应用">
                             <a v-link="{path: '/apps/detail/'+item.id}">
                               <i class="fa fa-share"></i>
-                            </a>
-                          </td>
-                          <td class="is-icon" title="启动应用">
-                            <a href="#">
-                              <i class="fa fa-times "></i>
                             </a>
                           </td>
                         </tr>
