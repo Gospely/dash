@@ -156,7 +156,7 @@
                   param: {
                     limit: 10,
                     cur: cur,
-                    status: 0,
+                    status: -1,
                     creator: currentUser
                   },
                   target: 'fields_stop',

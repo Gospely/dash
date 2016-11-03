@@ -398,14 +398,17 @@
                         if(res.status == 200) {
                             var data = res.data;
                             notification.alert(data.message);
+                            console.log(data);
                             if(data.code == '1') {
                               _self.$router.replace('/apps/detail/' + data.fields.id);
                             }else{
+                              _self.$get("reload")();
                               notification.alert(data.message,'danger');
                             }
 
                         }else {
                             notification.alert('创建失败: ' + res.statusText);
+                            _self.$get("reload")();
                         }
                     },
                     reload: function() {
