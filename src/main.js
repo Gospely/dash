@@ -93,12 +93,13 @@ router.afterEach(function () {
 
   var base = "http://"+ window.location.host
   var loginUrl =base + "/#!/accounts/login";
-
   var register = base + '/#!/accounts/register';
   if(window.location.href == loginUrl || window.location.href == register){
 
   }else{
-    if(localStorage.getItem('token') == '' || localStorage.getItem('token') == undefined) {
+
+    if(localStorage.getItem('token') == '' || localStorage.getItem('token') == undefined || localStorage.getItem('token') == 'undefined') {
+
         window.location.href = loginUrl
     }
   }
@@ -122,4 +123,3 @@ new Vue({
 });
 
 window.Vue = Vue;
-
