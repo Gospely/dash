@@ -152,7 +152,7 @@
                 towWay: true
             },
 
-            isHTML: {
+            isHtml: {
                 type: Boolean,
                 required: false,
                 default () {
@@ -202,8 +202,8 @@
             },
 
             destroy () {
-                console.log(this.isHTML);
-                if(this.isHTML) {
+                console.log(this.isHtml);
+                if(this.isHtml) {
                     this.isShow = false;
                 }else {
                     this.$destroy(true);
