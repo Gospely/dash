@@ -103,7 +103,7 @@
           }
       },
       created () {
-        
+
       },
       beforeDestroy () {
           if (this.timer) {
@@ -118,6 +118,7 @@
             fields: [],
             all: 8,
             cur: 1,
+            qrcode: '',
 
             renewIDEVolumeForm: false
           }
