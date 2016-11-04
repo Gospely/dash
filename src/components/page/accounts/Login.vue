@@ -181,17 +181,6 @@
                   notification.alert('服务器异常','danger');
                   this.phone = '';
                   this.password = '';
-                  var count = localStorage.getItem('error');
-                  if(count != null &&  count != undefined && count != ''){
-
-                    if(count >3){
-                      _self.code_show = true;
-                      _self.code_src = 'http://api.gospely.com/users/code';
-                    }
-                    localStorage.setItem('error',count+1);
-                  }else{
-                    localStorage.setItem('error',1);
-                  }
               }
               );
             }
