@@ -364,12 +364,12 @@
                           if(res.status == 200){
                               var data = res.data;
                               if(data.code == 1){
-
                                   _self.applicationsCount = data.fields;
                               }
                           }
                     }
                 });
+                
                 var ide = localStorage.getItem('ide');
                 services.Common.getOne({
                    param: {
