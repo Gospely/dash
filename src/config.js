@@ -142,7 +142,7 @@ let menu = {
             '/account': {
                 name: 'account',
                 label: '账户信息',
-                hide: false,
+                hide: true,
                 component: makeComponent('./components/page/accounts/Account.vue')
             },
             '/profile': {
