@@ -46,7 +46,7 @@
             </div>
             <div class="column">
                 <p class="notification has-text-centered">
-                    <span class="title">到期时间<br><span class="subtitle">无限</span></span>
+                    <span class="title">到期时间<br><span class="subtitle">{{fields.expireat}}</span></span>
                 </p>
             </div>
         </div>
@@ -98,6 +98,7 @@
                 application_running: 0,
                 application_stop: 0,
                 version: '个人版',
+                fields: '',
                 doughnutData: [200, 300],
                 barData: {
                     labels: ['January', 'February', 'March', 'April', 'May', 'June', 'July'],
@@ -153,6 +154,9 @@
 
             if(localStorage.getItem('ideName') != undefined){
                   this.version = localStorage.getItem('ideName');
+                  var ide = localStorage.getItem('ide');
+
+
             }
 
             var _self = this;
