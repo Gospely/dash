@@ -65,6 +65,7 @@ var router = new VueRouter({
 
 window.router = router;
 window.currentUser = localStorage.getItem("user");
+window.currentUserName = localStorage.getItem("userName");
 
 // Define some routes.
 // Each route should map to a component. The "component" can
@@ -122,4 +123,3 @@ new Vue({
 });
 
 window.Vue = Vue;
-

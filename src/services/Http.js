@@ -10,7 +10,6 @@ default;
 
 			function HTTP(options) {
 
-				console.log(_this.$http);
 				switch (options.method) {
 				case 'post':
 					return _this.$http.post(baseUrl + options.url, options.param);
