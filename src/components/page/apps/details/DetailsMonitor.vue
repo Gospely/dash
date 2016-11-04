@@ -196,7 +196,9 @@
                 if(this.start) {
                     this.interval = setInterval( () => {
                         this.stats();
-                    }, 1000);       
+                    }, 1000);
+
+                    window.monitorInterval = this.interval; 
                 }
             },
 

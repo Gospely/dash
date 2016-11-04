@@ -65,6 +65,7 @@ var router = new VueRouter({
 
 window.router = router;
 window.currentUser = localStorage.getItem("user");
+window.currentUserName = localStorage.getItem("userName");
 
 // Define some routes.
 // Each route should map to a component. The "component" can
@@ -85,6 +86,12 @@ router.start(App, 'app');
 //路由请求开始时调用
 router.beforeEach(function (route) {
     document.title = route.to.label + ' | Gospel控制面板 - Dodora 龙猫云';
+    var from = route.from;
+
+    if(route.from.name == "appdetail") {
+      clearInterval(window.monitorInterval);
+    }
+
     route.next();
 });
 

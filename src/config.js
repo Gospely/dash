@@ -24,32 +24,34 @@ let menu = {
     '/ide': {
         icon: 'connectdevelop',
         label: '集成开发环境',
-        isShowSubMenu: false,
+        name: 'ide',
+        // isShowSubMenu: false,
         hide: false,
-        component: {
-            template: '<router-view></router-view>'
-        },
-        subRoutes: {
-            '/manage': {
-                name: 'manageide',
-                label: '管理',
-                hide: true,
-                component: makeComponent('./components/page/ide/Manage.vue')
-            },
-            '/visit': {
-                name: 'visitide',
-                label: '访问',
-                hide: false,
-                component: makeComponent('./components/page/ide/Visit.vue')
-            },
-            '/renew': {
-                name: 'renewide',
-                label: '管理',
-                hide: false,
-                component: makeComponent('./components/page/ide/Renew.vue')
-            }
+        // component: {
+        //     template: '<router-view></router-view>'
+        // },
+        component: makeComponent('./components/page/ide/Renew.vue'),
+        // subRoutes: {
+        //     '/manage': {
+        //         name: 'manageide',
+        //         label: '管理',
+        //         hide: true,
+        //         component: makeComponent('./components/page/ide/Manage.vue')
+        //     },
+        //     '/visit': {
+        //         name: 'visitide',
+        //         label: '访问',
+        //         hide: true,
+        //         component: makeComponent('./components/page/ide/Visit.vue')
+        //     },
+        //     '/renew': {
+        //         name: 'renewide',
+        //         label: '管理',
+        //         hide: false,
+        //         component: makeComponent('./components/page/ide/Renew.vue')
+        //     }
 
-        }
+        // }
     },
     '/apps': {
         icon: 'laptop',
@@ -140,7 +142,7 @@ let menu = {
             '/account': {
                 name: 'account',
                 label: '账户信息',
-                hide: false,
+                hide: true,
                 component: makeComponent('./components/page/accounts/Account.vue')
             },
             '/profile': {

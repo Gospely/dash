@@ -169,6 +169,7 @@
                     console.log(res.data.fields);
                     localStorage.removeItem('error');
                     localStorage.setItem("user",res.data.fields.id);
+                    localStorage.setItem("userName",res.data.fields.name);
                     localStorage.setItem("ide",res.data.fields.ide);
                     localStorage.setItem("ideName",res.data.fields.ideName);
                     localStorage.setItem("token",res.data.fields.token);

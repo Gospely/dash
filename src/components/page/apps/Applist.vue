@@ -14,7 +14,7 @@
                       <thead>
                         <tr>
                           <th>应用名称</th>
-                          <th>所属镜像</th>
+                          <th>镜像(运行环境)</th>
                           <th>状态</th>
                           <th>操作</th>
                         </tr>
@@ -22,7 +22,7 @@
                       <tbody>
                         <tr v-for="item in fields">
                           <td>{{item.name}}</td>
-                          <td>{{item.id}}</td>
+                          <td>{{item.image}}</td>
 
                           <td>
                             运行中
@@ -42,7 +42,7 @@
                       <thead>
                         <tr>
                           <th>应用名称</th>
-                          <th>应用ID</th>
+                          <th>镜像(运行环境)</th>
                           <th>状态</th>
                           <th>操作</th>
                         </tr>
@@ -50,7 +50,7 @@
                       <tbody>
                           <tr v-for="item in fields_stop">
                             <td>{{item.name}}</td>
-                            <td>{{item.id}}</td>
+                            <td>{{item.image}}</td>
                           <td>
                             已停止
                           </td>
