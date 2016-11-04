@@ -22,8 +22,8 @@ export default {
 			window.noty.splice(current, 1);
 			setTimeout(function() {
 				div.parentNode.removeChild(div);
-			}, 2000)
-		}, 2000);
+			}, 3000)
+		}, 3000);
     },
 
     error (msg) {

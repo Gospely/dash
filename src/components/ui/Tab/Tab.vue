@@ -55,7 +55,8 @@
             onClick (index) {
                 this.activeIndex = index
                 this.$children[index].show = true
-                this.$broadcast('change', index)
+                this.$broadcast('change', index);
+                this.$dispatch('selected', index);
             }
         }
     }

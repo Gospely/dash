@@ -46,7 +46,7 @@
             </div>
             <div class="column">
                 <p class="notification has-text-centered">
-                    <span class="title">到期时间<br><span class="subtitle">无限</span></span>
+                    <span class="title">到期时间<br><span class="subtitle">{{expireat}}</span></span>
                 </p>
             </div>
         </div>
@@ -98,6 +98,7 @@
                 application_running: 0,
                 application_stop: 0,
                 version: '个人版',
+                expireat: '',
                 doughnutData: [200, 300],
                 barData: {
                     labels: ['January', 'February', 'March', 'April', 'May', 'June', 'July'],
@@ -151,11 +152,29 @@
         },
         ready: function() {
 
+            var _self = this;
             if(localStorage.getItem('ideName') != undefined){
                   this.version = localStorage.getItem('ideName');
+                  var ide = localStorage.getItem('ide');
+                  services.Common.getOne({
+                    param: {
+                      id: ide
+                    },
+                    url: "ides",
+                    cb: function(res) {
+                      if(res.status == 200){
+                          var data = res.data;
+                          if(data.code == 1){
+
+                              _self.expireat = data.fields.expireAt;
+                          }
+                      }
+                    }
+                  });
+
             }
 
-            var _self = this;
+
             console.log(currentUser);
             services.Common.count({
                 url: 'applications',
@@ -175,7 +194,7 @@
                 url: 'applications',
                 param: {
                     creator: currentUser,
-                    status:0,
+                    status: -1,
                 },
                 cb: function(res){
                       if(res.status == 200){
@@ -191,7 +210,7 @@
                 url: 'applications',
                 param: {
                     creator: currentUser,
-                    status:1,
+                    status: 1,
                 },
                 cb: function(res){
                       if(res.status == 200){

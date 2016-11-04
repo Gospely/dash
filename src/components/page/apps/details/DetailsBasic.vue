@@ -9,22 +9,22 @@
                     <div class="columns">
                         <div class="column is-half">
 
-                            <h4>{{inspectInfo.name}}</h4>
+                            <h4><button class="button is-small" v-bind:class="{'is-success': !status_running, 'is-danger': !status_stop}">{{status}}</button> {{inspectInfo.name}}</h4>
                             <h4 class="subtitle">部署于：{{inspectInfo.createat}}</h4>
 
-                            <button class="button is-primary" v-on:click="start">启动</button>
-                            <button class="button is-warning" v-on:click="stop">停止</button>
-                            <button class="button is-success" v-on:click="restart">重新启动</button>
-                            <button class="button is-primary" v-on:click="openInIde">从IDE打开</button>
+                            <button class="button is-primary" v-bind:class="{'is-loading': isLoading}" v-on:click="start" v-show="status_running">启动</button>
+                            <button class="button is-warning" v-bind:class="{'is-loading': isLoading}" v-on:click="stop" v-show="status_stop">停止</button>
+                            <button class="button is-success" v-bind:class="{'is-loading': isLoading}" v-on:click="restart">重新启动</button>
+                            <button class="button is-primary" v-bind:class="{'is-loading': isLoading}" v-on:click="openInIde">从IDE打开</button>
                         </div>
 
                         <div class="column is-half">
 
-                            <span class="help is-tip">状态: <span style="display:inline" class="help is-success">正在运行</span></span>
+                            <span class="help is-tip">状态: <span style="display:inline" class="help is-success">{{inspectInfo.status | dockerStatus}}</span></span>
                             <span class="help is-tip">访问方式: HTTP/SSH, HTTP端口：{{inspectInfo.port}}, SSH端口：{{inspectInfo.sshPort}}</span>
                             <span class="help is-tip">运行环境: Dodora云平台</span>
                             <span class="help is-tip">运行系统: Linux Ubuntu</span>
-                            <span class="help is-tip">访问地址: {{inspectInfo.domain}}</span>
+                            <span class="help is-tip">访问地址: {{inspectInfo.domain}}.gsopel.org</span>
 
                         </div>
                     </div>
@@ -124,7 +124,11 @@
               domainInfoFormName: '绑定域名',
               fields: '',
 
-              inspectInfo: {}
+              inspectInfo: {},
+              status: '',
+              status_stop: false,
+              status_running: false,
+              isLoading: false
             }
         },
 
@@ -135,104 +139,150 @@
 
         ready (){
           this.$set("appId", this.$route.params.containerId);
-          console.log(this.$get("appId"));
           this.$get('inspect')();
         },
 
         methods: {
           start: function(){
             var self = this;
+            notification.alert('正在启动...');
             var option = {
               param: {
                 containerName: self.appId,
               },
-              msg: {
-                success: {
-                  title: '删除容器镜像',
-                  message: '删除容器镜像成功',
-                  type: 'primary',
-                },
-                failed: {
-                  title: '删除容器镜像',
-                  message: '删除容器镜像失败',
-                  type: 'warning',
-                }
-              },
               cb: function(res) {
-                  if(res.status == 200){
-                      notification.alert(data.message);
-                  }
+                if(res.status == 200){
+                    notification.alert(res.data.message);
+                    reload: self.$get("inspect")()
+                }else {
+                  notification.alert(res.body);
+                }
+                self.isLoading = false;
               },
               url: "container/start",
-              target: self.baseFields,
+              target: self.baseFields
             };
-            services.Common.containerOperate(option).then(function(res){
-              notification.alert(res.status);
-            })
+            this.isLoading = true;
+            services.Common.containerOperate(option)
           },
 
           openInIde: function(){
-            window.location.href = "http://ide.gospely.com/#!/archive/" + this.appId;
+            window.open("http://localhost:8080/#!/archive/" + this.appId);
           },
 
           inspect: function() {
             var self = this;
             var option = {
               param: {
-                containerName: self.appId,
+                id: self.appId,
               },
               cb: function(res) {
+                self.isLoading = false;
+                if(res.status == 200){
 
-                if(res.data.code == 500) {
-                  notification.alert(res.data.message, 'warning');
-                }else {
-                  self.inspectInfo = res.data.fields;
+                  var data = res.data;
+                  if(data.code == 1){
+
+                    self.inspectInfo = data.fields;
+
+                    if(data.fields.status == 1){
+                        self.status = '已启动';
+                        self.status_stop = true;
+                        self.status_running = false;
+                    }
+                    if(data.fields.status == -1 ){
+                        self.status_running = true;
+                        self.status_stop = false;
+                        self.status = '已停止';
+                    }
+                  }
                 }
               },
-              url: "container/inspect",
-              target: self.inspectInfo,
+              url: "applications",
             };
-            services.Common.containerOperate(option);
+            this.isLoading = true;
+            services.Common.getOne(option);
           },
 
           stop: function(){
+
             var self = this;
-            var option = {
-              param: {
-                containerName: self.appId,
-              },
-              cb: function(res) {
-                  if(res.status == 200){
-                      notification.alert(data.message);
-                  }
-              },
-              url: "container/stop",
-             target: self.baseFields,
-            };
-            services.Common.containerOperate(option);
+
+            new ModalCtrl({
+                el: document.createElement('div'),
+                props: {
+                    isShow: false,
+                    header: {
+                        default: '停止应用'
+                    },
+                    body: {
+                        default: '您确定要停止此应用吗？'
+                    }
+                },
+                events: {
+                    'confirmed': function() {
+                      notification.alert('正在停止...');
+                      var option = {
+                        param: {
+                          containerName: self.appId,
+                        },
+                        cb: function(res) {
+                            if(res.status == 200){
+                                notification.alert(res.data.message);
+                                self.$get("inspect")();
+                            }
+                            self.isLoading = false;
+                        },
+                        url: "container/stop",
+                        target: self.baseFields,
+                      };
+                      self.isLoading = true;
+                      services.Common.containerOperate(option);
+                      this.$destroy(true);
+                    }
+                }
+            }).show();
           },
 
           restart: function(){
-            var self = this;
-            var option = {
-              param: {
-                containerName: self.appId,
-              },
-              cb: function(res) {
-                  if(res.status == 200){
-                      notification.alert(data.message);
-                  }
-              },
-              url: "container/restart",
-              target: self.baseFields,
-            };
-            services.Common.containerOperate(option);
-          },
 
-          saveChanges: function() {
+            var self = this;
+            new ModalCtrl({
+                el: document.createElement('div'),
+                props: {
+                    isShow: false,
+                    header: {
+                        default: '停止应用'
+                    },
+                    body: {
+                        default: '您确定要停止此应用吗？'
+                    }
+                },
+                events: {
+                  'confirmed': function() {
+                      notification.alert('正在重启...');
+                      var option = {
+                        param: {
+                          containerName: self.appId,
+                        },
+                        cb: function(res) {
+                            if(res.status == 200){
+                                notification.alert(res.data.message);
+                                self.$get("inspect")();
+                            }
+                            self.isLoading = false;
+                        },
+                        url: "container/restart",
+                        target: self.baseFields,
+                      }
+                      self.isLoading = true;
+                      services.Common.containerOperate(option);
+                      this.$destroy(true);
+                  }
+                }
+            }).show();
 
           }
-
         }
     }
 </script>

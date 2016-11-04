@@ -1,12 +1,10 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
-
 import App from './App'
 import {menu} from './config'
-
 import services from './services/index.js'
-
 import notification from './lib/notification'
+import filter from './filter/index.js'
 
 import 'animate.css'
 
@@ -67,6 +65,7 @@ var router = new VueRouter({
 
 window.router = router;
 window.currentUser = localStorage.getItem("user");
+window.currentUserName = localStorage.getItem("userName");
 
 // Define some routes.
 // Each route should map to a component. The "component" can
@@ -87,28 +86,35 @@ router.start(App, 'app');
 //路由请求开始时调用
 router.beforeEach(function (route) {
     document.title = route.to.label + ' | Gospel控制面板 - Dodora 龙猫云';
+    var from = route.from;
+
+    if(route.from.name == "appdetail") {
+      clearInterval(window.monitorInterval);
+    }
+
     route.next();
 });
 
 //路由请求结束后调用
-console.log(window.location.host);
-
-
 router.afterEach(function () {
 
   var base = "http://"+ window.location.host
   var loginUrl =base + "/#!/accounts/login";
-
   var register = base + '/#!/accounts/register';
   if(window.location.href == loginUrl || window.location.href == register){
 
   }else{
-    if(localStorage.getItem('token') == '' || localStorage.getItem('token') == undefined) {
+
+    if(localStorage.getItem('token') == '' || localStorage.getItem('token') == undefined || localStorage.getItem('token') == 'undefined') {
+
         window.location.href = loginUrl
     }
   }
 
 });
+
+//初始化过滤器
+filter.init(Vue);
 
 new Vue({
   el: 'title',

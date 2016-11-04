@@ -4,55 +4,59 @@
 
             <div class="columns">
 
-                <div class="column is-three-quarters">
+                <div class="column">
 
-                    <label class="label">基本信息</label>
+                    <label class="label">容器信息</label>
                     <hr class="split">
 
                     <div class="columns">
 
                         <div class="column">
                             <label class="label">名称</label>
-                            <label class="label is-tip">{{fields.name}}</label>
+                            <label class="label is-tip" title="{{containerInfo.Name}}">{{containerInfo.Name | dockerNamefilter}}</label>
                         </div>
 
                         <div class="column">
                             <label class="label">ID</label>
-                            <label class="label is-tip">{{fields.id}}</label>
-                        </div>
-
-                        <div class="column">
-                            <label class="label">启动命令</label>
-                            <label class="label is-tip">{{fields.Args}}</label>
+                            <label class="label is-tip" title="{{containerInfo.Id}}">{{containerInfo.Id}}</label>
                         </div>
 
                         <div class="column">
                             <label class="label">创建于</label>
-                            <label class="label is-tip">{{fields.Created}}</label>
+                            <label class="label is-tip" title="{{containerInfo.Created}}">{{containerInfo.Created}}</label>
+                        </div>
+
+                        <div class="column">
+                            <label class="label">内存</label>
+                            <label class="label is-tip" title="{{containerInfo.Args}}">{{containerInfo.HostConfig.Memory | memory}}</label>
                         </div>
 
                     </div>
 
                     <div class="columns">
 
-                        <div class="column">
+                        <div class="column is-3">
                             <label class="label">开放端口</label>
-                            <label class="label is-tip">{{fields.HostConfig.PortBindings.8089/tcp.HostPort}}</label>
+                            <label class="label is-tip" v-for="host in containerInfo.HostConfig.PortBindings">{{host | hostConfig}}</label>
+                        </div>
+
+                        <div class="column">
+                            <label class="label">启动命令</label>
+                            <label style="word-wrap:break-word" class="label is-tip" title="{{containerInfo.Args}}">{{containerInfo.Args}}</label>
                         </div>
 
                     </div>
 
-
                 </div>
 
-                <div class="column">
+<!--                 <div class="column">
 
                     <label class="label">配置信息</label>
                     <hr class="split">
                     <div class="card is-fullwidth">
                         <header class="card-header">
                             <p class="card-header-title">
-                            256MB/<span class="is-tip">内存</span>
+                            {{containerInfo.HostConfig.Memory | memory}}/<span class="is-tip">内存</span>
                             </p>
                         </header>
                         <footer class="card-footer">
@@ -62,7 +66,7 @@
                         </footer>
                     </div>
 
-                </div>
+                </div> -->
 
             </div>
 
@@ -87,7 +91,7 @@
         data () {
             return {
                 appId: "",
-                fields: [],
+                containerInfo: [],
                 showDomainAddingForm: false,
                 isEditDomain: false,
                 domainInfoFormName: '绑定域名'
@@ -99,32 +103,33 @@
             Modal,
         },
         ready (){
-          var self = this;
-          self.$set("appId", self.$route.params.containerId)
-          self.inspect();
-          self.logme();
+            var self = this;
+            self.$set("appId", self.$route.params.containerId)
+            self.$get('inspect')();
         },
         methods: {
-        inspect: function(){
-          var self = this;
-          var option = {
-            param: {
-              containerName: self.appId,
-            },
-            cb: function(res) {
-                if(res.status == 200){
-                    notification.alert(data.message);
-                }
-            },
-            url: "container/inspect",
-            target: self.fields,
-          };
-          services.Common.containerOperate(option);
-        },
-
-          logme: function(){
-            console.log("docker",this.fields);
-          },
+            inspect: function(){
+              var self = this;
+              var option = {
+                param: {
+                  containerName: self.appId,
+                },
+                cb: function(res) {
+                    if(res.status == 200){
+                        var data = res.data;
+                        self.containerInfo = JSON.parse(data.fields);
+                        if(self.containerInfo.length > 0) {
+                            self.containerInfo = self.containerInfo[0];
+                        }
+                    }else {
+                        notification.alert(data.body, 'warning');
+                    }
+                },
+                url: "container/inspect",
+                target: self.containerInfo,
+              };
+              services.Common.containerOperate(option);
+            }
         }
     }
 </script>

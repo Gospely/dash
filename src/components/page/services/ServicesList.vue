@@ -26,8 +26,9 @@
 
         events: {
             'imageOnSelected': function(item) {
+                console.log(item.id);
                 sessionStorage.currentImage = JSON.stringify(item);
-                this.$router.go('/apps/new/' + item.id);
+                this.$router.go('/apps/new/' + item.name);
             }
         }
     }

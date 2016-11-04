@@ -149,8 +149,8 @@
                     });
                 }else{
                   services.Common.save({
+                    url: 'domians/bind',
                     domain: edit.domain,
-                    ip: edit.ip,
                     creator: currentUser,
                     application: _self.application,
                     ctx: _self,
@@ -208,37 +208,22 @@
                 var _self = this;
                 if(this.domains !=  this.oldDomain){
 
-                    services.Common.create({
+                    services.Common.update({
                         param:{
-                          domain: _self.subDomain,
+                          subDomain: _self.subDomain,
+                          oldDomain: _self.oldDomain,
                           creator: currentUser,
                           application: _self.application,
                           reload: _self.$get("initDomains")()
-
                         },
                         url: 'domains',
-                        cb:function(res){
-                            if(res.status == 200){
-
-                                services.Common.update({
-                                    param:{
-                                      id: _self.application,
-                                      domain:  _self.subDomain + '.gospely.com',
-                                    },
-                                    url: 'applications',
-                                    ctx: _self,
-                                    reload: _self.$get("initApplication")()
-                                });
-
-                            }
-                        }
                     });
                 }else{
                     notification.alert("未修改域名，请确认");
                 }
             },
             initDomains: function() {
-
+                console.log(11);
                 var _self = this;
                 services.Common.list({
 
@@ -263,8 +248,12 @@
                           var data = res.data;
 
                           if(data.code == 1){
+                            try {
                               _self.subDomain = data.fields.domain.replace(".gospely.com","");
                               _self.oldDomain = data.fields.domain.replace(".gospely.com","");
+                            }catch(err) {
+                              notification.alert('解析域名数据失败: ' + err.toString(), 'warning');
+                            }
                           }
                       }
                   }
@@ -274,8 +263,7 @@
         },
         ready: function() {
 
-            var split = window.location.href.split("/")
-            this.application = split[split.length -1 ];
+            this.$set("application", this.$route.params.containerId);
             this.$get("initDomains")();
             this.$get("initApplication")();
         }

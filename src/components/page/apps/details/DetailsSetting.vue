@@ -1,17 +1,17 @@
 <template>
     <div class="container">
         <div class="basic-wrapper">
-            
+
             <div class="columns">
-                
+
                 <div class="column">
-                          
+
                     <label class="label">删除应用</label>
                     <hr class="split">
                     <p class="control">
                         <button class="button is-danger" @click="askIfRemove">确认删除</button>
                     </p>
-                    
+
                 </div>
             </div>
         </div>
@@ -28,7 +28,8 @@
     export default{
         data () {
             return {
-                msg: 'hello vue'
+                msg: 'hello vue',
+                application: ''
             }
         },
 
@@ -38,6 +39,7 @@
 
         methods: {
             askIfRemove: function() {
+                var _self = this;
                 new ModalCtrl({
                     el: document.createElement('div'),
                     props: {
@@ -52,11 +54,23 @@
                     events: {
                         'confirmed': function() {
                             console.log('sssss');
+
+                            console.log(_self.application);
+                            var options = {
+                              param: {
+                                id: _self.application
+                              },
+                              url: 'applications'
+                            }
+                            services.Common.delete(options)
                             this.$destroy(true);
                         }
                     }
                 }).show();
             }
-        }
+        },
+        ready (){
+          this.$set("application", this.$route.params.containerId);
+        },
     }
 </script>

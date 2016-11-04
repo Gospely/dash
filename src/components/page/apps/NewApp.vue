@@ -239,12 +239,11 @@
             return {
                 application:{
                     name: '',
-                    config: '',
                     image: '',
                     volume: '',
                     username: 'root',
-                    password: ''
-
+                    password: '',
+                    imageName: ''
                 },
                 price: '10 X 100 = 1000',
                 unitPrice: 0,
@@ -345,7 +344,7 @@
             selectThisDockerConfig: function(dockerConfig, key) {
 
                 this.products = dockerConfig.id;
-                this.application.config = dockerConfig.id;
+                this.application.image = dockerConfig.id;
                 var unit = '';
                 if(dockerConfig.memoryUnit == "MB"){
                     unit = 'm'
@@ -393,17 +392,22 @@
                       failed : "新建应用失败",
                     },
                     ctx: _self,
-
                     cb: function(res) {
-                      
-                        notification.alert('即将跳转至IDE...');
-                        setTimeout(function() {
-                            window.location.href = "http://ide.gospely.com/#!/archive/";
-                        }, 2000);
+
                         if(res.status == 200) {
-                            _self.$router.replace('/apps/detail');
+                            var data = res.data;
+                            notification.alert(data.message);
+                            console.log(data);
+                            if(data.code == '1') {
+                              _self.$router.replace('/apps/detail/' + data.fields.id);
+                            }else{
+                              _self.$get("reload")();
+                              notification.alert(data.message,'danger');
+                            }
+
                         }else {
                             notification.alert('创建失败: ' + res.statusText);
+                            _self.$get("reload")();
                         }
                     },
                     reload: function() {
@@ -430,7 +434,6 @@
 
                 if(
                     this.application.name == '' ||
-                    this.application.config == '' ||
                     this.application.image == '' ||
                     this.application.username == '' ||
                     this.application.password == ''
@@ -539,6 +542,7 @@
                 this.showImageSelectorForm = false;
                 this.withImage = true;
                 this.imageId = item.id;
+                this.application.imageName = item.name;
                 this.imageName = item.name;
             },
 
