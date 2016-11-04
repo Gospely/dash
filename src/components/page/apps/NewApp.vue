@@ -239,7 +239,6 @@
             return {
                 application:{
                     name: '',
-                    config: '',
                     image: '',
                     volume: '',
                     username: 'root',
@@ -345,7 +344,7 @@
             selectThisDockerConfig: function(dockerConfig, key) {
 
                 this.products = dockerConfig.id;
-                this.application.config = dockerConfig.id;
+                this.application.image = dockerConfig.id;
                 var unit = '';
                 if(dockerConfig.memoryUnit == "MB"){
                     unit = 'm'
@@ -435,7 +434,6 @@
 
                 if(
                     this.application.name == '' ||
-                    this.application.config == '' ||
                     this.application.image == '' ||
                     this.application.username == '' ||
                     this.application.password == ''
