@@ -10,7 +10,7 @@
                 <div slot="body">
 
                     <div v-show="setMeal.currentStep == 1" class="step1">
-                        <span class="help is-tip">您当前的版本为：教育版</span>
+                        <span class="help is-tip">您当前的版本为：{{ide.name}}</span>
 
                         <hr class="split">
 
@@ -102,8 +102,8 @@
                         </figure>
                       </div>
                       <div class="media-content">
-                        <p class="title is-5" style="margin-bottom:7px">个人版</p>
-                        <p class="subtitle is-6" style="margin-top:0px">免费</p>
+                        <p class="title is-5" style="margin-bottom:7px">{{ide.name}}</p>
+                        <p class="subtitle is-6" style="margin-top:0px" v-show = "isFree" >免费</p>
                         <div class="text-right">
                             <a @click="changeSetMeal" class="button is-small is-warning">更改</a>
                         </div>
@@ -111,9 +111,9 @@
                     </div>
 
                     <div class="content">
-                        已创建 10 个项目
+                        已创建 {{applicationsCount}} 个项目
                       <br>
-                      <small>到期时间：2016-12-07</small>
+                      <small>到期时间：{{ide.expireAt}}</small>
                     </div>
                   </div>
                 </div>
@@ -122,68 +122,6 @@
             </div>
 
             <hr>
-
-<!-- 
-            <tab :active-index = "0" style= "width: 100%;">
-                <tab-item title="基础信息">
-                  <table class="table">
-                    <thead>
-                      <tr>
-                        <th>名称</th>
-                        <th>创建时间</th>
-                        <th>到期时间</th>
-                        <th>版本</th>
-                        <th>操作</th>
-                      </tr>
-                    </thead>
-                    <tbody>
-                      <tr>
-                        <td>{{ide.name}}</td>
-                        <td>{{ide.createat}}</td>
-                        <td>
-                          {{ide.expireAt}}
-                        </td>
-                        <td>{{ide.name}}</td>
-                        <td class="is-icon" title="升降级">
-                          <a @click="reNewIDE">
-                            <i class="fa fa-level-up"></i>
-                          </a>
-                        </td>
-                      </tr>
-                    </tbody>
-                  </table>
-                </tab-item>
-                <tab-item title="磁盘信息">
-                  <table class="table">
-                    <thead>
-                      <tr>
-                        <th>磁盘名称</th>
-                        <th>磁盘类型</th>
-                        <th>创建时间</th>
-                        <th>容量</th>
-                        <th>剩余</th>
-                        <th>操作</th>
-                      </tr>
-                    </thead>
-                    <tbody>
-                      <tr>
-                        <td>Gospel_volume</td>
-                        <td>IDE专用存储卷</td>
-                        <td>2015-12-07</td>
-                        <td>
-                          20 GB
-                        </td>
-                        <td>10 GB</td>
-                        <td class="is-icon" title="升降级">
-                          <a @click="renewIDEVolumeForm = true">
-                            <i class="fa fa-level-up"></i>
-                          </a>
-                        </td>
-                      </tr>
-                    </tbody>
-                  </table>
-                </tab-item>
-            </tab> -->
 
             <modal :is-html="true" :is-show.sync="renewIDEVolumeForm">
                 <div slot="header">升降级IDE专用数据卷</div>
@@ -312,7 +250,6 @@
                 otherTime: '其它',
 
                 renewIDEVolumeForm: false,
-                fields: [],
                 ide: '',
                 price: 1,
                 unitPrice: 0,
@@ -323,11 +260,12 @@
                 },
 
                 isWeixin: false,
-
+                isFree: false,
                 qrcode: 'http://www.baidu.com',
-
-                currentIDE: '1',
+                currentIDE: localStorage.getItem('ide'),
                 fields: [],
+                applicationsCount: '',
+                expireAt: '',
                 showTopupForm: false,
                 showSetMealForm: false,
 
@@ -479,33 +417,42 @@
 
                   }
                 });
-            }
 
-        },
-        ready: function() {
-
-            this.$get("initIdes")();
-            var _self = this;
-            if(localStorage.getItem('ideName') != undefined){
-                  this.version = localStorage.getItem('ideName');
-                  var ide = localStorage.getItem('ide');
-                  services.Common.getOne({
+                services.Common.count({
+                    url: 'applications',
                     param: {
-                      id: ide
+                        creator: currentUser
                     },
-                    url: "ides",
-                    cb: function(res) {
-                      if(res.status == 200){
-                          var data = res.data;
-                          if(data.code == 1){
+                    cb: function(res){
+                          if(res.status == 200){
+                              var data = res.data;
+                              if(data.code == 1){
 
-                              _self.ide = data.fields;
+                                  _self.applicationsCount = data.fields;
+                              }
                           }
-                      }
                     }
-                  });
-
+                });
+                var ide = localStorage.getItem('ide');
+                services.Common.getOne({
+                   param: {
+                     id: ide
+                   },
+                   url: "ides",
+                   cb: function(res) {
+                     if(res.status == 200){
+                         var data = res.data;
+                         if(data.code == 1){
+                             _self.ide = data.fields;
+                         }
+                     }
+                   }
+                 });
             }
+        },
+
+        ready: function() {
+            this.$get("initIDE")();
         },
         watch: {
            selected: function(item) {
