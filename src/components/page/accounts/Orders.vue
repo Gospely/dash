@@ -35,25 +35,23 @@
                     <table class="table">
                       <thead>
                         <tr>
+                          <th>订单名称</th>
                           <th>订单编号</th>
                           <th>交易时间</th>
                           <th>订单金额</th>
                           <th>状态</th>
-                          <th>所购产品</th>
                         </tr>
                       </thead>
                       <tbody>
-                        <tr v-for="item in items1">
-                          <td>{{item.id}}</td>
+                        <tr v-for="item in fields">
+                          <td>{{item.name}}</td>
+                          <td>{{item.orderNo}}</td>
                           <td>{{item.createat}}</td>
                           <td>
                             {{item.price}} RMB
                           </td>
                           <td>
                             已支付
-                          </td>
-                          <td>
-                              企业版Gospel集成开发环境
                           </td>
                         </tr>
                       </tbody>
@@ -63,28 +61,26 @@
                     <table class="table">
                       <thead>
                         <tr>
+                          <th>订单名称</th>
                           <th>订单编号</th>
                           <th>交易时间</th>
                           <th>订单金额</th>
                           <th>状态</th>
-                          <th>所购产品</th>
                           <th>操作</th>
                           <th></th>
 
                         </tr>
                       </thead>
                       <tbody>
-                        <tr v-for="item in items2">
-                            <td>{{item.id}}</td>
+                        <tr v-for="item in fields_unpay">
+                            <td>{{item.name}}</td>
+                            <td>{{item.orderNo}}</td>
                             <td>{{item.createat}}</td>
                             <td>
                               {{item.price}} RMB
                             </td>
                             <td>
                               未支付
-                            </td>
-                            <td>
-                                企业版Gospel集成开发环境
                             </td>
                             <td class="is-icon" title="继续支付">
                             <a @click="continueToPay(item)">
@@ -122,8 +118,8 @@
         data () {
             return {
                 msg: 'hello vue',
-                items1: [],
-                items2: [],
+                fields: [],
+                fields_unpay: [],
                 qrcode: 'test',
                 showRePayForm: false
             }
@@ -186,37 +182,24 @@
             initPage: function() {
 
               var _self = this;
-              var order = {
+              services.Common.list({
+                param: {
+                  status: 1,
+                  creator: currentUser,
+                },
+                ctx: _self,
+                url: 'orders'
+              });
+              services.Common.list({
+                param: {
+                  status: 0,
+                  creator: currentUser,
 
-                status: 0
-              }
-                services.OrderService.list(order).then(function(res) {
-                  if(res.status === 200) {
-
-                    var data = JSON.parse(res.body);
-                    console.log(data.fields);
-                    _self.items1 = data.fields;
-
-                  }else {
-
-                  }
-                }, function(err) {
-
-                });
-
-                order.status = 1;
-                services.OrderService.list(order).then(function(res) {
-                  if(res.status === 200) {
-
-                    var data = JSON.parse(res.body);
-                    _self.items2 = data.fields;
-
-                  }else {
-
-                  }
-                }, function(err) {
-
-                });
+                },
+                ctx: _self,
+                url: 'orders',
+                target: 'fields_unpay'
+              });
             }
         },
         ready: function() {

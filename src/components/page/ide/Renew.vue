@@ -138,12 +138,12 @@
                     </thead>
                     <tbody>
                       <tr>
-                        <td>Gospel_Volume</td>
-                        <td>2015-12-07</td>
+                        <td>{{ide.name}}</td>
+                        <td>{{ide.createat}}</td>
                         <td>
-                          2016-12-07
+                          {{ide.expireAt}}
                         </td>
-                        <td>个人版</td>
+                        <td>{{ide.name}}</td>
                         <td class="is-icon" title="升降级">
                           <a @click="reNewIDE">
                             <i class="fa fa-level-up"></i>
@@ -313,6 +313,7 @@
 
                 renewIDEVolumeForm: false,
                 fields: [],
+                ide: '',
                 price: 1,
                 unitPrice: 0,
                 size: 1,
@@ -388,6 +389,9 @@
 
                 var _self = this;
                 services.Common.list({
+                    param: {
+                      type: 'ide'
+                    },
                     url: "products",
                     ctx: _self
                 });
@@ -481,6 +485,27 @@
         ready: function() {
 
             this.$get("initIdes")();
+            var _self = this;
+            if(localStorage.getItem('ideName') != undefined){
+                  this.version = localStorage.getItem('ideName');
+                  var ide = localStorage.getItem('ide');
+                  services.Common.getOne({
+                    param: {
+                      id: ide
+                    },
+                    url: "ides",
+                    cb: function(res) {
+                      if(res.status == 200){
+                          var data = res.data;
+                          if(data.code == 1){
+
+                              _self.ide = data.fields;
+                          }
+                      }
+                    }
+                  });
+
+            }
         },
         watch: {
            selected: function(item) {
