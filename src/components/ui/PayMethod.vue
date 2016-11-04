@@ -40,8 +40,8 @@ import qr from 'qr.js'
 		data () {
 
 			return {
-                isWechat: true,
-                isAlipay: false
+                isWechat: false,
+                isAlipay: true
 			}
 
 		},
