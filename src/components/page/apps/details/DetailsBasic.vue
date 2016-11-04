@@ -20,7 +20,7 @@
 
                         <div class="column is-half">
 
-                            <span class="help is-tip">状态: <span style="display:inline" class="help is-success">{{inspectInfo.status}}</span></span>
+                            <span class="help is-tip">状态: <span style="display:inline" class="help is-success">{{inspectInfo.status | dockerStatus}}</span></span>
                             <span class="help is-tip">访问方式: HTTP/SSH, HTTP端口：{{inspectInfo.port}}, SSH端口：{{inspectInfo.sshPort}}</span>
                             <span class="help is-tip">运行环境: Dodora云平台</span>
                             <span class="help is-tip">运行系统: Linux Ubuntu</span>

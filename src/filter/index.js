@@ -34,6 +34,12 @@ module.exports = {
 			}
 		});
 
+		this.vue.filter('dockerStatus', function(value) {
+			if(value) {
+				return value == 1 ? '运行中' : '已停止';				
+			}
+		});
+
 	},
 
 	get: function(filter) {
