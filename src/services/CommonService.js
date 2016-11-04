@@ -47,7 +47,15 @@ module.exports ={
         options.url = options.url + "/" + options.param.containerName
         request.get(options);
       },
-
+      validator: function(options) {
+        var query = utils.toParam(options.param);
+        var url = options.url;
+        if(query != null && query != undefined && query != '' ){
+            options.url = options.url + "/validator?"+query;
+        }
+        console.log(query);
+				return request.get(options);
+      }
 		}
 
 	}

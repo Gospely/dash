@@ -12,7 +12,7 @@
                     <div class="input-field">
                       <input type="text" v-model="phone" placeholder="邮箱/手机号码" autocapitalize="off" @blur="checkPhone" style="border: none;"></div>
                     <div class="input-field">
-                      <input type="text"v-model='name' placeholder="用户名,仅支持英文" autocapitalize="off" style="border: none;"></div>
+                      <input type="text"v-model='name' placeholder="用户名,仅支持英文" autocapitalize="off" @blur="checkName" style="border: none;"></div>
                     <div class="input-field">
                       <input type="password" v-model="password" placeholder="请输入密码" autocapitalize="off" style="border: none;"></div>
                     <div class="input-field">
@@ -99,12 +99,21 @@
               password: this.password,
               name: this.name,
               token: this.token,
+              authCode: this.authCode
             };
             services.UserService.register(user).then(function(res) {
 
               if(res.status === 200){
                 notification.alert('注册成功');
-                window.location.href = 'http://localhost:8088';
+                var data = res.data;
+                console.log(res.data.fields);
+                localStorage.setItem("user",res.data.fields.id);
+                localStorage.setItem("userName",res.data.fields.name);
+                localStorage.setItem("ide",res.data.fields.ide);
+                localStorage.setItem("ideName",res.data.fields.ideName);
+                localStorage.setItem("token",res.data.fields.token);
+                console.log(localStorage.getItem("user"));
+                window.location.href = window.baseUrl;
               }
             },function(err){
                 notification.alert('服务器异常');
@@ -117,6 +126,7 @@
           },
           getTelCode: function(){
 
+              console.log("code");
               var _self = this;
               services.Common.list({
                 url: 'users/phone/code',
@@ -127,14 +137,14 @@
                     if(res.status == 200){
                       var data = res.data;
                       if(data.code ==1){
-
-                        this.token = data.fields;
+                        console.log(data);
+                        _self.token = data.fields;
                         notification.alert(data.message);
                       }
                     }
                 }
               });
-              _self.renderButton();
+              _self.$get("renderButton")();
           },
           renderButton: function() {
 
@@ -158,11 +168,71 @@
           },
           checkPhone: function() {
 
-             var re=/^(13[0-9]{9})|(15[89][0-9]{8})$/;
-             if(re.test(this.phone)){
-                this.isPhone = true;
+            var _self = this;
+             var re=/^1[34578]\d{9}$/;
+             if(re.test(_self.phone)){
+                _self.isPhone = true;
+                var options = {
+                  url: "users",
+                  param: {
+                    phone: _self.phone
+                  },
+                  cb: function(res) {
+                    if(res.status == 200){
+                      var data = res.data;
+                      if(data.code == -1){
+                        console.log(data);
+                        notification.alert('该手机已注册');
+                        _self.phone = '';
+                      }
+                    }
+                  }
+                }
+             }else{
+               _self.isPhone = false;
+               var options = {
+                 url: "users",
+                 param: {
+                   email: _self.phone
+                 },
+                 cb: function(res) {
+                   if(res.status == 200){
+                     var data = res.data;
+                     if(data.code == -1){
+                       console.log(data);
+                       notification.alert('该邮箱已注册');
+                      _self.phone = '';
+                     }
+                   }
+                 }
+               }
              }
-              console.log("blur");
+
+            if(_self.phone !=null &&_self.phone != '' && _self.phone != undefined) {
+              services.Common.validator(options);
+            }
+          },
+          checkName: function() {
+
+            var _self = this;
+            if(_self.name !=null &&_self.name != '' && _self.name != undefined) {
+              services.Common.validator({
+                url: "users",
+                param: {
+                  name: _self.name
+                },
+                cb: function(res) {
+                  if(res.status == 200){
+                    var data = res.data;
+                    if(data.code == -1){
+                      console.log(data);
+                      notification.alert('该用户名已注册');
+                     _self.name = '';
+                    }
+                  }
+                }
+              });
+          }
           }
         }
     }

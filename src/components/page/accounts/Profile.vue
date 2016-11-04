@@ -152,7 +152,7 @@
             var _self = this;
             var options = {
               param: {
-                id: 1
+                id: currentUser
               },
               url: "users",
               ctx: _self

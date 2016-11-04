@@ -127,7 +127,7 @@
                     limit: 10,
                     cur: cur,
                     status: 1,
-                    creator: 1
+                    creator: currentUser
                   },
                   url: "applications",
                   ctx: _self
