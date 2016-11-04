@@ -84,7 +84,7 @@
                           </p>
                         </div>
                       </div>
-                    </article>                    
+                    </article>
                   </div>
 
                   <span  v-show="!inspectInfo.team" class="help is-tip">此项目非团队项目</span>
@@ -146,6 +146,18 @@
               param: {
                 containerName: self.appId,
               },
+              msg: {
+                success: {
+                  title: '删除容器镜像',
+                  message: '删除容器镜像成功',
+                  type: 'primary',
+                },
+                failed: {
+                  title: '删除容器镜像',
+                  message: '删除容器镜像失败',
+                  type: 'warning',
+                }
+              },
               cb: function(res) {
                   if(res.status == 200){
                       notification.alert(data.message);
@@ -154,7 +166,9 @@
               url: "container/start",
               target: self.baseFields,
             };
-            services.Common.containerOperate(option)
+            services.Common.containerOperate(option).then(function(res){
+              notification.alert(res.status);
+            })
           },
 
           openInIde: function(){
