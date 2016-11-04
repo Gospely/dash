@@ -312,7 +312,6 @@
                 otherTime: '其它',
 
                 renewIDEVolumeForm: false,
-                fields: [],
                 ide: '',
                 price: 1,
                 unitPrice: 0,
