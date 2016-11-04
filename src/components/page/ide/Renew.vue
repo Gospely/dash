@@ -10,7 +10,7 @@
                 <div slot="body">
 
                     <div v-show="setMeal.currentStep == 1" class="step1">
-                        <span class="help is-tip">您当前的版本为：教育版</span>
+                        <span class="help is-tip">您当前的版本为：{{ide.name}}</span>
 
                         <hr class="split">
 
@@ -19,7 +19,7 @@
                                 <div class="message-title">
                                     <h4>{{item.name}}</h4>
                                     <div class="meal-set-right">
-                                        <a class="button is-small"><i class="fa fa-check"></i></a>
+                                        <a class="button is-small" @click="chooseIde(item)"><i class="fa fa-check"></i></a>
                                     </div>
                                     <hr class="split">
                                 </div>
@@ -46,10 +46,10 @@
                             <div class="media-content">
                               <div class="content">
                                 <p>
-                                  <strong>专业版</strong>
+                                  <strong>{{ide_choose}}</strong>
                                 </p>
                                 <div class="media-right">
-                                    20.00 元/月
+                                    {{unitPrice}} 元/月
                                 </div>
 
                               </div>
@@ -58,9 +58,18 @@
 
                         <hr class="split">
 
-                        <cyc></cyc>
-
-                        <pay-method :val.sync="qrcode" @weixin="useWeixin" @alipay="useAlipay"></pay-method>
+                        <p class="control">
+                          <cyc :show-tips="false"></cyc>
+                        </p>
+                        <div class="media-content">
+                          <div class="content">
+                            <div class="media-right" style="text-align:right">
+                                <span class="is-tip">合计：</span>
+                                <span class="is-big">{{price}} 元</span>
+                            </div>
+                          </div>
+                        </div>
+                        <pay-method :val.sync="qrcode" @weixin="useWeixin" @alipay="useAlipay"　></pay-method>
 
                     </div>
 
@@ -102,8 +111,8 @@
                         </figure>
                       </div>
                       <div class="media-content">
-                        <p class="title is-5" style="margin-bottom:7px">个人版</p>
-                        <p class="subtitle is-6" style="margin-top:0px">免费</p>
+                        <p class="title is-5" style="margin-bottom:7px">{{ide.name}}</p>
+                        <p class="subtitle is-6" style="margin-top:0px" v-show = "isFree" >免费</p>
                         <div class="text-right">
                             <a @click="changeSetMeal" class="button is-small is-warning">更改</a>
                         </div>
@@ -111,9 +120,9 @@
                     </div>
 
                     <div class="content">
-                        已创建 10 个项目
+                        已创建 {{applicationsCount}} 个项目
                       <br>
-                      <small>到期时间：2016-12-07</small>
+                      <small>到期时间：{{ide.expireAt}}</small>
                     </div>
                   </div>
                 </div>
@@ -122,149 +131,6 @@
             </div>
 
             <hr>
-
-<!-- 
-            <tab :active-index = "0" style= "width: 100%;">
-                <tab-item title="基础信息">
-                  <table class="table">
-                    <thead>
-                      <tr>
-                        <th>名称</th>
-                        <th>创建时间</th>
-                        <th>到期时间</th>
-                        <th>版本</th>
-                        <th>操作</th>
-                      </tr>
-                    </thead>
-                    <tbody>
-                      <tr>
-                        <td>{{ide.name}}</td>
-                        <td>{{ide.createat}}</td>
-                        <td>
-                          {{ide.expireAt}}
-                        </td>
-                        <td>{{ide.name}}</td>
-                        <td class="is-icon" title="升降级">
-                          <a @click="reNewIDE">
-                            <i class="fa fa-level-up"></i>
-                          </a>
-                        </td>
-                      </tr>
-                    </tbody>
-                  </table>
-                </tab-item>
-                <tab-item title="磁盘信息">
-                  <table class="table">
-                    <thead>
-                      <tr>
-                        <th>磁盘名称</th>
-                        <th>磁盘类型</th>
-                        <th>创建时间</th>
-                        <th>容量</th>
-                        <th>剩余</th>
-                        <th>操作</th>
-                      </tr>
-                    </thead>
-                    <tbody>
-                      <tr>
-                        <td>Gospel_volume</td>
-                        <td>IDE专用存储卷</td>
-                        <td>2015-12-07</td>
-                        <td>
-                          20 GB
-                        </td>
-                        <td>10 GB</td>
-                        <td class="is-icon" title="升降级">
-                          <a @click="renewIDEVolumeForm = true">
-                            <i class="fa fa-level-up"></i>
-                          </a>
-                        </td>
-                      </tr>
-                    </tbody>
-                  </table>
-                </tab-item>
-            </tab> -->
-
-            <modal :is-html="true" :is-show.sync="renewIDEVolumeForm">
-                <div slot="header">升降级IDE专用数据卷</div>
-                <div slot="body">
-
-                    <div class="control is-horizontal user-center">
-                      <div class="control-label">
-                        <label class="label">数据卷大小</label>
-                      </div>
-                      <div class="control is-grouped" style="margin-left:16px">
-                        <div class="columns">
-                            <div class="column is-10">
-                                <input v-model="volume.size" min="10" max="100" step="10" class="slider" type="range" style="margin-top:14px">
-                            </div>
-                            <div class="column is-10">
-                                <span class="help is-tip" style="margin: 8px;">{{volume.size}} G</span>
-                            </div>
-                        </div>
-                      </div>
-                    </div>
-
-                    <div class="control is-horizontal user-center">
-                      <div class="control-label">
-                        <label class="label">支付方式</label>
-                      </div>
-                    </div>
-
-                    <pay-method :val.sync="qrcode" @weixin="useWeixin" @alipay="useAlipay"></pay-method>
-
-                    <div class="media-content">
-                      <div class="content">
-                        <div class="media-right" style="text-align:right">
-                            <span class="is-tip">合计：</span>
-                            <span class="is-big">1200.00 元</span>
-                        </div>
-                      </div>
-                    </div>
-
-                </div>
-                <div slot="footer">
-                    <button class="button is-success"
-                        @click="confirmRenewIDEVolume">
-                    确定
-                    </button>
-                    <button class="button" @click="renewIDEVolumeForm = false">取消</button>
-                </div>
-            </modal>
-
-            <modal :is-html="true" :is-show.sync="showRenewForm">
-                <div slot="header">升级时长</div>
-                <div slot="body">
-                    <label class="label">升级时长</label>
-                    <p class="control">
-                      <cyc :show-tips="false"></cyc>
-                    </p>
-                    <label class="label">选择主版本</label>
-                    <p class="control">
-                      <span class="select" >
-                        <select v-model="selected">
-                          <option v-for="item in fields" :value="item" >{{item.name}}</option>
-                        </select>
-                      </span>
-                    </p>
-                    <pay-method :val.sync="qrcode" @weixin="useWeixin" @alipay="useAlipay"></pay-method>
-                    <div class="media-content">
-                      <div class="content">
-                        <div class="media-right" style="text-align:right">
-                            <span class="is-tip">合计：</span>
-                            <span class="is-big">{{price}} 元</span>
-                        </div>
-                      </div>
-                    </div>
-                </div>
-                <div slot="footer">
-                    <button class="button is-success"
-                        @click="confirmRenew">
-                    确定
-                    </button>
-                    <button class="button" @click="showRenewForm = false">取消</button>
-                </div>
-            </modal>
         </div>
     </div>
 </template>
@@ -311,7 +177,6 @@
                 isOther: false,
                 otherTime: '其它',
 
-                renewIDEVolumeForm: false,
                 ide: '',
                 price: 1,
                 unitPrice: 0,
@@ -322,11 +187,13 @@
                 },
 
                 isWeixin: false,
-
+                isFree: false,
                 qrcode: 'http://www.baidu.com',
-
-                currentIDE: '1',
+                currentIDE: localStorage.getItem('ide'),
                 fields: [],
+                applicationsCount: '',
+                expireAt: '',
+                ide_choose: '',
                 showTopupForm: false,
                 showSetMealForm: false,
 
@@ -383,6 +250,12 @@
             },
             confirmRenewIDEVolume: function() {
 
+            },
+            chooseIde: function(item) {
+
+                this.unitPrice = item.price;
+                console.log(item.name);
+                this.ide_choose = item.name;
             },
             initIdes: function() {
 
@@ -469,6 +342,9 @@
                                 for(var i = 0; i<= data.fields.length-1; i++){
                                     if(data.fields[i].id != _self.currentIDE){
                                       show.push(data.fields[i])
+                                    }else{
+                                      _self.unitPrice =  data.fields[i].price;
+                                      _self.ide_choose =  data.fields[i].name;
                                     }
                                 }
                                 console.log(show);
@@ -478,32 +354,42 @@
 
                   }
                 });
-            }
 
-        },
-        ready: function() {
-
-            this.$get("initIdes")();
-            var _self = this;
-            if(localStorage.getItem('ideName') != undefined){
-                  this.version = localStorage.getItem('ideName');
-                  var ide = localStorage.getItem('ide');
-                  services.Common.getOne({
+                services.Common.count({
+                    url: 'applications',
                     param: {
-                      id: ide
+                        creator: currentUser
                     },
-                    url: "ides",
-                    cb: function(res) {
-                      if(res.status == 200){
-                          var data = res.data;
-                          if(data.code == 1){
-                              _self.ide = data.fields;
+                    cb: function(res){
+                          if(res.status == 200){
+                              var data = res.data;
+                              if(data.code == 1){
+                                  _self.applicationsCount = data.fields;
+                              }
                           }
-                      }
                     }
-                  });
-
+                });
+                
+                var ide = localStorage.getItem('ide');
+                services.Common.getOne({
+                   param: {
+                     id: ide
+                   },
+                   url: "ides",
+                   cb: function(res) {
+                     if(res.status == 200){
+                         var data = res.data;
+                         if(data.code == 1){
+                             _self.ide = data.fields;
+                         }
+                     }
+                   }
+                 });
             }
+        },
+
+        ready: function() {
+            this.$get("initIDE")();
         },
         watch: {
            selected: function(item) {
