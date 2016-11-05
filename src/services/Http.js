@@ -53,8 +53,11 @@ default;
 						console.log("res");
 						if(res.status == 200) {
 							if(data.code == -100){
-								notification.error(data.message)
+								notification.error(data.message);
 								window.location.href = window.baseUrl + "/#!/accounts/login";
+							}
+							if(data.code == -101) {
+								notification.error(data.message);
 							}
 						}
 						options.cb(res);
