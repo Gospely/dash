@@ -3,7 +3,7 @@
         <div class="header-logo">
             <i class="fa fa-connectdevelop"></i>
         </div>
-        <navi :model="menu" class="menu"></navi>
+        <navi :model="menu" :collapsed.sync="collapsed" class="menu"></navi>
         <div class="user-info-link">
             <a href="#"></a>
         </div>
@@ -111,31 +111,38 @@
 
     @media (max-width: $l_sidebar_breakpoint) {
         .side-bar {
-            display: none;
+            width:0;
             transition: all 0.5s;
         }
 
+    }
+    
+    .collapsed .side-bar {
+         width: $l_sidebar_width_collapse!important;
+    }
+    
+    .collapse-nav .fa-angle-left {
+        transition: all;
+        transition-duration: .3s;
+        vertical-align: middle;
+    }
+
+    .collapsed .collapse-nav .fa-angle-left{
+        transform: rotate(180deg);
     }
 
     @media screen and (min-width: $l_sidebar_breakpoint) {
         .side-bar {
             width: $l_sidebar_width_normal;
         }
-        .collapsed .side-bar {
-            width: $l_sidebar_width_collapse;
-        }
-        .collapsed .side-bar .sub-menu{
-            display: none;
-        }
-        .collapse-nav .fa-angle-left {
-            transition: all;
-            transition-duration: .3s;
-            vertical-align: middle;
-        }
-        .collapsed .collapse-nav .fa-angle-left{
-            transform: rotate(180deg);
-        }
+        
+        
    }
+
+   .collapsed .side-bar .sub-menu{
+       display: none;
+   }
+   
 </style>
 <script>
     import {menu} from '../../config'

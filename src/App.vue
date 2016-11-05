@@ -1,10 +1,10 @@
 <template>
     <div id="app" :class="{'collapsed':collapsed}">
-        <side-navi :collapsed.sync="collapsed"></side-navi>
+        <side-navi :collapsed.sync="collapsed" :class="{'hiddened':hiddened}"></side-navi>
         <progress id="global-loader" v-show="false" class="progress is-info" style="position: fixed!important;left: 0px;z-index: 65555;width: 100%;height: 4px;" value="{{loaderProgress}}" max="100"></progress>
-        <section class="app-main">
+        <section :class="['app-main',{'body-hiddened':hiddened}]">
             <div class="app-main-header">
-                <header-bar></header-bar>
+                <header-bar :hiddened.sync="hiddened" :collapsed.sync="collapsed"></header-bar>
             </div>
             <div class="app-main-body">
                 <div class="container">
@@ -23,7 +23,7 @@
         data () {
             return {
                 collapsed: false,
-
+                hiddened: false,
                 loaderProgress: 0
             }
         },
@@ -46,6 +46,14 @@
 <style lang="scss">
     @import "scss/variable";
     @import "scss/app";
+    
+    #app .body-hiddened{
+        margin-left:230px;
+    }
+
+    #app .collapsed .body-hiddened{
+        margin-left:60px;
+    }
 
     .app-main {
         position: relative;
@@ -89,9 +97,16 @@
         .app-main {
             margin-left: 230px;
         }
-        .collapsed .app-main {
-            margin-left: 60px;
-        }
+        
+    }
+    
+    .collapsed .app-main {
+        margin-left: 60px!important;
+    }
+
+    #app .hiddened{
+        width:230px;
+        transition: all 0.3s;
     }
 
     .content ul {

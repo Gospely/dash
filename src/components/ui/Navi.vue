@@ -13,7 +13,7 @@
             <template v-if="item.subRoutes">
                 <li class="sub-menu" v-show="item.isShowSubMenu"
                     transition = "slide">
-                    <navi :model="item.subRoutes"></navi>
+                    <navi :model="item.subRoutes" :collapsed.sync="collapsed"></navi>
                 </li>
             </template>
         </template>
@@ -31,6 +31,7 @@
         opacity: 0;
         height: 0;
     }
+
 </style>
 <script>
     export default{
@@ -43,6 +44,10 @@
                     return {
                     }
                 }
+            },
+            collapsed: {
+                type: Boolean,
+                required: true
             }
         },
         data () {
@@ -52,8 +57,13 @@
             toggleShowSubMenu (item, $event) {
                 if (item.subRoutes) {
                     item.isShowSubMenu = !item.isShowSubMenu
+                    this.collapsed = !this.collapsed;
                     $event.preventDefault()
                     $event.stopPropagation()
+                }
+
+                if (item.subRoutes && this.collapsed) {
+                    this.collapsed = !this.collapsed;
                 }
             }
         }

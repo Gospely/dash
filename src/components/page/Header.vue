@@ -2,8 +2,9 @@
     <nav class="nav header-bar">
 
         <div class="nav-left">
-
+            <i :class=['fa','fa-angle-right',{'isOpen':hiddened},{'iconHiddened':collapsed}] @click="toggleMenu"></i>
         </div>
+
         <div class="nav-center">
             <a class="nav-item" href="https://github.com/Gospely">
               <span class="icon">
@@ -16,6 +17,7 @@
               </span>
             </a>
         </div>
+
         <div id="nav-menu" class="nav-right nav-menu">
             <a class="nav-item " href="/">
                 退出
@@ -24,6 +26,41 @@
     </nav>
 </template>
 <style>
+    /*@import "../../scss/variable";
+
+    @media (max-width: $l_sidebar_breakpoint) {
+        .nav-left .fa-angle-right{
+            display:block;
+        }
+    }
+
+    @media (min-width: $l_sidebar_breakpoint) {
+        .nav-left .fa-angle-right{
+            display:none;
+        }
+    }*/
+
+    @media screen and (min-width: 1024px){
+        .nav-left .fa-angle-right{
+            display: none;
+        }
+     }
+
+     @media screen and (max-width: 1024px){
+        .nav-left .fa-angle-right{
+            display: block;
+        }
+     }
+    .isOpen{
+        transition: all .3s;
+        transform: rotate(180deg);
+    }
+    
+    .nav-left .iconHiddened{
+        display: none;
+    }
+     
+
     .header-bar {
         background: #fff;
         height: 58px;
@@ -31,6 +68,12 @@
         font-size: 14px;
         padding: 0 0 0 15px;
         text-align: left;
+    }
+    
+    .nav-left .fa-angle-right{
+        font-size: 50px;
+        color: #69707a;
+        padding: 0 30px 0 10px;
     }
 
     .signup-form {
@@ -63,7 +106,14 @@
 
     .btn-sns, .btn-gplus, .btn-facebook, .btn-twitter, .btn-weibo { width: 80px; height: 40px; margin-top: 10px; }
 
-    @media (max-width 540px) { .signup-form { top: 50px; width: 310px; margin-left: -160px; background-color: #eeeeee; } }
+    @media (max-width 540px) { 
+        .signup-form { 
+            top: 50px; 
+            width: 310px; 
+            margin-left: -160px; 
+            background-color: #eeeeee; 
+            }   
+        }
 
     .signup-form__logo-box {
         margin-bottom: 40px;
@@ -107,6 +157,8 @@
             background-color: #eee
         }
     }
+    
+    
 
     .signup-form #g-recaptcha {
         margin: 0 auto;
@@ -399,8 +451,32 @@
 </style>
 <script>
     export default{
+        props: {
+            hiddened: {
+                required: true,
+                type: Boolean
+            },
+            collapsed:{
+                required: true,
+                type: Boolean
+            }
+        },
         data () {
-            return {}
+            return {
+                iconHiddened:true
+            }
+        },
+        methods:{
+            toggleMenu () {
+                this.hiddened = !this.hiddened;
+            }
+        },
+        ready: function () {
+            // window.onresize = function () {
+            //     if (document.body.clientWidth <= 1024) {
+            //         this.iconHiddened = true;
+            //     }
+            // }
         }
     }
 </script>
