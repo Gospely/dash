@@ -20,17 +20,7 @@
 
         <div id="nav-menu" class="nav-right nav-menu">
             <a class="nav-item " href="/">
-                主页
-            </a>
-            <a class="is-hidden nav-item" href="/templates/">
-                <span>Templates</span>
-                <span class="tag is-small is-success">New!</span>
-            </a>
-            <a class="nav-item " href="/blog/">
-                社区
-            </a>
-            <a class="nav-item " href="/blog/">
-                文档
+                退出
             </a>
         </div>
     </nav>

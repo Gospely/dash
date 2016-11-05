@@ -47,7 +47,18 @@ default;
 
 				if (options.cb != null && options.cb != undefined) {
 
-					HTTP(options).then(options.cb,
+					HTTP(options).then(function(res){
+
+						var data = res.data;
+						console.log("res");
+						if(res.status == 200) {
+							if(data.code == -100){
+								notification.error(data.message)
+								window.location.href = window.baseUrl + "/#!/accounts/login";
+							}
+						}
+						options.cb(res);
+					},
 					function(err) {
 						console.log(err);
 						notification.alert("服务器异常", 'danger');
