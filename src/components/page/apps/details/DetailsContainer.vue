@@ -115,12 +115,21 @@
                   containerName: self.appId,
                 },
                 cb: function(res) {
+
+                    console.log(res);
+
                     if(res.status == 200){
                         var data = res.data;
-                        self.containerInfo = JSON.parse(data.fields);
-                        if(self.containerInfo.length > 0) {
-                            self.containerInfo = self.containerInfo[0];
+
+                        if(data.code === 1) {
+                            self.containerInfo = JSON.parse(data.fields);
+                            if(self.containerInfo.length > 0) {
+                                self.containerInfo = self.containerInfo[0];
+                            }
+                        }else {
+                            notification.alert(data.message, 'warning');
                         }
+
                     }else {
                         notification.alert(data.body, 'warning');
                     }
