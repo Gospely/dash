@@ -3,7 +3,7 @@
         <div class="header-logo">
             <i class="fa fa-connectdevelop"></i>
         </div>
-        <navi :model="menu" class="menu"></navi>
+        <navi :model="menu" :collapsed.sync="collapsed" class="menu"></navi>
         <div class="user-info-link">
             <a href="#"></a>
         </div>
@@ -136,10 +136,13 @@
             width: $l_sidebar_width_normal;
         }
         
-        .collapsed .side-bar .sub-menu{
-            display: none;
-        }
+        
    }
+
+   .collapsed .side-bar .sub-menu{
+       display: none;
+   }
+   
 </style>
 <script>
     import {menu} from '../../config'
