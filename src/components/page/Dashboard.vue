@@ -185,6 +185,7 @@
                       if(res.status == 200){
                           var data = res.data;
                           if(data.code == 1){
+
                               _self.applicationsCount = data.fields;
                           }
                       }
@@ -219,6 +220,10 @@
 
                               _self.application_running = data.fields;
                           }
+                          if(data.code == -100){
+                            notification.error(data.message)
+                            window.location.href = window.baseUrl + "/#!/accounts/login";
+                          }
                       }
                 }
             });
@@ -233,6 +238,10 @@
                           if(data.code == 1){
 
                               _self.domainsCount = data.fields;
+                          }
+                          if(data.code == -100){
+                            notification.error(data.message)
+                            window.location.href = window.baseUrl + "/#!/accounts/login";
                           }
                       }
                 }
