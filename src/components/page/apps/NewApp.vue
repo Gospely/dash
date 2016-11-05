@@ -382,7 +382,7 @@
 
             realCreateApp: function() {
                 var _self = this;
-                application.userName = currentUserName;
+                _self.application.userName = currentUserName;
                 var options = {
 
                     param: this.application,
