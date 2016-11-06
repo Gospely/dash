@@ -4,6 +4,12 @@
             <i class="fa fa-connectdevelop"></i>
         </div>
         <navi :model="menu" :collapsed.sync="collapsed" class="menu"></navi>
+        <div class="sign-out" title="退出登录" @click="signOut()">
+            <a href="#">
+                <i class="fa fa-sign-out icon"></i
+                ><span class="label">退出</span>
+            </a>
+        </div>
         <div class="user-info-link">
             <a href="#"></a>
         </div>
@@ -14,6 +20,42 @@
 </template>
 <style lang="scss">
     @import "./../../scss/_variable.scss";
+    
+    .sign-out .icon {
+        margin: 0 18px 0 7px;
+        width: 20px;
+        vertical-align: middle;
+        display: inline-block;
+        line-height: 24px;
+        text-align: center;
+    }
+
+    .sign-out .label {
+        margin: 0;
+        color: inherit;
+        font-weight: normal;
+        vertical-align: middle;
+        display: inline-block;
+        line-height: 24px;
+        text-align: center;
+    }
+    
+    .sign-out:hover,.sign-out a:hover {
+        color: $color_side_bar_light;
+        background: $bg_side_bar_hover;
+    }
+
+    .sign-out{
+        position: relative;
+        left: 0;
+        width: 100%;
+        height: 38px;
+        padding: 7px 15px;
+        line-height: 24px;
+        overflow: hidden;
+        cursor:pointer;
+        font-size:100%;
+    }
 
     .header-logo {
         position: relative;
@@ -45,9 +87,7 @@
         color: $color_side_bar;
         z-index: 200;
         .menu {
-            position: absolute;
             top: 0;
-            margin-top: 72px;
             width: 100%;
             li a {
                 display: block;
@@ -160,6 +200,10 @@
             }
         },
         methods: {
+            signOut(){
+                localStorage.removeItem('token');
+                // window.location.href = loginUrl;
+            },
             toggleCollapse () {
                 this.collapsed = !this.collapsed
             }

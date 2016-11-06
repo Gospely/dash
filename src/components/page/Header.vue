@@ -74,6 +74,7 @@
         font-size: 50px;
         color: #69707a;
         padding: 0 30px 0 10px;
+        cursor: pointer;
     }
 
     .signup-form {

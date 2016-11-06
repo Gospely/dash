@@ -44,8 +44,8 @@
                     <input class="input" type="text" placeholder="请输入手机号码" v-model="phone" v-bind:disabled="!changeMobileState">
                     <i class="fa fa-check"></i>
                 </p>
-                <a @click="startChangeMobile" v-show="!changeMobileState" class="button is-primary" style="position:absolute;margin-left:15px"><i class="fa fa-pencil"></i></a>
-                <a v-show="changeMobileState" @click="cancelChangeMobile" class="button is-primary" style="position:absolute;margin-left:15px"><i class="fa fa-close"></i></a>
+                <a @click="startChangeMobile" v-show="!changeMobileState" class="button is-primary" style="position:absolute;left:205px"><i class="fa fa-pencil"></i></a>
+                <a v-show="changeMobileState" @click="cancelChangeMobile" class="button is-primary" style="position:absolute;left:205px"><i class="fa fa-close"></i></a>
               </div>
             </div>
 
@@ -58,7 +58,7 @@
                     <input class="input" type="text" placeholder="请输入短信验证码">
                     <i class="fa fa-check"></i>
                 </p>
-                <a class="button is-primary" style="position:absolute;margin-left:15px"><i class="fa fa-check"></i></a>
+                <a class="button is-primary" style="position:absolute;left:205px"><i class="fa fa-check"></i></a>
               </div>
             </div>
 
@@ -74,8 +74,8 @@
                     <input class="input" type="email" placeholder="请输入邮箱帐号" v-model="email" v-bind:disabled="!isVerifingEmail">
                     <i class="fa fa-check"></i>
                 </p>
-                <a v-show="!isVerifingEmail" @click="verifyEmail" class="button is-primary" style="position:absolute;margin-left:15px"><i class="fa fa-pencil"></i></a>
-                <a v-show="isVerifingEmail" @click="cancelVerifyEmail" class="button is-primary" style="position:absolute;margin-left:15px"><i class="fa fa-close"></i></a>
+                <a v-show="!isVerifingEmail" @click="verifyEmail" class="button is-primary" style="position:absolute;left:205px"><i class="fa fa-pencil"></i></a>
+                <a v-show="isVerifingEmail" @click="cancelVerifyEmail" class="button is-primary" style="position:absolute;left:205px"><i class="fa fa-close"></i></a>
               </div>
             </div>
 
@@ -90,7 +90,7 @@
                     <i class="fa fa-lock"></i>
                 </p>
 
-                <a @click="confirmVerifyEmail" class="button is-primary" style="position:absolute;margin-left:15px"><i class="fa fa-check"></i></a>
+                <a @click="confirmVerifyEmail" class="button is-primary" style="position:absolute;left:205px"><i class="fa fa-check"></i></a>
               </div>
             </div>
             <hr>
@@ -104,8 +104,8 @@
                     <input class="input" type="password" placeholder="密码" v-bind:disabled="!changePwState">
                     <i class="fa fa-lock"></i>
                 </p>
-                <a class="button is-danger" style="position:absolute;margin-left:15px" @click="startChangePw"><i class="fa fa-pencil"></i></a>
-                <a v-show="changePwState" @click="confirmUpdatePwd" class="button is-primary" style="position:absolute;margin-left:55px"><i class="fa fa-check"></i></a>
+                <a class="button is-danger" style="position:absolute;left:205px" @click="startChangePw"><i class="fa fa-pencil"></i></a>
+                <a v-show="changePwState" @click="confirmUpdatePwd" class="button is-primary" style="position:absolute;left:205px"><i class="fa fa-check"></i></a>
               </div>
             </div>
 
