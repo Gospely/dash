@@ -6,7 +6,7 @@
 	        <tab-item title="官方镜像">
             <div class="columns">
               <div class="column" v-for="item in fields2">
-                <div @click="selectThisImage(item)" class="creation-modal-choice" style="background-image: url({{item.description}})!important">
+                <div @click="selectThisImage(item)" class="creation-modal-choice" :style="{backgroundImage: 'url(' + item.description + ')'}">
                   {{item.name}}
                 </div>
               </div>

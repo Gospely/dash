@@ -6,29 +6,60 @@
         <div class="content">
             <image-viewer></image-viewer>
         </div>
+        <version-modal :versions="versions" :show-version-modal.sync="showVersionModal" :select-name="selectName" :select-description="selectDescription"></version-modal>
     </div>
+
+    
 </template>
 <style>
+    
 </style>
 <script>
 
     import ImageViewer from '../apps/ImageViewer.vue'
+    import VersionModal from '../../ui/ChooseServicesVersion.vue'
+    // let ModalCtrl = Vue.extend(Modal);
 
     export default{
         data () {
             return {
-                msg: 'hello vue'
+                msg: 'hello vue',
+                selectName: '',
+                selectDescription: '',
+                versions:[
+                    {'v':'v-1.0'},
+                    {'v':'v-2.0'},
+                    {'v':'v-3.0'}
+                ],
+                showVersionModal:false
             }
         },
         components: {
-            ImageViewer
+            ImageViewer,
+            VersionModal
+        },
+
+        methods:{
+            selectThisVersion(item,index) {
+                this.thisIndex = index;
+            }
         },
 
         events: {
             'imageOnSelected': function(item) {
                 console.log(item.id);
+                this.showVersionModal = true;
+                this.selectName = item.name;
+                // alert(this.selectName)
+                this.selectDescription = item.description;
+                // alert(this.selectDescription)
+
+                // alert(showVersionModal)
                 sessionStorage.currentImage = JSON.stringify(item);
-                this.$router.go('/apps/new/' + item.name);
+                // this.$router.go('/apps/new/' + item.name);
+            },
+            comfirmVersion() {
+                this.$router.go('/apps/new/' + this.selectName);
             }
         }
     }
