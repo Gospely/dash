@@ -60,7 +60,12 @@
                 // this.$router.go('/apps/new/' + item.name);
             },
             comfirmVersion() {
-                this.$router.go('/apps/new/' + this.selectName);
+                this.$router.go({
+                    path: '/apps/new/',
+                    query: {
+                        imageId: this.selectName
+                    }
+                });
                 menu['/apps'].isShowSubMenu = true;
             }
         }

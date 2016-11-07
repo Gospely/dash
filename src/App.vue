@@ -42,7 +42,7 @@
         },
         methods:{
             validationEmail(){
-                this.$router.go('/accounts/profile');
+                this.$router.replace('/accounts/profile');
             }
         },
         components: {

@@ -312,9 +312,9 @@
 
         created () {
 
-            if(typeof this.$route.params.imageId != 'undefined') {
+            if(typeof this.$route.query.imageId != 'undefined') {
                 this.$set('withImage', true);
-                this.$set('imageId', this.$route.params.imageId);
+                this.$set('imageId', this.$route.query.imageId);
 
                 try {
                     var currentImage = JSON.parse(sessionStorage.currentImage);
