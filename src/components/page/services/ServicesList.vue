@@ -18,6 +18,7 @@
 
     import ImageViewer from '../apps/ImageViewer.vue'
     import VersionModal from '../../ui/ChooseServicesVersion.vue'
+    import {menu} from '../../../config'
     // let ModalCtrl = Vue.extend(Modal);
 
     export default{
@@ -60,6 +61,7 @@
             },
             comfirmVersion() {
                 this.$router.go('/apps/new/' + this.selectName);
+                menu['/apps'].isShowSubMenu = true;
             }
         }
     }

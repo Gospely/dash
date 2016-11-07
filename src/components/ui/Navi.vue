@@ -56,7 +56,7 @@
         methods: {
             toggleShowSubMenu (item, $event) {
                 if (item.subRoutes) {
-                    item.isShowSubMenu = !item.isShowSubMenu
+                    item.isShowSubMenu = !item.isShowSubMenu;
                     this.collapsed = !this.collapsed;
                     $event.preventDefault()
                     $event.stopPropagation()

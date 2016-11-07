@@ -202,10 +202,10 @@
         methods: {
             signOut(){
                 localStorage.removeItem('token');
-                // window.location.href = loginUrl;
+                window.location.href = loginUrl;
             },
             toggleCollapse () {
-                this.collapsed = !this.collapsed
+                this.collapsed = !this.collapsed;
             }
         },
         components: {
