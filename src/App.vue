@@ -1,5 +1,8 @@
 <template>
     <div id="app" :class="{'collapsed':collapsed}">
+        <div class="validation-email" @click="validationEmail">
+            <p>请尽快验证邮箱!</p>
+        </div>
         <side-navi :collapsed.sync="collapsed" :class="{'hiddened':hiddened}"></side-navi>
         <progress id="global-loader" v-show="false" class="progress is-info" style="position: fixed!important;left: 0px;z-index: 65555;width: 100%;height: 4px;" value="{{loaderProgress}}" max="100"></progress>
         <section :class="['app-main',{'body-hiddened':hiddened}]">
@@ -37,6 +40,11 @@
                 }
             }
         },
+        methods:{
+            validationEmail(){
+                this.$router.go('/accounts/profile');
+            }
+        },
         components: {
             HeaderBar,
             'side-navi': SideNaviBar
@@ -53,6 +61,18 @@
 
     #app .collapsed .body-hiddened{
         margin-left:60px;
+    }
+
+    .validation-email {
+        background-color: #ffdd57;
+        width: 100%;
+        z-index: 9217893;
+        text-align: center;
+        color: #69707a;
+        cursor: pointer;
+    }
+    .validation-email:hover {
+        background-color: #fce473;
     }
 
     .app-main {

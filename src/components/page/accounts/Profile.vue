@@ -46,6 +46,7 @@
                 </p>
                 <a @click="startChangeMobile" v-show="!changeMobileState" class="button is-primary" style="position:absolute;left:205px"><i class="fa fa-pencil"></i></a>
                 <a v-show="changeMobileState" @click="cancelChangeMobile" class="button is-primary" style="position:absolute;left:205px"><i class="fa fa-close"></i></a>
+                <a v-show="changeMobileState" @click="" title="发送验证码" class="button is-primary" style="position:absolute;left:255px"><i class="fa fa-arrow-right"></i></a>
               </div>
             </div>
 
@@ -76,6 +77,7 @@
                 </p>
                 <a v-show="!isVerifingEmail" @click="verifyEmail" class="button is-primary" style="position:absolute;left:205px"><i class="fa fa-pencil"></i></a>
                 <a v-show="isVerifingEmail" @click="cancelVerifyEmail" class="button is-primary" style="position:absolute;left:205px"><i class="fa fa-close"></i></a>
+                <a v-show="isVerifingEmail" @click="" title="发送验证码" class="button is-primary" style="position:absolute;left:255px"><i class="fa fa-arrow-right"></i></a>
               </div>
             </div>
 
