@@ -220,10 +220,6 @@
 
                               _self.application_running = data.fields;
                           }
-                          if(data.code == -100){
-                            notification.error(data.message)
-                            window.location.href = window.baseUrl + "/#!/accounts/login";
-                          }
                       }
                 }
             });
@@ -239,10 +235,7 @@
 
                               _self.domainsCount = data.fields;
                           }
-                          if(data.code == -100){
-                            notification.error(data.message)
-                            window.location.href = window.baseUrl + "/#!/accounts/login";
-                          }
+
                       }
                 }
             });
