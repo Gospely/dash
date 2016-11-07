@@ -142,6 +142,9 @@
                   url: "applications",
                   ctx: _self,
                   reload:function () {
+                    if (_self.isRefresh) {
+                      notification.alert("刷新成功");
+                    }
                     _self.isRefresh = false;
                   }
                 }
@@ -164,6 +167,9 @@
                   all: 'all_stop',
                   ctx: _self,
                   reload:function () {
+                    if (_self.isRefresh) {
+                      notification.alert("刷新成功");
+                    }
                     _self.isRefresh = false;
                   }
                 }

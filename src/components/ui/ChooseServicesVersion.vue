@@ -16,7 +16,7 @@
             <div class="framework-body">
                 <div>选择一个框架:</div>
                 <hr class="split">
-                <div class="creation-modal-choice" :style="{backgroundImage: 'url(' + selectDescription + ')'}">
+                <div :class="['creation-modal-choice',{'is-active': true}]" @click="" :style="{backgroundImage: 'url(' + selectDescription + ')'}">
                     框架
                 </div>
                 <div class="creation-modal-choice" :style="{backgroundImage: 'url(' + selectDescription + ')'}">
@@ -47,6 +47,12 @@
         .versions-body .has-addons .button:last-child {
             border-right: 2px solid #d3d6db;
             border-radius: 0 5px 5px 0;
+        }
+        .framework-body .creation-modal-choice:hover {
+            background-color: #7bbf51;
+        }
+        .framework-body .is-active {
+            background-color: #97cd76;
         }
     </style>
 
