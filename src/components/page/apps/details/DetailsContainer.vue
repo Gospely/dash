@@ -123,7 +123,6 @@
 
                         if(data.code == 200) {
                             self.containerInfo = JSON.parse(data.fields);
-                            console.log(data.fields);
                             if(self.containerInfo.length > 0) {
                                 self.containerInfo = self.containerInfo[0];
                             }
