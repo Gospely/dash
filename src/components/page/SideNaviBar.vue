@@ -202,8 +202,6 @@
         methods: {
             signOut(){
                 localStorage.removeItem('token');
-
-                
                 // window.location.href = loginUrl;
             },
             toggleCollapse () {
