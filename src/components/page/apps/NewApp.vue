@@ -126,8 +126,13 @@
                 </p>
               </div>
             </div>
-            <div :class="{'show-services':!showServices}">
-                <image-viewer></image-viewer>
+
+            <div class="control is-horizontal user-center" style="padding-left: 19.322034%;" :class="{'show-services':!showServices}">
+              <div class="control is-grouped">
+                <p class="control is-expanded">
+                    <image-viewer></image-viewer>
+                </p>
+              </div>
             </div>
 
             <version-modal :versions="versions" :show-version-modal.sync="showVersionModal" :select-name="selectName" :select-description="selectDescription"></version-modal>
