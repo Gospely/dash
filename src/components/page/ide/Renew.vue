@@ -14,12 +14,12 @@
 
                         <hr class="split">
 
-                        <article class="message" v-for="(key, item) in fields"  >
+                        <article class="message"  @click="chooseIde(item, key)" v-for="(key, item) in fields"  >
                             <div class="message-body">
                                 <div class="message-title">
                                     <h4>{{item.name}}</h4>
                                     <div class="meal-set-right">
-                                        <a class="button is-small" v-bind:class="{'is-success': item.active}" @click="chooseIde(item, key)"><i class="fa fa-check"></i></a>
+                                        <a class="button is-small" v-bind:class="{'is-success': item.active}"><i class="fa fa-check"></i></a>
                                     </div>
                                     <hr class="split">
                                 </div>
@@ -255,7 +255,14 @@
             },
             chooseIde: function(item, key) {
               console.log(item, this.fields[key]);
+
+              for (var i = 0; i < this.fields.length; i++) {
+                var curType = this.fields[i];
+                curType.active = false;
+              };
+
               this.fields[key].active = true;
+
               this.unitPrice = item.price;
               this.ide_choose = item.name;
             },
@@ -344,12 +351,19 @@
                                 console.log(data.fields);
                                 var show = new Array();
                                 for(var i = 0; i<= data.fields.length-1; i++){
-                                    if(data.fields[i].id != _self.currentIDE){
-                                      show.push(data.fields[i])
-                                    }else{
-                                      _self.unitPrice =  data.fields[i].price;
-                                      _self.ide_choose =  data.fields[i].name;
-                                    }
+                                  if(data.fields[i].id != _self.currentIDE){
+                                    show.push(data.fields[i])
+                                  }else{
+                                    _self.unitPrice =  data.fields[i].price;
+                                    _self.ide_choose =  data.fields[i].name;
+                                  }
+
+                                  if(_self.ide.name == data.fields[i].name) {
+                                    data.fields[i].active = true;
+                                  }else {
+                                    data.fields[i].active = false;
+                                  }
+
                                 }
                                 console.log(show);
                                 _self.fields = show;
