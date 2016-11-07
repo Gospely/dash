@@ -150,7 +150,6 @@
 
               services.UserService.login(user).then(function(res) {
 
-                alert(res.data.fields);
                 if(res.status === 200){
                   if(res.data.code != 1){
                       notification.alert(res.data.message,'danger');

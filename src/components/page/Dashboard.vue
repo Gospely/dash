@@ -166,7 +166,12 @@
                           var data = res.data;
                           if(data.code == 1){
 
-                              _self.expireat = data.fields.expireAt;
+                              if(data.fields.expireAt == null || data.fields.expireAt == undefined) {
+                                _self.expireat = '免费无限版本';
+                              }else{
+                                _self.expireat = data.fields.expireAt;
+                              }
+
                           }
                       }
                     }

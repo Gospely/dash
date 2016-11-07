@@ -20,7 +20,7 @@
 </template>
 <style lang="scss">
     @import "./../../scss/_variable.scss";
-    
+
     .sign-out .icon {
         margin: 0 18px 0 7px;
         width: 20px;
@@ -39,7 +39,7 @@
         line-height: 24px;
         text-align: center;
     }
-    
+
     .sign-out:hover,.sign-out a:hover {
         color: $color_side_bar_light;
         background: $bg_side_bar_hover;
@@ -156,11 +156,11 @@
         }
 
     }
-    
+
     .collapsed .side-bar {
          width: $l_sidebar_width_collapse!important;
     }
-    
+
     .collapse-nav .fa-angle-left {
         transition: all;
         transition-duration: .3s;
@@ -175,14 +175,14 @@
         .side-bar {
             width: $l_sidebar_width_normal;
         }
-        
-        
+
+
    }
 
    .collapsed .side-bar .sub-menu{
        display: none;
    }
-   
+
 </style>
 <script>
     import {menu} from '../../config'
@@ -202,6 +202,8 @@
         methods: {
             signOut(){
                 localStorage.removeItem('token');
+
+                
                 // window.location.href = loginUrl;
             },
             toggleCollapse () {
