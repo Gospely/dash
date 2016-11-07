@@ -127,7 +127,7 @@
               </div>
             </div>
 
-            <div class="control is-horizontal user-center" style="padding-left: 19.322034%;" :class="{'show-services':!showServices}">
+            <div class="control is-horizontal user-center" style="padding-left: 19.322034%;" v-show="showServices">
               <div class="control is-grouped">
                 <p class="control is-expanded">
                     <image-viewer></image-viewer>
@@ -465,7 +465,8 @@
                     this.application.name == '' ||
                     this.application.image == '' ||
                     this.application.username == '' ||
-                    this.application.password == ''
+                    this.application.password == '' ||
+                    this.application.imageName == this.application.name
                 ) {
                     notification.alert('请完整填写内容', 'warning');
                     return false;
@@ -501,7 +502,6 @@
                     _self.dockerConfigs = data.fields;
                     _self.configIsActive = arr;
                 }
-
 
                 var options = {
 
