@@ -465,7 +465,8 @@
                     this.application.name == '' ||
                     this.application.image == '' ||
                     this.application.username == '' ||
-                    this.application.password == ''
+                    this.application.password == '' ||
+                    this.application.imageName == this.application.name
                 ) {
                     notification.alert('请完整填写内容', 'warning');
                     return false;

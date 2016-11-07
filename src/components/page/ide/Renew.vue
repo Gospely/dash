@@ -14,12 +14,12 @@
 
                         <hr class="split">
 
-                        <article class="message" v-for="item in fields"  >
+                        <article class="message" v-for="(key, item) in fields"  >
                             <div class="message-body">
                                 <div class="message-title">
                                     <h4>{{item.name}}</h4>
                                     <div class="meal-set-right">
-                                        <a class="button is-small" v-bind:class="{'is-success': item.active}" @click="chooseIde(item)"><i class="fa fa-check"></i></a>
+                                        <a class="button is-small" v-bind:class="{'is-success': item.active}" @click="chooseIde(item, key)"><i class="fa fa-check"></i></a>
                                     </div>
                                     <hr class="split">
                                 </div>
@@ -253,9 +253,11 @@
             confirmRenewIDEVolume: function() {
 
             },
-            chooseIde: function(item) {
-                this.unitPrice = item.price;
-                this.ide_choose = item.name;
+            chooseIde: function(item, key) {
+              console.log(item, this.fields[key]);
+              this.fields[key].active = true;
+              this.unitPrice = item.price;
+              this.ide_choose = item.name;
             },
             initIdes: function() {
 
@@ -325,7 +327,7 @@
             initIDE: function(){
 
                 var _self = this;
-                console.log(data);
+                console.log(this);
                 services.Common.list({
                   param:{
                     type: 'ide'
@@ -336,6 +338,7 @@
                         if(res.status == 200){
 
                             var data = res.data;
+                            console.log(data);
                             if(data.code == 1){
 
                                 console.log(data.fields);
