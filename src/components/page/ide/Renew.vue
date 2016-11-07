@@ -19,7 +19,7 @@
                                 <div class="message-title">
                                     <h4>{{item.name}}</h4>
                                     <div class="meal-set-right">
-                                        <a class="button is-small" @click="chooseIde(item)"><i class="fa fa-check"></i></a>
+                                        <a class="button is-small" v-bind:class="{'is-success': item.active}" @click="chooseIde(item)"><i class="fa fa-check"></i></a>
                                     </div>
                                     <hr class="split">
                                 </div>
@@ -202,7 +202,9 @@
                 setMeal: {
                     totalStep: 2,
                     currentStep: 1
-                }
+                },
+
+                mealTicks: []
 
             }
         },
@@ -252,9 +254,7 @@
 
             },
             chooseIde: function(item) {
-
                 this.unitPrice = item.price;
-                console.log(item.name);
                 this.ide_choose = item.name;
             },
             initIdes: function() {
@@ -325,6 +325,7 @@
             initIDE: function(){
 
                 var _self = this;
+                console.log(data);
                 services.Common.list({
                   param:{
                     type: 'ide'
@@ -393,7 +394,6 @@
         },
         watch: {
            selected: function(item) {
-
               this.products = item.id;
               this.unitPrice = item.price;
               this.price = this.unitPrice +" X 1 月 = "+this.unitPrice;

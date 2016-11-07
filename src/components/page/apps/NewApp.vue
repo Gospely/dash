@@ -127,7 +127,7 @@
               </div>
             </div>
 
-            <div class="control is-horizontal user-center" style="padding-left: 19.322034%;" :class="{'show-services':!showServices}">
+            <div class="control is-horizontal user-center" style="padding-left: 19.322034%;" v-show="showServices">
               <div class="control is-grouped">
                 <p class="control is-expanded">
                     <image-viewer></image-viewer>
