@@ -11,15 +11,14 @@
         </div>
 
         <div class="content">
-
-            <modal :is-html="true" :width="800" :is-show.sync="showImageSelectorForm">
+            <!-- <modal :is-html="true" :width="800" :is-show.sync="showImageSelectorForm">
                 <div slot="header">选择镜像</div>
                 <div slot="body">
-                    <image-viewer></image-viewer>
+                    
                 </div>
                 <div slot="footer">
                 </div>
-            </modal>
+            </modal> -->
 
             <modal :is-html="true" :width="800" :is-show.sync="showPayForm">
                 <div slot="header">您选择了增至服务，需要进行付款操作</div>
@@ -127,6 +126,11 @@
                 </p>
               </div>
             </div>
+            <div :class="{'show-services':!showServices}">
+                <image-viewer></image-viewer>
+            </div>
+
+            <version-modal :versions="versions" :show-version-modal.sync="showVersionModal" :select-name="selectName" :select-description="selectDescription"></version-modal>
 
             <hr>
 
@@ -218,6 +222,10 @@
         width: 100%;
         z-index: 65535;
     }
+    
+    .show-services{
+        display:none;
+    }
 
 </style>
 <script>
@@ -231,6 +239,7 @@
     import Details from './Details.vue'
 
     import PayMethod from '../../ui/PayMethod.vue';
+    import VersionModal from '../../ui/ChooseServicesVersion.vue'
 
     let ModalCtrl = Vue.extend(Modal);
 
@@ -281,7 +290,18 @@
 
                 isHaul: false,
 
-                imageName: 'null'
+                imageName: 'null',
+
+                showServices:false,
+
+                selectName: '',
+                selectDescription: '',
+                versions:[
+                    {'v':'v-1.0'},
+                    {'v':'v-2.0'},
+                    {'v':'v-3.0'}
+                ],
+                showVersionModal:false
             }
         },
 
@@ -309,7 +329,8 @@
             Slider,
             Cyc,
             PayMethod,
-            Details
+            Details,
+            VersionModal
         },
 
         methods: {
@@ -339,6 +360,8 @@
 
             selectImage: function() {
                 this.showImageSelectorForm = true;
+                this.showServices = true;
+                // alert(this.showServices)
             },
 
             selectThisDockerConfig: function(dockerConfig, key) {
@@ -541,7 +564,9 @@
         events: {
             'imageOnSelected': function(item) {
                 this.showImageSelectorForm = false;
-                this.withImage = true;
+                this.showVersionModal = true;
+                this.selectName = item.name;
+                this.selectDescription = item.description;
                 this.imageId = item.id;
                 this.application.imageName = item.name;
                 this.imageName = item.name;
@@ -552,6 +577,12 @@
                 this.size = cyc.cyc;
                 this.price = this.unitPrice +" X "+ cyc.cyc+" "+cyc.unit +" = "+this.total;
                 console.log(cyc);
+            },
+            comfirmVersion() {
+                // this.$router.go('/apps/new/' + this.selectName);
+                this.withImage = true;
+                this.showVersionModal = false;
+                this.showServices = false;
             }
         }
 

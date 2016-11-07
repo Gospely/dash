@@ -1,25 +1,25 @@
 <template>
-    <nav class="nav header-bar">
+    <nav class="my-nav header-bar">
 
-        <div class="nav-left">
+        <div class="my-nav-left">
             <i :class=['fa','fa-angle-right',{'isOpen':hiddened},{'iconHiddened':collapsed}] @click="toggleMenu"></i>
         </div>
 
-        <div class="nav-center">
-            <a class="nav-item" href="https://github.com/Gospely">
+        <div class="my-nav-center">
+            <a class="my-nav-item" href="https://github.com/Gospely">
               <span class="icon">
                 <i class="fa fa-wechat"></i>
               </span>
             </a>
-            <a class="nav-item" href="https://github.com/Gospely">
+            <a class="my-nav-item" href="https://github.com/Gospely">
               <span class="icon">
                 <i class="fa fa-weibo"></i>
               </span>
             </a>
         </div>
 
-        <div id="nav-menu" class="nav-right nav-menu">
-            <a class="nav-item " href="/">
+        <div id="nav-menu" class="my-nav-right">
+            <a class="my-nav-item " href="/">
                 退出
             </a>
         </div>
@@ -39,15 +39,38 @@
             display:none;
         }
     }*/
-
+    
+    .my-nav-left,.my-nav-center,.my-nav-right {
+        width: 33.3%;
+        float: left;
+        line-height: 58px;
+        height: 100%;
+    }
+    .my-nav-center{
+        text-align: center;
+    }
+    .my-nav-center .icon {
+        vertical-align: middle;
+    }
+    .my-nav-right {
+        text-align: right;
+        padding-right: 10px;
+    }
+    .my-nav-item {
+        color: #69707a;
+        padding: 10px;
+    }
+    .my-nav-item:hover {
+        color: #222324;
+    }
     @media screen and (min-width: 1024px){
-        .nav-left .fa-angle-right{
+        .my-nav-left .fa-angle-right{
             display: none;
         }
      }
 
      @media screen and (max-width: 1024px){
-        .nav-left .fa-angle-right{
+        .my-nav-left .fa-angle-right{
             display: block;
         }
      }
@@ -56,7 +79,7 @@
         transform: rotate(180deg);
     }
     
-    .nav-left .iconHiddened{
+    .my-nav-left .iconHiddened{
         display: none;
     }
      
@@ -70,10 +93,11 @@
         text-align: left;
     }
     
-    .nav-left .fa-angle-right{
+    .my-nav-left .fa-angle-right{
         font-size: 50px;
         color: #69707a;
-        padding: 0 30px 0 10px;
+        cursor: pointer;
+        width: 50px;
     }
 
     .signup-form {

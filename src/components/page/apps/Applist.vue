@@ -83,6 +83,7 @@
         data () {
             return {
                 isRefresh: false,
+                currentIndex:0,
                 fields: [],
                 fields_stop: [],
                 fields_unBind: [],
@@ -121,7 +122,13 @@
 
             refreshAppList: function() {
                 this.isRefresh = true;
+                if (this.currentIndex == 0) {
+                  this.$get("init")(1);
+                }else{
+                  this.$get("initStop")(1);
+                }
             },
+      
             init: function(cur) {
 
                 var _self = this;
@@ -133,7 +140,10 @@
                     creator: currentUser
                   },
                   url: "applications",
-                  ctx: _self
+                  ctx: _self,
+                  reload:function () {
+                    _self.isRefresh = false;
+                  }
                 }
 
                 services.Common.list(options);
@@ -152,7 +162,10 @@
                   },
                   target: 'fields_stop',
                   all: 'all_stop',
-                  ctx: _self
+                  ctx: _self,
+                  reload:function () {
+                    _self.isRefresh = false;
+                  }
                 }
 
                 services.Common.list(options);
@@ -162,6 +175,11 @@
 
             this.$get("init")(1);
             this.$get("initStop")(1);
+        },
+        events:{
+          'selected':function (index) {
+            this.currentIndex = index;
+          }
         }
     }
 </script>
