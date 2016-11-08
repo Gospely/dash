@@ -81,6 +81,9 @@ default;
 
 							if (data.code == 1) {
 								if (data != 'Done!') {
+									if(data.message != undefined) {
+										notification.alert(data.message);
+									}
 									//判断返回的数据是否是数组
 									if (isArray(data.fields)) {
 										//数组绑定
@@ -97,9 +100,7 @@ default;
 
 											options.ctx[options.target] = data.fields;
 										}
-										if(data.message != undefined) {
-											notification.alert(data.message);
-										}
+
 									} else {
 										for (var field in data.fields) {
 

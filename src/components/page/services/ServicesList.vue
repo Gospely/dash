@@ -47,7 +47,7 @@
             'imageOnSelected': function(item) {
                 console.log(item.id);
                 this.showVersionModal = true;
-                this.selectName = item.name;
+                this.selectName = item.id;
                 // alert(this.selectName)
                 this.selectDescription = item.description;
                 // alert(this.selectDescription)
@@ -63,6 +63,12 @@
                 });
                 sessionStorage.currentImage = JSON.stringify(item);
                 // this.$router.go('/apps/new/' + item.name);
+            },
+            'selectThisVersion': function(item) {
+                console.log(item.id);
+                this.selectName = item.id;
+                this.imageName = item.name + ":" +item.label;
+                sessionStorage.currentImage = JSON.stringify(item);
             },
             comfirmVersion() {
                 this.$router.go({
