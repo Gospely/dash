@@ -14,7 +14,7 @@
             <!-- <modal :is-html="true" :width="800" :is-show.sync="showImageSelectorForm">
                 <div slot="header">选择镜像</div>
                 <div slot="body">
-                    
+
                 </div>
                 <div slot="footer">
                 </div>
@@ -227,7 +227,7 @@
         width: 100%;
         z-index: 65535;
     }
-    
+
     .show-services{
         display:none;
     }
@@ -302,9 +302,6 @@
                 selectName: '',
                 selectDescription: '',
                 versions:[
-                    {'v':'v-1.0'},
-                    {'v':'v-2.0'},
-                    {'v':'v-3.0'}
                 ],
                 showVersionModal:false
             }
@@ -371,8 +368,10 @@
 
             selectThisDockerConfig: function(dockerConfig, key) {
 
+
                 this.products = dockerConfig.id;
                 this.application.image = dockerConfig.id;
+
                 var unit = '';
                 if(dockerConfig.memoryUnit == "MB"){
                     unit = 'm'
@@ -568,6 +567,8 @@
         },
         events: {
             'imageOnSelected': function(item) {
+
+                var _self = this;
                 this.showImageSelectorForm = false;
                 this.showVersionModal = true;
                 this.selectName = item.name;
@@ -575,6 +576,15 @@
                 this.imageId = item.id;
                 this.application.imageName = item.name;
                 this.imageName = item.name;
+                console.log("select" + item.id);
+                services.Common.list({
+                  url: 'images',
+                  param: {
+                    parent: item.id
+                  },
+                  target: 'versions',
+                  ctx: _self
+                });
             },
 
             'cycSelected': function(cyc) {

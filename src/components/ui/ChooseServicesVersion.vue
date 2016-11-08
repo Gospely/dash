@@ -1,4 +1,4 @@
-<template>    
+<template>
     <modal :is-html="true" :width="800" :is-show.sync="showVersionModal">
         <div slot="header">选择版本</div>
         <div slot="body">
@@ -8,11 +8,11 @@
                 <p style="display:inline-block;margin-bottom:6px;">选择版本:</p>
                 <p class="control has-addons" style="display:inline-block;margin-top:8px;">
                   <a :class="['button',{'is-success': index == thisIndex}]" v-for="(index,item) in versions" @click="selectThisVersion(item,index)">
-                    <span>{{item.v}}</span>
+                    <span>{{item.label}}</span>
                   </a>
                 </p>
             </div>
-            
+
             <div class="framework-body">
                 <div>选择一个框架:</div>
                 <hr class="split">

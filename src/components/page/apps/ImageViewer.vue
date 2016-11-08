@@ -99,6 +99,7 @@
 
                 param: {
                   limit: 20,
+                  parent: '0',
                   cur: cur
                 },
                 url: 'images',
