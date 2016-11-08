@@ -202,7 +202,7 @@
         methods: {
             signOut(){
                 localStorage.removeItem('token');
-                window.location.href = loginUrl;
+                this.$router.go('/accounts/login');
             },
             toggleCollapse () {
                 this.collapsed = !this.collapsed;
