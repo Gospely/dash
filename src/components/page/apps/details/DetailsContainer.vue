@@ -134,7 +134,7 @@
                     }
                 },
                 url: "container/inspect",
-                target: self.containerInfo,
+                target: "containerInfo",
               };
               services.Common.containerOperate(option);
             }
