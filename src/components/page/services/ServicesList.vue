@@ -9,10 +9,10 @@
         <version-modal :versions="versions" :show-version-modal.sync="showVersionModal" :select-name="selectName" :select-description="selectDescription"></version-modal>
     </div>
 
-    
+
 </template>
 <style>
-    
+
 </style>
 <script>
 
@@ -28,10 +28,7 @@
                 selectName: '',
                 selectDescription: '',
                 versions:[
-                    {'v':'v-1.0'},
-                    {'v':'v-2.0'},
-                    {'v':'v-3.0'}
-                ],
+                 ],
                 showVersionModal:false
             }
         },
@@ -56,6 +53,14 @@
                 // alert(this.selectDescription)
 
                 // alert(showVersionModal)
+                services.Common.list({
+                  url: 'images',
+                  param: {
+                    parent: item.id
+                  },
+                  target: 'versions',
+                  ctx: this
+                });
                 sessionStorage.currentImage = JSON.stringify(item);
                 // this.$router.go('/apps/new/' + item.name);
             },

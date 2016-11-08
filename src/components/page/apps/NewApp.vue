@@ -569,6 +569,7 @@
             'imageOnSelected': function(item) {
 
                 var _self = this;
+                console.log("select" + item.id);
                 this.showImageSelectorForm = false;
                 this.showVersionModal = true;
                 this.selectName = item.name;
@@ -576,7 +577,7 @@
                 this.imageId = item.id;
                 this.application.imageName = item.name;
                 this.imageName = item.name;
-                console.log("select" + item.id);
+
                 services.Common.list({
                   url: 'images',
                   param: {

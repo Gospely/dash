@@ -178,7 +178,8 @@
                     localStorage.removeItem('error');
                     localStorage.setItem("user",res.data.fields.id);
                     localStorage.setItem("userName",res.data.fields.name);
-                    if(res.data.fields.isBlocked == 1) {
+                    localStorage.removeItem("isActive");
+                    if(res.data.fields.isBlocked === 1) {
                       localStorage.setItem("isActive",true);
                     }
                     localStorage.setItem("ide",res.data.fields.ide);
@@ -220,6 +221,7 @@
         ready: function(){
 
           var _self = this;
+          localStorage.removeItem("isActive");
           var count = localStorage.getItem('error');
           if(count != null &&  count != undefined && count != ''){
 
@@ -228,6 +230,7 @@
               _self.$get('getImageCode')();
             }
             localStorage.setItem('error',count+1);
+
           }
         }
     }
