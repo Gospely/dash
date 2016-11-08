@@ -263,7 +263,7 @@
         },
         ready: function() {
 
-            this.$set("application", this.$route.params.containerId);
+            this.$set("application", this.$route.query.containerId);
             this.$get("initDomains")();
             this.$get("initApplication")();
         }

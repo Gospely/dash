@@ -26,7 +26,7 @@
                 <label class="label">用户名称</label>
               </div>
               <div class="control">
-                <p class="control has-icon has-icon-right">
+                <p class="control input-left has-icon has-icon-right">
                     <input class="input" type="text" placeholder="ivydom" v-model="name" disabled>
                     <i class="fa fa-lock"></i>
                 </p>
@@ -40,13 +40,13 @@
                 <label class="label">手机号码</label>
               </div>
               <div class="control">
-                <p class="control has-icon has-icon-right">
+                <p class="control input-left has-icon has-icon-right">
                     <input class="input" type="text" placeholder="请输入手机号码" v-model="phone" v-bind:disabled="!changeMobileState">
                     <i class="fa fa-check"></i>
                 </p>
-                <a @click="startChangeMobile" v-show="!changeMobileState" class="button is-primary" style="position:absolute;left:205px"><i class="fa fa-pencil"></i></a>
-                <a v-show="changeMobileState" @click="cancelChangeMobile" class="button is-primary" style="position:absolute;left:205px"><i class="fa fa-close"></i></a>
-                <a v-show="changeMobileState" @click="" title="发送验证码" class="button is-primary" style="position:absolute;left:255px"><i class="fa fa-arrow-right"></i></a>
+                <a @click="startChangeMobile" v-show="!changeMobileState" class="button-right button is-primary"><i class="fa fa-pencil"></i></a>
+                <a v-show="changeMobileState" @click="cancelChangeMobile" class="button button-right is-primary"><i class="fa fa-close"></i></a>
+                <a v-show="changeMobileState" @click="" title="发送验证码" class="button button-right-two is-primary"><i class="fa fa-arrow-right"></i></a>
               </div>
             </div>
 
@@ -55,11 +55,11 @@
                 <label class="label">验证手机</label>
               </div>
               <div class="control">
-                <p class="control has-icon has-icon-right">
+                <p class="control input-left has-icon has-icon-right">
                     <input class="input" type="text" placeholder="请输入短信验证码">
                     <i class="fa fa-check"></i>
                 </p>
-                <a class="button is-primary" style="position:absolute;left:205px"><i class="fa fa-check"></i></a>
+                <a class="button button-right is-primary"><i class="fa fa-check"></i></a>
               </div>
             </div>
 
@@ -71,13 +71,13 @@
               </div>
               <div class="control">
 
-                <p class="control has-icon has-icon-right">
+                <p class="control input-left has-icon has-icon-right">
                     <input class="input" type="email" placeholder="请输入邮箱帐号" v-model="email" v-bind:disabled="!isVerifingEmail">
                     <i class="fa fa-check"></i>
                 </p>
-                <a v-show="!isVerifingEmail" @click="verifyEmail" class="button is-primary" style="position:absolute;left:205px"><i class="fa fa-pencil"></i></a>
-                <a v-show="isVerifingEmail" @click="cancelVerifyEmail" class="button is-primary" style="position:absolute;left:205px"><i class="fa fa-close"></i></a>
-                <a v-show="isVerifingEmail" @click="" title="发送验证码" class="button is-primary" style="position:absolute;left:255px"><i class="fa fa-arrow-right"></i></a>
+                <a v-show="!isVerifingEmail" @click="verifyEmail" class="button button-right is-primary" ><i class="fa fa-pencil"></i></a>
+                <a v-show="isVerifingEmail" @click="cancelVerifyEmail" class="button button-right is-primary"><i class="fa fa-close"></i></a>
+                <a v-show="isVerifingEmail" @click="" title="发送验证码" class="button button-right-two  is-primary"><i class="fa fa-arrow-right"></i></a>
               </div>
             </div>
 
@@ -87,12 +87,12 @@
               </div>
               <div class="control">
 
-                <p class="control has-icon has-icon-right">
+                <p class="control input-left has-icon has-icon-right">
                     <input class="input" type="email" placeholder="请输入接收到的验证码">
                     <i class="fa fa-lock"></i>
                 </p>
 
-                <a @click="confirmVerifyEmail" class="button is-primary" style="position:absolute;left:205px"><i class="fa fa-check"></i></a>
+                <a @click="confirmVerifyEmail" class="button button-right is-primary"><i class="fa fa-check"></i></a>
               </div>
             </div>
             <hr>
@@ -102,12 +102,12 @@
                 <label class="label">更改密码</label>
               </div>
               <div class="control">
-                <p class="control has-icon has-icon-right">
+                <p class="control input-left has-icon has-icon-right">
                     <input class="input" type="password" placeholder="密码" v-bind:disabled="!changePwState">
                     <i class="fa fa-lock"></i>
                 </p>
-                <a class="button is-danger" style="position:absolute;left:205px" @click="startChangePw"><i class="fa fa-pencil"></i></a>
-                <a v-show="changePwState" @click="confirmUpdatePwd" class="button is-primary" style="position:absolute;left:205px"><i class="fa fa-check"></i></a>
+                <a class="button button-right is-danger" @click="startChangePw"><i class="fa fa-pencil"></i></a>
+                <a v-show="changePwState" @click="confirmUpdatePwd" class="button button-right-two is-primary"><i class="fa fa-check"></i></a>
               </div>
             </div>
 
@@ -116,7 +116,7 @@
                 <label class="label">新的密码</label>
               </div>
               <div class="control">
-                <p class="control has-icon has-icon-right">
+                <p class="control input-left has-icon has-icon-right">
                     <input class="input" type="password" v-model="password" placeholder="密码">
                     <i class="fa fa-lock"></i>
                 </p>
@@ -128,7 +128,7 @@
                 <label class="label">重复一次</label>
               </div>
               <div class="control">
-                <p class="control has-icon has-icon-right">
+                <p class="control input-left has-icon has-icon-right">
                     <input class="input" type="password" v-model="rePwd"  placeholder="重复密码">
                     <i class="fa fa-lock"></i>
                 </p>
@@ -141,7 +141,45 @@
     </div>
 </template>
 <style>
+  @media screen and (max-width: 769px) {
+    .button-right {
+      position: relative;
+      left: 10px;
+    }
+    .button-right-two {
+      position: relative;
+      left: 20px;
+    }
+    .input-left {
+      width: 85%;
+      display: inline-block;
 
+    }
+  }
+  @media screen and (min-width: 769px) {
+    .button-right {
+      position:absolute;
+      left:205px
+    }
+    .button-right-two {
+      position: absolute;
+      left: 255px;
+    }
+  }
+   @media screen and (max-width: 769px) {
+    .input-left {
+      width: 75%;
+      display: inline-block;
+
+    }
+   }
+   @media screen and (max-width: 360px) {
+    .input-left {
+      width: 60%;
+      display: inline-block;
+
+    }
+   }
 </style>
 <script>
 

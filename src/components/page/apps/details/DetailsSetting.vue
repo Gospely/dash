@@ -70,7 +70,7 @@
             }
         },
         ready (){
-          this.$set("application", this.$route.params.containerId);
+          this.$set("application", this.$route.query.containerId);
         },
     }
 </script>

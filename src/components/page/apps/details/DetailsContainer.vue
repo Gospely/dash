@@ -104,7 +104,7 @@
         },
         ready (){
             var self = this;
-            self.$set("appId", self.$route.params.containerId)
+            self.$set("appId", self.$route.query.containerId)
             self.$get('inspect')();
         },
         methods: {

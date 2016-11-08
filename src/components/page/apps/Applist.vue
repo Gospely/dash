@@ -31,7 +31,7 @@
                             运行中
                           </td>
                           <td class="is-icon" title="进入应用">
-                            <a  v-link="{path: '/apps/detail/'+item.id}">
+                            <a  v-link="{path: '/apps/detail',query: {containerId: item.id}}">
                               <i class="fa fa-share"></i>
                             </a>
                           </td>
@@ -58,7 +58,7 @@
                             已停止
                           </td>
                           <td class="is-icon" title="进入应用">
-                            <a v-link="{path: '/apps/detail/'+item.id}">
+                            <a v-link="{path: '/apps/detail',query: {containerId: item.id}}">
                               <i class="fa fa-share"></i>
                             </a>
                           </td>

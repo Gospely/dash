@@ -41,7 +41,7 @@
             }
         },
         ready () {
-            this.$set('containerId', this.$route.params.containerId);
+            this.$set('containerId', this.$route.query.containerId);
         },
         methods: {
 

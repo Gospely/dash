@@ -138,7 +138,7 @@
         },
 
         ready (){
-          this.$set("appId", this.$route.params.containerId);
+          this.$set("appId", this.$route.query.containerId);
           this.$get('inspect')();
         },
 
