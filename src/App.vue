@@ -1,7 +1,7 @@
 <template>
     <div id="app" :class="{'collapsed':collapsed}">
-        <div class="validation-email" @click="validationEmail">
-            <p>请尽快验证邮箱!</p>
+        <div class="validation-email" @click="validationEmail"  v-show='isValidator'>
+            <p>请尽快验证邮箱! 点击重新发送验证邮件</p>
         </div>
         <side-navi :collapsed.sync="collapsed" :class="{'hiddened':hiddened}"></side-navi>
         <progress id="global-loader" v-show="false" class="progress is-info" style="position: fixed!important;left: 0px;z-index: 65555;width: 100%;height: 4px;" value="{{loaderProgress}}" max="100"></progress>
@@ -27,7 +27,8 @@
             return {
                 collapsed: false,
                 hiddened: false,
-                loaderProgress: 0
+                loaderProgress: 0,
+                isValidator: localStorage.getItem('isActive')
             }
         },
         ready () {
@@ -54,7 +55,7 @@
 <style lang="scss">
     @import "scss/variable";
     @import "scss/app";
-    
+
     #app .body-hiddened{
         margin-left:230px;
     }
@@ -117,9 +118,9 @@
         .app-main {
             margin-left: 230px;
         }
-        
+
     }
-    
+
     .collapsed .app-main {
         margin-left: 60px!important;
     }
@@ -240,12 +241,12 @@
       width: 150px;
       text-align: center;
     }
-     
+
     .spinner > div {
       width: 30px;
       height: 30px;
       background-color: #67CF22;
-     
+
       border-radius: 100%;
       display: inline-block;
       -webkit-animation: bouncedelay 1.4s infinite ease-in-out;
@@ -254,22 +255,22 @@
       -webkit-animation-fill-mode: both;
       animation-fill-mode: both;
     }
-     
+
     .spinner .bounce1 {
       -webkit-animation-delay: -0.32s;
       animation-delay: -0.32s;
     }
-     
+
     .spinner .bounce2 {
       -webkit-animation-delay: -0.16s;
       animation-delay: -0.16s;
     }
-     
+
     @-webkit-keyframes bouncedelay {
       0%, 80%, 100% { -webkit-transform: scale(0.0) }
       40% { -webkit-transform: scale(1.0) }
     }
-     
+
     @keyframes bouncedelay {
       0%, 80%, 100% {
         transform: scale(0.0);

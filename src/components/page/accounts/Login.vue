@@ -16,8 +16,12 @@
                     <div class="input-field">
                       <input type="password" v-model='password' placeholder="请输入密码" autocapitalize="off" style="border: none;"></div>
                       <div class="input-field">
-                        <img :src="code_src" alt="验证码" v-show='code_show'/>
-                  </div>
+                          <input type="text" v-model='code' placeholder="请输入验证码" autocapitalize="off" style="border: none;" v-show='code_show'>
+                    </div>
+                    <div class="input-field" style="position: absolute; height: 41px; width:100px; margin-top: -42px; right: 32px; border: 1px solid #dfebf2;">
+                      <img :src="code_src" height='41px' width='100px' alt="验证码" v-show='code_show' @click="changeCode"/>
+                    </div>
+
                   <ul class="error-msg-list"></ul>
                   <button  class="signup-form__submit" @click="login">登录</button>
                   <div class="signup-form-nav">
@@ -123,7 +127,9 @@
                 password: '',
                 img: '',
                 code_src: '',
-                code_show: false
+                code_show: false,
+                code: '',
+                token: ''
             }
         },
         components: {
@@ -145,7 +151,9 @@
               var _self = this;
               var user = {
                   phone: this.phone,
-                  password: this.password
+                  password: this.password,
+                  code: this.code,
+                  code_token: this.token
               }
 
               services.UserService.login(user).then(function(res) {
@@ -157,8 +165,9 @@
                       if(count != null &&  count != undefined && count != ''){
 
                         if(count > 3){
+                          _self.isAuth = true;
                           _self.code_show = true;
-                          _self.code_src = 'http://api.gospely.com/users/code';
+                          _self.$get('getImageCode')();
                         }
                         localStorage.setItem('error',count+1);
                       }else{
@@ -169,6 +178,9 @@
                     localStorage.removeItem('error');
                     localStorage.setItem("user",res.data.fields.id);
                     localStorage.setItem("userName",res.data.fields.name);
+                    if(res.data.fields.isBlocked == 1) {
+                      localStorage.setItem("isActive",true);
+                    }
                     localStorage.setItem("ide",res.data.fields.ide);
                     localStorage.setItem("ideName",res.data.fields.ideName);
                     localStorage.setItem("token",res.data.fields.token);
@@ -182,7 +194,41 @@
                   this.password = '';
               }
               );
+            },
+            changeCode: function() {
+                this.isAuth = true;
+                // this.code_src = 'http://api.gospely.com/users/code?time=' + Date.now();
+                this.$get('getImageCode')();
+            },
+            getImageCode: function() {
+
+              var _self = this;
+              services.UserService.getCode().then(function(res){
+                  if(res.status === 200) {
+                    var data = res.data;
+                    console.log(data);
+                    if(data.code == 1) {
+                        _self.token = data.fields.token;
+                        _self.code_src = data.fields.buf;
+                    }
+                  }
+              }, function(err){
+
+              })
             }
+        },
+        ready: function(){
+
+          var _self = this;
+          var count = localStorage.getItem('error');
+          if(count != null &&  count != undefined && count != ''){
+
+            if(count > 3){
+              _self.code_show = true;
+              _self.$get('getImageCode')();
+            }
+            localStorage.setItem('error',count+1);
+          }
         }
     }
 </script>
