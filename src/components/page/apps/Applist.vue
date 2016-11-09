@@ -48,6 +48,7 @@
                         @click="confirmToPay">
                     确定
                     </button>
+                    <button class="button" @click="showPayForm = false">取消</button>
                 </div>
             </modal>
 

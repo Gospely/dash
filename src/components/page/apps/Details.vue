@@ -10,6 +10,9 @@
                 <tab-item title="容器">
                     <container></container>
                 </tab-item>
+                <tab-item title="数据库">
+                    <Database></Database>
+                </tab-item>
                 <tab-item title="域名">
                     <domain></domain>
                 </tab-item>
@@ -29,6 +32,7 @@
     import {Tab, TabItem} from '../../ui/Tab'
     import Monitor from './details/DetailsMonitor.vue'
     import Basic from './details/DetailsBasic.vue'
+    import Database from './details/DetailsDatabase.vue'
     import Domain from './details/DetailsDomain.vue'
     import Setting from './details/DetailsSetting.vue'
     import Container from './details/DetailsContainer.vue'
@@ -63,6 +67,7 @@
             TabItem,
             Monitor,
             Basic,
+            Database,
             Domain,
             Setting,
             Container,
