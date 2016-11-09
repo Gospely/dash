@@ -2,7 +2,7 @@
     <nav class="my-nav header-bar">
 
         <div class="my-nav-left">
-            <i :class=['fa','fa-angle-right',{'isOpen':hiddened},{'iconHiddened':collapsed}] @click="toggleMenu"></i>
+            <i v-bind:class="['fa','fa-angle-right',{'isOpen':hiddened},{'iconHiddened':collapsed}]" @click="toggleMenu"></i>
         </div>
 
         <div class="my-nav-center">
