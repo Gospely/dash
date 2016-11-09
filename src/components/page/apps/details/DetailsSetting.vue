@@ -60,7 +60,10 @@
                               param: {
                                 id: _self.application
                               },
-                              url: 'applications'
+                              url: 'applications',
+                              reload: function() {
+                                this.$router.go('/apps/list');
+                              }
                             }
                             services.Common.delete(options)
                             this.$destroy(true);

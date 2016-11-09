@@ -121,7 +121,7 @@
               <div class="control is-grouped" style="margin-left:-20px">
                 <p class="control is-expanded">
                     <a class="button is-primary" v-show="!withImage" @click="selectImage">选择镜像</a>
-                    <span class="help" v-show="withImage">已选镜像：{{imageName}}</span>
+                    <span class="help" v-show="withImage">已选镜像：{{imageId}}</span>
                     <a style="margin-top:6px" class="button is-primary" v-show="withImage" @click="selectImage">重新选择</a>
                 </p>
               </div>
@@ -315,7 +315,7 @@
 
                 try {
                     var currentImage = JSON.parse(sessionStorage.currentImage);
-                    this.$set('imageName', currentImage.name);
+                    this.$set('imageId', currentImage.id);
                 }catch(error) {
                     notification.alert('镜像丢失，请重新选择镜像', 'warning');
                 }
@@ -586,6 +586,11 @@
                   target: 'versions',
                   ctx: _self
                 });
+            },
+            'selectThisVersion': function(item) {
+                console.log(item.id);
+                this.imageId = item.id;
+                this.imageName = item.name + ":" +item.label;
             },
 
             'cycSelected': function(cyc) {

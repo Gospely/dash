@@ -19,7 +19,7 @@
         </div>
 
         <div id="nav-menu" class="my-nav-right">
-            <a class="my-nav-item " href="/">
+            <a class="my-nav-item" @click="signOut()">
                 退出
             </a>
         </div>
@@ -491,6 +491,10 @@
             }
         },
         methods:{
+            signOut(){
+                localStorage.removeItem('token');
+                this.$router.go("/accounts/login");
+            },
             toggleMenu () {
                 this.hiddened = !this.hiddened;
             }
