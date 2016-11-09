@@ -99,18 +99,6 @@
                           </td>
                           <td>{{支付状态}}</td>
                           <td class="is-icon" title="进入应用">
-                            <a v-link="{path: '/apps/detail',query: {containerId: item.id}}">
-                              <i class="fa fa-share"></i>
-                            </a>
-                          </td>
-                        </tr>
-                        <tr>
-                            <td>item.name</td>
-                            <td>item.image</td>
-                          <td>
-                            未支付
-                          </td>
-                          <td class="is-icon" title="进入应用">
                             <a @click="payForApp">
                               <i class="fa fa-share"></i>
                             </a>
