@@ -11,6 +11,46 @@
               <i class="fa fa-refresh" aria-hidden="true"></i>
             </a>
 
+            <modal :is-html="true" :width="800" :is-show.sync="showPayForm">
+                <div slot="header">您正在对应用 {{}} 进行付款操作</div>
+                <div slot="body">
+
+                    <div class="columns">
+                        <div class="column">
+                            <pay-method :val.sync="qrcode"></pay-method>
+                        </div>
+                        <div class="column">
+                            <h4>选择的服务</h4>
+
+                            <div class="docker-config-box active">
+                                <ul class="text-center parameter">
+                                    <li>{{memory}} 内存</li>
+                                    {{cpu}} CPU{{cpuType}}
+                                </ul>
+                                <div class="down-style">{{name}}</div>
+                            </div>
+
+                        </div>
+                    </div>
+
+                    <div class="media-content">
+                      <div class="content">
+                        <div class="media-right" style="text-align:right">
+                            <span class="is-tip">合计：</span>
+                            <span class="is-big">{{price}} 元</span>
+                        </div>
+                      </div>
+                    </div>
+
+                </div>
+                <div slot="footer">
+                    <button class="button is-success"
+                        @click="confirmToPay">
+                    确定
+                    </button>
+                </div>
+            </modal>
+
             <tab :active-index = "0" style= "width: 100%;">
                 <tab-item title="运行中">
                     <table class="table">
@@ -26,7 +66,6 @@
                         <tr v-for="item in fields">
                           <td>{{item.name}}</td>
                           <td>{{item.image}}</td>
-
                           <td>
                             运行中
                           </td>
@@ -39,6 +78,46 @@
                       </tbody>
                     </table>
                     <page :cur.sync="cur" :all.sync="all" v-on:btn-click="listen"></page>
+                </tab-item>
+                <tab-item title="未支付">
+                    <table class="table">
+                      <thead>
+                        <tr>
+                          <th>应用名称</th>
+                          <th>镜像(运行环境)</th>
+                          <th>状态</th>
+                          <th>操作</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        <tr v-for="item in fields_notpaid">
+                            <td>{{item.name}}</td>
+                            <td>{{item.image}}</td>
+                          <td>
+                            未支付
+                          </td>
+                          <td>{{支付状态}}</td>
+                          <td class="is-icon" title="进入应用">
+                            <a v-link="{path: '/apps/detail',query: {containerId: item.id}}">
+                              <i class="fa fa-share"></i>
+                            </a>
+                          </td>
+                        </tr>
+                        <tr>
+                            <td>item.name</td>
+                            <td>item.image</td>
+                          <td>
+                            未支付
+                          </td>
+                          <td class="is-icon" title="进入应用">
+                            <a @click="payForApp">
+                              <i class="fa fa-share"></i>
+                            </a>
+                          </td>
+                        </tr>
+                      </tbody>
+                    </table>
+                    <page :cur.sync="cur_stop" :all.sync="all_stop" v-on:btn-click="listen_stop"></page>
                 </tab-item>
                 <tab-item title="已停止">
                     <table class="table">
@@ -78,6 +157,9 @@
 
     import {Tab, TabItem} from '../../ui/Tab'
     import Page from '../../ui/Page/Page.vue'
+    import Modal from '../../ui/Modal/Modal.vue'
+
+    import PayMethod from '../../ui/PayMethod.vue';
 
     export default{
         data () {
@@ -93,13 +175,18 @@
                 all_stop: 8,
                 all_unBind: 8,
                 cur_unBind: 1,
+
+                showPayForm: false,
+                qrcode: ''
             }
         },
 
         components: {
             Tab,
             TabItem,
-            Page
+            Page,
+            Modal,
+            PayMethod
         },
 
         methods: {
@@ -108,15 +195,22 @@
               console.log('你点击了'+data+ '页');
               this.$get('init')(data);
             },
+
             listen_stop: function(data) {
               console.log('你点击了'+data+ '页');
               this.$get('initStop')(data);
             },
+
             listen_unBind: function(data) {
               console.log('你点击了'+data+ '页');
               this.$get('initUnBind')(data);
             },
+
             stopThisAPP: function() {
+
+            },
+
+            confirmToPay: function() {
 
             },
 
@@ -151,6 +245,7 @@
 
                 services.Common.list(options);
             },
+
             initStop: function(cur) {
 
                 var _self = this;
@@ -175,6 +270,10 @@
                 }
 
                 services.Common.list(options);
+            },
+
+            payForApp: function() {
+              this.showPayForm = true;
             }
         },
         ready: function() {

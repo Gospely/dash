@@ -20,47 +20,6 @@
                 </div>
             </modal> -->
 
-            <modal :is-html="true" :width="800" :is-show.sync="showPayForm">
-                <div slot="header">您选择了增至服务，需要进行付款操作</div>
-                <div slot="body">
-
-                    <div class="columns">
-                        <div class="column">
-                            <pay-method :val.sync="qrcode"></pay-method>
-                        </div>
-                        <div class="column">
-                            <h4>选择的服务</h4>
-
-                            <div class="docker-config-box active">
-                                <ul class="text-center parameter">
-                                    <li>{{dockerConfigs[currentActiveConfig].memory}} 内存</li>
-                                    {{dockerConfigs[currentActiveConfig].cpu}} CPU{{dockerConfigs[currentActiveConfig].cpuType}}
-                                </ul>
-                                <div class="down-style">{{dockerConfigs[currentActiveConfig].name}}</div>
-                            </div>
-
-                        </div>
-                    </div>
-
-                    <div class="media-content">
-                      <div class="content">
-                        <div class="media-right" style="text-align:right">
-                            <span class="is-tip">合计：</span>
-                            <span class="is-big">{{price}} 元</span>
-                        </div>
-                      </div>
-                    </div>
-
-                </div>
-                <div slot="footer">
-                    <button class="button is-success"
-                        @click="confirmPayToCreateApp">
-                    确定
-                    </button>
-                    <button class="button" @click="showPayForm = false">重新选择</button>
-                </div>
-            </modal>
-
             <div class="control is-horizontal user-center">
               <div class="control-label">
                 <label class="label">应用名称</label>
@@ -259,6 +218,7 @@
                     password: '',
                     imageName: ''
                 },
+
                 price: '10 X 100 = 1000',
                 unitPrice: 0,
                 unitPrice: '10',
@@ -267,7 +227,6 @@
                 size: 1,
                 qrcode: '' ,
 
-                showPayForm: false,
                 volumes: [],
                 isCreateApp: false,
                 withImage: false,
@@ -277,9 +236,9 @@
                 showCaculateResourceSlider: false,
                 volumeIsActive: [],
                 configIsActive: [{
-                    isActive: false
-                }, {
                     isActive: true
+                }, {
+                    isActive: false
                 }, {
                     isActive: false
                 }, {
@@ -368,7 +327,6 @@
 
             selectThisDockerConfig: function(dockerConfig, key) {
 
-
                 this.products = dockerConfig.id;
                 this.application.image = dockerConfig.id;
 
@@ -391,7 +349,8 @@
                 this.currentActiveConfig = key;
                 this.unitPrice = dockerConfig.price;
                 this.total = this.unitPrice;
-                this.price = this.unitPrice +"X 1月 = "+this.unitPrice ;
+                this.price = this.unitPrice +"X 1月 = "+this.unitPrice;
+
 
             },
             selectVolume: function(volume,key){
@@ -425,12 +384,19 @@
                         if(res.status == 200) {
                             var data = res.data;
                             notification.alert(data.message);
-                            console.log(data);
                             if(data.code == '1') {
-                              _self.$router.replace('/apps/detail/' + data.fields.id);
+
+                                var activeDockerConfig = _self.dockerConfigs[_self.currentActiveConfig];
+
+                                if(!activeDockerConfig.free) {
+                                    notification.alert('您当前创建的是付费应用，创建完成后不会启动，请到[我的应用 - 未支付]处完成支付操作', 'warning');
+                                    _self.$router.replace('/apps/list/');
+                                }else {
+                                    _self.$router.replace('/apps/detail/' + data.fields.id);
+                                }
                             }else{
-                              _self.$get("reload")();
-                              notification.alert(data.message,'danger');
+                                _self.$get("reload")();
+                                notification.alert(data.message,'danger');
                             }
 
                         }else {
@@ -450,7 +416,6 @@
             },
 
             confirmPayToCreateApp: function() {
-                this.showPayForm = false;
                 this.isCreateApp = true;
                 this.realCreateApp();
             },
@@ -471,14 +436,7 @@
                     return false;
                 }
 
-                var activeDockerConfig = this.dockerConfigs[this.currentActiveConfig];
-
-                if(!activeDockerConfig.free) {
-                    this.showPayForm = true;
-                }else {
-                    this.realCreateApp();
-                }
-
+                this.realCreateApp();
             },
 
             toggleVolumesList: function() {
@@ -493,10 +451,17 @@
                     var data = res.data;
                     var arr = new Array();
 
-                    for(var i=0; i<data.fields.length; i++){
-                      arr.push({
-                          isActive: false
-                      });
+                    for(var i = 0; i < data.fields.length; i++){
+
+                        var active = false;
+
+                        if(i === 0) {
+                            active = true;
+                        }
+
+                        arr.push({
+                            isActive: active
+                        });
                     }
                     _self.dockerConfigs = data.fields;
                     _self.configIsActive = arr;
