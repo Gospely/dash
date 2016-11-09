@@ -12,7 +12,7 @@
             </a>
 
             <modal :is-html="true" :width="800" :is-show.sync="showPayForm">
-                <div slot="header">您正在对应用 {{}} 进行付款操作</div>
+                <div slot="header">您正在对应用 {{applicationName}} 进行付款操作</div>
                 <div slot="body">
 
                     <div class="columns">
@@ -97,9 +97,8 @@
                           <td>
                             未支付
                           </td>
-                          <td>{{支付状态}}</td>
                           <td class="is-icon" title="进入应用">
-                            <a @click="payForApp">
+                            <a @click="payForApp(item)">
                               <i class="fa fa-share"></i>
                             </a>
                           </td>
@@ -157,16 +156,17 @@
                 currentIndex:0,
                 fields: [],
                 fields_stop: [],
-                fields_unBind: [],
+                fields_notpaid: [],
                 cur: 1,
                 all: 8,
                 cur_stop: 1,
                 all_stop: 8,
-                all_unBind: 8,
-                cur_unBind: 1,
+                all_notpaid: 8,
+                cur_notpaid: 1,
 
                 showPayForm: false,
-                qrcode: ''
+                qrcode: '',
+                applicationName: ''
             }
         },
 
@@ -211,7 +211,7 @@
                   this.$get("initStop")(1);
                 }
             },
-      
+
             init: function(cur) {
 
                 var _self = this;
@@ -234,7 +234,31 @@
 
                 services.Common.list(options);
             },
+            initNotpaid: function(cur) {
 
+                var _self = this;
+                var options = {
+
+                  url: "applications",
+                  param: {
+                    limit: 10,
+                    cur: cur,
+                    pay_status: 1,
+                    creator: currentUser
+                  },
+                  target: 'fields_notpaid',
+                  all: 'all_notpaid',
+                  ctx: _self,
+                  reload:function () {
+                    if (_self.isRefresh) {
+                      notification.alert("刷新成功");
+                    }
+                    _self.isRefresh = false;
+                  }
+                }
+
+                services.Common.list(options);
+            },
             initStop: function(cur) {
 
                 var _self = this;
@@ -261,7 +285,9 @@
                 services.Common.list(options);
             },
 
-            payForApp: function() {
+            payForApp: function(item) {
+
+              this.applicationName = item.name;
               this.showPayForm = true;
             }
         },
@@ -269,6 +295,7 @@
 
             this.$get("init")(1);
             this.$get("initStop")(1);
+            this.$get("initNotpaid")(1);
         },
         events:{
           'selected':function (index) {
