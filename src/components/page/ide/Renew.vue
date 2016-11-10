@@ -199,6 +199,7 @@
 
                 isWechat: false,
                 isAlipay: true,
+                goBuy: true,
                 setMeal: {
                     totalStep: 2,
                     currentStep: 1
@@ -256,6 +257,8 @@
 
             },
             chooseIde: function(item, key) {
+
+              this.goBuy = true;
               console.log(item, this.fields[key]);
 
               for (var i = 0; i < this.fields.length; i++) {
@@ -302,7 +305,12 @@
             },
 
             setMealNextStep: function() {
-                this.setMeal.currentStep++;
+                console.log(this.goBuy);
+                if(!this.goBuy) {
+                  notification.alert("请选择收费版本,个人版无需升级");
+                }else{
+                  this.setMeal.currentStep++;
+                }
             },
 
             setMealPrevStep: function() {
@@ -358,11 +366,14 @@
                                 console.log(data.fields);
                                 var show = new Array();
                                 for(var i = 0; i<= data.fields.length-1; i++){
-                                  if(data.fields[i].id != _self.currentIDE && !data.fields[i].free){
+                                  if(!data.fields[i].free){
                                     show.push(data.fields[i])
                                   }else{
                                     _self.unitPrice =  data.fields[i].price;
                                     _self.price = data.fields[i].price * 1;
+                                    _self.goBuy = false;
+                                    console.log("ss");
+
                                     _self.ide_choose =  data.fields[i].name;
                                   }
 
