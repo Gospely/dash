@@ -262,7 +262,7 @@
             confirmUpdatePwd: function(){
 
                 var user = {
-                  id: '1',
+                  id: currentUser,
                   password: this.password
                 };
                 services.UserService.updatePwd(user).then(function(res) {
