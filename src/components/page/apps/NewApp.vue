@@ -4,11 +4,7 @@
         <h2 class="subtitle">您可以在这里创建基于<strong>dodora容器云</strong>，并使用Gospel集成开发环境进行开发的应用</h2>
         <hr>
 
-        <div class="spinner loading-shade" v-show="isCreateApp">
-            <div class="bounce1"></div>
-            <div class="bounce2"></div>
-            <div class="bounce3"></div>
-        </div>
+        
 
         <div class="content">
             <!-- <modal :is-html="true" :width="800" :is-show.sync="showImageSelectorForm">
@@ -398,7 +394,7 @@
                         if(res.status == 200) {
                             var data = res.data;
                             notification.alert(data.message);
-                            if(data.code == '1') {
+                            if(data.code == 1) {
 
                                 var activeDockerConfig = _self.dockerConfigs[_self.currentActiveConfig];
 
@@ -442,6 +438,7 @@
                 if(
                     this.application.name == '' ||
                     this.application.image == '' ||
+                    this.application.image == null ||
                     this.application.username == '' ||
                     this.application.password == '' ||
                     this.application.imageName == this.application.name

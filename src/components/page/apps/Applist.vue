@@ -40,7 +40,7 @@
                 </div>
             </modal>
 
-            <tab :active-index = "0" style= "width: 100%;">
+            <tab :active-index = "1" style= "width: 100%;">
                 <tab-item title="运行中">
                     <table class="table">
                       <thead>
