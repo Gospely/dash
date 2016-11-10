@@ -30,7 +30,7 @@
 <style scoped>
     .modal-mask {
         position: fixed;
-        z-index: 9998;
+        z-index: 65535;
         top: 0;
         left: 0;
         width: 100%;

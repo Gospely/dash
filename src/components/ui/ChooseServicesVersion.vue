@@ -48,6 +48,9 @@
             border-right: 2px solid #d3d6db;
             border-radius: 0 5px 5px 0;
         }
+        .versions-body .has-addons .button:last-child:hover {
+            border-right-color: #aeb1b5;
+        }
         .framework-body .creation-modal-choice:hover {
             background-color: #7bbf51;
         }
