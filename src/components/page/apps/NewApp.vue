@@ -41,8 +41,8 @@
 
                 <div class="columns" style="margin-left: 82px;">
 
-                    <div class="column is-2" v-for="(key, val) in dockerConfigs">
-                        <div class="docker-config-box" v-bind:class="{'active': configIsActive[key].isActive}" @click="selectThisDockerConfig(val, key)">
+                    <div class="column" v-for="(key, val) in dockerConfigs">
+                        <div v-bind:class="['docker-config-box',{'active': configIsActive[key].isActive}]" @click="selectThisDockerConfig(val, key)">
                             <ul class="text-center parameter">
                                 <li>{{val.memory}} 内存</li>
                                 {{val.cpu}} CPU{{val.cpuType}}
@@ -252,7 +252,7 @@
                     isActive: false
                 }],
 
-                currentActiveConfig: 1,
+                currentActiveConfig: 0,
                 currentVolume: '',
 
                 dockerConfigs: [],

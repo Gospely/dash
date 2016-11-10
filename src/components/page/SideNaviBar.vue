@@ -85,7 +85,7 @@
         height: 100%;
         background: $bg_side_bar;
         color: $color_side_bar;
-        z-index: 200;
+        z-index: 99;
         .menu {
             top: 0;
             width: 100%;

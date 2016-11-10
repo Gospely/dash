@@ -10,7 +10,13 @@
         <div slot="body">
             <label class="label">数据库名称</label>
             <p class="control">
-              <input class="input" type="text" placeholder="数据库名称" v-model='edit.database'>
+              <input class="input" type="text" placeholder="数据库名称" v-model="edit.database">
+            </p>
+            <p class="label">类型</p>
+            <p class="control has-addons" style="height:32px;">
+              <a :class="['button','database-type-opation',{'is-success': index == thisIndex}]" v-for="(index,item) in databaseType" :disabled="isDetailsThisDatabase" @click="selectThisType(item,index)">
+                <span>{{item.label}}</span>
+              </a>
             </p>
         </div>
         <div slot="footer">
@@ -35,7 +41,7 @@
       <tbody>
         <tr>
           <td>mysql</td>
-          <td>关系型</td>
+          <td>mysql</td>
           <td>
           2016-10-10
           </td>
@@ -55,6 +61,9 @@
   </div>
 </template>
 <style>
+  .database-type-opation:hover {
+      border-bottom-color: #aeb1b5!important;
+  }
 </style>
 <script>
     import Vue from 'vue'
@@ -71,7 +80,19 @@
                 application: '',
                 edit:{
                   database: ''
-                }
+                },
+                thisIndex: '0',
+                databaseType:[
+                    {
+                      label: 'mysql'
+                    },
+                    {
+                      label: 'postgre'
+                    },
+                    {
+                      label: 'mongodb'
+                    }
+                ]
                 // fields: [],
                 // subDomain: '',
                 // oldDomain: '',
@@ -94,7 +115,7 @@
             },
 
             addDatabase: function() {
-                this.isDetailsThisDatabase= true;
+                this.isDetailsThisDatabase= false;
                 this.databaseInfoFormName = '新增数据库';
                 this.showAddDatabaseForm();
             },
@@ -120,6 +141,10 @@
                 //   });
                 // }
                 // this.hideAddDomainForm();
+            },
+
+            selectThisType(item,index){
+              this.thisIndex = index;
             },
 
             DetailsThisDatabase: function(item) {

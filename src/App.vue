@@ -85,17 +85,16 @@
 
     .app-main-header {
         position: relative;
-        z-index: 100;
+        z-index: 99;
     }
 
     .app-main-body {
         position: relative;
-        margin-top: -58px;
         width: 100%;
         height: 100%;
-        padding: 73px 15px 15px 15px;
+        padding: 15px 15px 15px 15px;
         background: $bg_app_main;
-        z-index: 99;
+        z-index: 100;
         overflow-y: auto;
     }
 
