@@ -46,7 +46,7 @@
                         <tr v-for="item in fields">
                           <td>{{item.name}}</td>
                           <td>{{item.orderNo}}</td>
-                          <td>{{item.createat}}</td>
+                          <td>{{item.createat | dateFormat 'yyyy-MM-dd hh:mm:ss'}}</td>
                           <td>
                             {{item.price}} RMB
                           </td>
@@ -75,7 +75,7 @@
                         <tr v-for="item in fields_unpay">
                             <td>{{item.name}}</td>
                             <td>{{item.orderNo}}</td>
-                            <td>{{item.createat}}</td>
+                            <td>{{item.createat | dateFormat 'yyyy-MM-dd hh:mm:ss'}}</td>
                             <td>
                               {{item.price}} RMB
                             </td>

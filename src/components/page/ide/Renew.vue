@@ -31,7 +31,7 @@
 
                     <div v-show="setMeal.currentStep == 2" class="step2">
 
-                        <span class="help is-tip">您将要订购的套餐（从 2016年09月20日到 2016年10月20日）：</span>
+                        <span class="help is-tip">{{time_show}}</span>
 
                         <hr class="split">
 
@@ -122,7 +122,7 @@
                     <div class="content">
                         已创建 {{applicationsCount}} 个项目
                       <br>
-                      <small>到期时间：{{ide.expireAt}}</small>
+                      <small>到期时间：{{ide.expireAt | dateFormat 'yyyy-MM-dd hh:mm:ss'}}</small>
                     </div>
                   </div>
                 </div>
@@ -204,7 +204,9 @@
                     currentStep: 1
                 },
 
-                mealTicks: []
+                mealTicks: [],
+                time_show: '',
+                expireAt: '',
 
             }
         },
@@ -387,7 +389,7 @@
                           }
                     }
                 });
-                
+
                 var ide = localStorage.getItem('ide');
                 services.Common.getOne({
                    param: {
@@ -399,6 +401,8 @@
                          var data = res.data;
                          if(data.code == 1){
                              _self.ide = data.fields;
+                             _self.time_show = '到期时间： ' + data.fields.expireAt;
+                             _self.expireAt = data.fields.expireAt;
                          }
                      }
                    }
@@ -421,10 +425,37 @@
          'cycSelected': function(cyc) {
 
              this.size = cyc.cyc;
+             var d = new Date(this.expireAt);
+             console.log(d.getHours());
+             var num = parseInt(cyc.cyc)
+             console.log(cyc.cyc);
+             if(num < 12) {
+               console.log('11');
+               d.setMonth(d.getMonth() + 1 + num);
+             }
+
+             this.time_show = '到期时间： ' + dataFormat(d,"yyyy-MM-dd hh:mm:ss");
              this.total = cyc.cyc * this.unitPrice;
              this.price = this.unitPrice +" X "+ cyc.cyc+" "+cyc.unit +" = "+this.total;
              console.log(cyc);
              this.reNewIDE();
+             function dataFormat(date,fmt){ //author: meizz
+                var o = {
+                  "M+" : date.getMonth()+1,                 //月份
+                  "d+" : date.getDate(),                    //日
+                  "h+" : date.getHours(),                   //小时
+                  "m+" : date.getMinutes(),                 //分
+                  "s+" : date.getSeconds(),                 //秒
+                  "q+" : Math.floor((date.getMonth()+3)/3), //季度
+                  "S"  : date.getMilliseconds()             //毫秒
+                };
+                if(/(y+)/.test(fmt))
+                  fmt=fmt.replace(RegExp.$1, (date.getFullYear()+"").substr(4 - RegExp.$1.length));
+                for(var k in o)
+                  if(new RegExp("("+ k +")").test(fmt))
+                fmt = fmt.replace(RegExp.$1, (RegExp.$1.length==1) ? (o[k]) : (("00"+ o[k]).substr((""+ o[k]).length)));
+                return fmt;
+            }
          }
        }
     }

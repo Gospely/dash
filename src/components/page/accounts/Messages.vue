@@ -22,7 +22,7 @@
                           <td>{{item.sender}}</td>
                           <td>{{item.title}}</td>
                           <td>
-                            {{item.createat}}
+                            {{item.createat | dateFormat 'yyyy-MM-dd hh:mm:ss'}}
                           </td>
                           <td class="is-icon">
                               <a @click="showMessageDetailForm = true"><i class="fa fa-search"></i></a>
@@ -46,7 +46,7 @@
                           <td>{{item.sender}}</td>
                           <td>{{item.title}}</td>
                           <td>
-                            {{item.createat}}
+                            {{item.createat | dateFormat 'yyyy-MM-dd hh:mm:ss'}}
                           </td>
                         </tr>
                       </tbody>

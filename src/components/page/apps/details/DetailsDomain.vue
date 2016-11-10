@@ -70,7 +70,7 @@
                       <td>{{item.domain}}</td>
                       <td>{{item.ip}}</td>
                       <td>
-                      {{item.createat}}
+                      {{item.createat | dateFormat 'yyyy-MM-dd hh:mm:ss'}}
                       </td>
                       <td class="is-icon" title="编辑信息">
                         <a @click="editThisDomain(item)">

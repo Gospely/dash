@@ -46,7 +46,7 @@
             </div>
             <div class="column">
                 <p class="notification has-text-centered">
-                    <span class="title">到期时间<br><span class="subtitle">{{expireat}}</span></span>
+                    <span class="title">到期时间<br><span class="subtitle">{{expireat | dateFormat 'yyyy-MM-dd hh:mm:ss'}}</span></span>
                 </p>
             </div>
         </div>
