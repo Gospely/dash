@@ -2,7 +2,7 @@
 
 <div>
 	<a v-for="(key, val) in cyc" style="margin-right: 4px;" @click="selectCycBykey(key)" class="button" v-bind:class="{'is-primary': currentCyc == key}">{{val.label}}</a>
-    <input v-model="otherTime" v-show="isOther == true" class="input" type="text" @keydown.enter="selectThisCustomCyc(cyc.length -1)" style="width: 40px;height: 32px;box-shadow: none;" /><span style="line-height: 2.3;margin-left: 4px;" v-show="isOther == true" class="is-tip">/月</span>
+    <input v-model="otherTime" v-show="isOther == true" class="input" @blur="customSet(cyc.length -1)" type="text" @keydown.enter="selectThisCustomCyc(cyc.length -1)" style="width: 40px;height: 32px;box-shadow: none;" /><span style="line-height: 2.3;margin-left: 4px;" v-show="isOther == true" class="is-tip">/月</span>
     <p style="text-align:right;margin-top:20px" v-show="showTips">
 				<span class="is-tip">共计：{{price}} 元</span>
     </p>
@@ -43,7 +43,7 @@
 	                    label: '6个月',
 	                    cyc: '6',
 						unit: '月'
-									}, {        
+									}, {
 											label: '12个月',
 	                    cyc: '12',
 						unit: '月'
@@ -102,10 +102,17 @@
                 this.cyc[key].label = this.otherTime + '个月';
 
                 this.$dispatch('cycSelected', {
-                	cyc: this.otherTime
+                	cyc: this.otherTime,
+									unit: this.cyc[key].unit
                 });
 
-            }
+            },
+						customSet: function(key) {
+							this.$dispatch('cycSelected', {
+								cyc: this.otherTime,
+								unit: this.cyc[key].unit
+							});
+						}
 
         }
     }

@@ -31,7 +31,7 @@
 
                     <div v-show="setMeal.currentStep == 2" class="step2">
 
-                        <span class="help is-tip">{{time_show}}</span>
+                        <span class="help is-tip">到期时间：{{time_show}}</span>
 
                         <hr class="split">
 
@@ -69,7 +69,7 @@
                             </div>
                           </div>
                         </div>
-                        <pay-method :val.sync="qrcode" @weixin="useWeixin" @alipay="useAlipay"　></pay-method>
+                        <pay-method :val.sync="qrcode"></pay-method>
 
                     </div>
 
@@ -122,7 +122,7 @@
                     <div class="content">
                         已创建 {{applicationsCount}} 个项目
                       <br>
-                      <small>到期时间：{{ide.expireAt | dateFormat 'yyyy-MM-dd hh:mm:ss'}}</small>
+                      <small>到期时间：{{time_show}}</small>
                     </div>
                   </div>
                 </div>
@@ -178,7 +178,7 @@
                 otherTime: '其它',
 
                 ide: '',
-                price: 1,
+                price: 0,
                 unitPrice: 0,
                 size: 1,
                 products: '',
@@ -197,8 +197,8 @@
                 showTopupForm: false,
                 showSetMealForm: false,
 
-                isWechat: true,
-                isAlipay: false,
+                isWechat: false,
+                isAlipay: true,
                 setMeal: {
                     totalStep: 2,
                     currentStep: 1
@@ -266,7 +266,9 @@
               this.fields[key].active = true;
 
               this.unitPrice = item.price;
+              this.price = item.price * 1;
               this.ide_choose = item.name;
+              this.time_show = "";
             },
             initIdes: function() {
 
@@ -297,7 +299,6 @@
 
                 this.showSetMealForm = false;
                 this.showTopupForm = true;
-                this.genQrcode();
             },
 
             setMealNextStep: function() {
@@ -318,20 +319,24 @@
             genQrcode: function() {
 
                 var _self = this;
-                this.showRenewForm = true;
-                services.OrderService.order({
-                  products: this.products,
-                  price: this.size * this.unitPrice,
-                  size: this.size,
-                  unitPrice: this.unitPrice,
-                  type: 'wechat'
-                }).then(function(res){
-                    console.log(res);
-                    _self.qrcode = res.data.code_url;
-                    //window.location.href = res.body;
-                },function(err,res){
+                console.log(_self.isWechat);
+                if(_self.isWechat) {
+                  this.showRenewForm = true;
+                  services.OrderService.order({
+                    products: this.products,
+                    price: this.size * this.unitPrice,
+                    size: this.size,
+                    unitPrice: this.unitPrice,
+                    type: 'wechat'
+                  }).then(function(res){
+                      console.log(res);
+                      _self.qrcode = res.data.code_url;
+                      //window.location.href = res.body;
+                  },function(err,res){
 
-                });
+                  });
+                }
+
             },
             initIDE: function(){
 
@@ -353,10 +358,11 @@
                                 console.log(data.fields);
                                 var show = new Array();
                                 for(var i = 0; i<= data.fields.length-1; i++){
-                                  if(data.fields[i].id != _self.currentIDE){
+                                  if(data.fields[i].id != _self.currentIDE && !data.fields[i].free){
                                     show.push(data.fields[i])
                                   }else{
                                     _self.unitPrice =  data.fields[i].price;
+                                    _self.price = data.fields[i].price * 1;
                                     _self.ide_choose =  data.fields[i].name;
                                   }
 
@@ -422,8 +428,15 @@
                              _self.ide = data.fields;
 
                              var d = new Date(data.fields.expireAt);
-                             _self.time_show = '到期时间： ' + dataFormat(d,"yyyy-MM-dd hh:mm:ss");
-                             _self.expireAt = data.fields.expireAt;
+
+                             if(data.fields.expireAt == null) {
+
+                               _self.time_show = '个人免费版本';
+                             }else{
+                               _self.time_show = '到期时间： ' + dataFormat(d,"yyyy-MM-dd hh:mm:ss");
+                               _self.expireAt = data.fields.expireAt;
+                             }
+
                          }
                      }
                    }
@@ -446,20 +459,26 @@
          'cycSelected': function(cyc) {
 
              this.size = cyc.cyc;
-             var d = new Date(this.expireAt);
+            var d = "";
+             if(this.expireAt == null || this.expireAt == '') {
+                  d = new Date();
+             }else{
+                 d = new Date(this.expireAt);
+             }
+
+
+
              console.log(d.getHours());
              var num = parseInt(cyc.cyc)
              console.log(cyc.cyc);
-             if(num < 12) {
-               console.log('11');
-               d.setMonth(d.getMonth() + 1 + num);
-             }
 
-             this.time_show = '到期时间： ' + dataFormat(d,"yyyy-MM-dd hh:mm:ss");
+             d.setMonth(d.getMonth() + 1 + num);
+
+             this.time_show = dataFormat(d,"yyyy-MM-dd hh:mm:ss");
              this.total = cyc.cyc * this.unitPrice;
              this.price = this.unitPrice +" X "+ cyc.cyc+" "+cyc.unit +" = "+this.total;
              console.log(cyc);
-             this.reNewIDE();
+             this.genQrcode();
              function dataFormat(date,fmt){ //author: meizz
                 var o = {
                   "M+" : date.getMonth()+1,                 //月份
@@ -477,6 +496,16 @@
                 fmt = fmt.replace(RegExp.$1, (RegExp.$1.length==1) ? (o[k]) : (("00"+ o[k]).substr((""+ o[k]).length)));
                 return fmt;
             }
+         },
+         'weixin': function() {
+
+           console.log("wechat");
+           this.isWechat = true;
+           this.isAlipay = false;
+         },
+         'alipay': function() {
+           this.isWechat = false;
+           this.isAlipay = true;
          }
        }
     }
