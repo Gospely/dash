@@ -243,7 +243,7 @@
                   param: {
                     limit: 10,
                     cur: cur,
-                    pay_status: 1,
+                    pay_status: -1,
                     creator: currentUser
                   },
                   target: 'fields_notpaid',

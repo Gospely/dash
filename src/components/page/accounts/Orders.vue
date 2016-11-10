@@ -9,7 +9,7 @@
                 <div slot="body">
                     <label class="label">所购产品</label>
                     <p class="control">
-                      集成开发环境
+                      {{description}}
                     </p>
                     <pay-method :val.sync="qrcode" @weixin="useWeixin" @alipay="useAlipay"></pay-method>
                     <div class="media-content">
@@ -121,7 +121,9 @@
                 fields: [],
                 fields_unpay: [],
                 qrcode: 'test',
-                showRePayForm: false
+                showRePayForm: false,
+                price: '',
+                description: '',
             }
         },
         components: {
@@ -162,6 +164,8 @@
               this.showRePayForm = true;
               var _self = this;
               this.showRenewForm = true;
+              this.price = item.price;
+              this.description =  item.name;
               services.OrderService.order({
 
                 out_trade_no: item.orderNo,
@@ -184,7 +188,7 @@
               var _self = this;
               services.Common.list({
                 param: {
-                  status: 1,
+                  status: 2,
                   creator: currentUser,
                 },
                 ctx: _self,
@@ -192,7 +196,7 @@
               });
               services.Common.list({
                 param: {
-                  status: 0,
+                  status: 1,
                   creator: currentUser,
 
                 },

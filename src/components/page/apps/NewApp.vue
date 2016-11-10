@@ -216,7 +216,12 @@
                     volume: '',
                     username: 'root',
                     password: '',
-                    imageName: ''
+                    imageName: '',
+                    size: '',
+                    unit: '',
+                    price: '',
+                    unitPrice: '',
+                    products: ''
                 },
 
                 price: '10 X 100 = 1000',
@@ -327,8 +332,9 @@
 
             selectThisDockerConfig: function(dockerConfig, key) {
 
-                this.products = dockerConfig.id;
+                this.application.products = dockerConfig.id;
                 this.application.image = dockerConfig.id;
+                this.application.free = dockerConfig.free;
 
                 var unit = '';
                 if(dockerConfig.memoryUnit == "MB"){
@@ -348,6 +354,8 @@
 
                 this.currentActiveConfig = key;
                 this.unitPrice = dockerConfig.price;
+                this.application.unitPrice = dockerConfig.price;
+
                 this.total = this.unitPrice;
                 this.price = this.unitPrice +"X 1月 = "+this.unitPrice;
 
@@ -369,6 +377,12 @@
             realCreateApp: function() {
                 var _self = this;
                 _self.application.userName = currentUserName;
+
+                if(!_self.application.free) {
+
+                  _self.application.price = _self.application.size * this.unitPrice;
+                }
+
                 var options = {
 
                     param: this.application,
@@ -462,6 +476,11 @@
                         arr.push({
                             isActive: active
                         });
+
+                        if(data.fields[i].free) {
+                          _self.currentActiveConfig = i;
+                          _self.application.products = data.fields[i].id;
+                        }
                     }
                     _self.dockerConfigs = data.fields;
                     _self.configIsActive = arr;
@@ -476,6 +495,7 @@
                     url: "products",
                     cb: callback
                 }
+
                 services.Common.list(options);
             },
             initVolumes: function() {
@@ -527,6 +547,8 @@
 
         },
         ready: function() {
+
+            this.application.free = true;
             this.$get('initConfig')();
             // this.$get('initVolumes')();
         },
@@ -540,7 +562,7 @@
                 this.selectName = item.name;
                 this.selectDescription = item.description;
                 this.imageId = item.id;
-                this.application.imageName = item.name;
+                this.application.image = item.name;
                 this.imageName = item.name;
 
                 services.Common.list({
@@ -555,12 +577,15 @@
             'selectThisVersion': function(item) {
                 console.log(item.id);
                 this.imageId = item.id;
+                this.image = item.id;
                 this.imageName = item.name + ":" +item.label;
             },
 
             'cycSelected': function(cyc) {
                 this.total = cyc.cyc * this.unitPrice;
                 this.size = cyc.cyc;
+                this.application.size = cyc.cyc;
+                this.application.unit = cyc.unit;
                 this.price = this.unitPrice +" X "+ cyc.cyc+" "+cyc.unit +" = "+this.total;
                 console.log(cyc);
             },
