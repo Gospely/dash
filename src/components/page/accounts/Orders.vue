@@ -11,7 +11,7 @@
                     <p class="control">
                       {{description}}
                     </p>
-                    <pay-method :val.sync="qrcode" @weixin="useWeixin" @alipay="useAlipay"></pay-method>
+                    <pay-method :val.sync="qrcode"></pay-method>
                     <div class="media-content">
                       <div class="content">
                         <div class="media-right" style="text-align:right">
@@ -24,7 +24,7 @@
                 <div slot="footer">
                     <button class="button is-success"
                         @click="confirmRenew">
-                    确定
+                    确定支付
                     </button>
                     <button class="button" @click="showRePayForm = false">取消</button>
                 </div>
@@ -124,6 +124,8 @@
                 showRePayForm: false,
                 price: '',
                 description: '',
+                isWechat: false,
+                isAlipay: true
             }
         },
         components: {
@@ -166,6 +168,7 @@
               this.showRenewForm = true;
               this.price = item.price;
               this.description =  item.name;
+
               services.OrderService.order({
 
                 out_trade_no: item.orderNo,
@@ -181,7 +184,21 @@
 
             },
             confirmRenew: function() {
+              if(this.isAlipay){
+                services.OrderService.order({
+                  products: this.products,
+                  price: this.size * this.unitPrice,
+                  size: this.size,
+                  unitPrice: this.unitPrice
+                }).then(function(res){
+                    console.log(res);
+                    window.location.href = res.body;
+                },function(err,res){
 
+                });
+              }else{
+                notification.alert("请确认微信扫码支付完成");
+              }
             },
             initPage: function() {
 
@@ -206,8 +223,17 @@
               });
             }
         },
-        ready: function() {
-            this.$get('initPage')();
+        events:{
+          'weixin': function() {
+
+            console.log("wechat");
+            this.isWechat = true;
+            this.isAlipay = false;
+          },
+          'alipay': function() {
+            this.isWechat = false;
+            this.isAlipay = true;
+          }
         }
     }
 </script>

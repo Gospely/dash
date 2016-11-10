@@ -12,24 +12,12 @@
             </a>
 
             <modal :is-html="true" :width="800" :is-show.sync="showPayForm">
-                <div slot="header">您正在对应用 {{applicationName}} 进行付款操作</div>
+                <div slot="header">您正在对应用 {{description}} 进行付款操作</div>
                 <div slot="body">
 
                     <div class="columns">
                         <div class="column">
                             <pay-method :val.sync="qrcode"></pay-method>
-                        </div>
-                        <div class="column">
-                            <h4>选择的服务</h4>
-
-                            <div class="docker-config-box active">
-                                <ul class="text-center parameter">
-                                    <li>{{memory}} 内存</li>
-                                    {{cpu}} CPU{{cpuType}}
-                                </ul>
-                                <div class="down-style">{{name}}</div>
-                            </div>
-
                         </div>
                     </div>
 
@@ -46,7 +34,7 @@
                 <div slot="footer">
                     <button class="button is-success"
                         @click="confirmToPay">
-                    确定
+                    确定支付
                     </button>
                     <button class="button" @click="showPayForm = false">取消</button>
                 </div>
@@ -166,7 +154,10 @@
 
                 showPayForm: false,
                 qrcode: '',
-                applicationName: ''
+                description: '',
+                price: '',
+                isWechat: false,
+                isAlipay: true
             }
         },
 
@@ -201,6 +192,23 @@
 
             confirmToPay: function() {
 
+              console.log(this.isAlipay);
+              if(this.isAlipay){
+                services.OrderService.order({
+                  products: this.products,
+                  price: this.size * this.unitPrice,
+                  size: this.size,
+                  unitPrice: this.unitPrice
+                }).then(function(res){
+                    console.log(res);
+                    window.location.href = res.body;
+                },function(err,res){
+
+                });
+              }else{
+                notification.alert("请确认微信扫码支付完成");
+              }
+              this.showPayForm = false;
             },
 
             refreshAppList: function() {
@@ -287,8 +295,36 @@
 
             payForApp: function(item) {
 
-              this.applicationName = item.name;
-              this.showPayForm = true;
+              var _self = this;
+              services.Common.getOne({
+                url: 'orders',
+                param: {
+                  id: item.orderNo
+                },
+                cb: function(res) {
+
+                  var data = res.data;
+                  if(data.code == 1) {
+
+                    _self.description = data.fields.name;
+                    _self.price =  data.fields.price;
+                    _self.showPayForm = true;
+                    services.OrderService.order({
+
+                      out_trade_no: data.fields.orderNo,
+                      price: data.fields.price,
+                      type: 'wechat'
+                    }).then(function(res){
+                        console.log(res);
+                        _self.qrcode = res.data.code_url;
+                        //window.location.href = res.body;
+                    },function(err,res){
+
+                    });
+                  }
+                }
+              });
+
             }
         },
         ready: function() {
@@ -300,6 +336,16 @@
         events:{
           'selected':function (index) {
             this.currentIndex = index;
+          },
+          'weixin': function() {
+
+            console.log("wechat");
+            this.isWechat = true;
+            this.isAlipay = false;
+          },
+          'alipay': function() {
+            this.isWechat = false;
+            this.isAlipay = true;
           }
         }
     }
