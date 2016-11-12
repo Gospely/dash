@@ -59,6 +59,29 @@
 
                         <hr class="split">
 
+                        <article class="media">
+                            <div class="media-left">
+                              <figure class="image is-64x64">
+                                <span class="icon is-big" style="font-size:50px;height:64px;width:64px;line-height:1;">
+                                  <i class="fa fa-star"></i>
+                                </span>
+                              </figure>
+                            </div>
+                            <div class="media-content">
+                              <div class="content">
+                                <p>
+                                  <strong>{{ide_choose}}</strong>
+                                </p>
+                                <div class="media-right">
+                                    {{unitPrice}} 元/月
+                                </div>
+
+                              </div>
+                            </div>
+                        </article>
+
+                        <hr class="split">
+
                         <p class="control">
                           <cyc :show-tips="false"></cyc>
                         </p>
@@ -74,9 +97,7 @@
 
                     </div>
 
-                    <div v-show="setMeal.currentStep == 3" class="step2">
-
-                        
+                    <div v-show="setMeal.currentStep == 3" class="step3">
 
                         <article class="media">
                             <div class="media-left">
@@ -101,10 +122,10 @@
 
                         <hr class="split">
 
-                        <p>到期时间：</p>
-                        <div class="media-right">
+                        <span>到期时间：</span>
+                        <span class="media-span-right">
                             {{time_show}}
-                        </div>
+                        </span>
 
                         <hr class="split">
 
@@ -112,9 +133,9 @@
                           <cyc :show-tips="false"></cyc>
                         </p> -->
                         <span>合计：</span>
-                        <span>{{price}} 元</span>
+                        <span class="media-span-right" ="">{{price}} 元</span>
                         <hr class="split">
-                        <!-- <pay-method :val.sync="qrcode"></pay-method> -->
+                        <pay-method :val.sync="qrcode"></pay-method>
 
                     </div>
 
@@ -126,14 +147,19 @@
                     上一步
                     </button>
 
-                    <button v-show="setMeal.currentStep != setMeal.totalStep" class="button is-success"
+                    <button v-show="setMeal.currentStep == 1" class="button is-success"
                         @click="setMealNextStep">
                     下一步
                     </button>
 
-                    <button v-show="setMeal.currentStep == setMeal.totalStep" class="button is-primary"
+                    <button v-show="setMeal.currentStep == 2" class="button is-success"
+                        @click="setMealNextStep">
+                    提交订单
+                    </button>
+
+                    <button v-show="setMeal.currentStep == setMeal.totalStep && isAlipay" class="button is-primary"
                         @click="chooseSetMeal">
-                    确认订购
+                    确认支付
                     </button>
 
                     <button class="button" @click="showSetMealForm = false">取消</button>
@@ -199,6 +225,12 @@
     }
 
     .media-right {
+        text-align: right;
+    }
+
+    .media-span-right {
+        display: inline-block; 
+        width: 100%; 
         text-align: right;
     }
 
