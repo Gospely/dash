@@ -299,7 +299,6 @@
             },
 
             chooseSetMeal: function() {
-
                 this.showSetMealForm = false;
                 this.showTopupForm = true;
             },
