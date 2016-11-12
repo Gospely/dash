@@ -51,19 +51,11 @@
             </div>
         </div>
 
-        <h2>Dodora容器云 数据卷</h2>
+        <h2>数据卷</h2>
         <div class="columns">
-            <div class="column is-half">
+            <div class="column">
                 <div class="box">
                     <h3>基本型</h3>
-                    <div>
-                        <chart type="doughnut" :data="dynamicDoughnutData"></chart>
-                    </div>
-                </div>
-            </div>
-            <div class="column is-half">
-                <div class="box">
-                    <h3>拓展型</h3>
                     <div>
                         <chart type="doughnut" :data="dynamicDoughnutData"></chart>
                     </div>
