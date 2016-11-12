@@ -40,7 +40,7 @@
                 </div>
             </modal>
 
-            <tab :active-index = "1" style= "width: 100%;">
+            <tab :active-index="0" style="width: 100%;">
                 <tab-item title="运行中">
                     <table class="table">
                       <thead>
@@ -157,7 +157,8 @@
                 description: '',
                 price: '',
                 isWechat: false,
-                isAlipay: true
+                isAlipay: true,
+                orderNo: ''
             }
         },
 
@@ -195,10 +196,9 @@
               console.log(this.isAlipay);
               if(this.isAlipay){
                 services.OrderService.order({
-                  products: this.products,
-                  price: this.size * this.unitPrice,
-                  size: this.size,
-                  unitPrice: this.unitPrice
+                  out_trade_no: this.orderNo,
+                  price: this.price,
+                  type: 'alipay',
                 }).then(function(res){
                     console.log(res);
                     window.location.href = res.body;
@@ -295,6 +295,7 @@
 
             payForApp: function(item) {
 
+              this.orderNo = item.orderNo;
               var _self = this;
               services.Common.getOne({
                 url: 'orders',
@@ -309,6 +310,7 @@
                     _self.description = data.fields.name;
                     _self.price =  data.fields.price;
                     _self.showPayForm = true;
+                    _self.orderNo = data.fields.orderNo;
                     services.OrderService.order({
 
                       out_trade_no: data.fields.orderNo,

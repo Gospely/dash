@@ -30,7 +30,7 @@
                 </div>
             </modal>
 
-            <tab :active-index = "0" style= "width: 100%;">
+            <tab :active-index = "1" style= "width: 100%;">
                 <tab-item title="已支付">
                     <table class="table">
                       <thead>
@@ -124,6 +124,7 @@
                 showRePayForm: false,
                 price: '',
                 description: '',
+                orderNo:'',
                 isWechat: false,
                 isAlipay: true
             }
@@ -167,6 +168,7 @@
               var _self = this;
               this.showRenewForm = true;
               this.price = item.price;
+              this.orderNo = item.orderNo;
               this.description =  item.name;
 
               services.OrderService.order({
@@ -186,10 +188,9 @@
             confirmRenew: function() {
               if(this.isAlipay){
                 services.OrderService.order({
-                  products: this.products,
-                  price: this.size * this.unitPrice,
-                  size: this.size,
-                  unitPrice: this.unitPrice
+                  out_trade_no: this.orderNo,
+                  price: this.price,
+                  type: "alipay"
                 }).then(function(res){
                     console.log(res);
                     window.location.href = res.body;

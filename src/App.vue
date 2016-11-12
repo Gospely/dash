@@ -1,6 +1,6 @@
 <template>
     <div id="app" :class="{'collapsed':collapsed}">
-        <div class="validation-email" @click="validationEmail"  v-show='true'>
+        <div class="validation-email" @click="validationEmail"  v-show='isValidator'>
             <p>请尽快验证邮箱! 点击重新发送验证邮件</p>
         </div>
         <side-navi :collapsed.sync="collapsed" :class="{'hiddened':hiddened}"></side-navi>
@@ -81,7 +81,6 @@
         background-color: #fcf8a0;
         color: #69707a;
     }
-
     .app-main {
         position: relative;
         display: block;
