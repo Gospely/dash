@@ -55,7 +55,7 @@
         <div class="columns">
             <div class="column is-half">
                 <div class="box">
-                    <h3>基本型</h3>
+                    <h3>免费</h3>
                     <div>
                         <chart type="doughnut" :data="dynamicDoughnutData"></chart>
                     </div>
@@ -63,7 +63,7 @@
             </div>
             <div class="column is-half">
                 <div class="box">
-                    <h3>拓展型</h3>
+                    <h3>收费</h3>
                     <div>
                         <chart type="doughnut" :data="dynamicDoughnutData"></chart>
                     </div>

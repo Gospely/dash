@@ -1,6 +1,6 @@
 <template>
     <div id="app" :class="{'collapsed':collapsed}">
-        <div class="validation-email" @click="validationEmail"  v-show='isValidator'>
+        <div class="validation-email" @click="validationEmail"  v-show='true'>
             <p>请尽快验证邮箱! 点击重新发送验证邮件</p>
         </div>
         <side-navi :collapsed.sync="collapsed" :class="{'hiddened':hiddened}"></side-navi>
@@ -65,15 +65,21 @@
     }
 
     .validation-email {
-        background-color: #ffdd57;
+        // background-color: #ffdd57;
         width: 100%;
         z-index: 9217893;
         text-align: center;
-        color: #69707a;
+        // color: #69707a;
         cursor: pointer;
+        background-color: #fcf8e3;
+            border-color: #faebcc;
+            color: #8a6d3b;
+            border-bottom: 1px solid #faebcc;
+            padding: 8px;
     }
     .validation-email:hover {
-        background-color: #fce473;
+        background-color: #fcf8a0;
+        color: #69707a;
     }
 
     .app-main {

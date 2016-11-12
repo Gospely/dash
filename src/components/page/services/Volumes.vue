@@ -11,7 +11,13 @@
                         <div class="columns">
                             <div class="column is-half">
                                 <div class="box">
-                                    <h3 class="title">存储详情</h3>
+                                    <h3 class="title">免费存储</h3>
+                                    <chart :type = "'pie'" :data = "chartData"></chart>
+                                </div>
+                            </div>
+                            <div class="column is-half">
+                                <div class="box">
+                                    <h3 class="title">收费存储</h3>
                                     <chart :type = "'pie'" :data = "chartData"></chart>
                                 </div>
                             </div>
