@@ -24,12 +24,12 @@
                         </div>
                     </section>
                 </tab-item>
-                <tab-item @selected="openVolumeRenewingModal" title="升降级">
+                <tab-item @selected="openVolumeRenewingModal" title="扩容">
                 </tab-item>
             </tab>
 
             <modal :is-html="true" :is-show.sync="renewIDEVolumeForm">
-                <div slot="header">升降级数据卷</div>
+                <div slot="header">数据卷扩容</div>
                 <div slot="body">
 
                     <div class="control is-horizontal user-center">
@@ -38,10 +38,10 @@
                       </div>
                       <div class="control is-grouped" style="margin-left:16px">
                         <div class="columns">
-                            <div class="column is-10">
-                                <input v-model="volume.size" min="10" max="100" step="10" class="slider" type="range" style="margin-top:14px">
+                            <div class="column is-8">
+                                <input v-model="volume.size" value="20" min="10" max="100" step="10" class="slider" type="range" style="margin-top:10px;">
                             </div>
-                            <div class="column is-10">
+                            <div class="column is-4">
                                 <span class="help is-tip" style="margin: 8px;">{{volume.size}} G</span>
                             </div>
                         </div>
