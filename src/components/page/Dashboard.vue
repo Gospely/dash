@@ -61,7 +61,7 @@
                     </div>
                 </div>
             </div>
-<<<<<<< HEAD
+
             <div class="column is-half">
                 <div class="box">
                     <h3>收费</h3>
@@ -70,8 +70,7 @@
                     </div>
                 </div>
             </div>
-=======
->>>>>>> 4d913acc8432733620d88a086166cbde9bb74c10
+
         </div>
     </section>
 </template>

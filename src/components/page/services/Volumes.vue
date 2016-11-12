@@ -32,45 +32,62 @@
                 <div slot="header">数据卷扩容</div>
                 <div slot="body">
 
-                    <div class="control is-horizontal user-center">
-                      <div class="control-label">
-                        <label class="label">数据卷大小</label>
+                    <div v-show="changeSize">
+                      <div class="control is-horizontal user-center">
+                        <div class="control-label">
+                          <label class="label">数据卷大小</label>
+                        </div>
+                        <div class="control is-grouped" style="margin-left:16px">
+                          <div class="columns">
+                              <div class="column is-8">
+                                  <input v-model="volume.size" value="20" min="10" max="100" step="10" class="slider" type="range" style="margin-top:10px;">
+                              </div>
+                              <div class="column is-4">
+                                  <span class="help is-tip" style="margin: 8px;">{{volume.size}} G</span>
+                              </div>
+                          </div>
+                        </div>
                       </div>
-                      <div class="control is-grouped" style="margin-left:16px">
-                        <div class="columns">
-                            <div class="column is-8">
-                                <input v-model="volume.size" value="20" min="10" max="100" step="10" class="slider" type="range" style="margin-top:10px;">
-                            </div>
-                            <div class="column is-4">
-                                <span class="help is-tip" style="margin: 8px;">{{volume.size}} G</span>
-                            </div>
+
+                      <div class="media-content">
+                        <div class="content">
+                          <div class="media-right" style="text-align:right">
+                              <span class="is-tip">合计：</span>
+                              <span class="is-big">1200.00 元</span>
+                          </div>
                         </div>
                       </div>
                     </div>
 
-                    <div class="control is-horizontal user-center">
-                      <div class="control-label">
-                        <label class="label">支付方式</label>
+                    <div v-show="goPay">
+
+                      <div>
+                          <span>合计：</span>
+                          <span>1200.00 元</span>
                       </div>
-                    </div>
 
-                    <pay-method :val.sync="qrcode" @weixin="useWeixin" @alipay="useAlipay"></pay-method>
+                      <hr class="split">
 
-                    <div class="media-content">
-                      <div class="content">
-                        <div class="media-right" style="text-align:right">
-                            <span class="is-tip">合计：</span>
-                            <span class="is-big">1200.00 元</span>
+                      <div class="control is-horizontal user-center">
+                        <div class="control-label">
+                          <label class="label">支付方式</label>
                         </div>
                       </div>
+
+                      <pay-method :val.sync="qrcode"></pay-method>
                     </div>
 
                 </div>
                 <div slot="footer">
-                    <button class="button is-success"
+                    <button class="button is-success" v-show="changeSize" @click="nextStep">下一步</button>
+
+                    <button class="button is-success" v-show="goPay" @click="prvStep">上一步</button>
+
+                    <button class="button is-success" v-show="goPay && isAlipay"
                         @click="confirmRenewIDEVolume">
-                    确定
+                    确定支付
                     </button>
+
                     <button class="button" @click="renewIDEVolumeForm = false">取消</button>
                 </div>
             </modal>
@@ -126,7 +143,12 @@
             cur: 1,
             qrcode: '',
 
-            renewIDEVolumeForm: false
+            renewIDEVolumeForm: false,
+
+            changeSize: true,
+            goPay: false,
+            isWechat: false,
+            isAlipay: true
           }
       },
       components: {
@@ -169,10 +191,32 @@
                 }
               }
             );
+        },
+        nextStep() {
+          this.changeSize = false;
+          this.goPay = true;
+        },
+        prvStep() {
+          this.goPay = false;
+          this.changeSize = true;
+        },
+        confirmRenewIDEVolume() {
+
         }
       },
       ready: function() {
           this.$get("initVolume")(1);
+      },
+      events: {
+        'weixin': function() {
+           console.log("wechat");
+           this.isWechat = true;
+           this.isAlipay = false;
+         },
+         'alipay': function() {
+           this.isWechat = false;
+           this.isAlipay = true;
+         }
       }
     }
 </script>
