@@ -2,7 +2,7 @@
 
     <div class="modal-mask modal" v-show="isShow" transition="modal">
         <div class="modal-wrapper">
-            <div class="modal-container" v-bind:style="{width: width + 'px'}">
+            <div class="modal-container" v-bind:style="{'max-width': width + 'px'}">
 
                 <div class="modal-header">
                     <h3><slot name="header">{{header}}</slot></h3>
@@ -46,7 +46,6 @@
     }
 
     .modal-container {
-        width: 500px;
         margin: 0px auto;
         background-color: #fff;
         border-radius: 2px;

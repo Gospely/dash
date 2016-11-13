@@ -50,7 +50,6 @@
                 </p>
             </div>
         </div>
-
         <h2>数据卷</h2>
         <div class="columns">
             <div class="column">
@@ -61,6 +60,7 @@
                     </div>
                 </div>
             </div>
+
             <div class="column is-half">
                 <div class="box">
                     <h3>收费</h3>
