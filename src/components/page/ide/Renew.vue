@@ -6,7 +6,7 @@
         <div class="content">
 
             <modal :is-html="true" :is-show.sync="showSetMealForm">
-                <div slot="header">版本</div>
+                <div slot="header">{{modalHeader[setMeal.currentStep - 1]}}</div>
                 <div slot="body">
 
                     <div v-show="setMeal.currentStep == 1" class="step1">
@@ -24,6 +24,7 @@
                                     <hr class="split">
                                 </div>
                                 {{item.description}}
+                                {{item.price}}元/月
                             </div>
                         </article>
 
@@ -32,6 +33,29 @@
                     <div v-show="setMeal.currentStep == 2" class="step2">
 
                         <span class="help is-tip">到期时间：{{time_show}}</span>
+
+                        <!-- <hr class="split"> -->
+
+                        <!-- <article class="media">
+                            <div class="media-left">
+                              <figure class="image is-64x64">
+                                <span class="icon is-big" style="font-size:50px;height:64px;width:64px;line-height:1;">
+                                  <i class="fa fa-star"></i>
+                                </span>
+                              </figure>
+                            </div>
+                            <div class="media-content">
+                              <div class="content">
+                                <p>
+                                  <strong>{{ide_choose}}</strong>
+                                </p>
+                                <div class="media-right">
+                                    {{unitPrice}} 元/月
+                                </div>
+
+                              </div>
+                            </div>
+                        </article> -->
 
                         <hr class="split">
 
@@ -69,13 +93,56 @@
                             </div>
                           </div>
                         </div>
+                        <!-- <pay-method :val.sync="qrcode"></pay-method> -->
+
+                    </div>
+
+                    <div v-show="setMeal.currentStep == 3" class="step3">
+
+                        <article class="media">
+                            <div class="media-left">
+                              <figure class="image is-64x64">
+                                <span class="icon is-big" style="font-size:50px;height:64px;width:64px;line-height:1;">
+                                  <i class="fa fa-star"></i>
+                                </span>
+                              </figure>
+                            </div>
+                            <div class="media-content">
+                              <div class="content">
+                                <p>
+                                  <strong>{{ide_choose}}</strong>
+                                </p>
+                                <div class="media-right">
+                                    {{unitPrice}} 元/月
+                                </div>
+
+                              </div>
+                            </div>
+                        </article>
+
+                        <hr class="split">
+
+                        <span>到期时间：</span>
+                        <span class="media-span-right">
+                            {{time_show}}
+                        </span>
+
+                        <hr class="split">
+
+                        <!-- <p class="control">
+                          <cyc :show-tips="false"></cyc>
+                        </p> -->
+                        <span>合计：</span>
+                        <span class="media-span-right" ="">{{price}} 元</span>
+                        <hr class="split">
                         <pay-method :val.sync="qrcode"></pay-method>
 
                     </div>
 
                 </div>
+
                 <div slot="footer">
-                    <button v-show="!(setMeal.currentStep != setMeal.totalStep)" class="button is-success"
+                    <button v-show="setMeal.currentStep != 1" class="button is-success"
                         @click="setMealPrevStep">
                     上一步
                     </button>
@@ -85,9 +152,14 @@
                     下一步
                     </button>
 
-                    <button v-show="setMeal.currentStep == setMeal.totalStep" class="button is-primary"
+                    <button v-show="setMeal.currentStep == 2" class="button is-success"
+                        @click="setMealNextStep">
+                    提交订单
+                    </button>
+
+                    <button v-show="setMeal.currentStep == setMeal.totalStep && isAlipay" class="button is-primary"
                         @click="chooseSetMeal">
-                    确认订购
+                    确认支付
                     </button>
 
                     <button class="button" @click="showSetMealForm = false">取消</button>
@@ -156,6 +228,12 @@
         text-align: right;
     }
 
+    .media-span-right {
+        display: inline-block;
+        width: 100%;
+        text-align: right;
+    }
+
 </style>
 <script>
 
@@ -167,10 +245,13 @@
     import Cyc from '../../ui/Cyc.vue'
 
     import PayMethod from '../../ui/PayMethod.vue'
+    import uuid from 'node-uuid'
+    import _md5 from 'md5'
 
     export default{
         data () {
             return {
+                modalHeader: ['选择版本','选择时间','确认订购'],
                 isRefresh: false,
                 showRenewForm: false,
 
@@ -181,6 +262,7 @@
                 price: 0,
                 unitPrice: 0,
                 size: 1,
+                orderNo: '',
                 products: '',
                 volume: {
                   size: 20
@@ -201,13 +283,12 @@
                 isAlipay: true,
                 goBuy: true,
                 setMeal: {
-                    totalStep: 2,
+                    totalStep: 3,
                     currentStep: 1
                 },
 
                 mealTicks: [],
-                time_show: '',
-                expireAt: '',
+                time_show: ''
 
             }
         },
@@ -222,24 +303,6 @@
         },
 
         methods: {
-            reNewIDE: function() {
-
-                var _self = this;
-                this.showRenewForm = true;
-                services.OrderService.order({
-                  products: this.products,
-                  price: this.size * this.unitPrice,
-                  size: this.size,
-                  unitPrice: this.unitPrice,
-                  type: 'wechat'
-                }).then(function(res){
-                    console.log(res);
-                    _self.qrcode = res.data.code_url;
-                    //window.location.href = res.body;
-                },function(err,res){
-
-                });
-            },
             confirmRenew: function() {
                 services.OrderService.order({
                   products: this.products,
@@ -271,7 +334,10 @@
               this.unitPrice = item.price;
               this.price = item.price * 1;
               this.ide_choose = item.name;
-              this.time_show = "";
+              this.$emit('cycSelected',{
+                cyc: 1,
+                unit: '月'
+              });
             },
             initIdes: function() {
 
@@ -301,6 +367,21 @@
             chooseSetMeal: function() {
                 this.showSetMealForm = false;
                 this.showTopupForm = true;
+                if(this.isAlipay){
+                  services.OrderService.order({
+                    out_trade_no: this.orderNo,
+                    price: this.size * this.unitPrice,
+                    type: "alipay"
+                  }).then(function(res){
+                      console.log(res);
+                      window.location.href = res.body;
+                  },function(err,res){
+
+                  });
+                }else{
+                  notification.alert("请确认微信扫码支付完成");
+                }
+
             },
 
             setMealNextStep: function() {
@@ -309,6 +390,43 @@
                   notification.alert("请选择收费版本,个人版无需升级");
                 }else{
                   this.setMeal.currentStep++;
+                }
+
+                if(this.setMeal.currentStep == 3) {
+
+                  var _self = this;
+                  this.orderNo =  _md5(uuid.v4());
+                  console.log(this.orderNo);
+                  services.Common.create({
+                    url: 'orders',
+                    param: {
+                      creator: currentUser,
+                      name: 'IDE续费或升级',
+                      orderNo: this.orderNo,
+                      size: this.size,
+                      unit: "GB",
+                      price: this.size * this.unitPrice,
+                      unitPrice: this.unitPrice
+                    },
+                    cb: function(res) {
+                      if(res.data.code == 1) {
+                        notification.alert("下单成功");
+
+                        services.OrderService.order({
+
+                          out_trade_no: _self.orderNo,
+                          price: _self.size * _self.unitPrice,
+                          type: 'wechat'
+                        }).then(function(res){
+                            console.log(res);
+                            _self.qrcode = res.data.code_url;
+                            //window.location.href = res.body;
+                        },function(err,res){
+
+                        });
+                      }
+                    }
+                  });
                 }
             },
 
@@ -330,10 +448,8 @@
                 if(_self.isWechat) {
                   this.showRenewForm = true;
                   services.OrderService.order({
-                    products: this.products,
+                    out_trade_no: _self.orderNo,
                     price: this.size * this.unitPrice,
-                    size: this.size,
-                    unitPrice: this.unitPrice,
                     type: 'wechat'
                   }).then(function(res){
                       console.log(res);
@@ -458,12 +574,12 @@
             this.$get("initIDE")();
         },
         watch: {
-           selected: function(item) {
-              this.products = item.id;
-              this.unitPrice = item.price;
-              this.price = this.unitPrice +" X 1 月 = "+this.unitPrice;
-              this.reNewIDE();
-           }
+           // selected: function(item) {
+           //    this.products = item.id;
+           //    this.unitPrice = item.price;
+           //    this.price = this.unitPrice + " X 1 月 = " + this.unitPrice;
+           //    this.reNewIDE();
+           // }
        },
        events: {
          'cycSelected': function(cyc) {
@@ -477,7 +593,6 @@
              }
 
 
-
              console.log(d.getHours());
              var num = parseInt(cyc.cyc)
              console.log(cyc.cyc);
@@ -485,8 +600,9 @@
              d.setMonth(d.getMonth() + 1 + num);
 
              this.time_show = dataFormat(d,"yyyy-MM-dd hh:mm:ss");
+             console.log('时间是' + this.time_show);
              this.total = cyc.cyc * this.unitPrice;
-             this.price = this.unitPrice +" X "+ cyc.cyc+" "+cyc.unit +" = "+this.total;
+             this.price = this.unitPrice + " X " + cyc.cyc + " " + cyc.unit + " = " + this.total;
              console.log(cyc);
              this.genQrcode();
              function dataFormat(date,fmt){ //author: meizz

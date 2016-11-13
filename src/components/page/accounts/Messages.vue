@@ -153,7 +153,7 @@
                   param: {
                     limit: 1,
                     cur: cur,
-                    user: 1,
+                    user: currentUser,
                     read: 1
                   },
                   target: 'fields2',
@@ -170,7 +170,7 @@
                   param: {
                     limit: 1,
                     cur: cur,
-                    user: 1
+                    user: currentUser
                   },
                   url: 'notices',
                   ctx: _self

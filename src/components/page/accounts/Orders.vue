@@ -30,7 +30,7 @@
                 </div>
             </modal>
 
-            <tab :active-index = "0" style= "width: 100%;">
+            <tab :active-index = "1" style= "width: 100%;">
                 <tab-item title="已支付">
                     <table class="table">
                       <thead>
@@ -56,6 +56,7 @@
                         </tr>
                       </tbody>
                     </table>
+                    <page :cur.sync="cur" :all.sync="all" v-on:btn-click="listen"></page>
                 </tab-item>
                 <tab-item title="未支付">
                     <table class="table">
@@ -95,6 +96,7 @@
                         </tr>
                       </tbody>
                     </table>
+                    <page :cur.sync="cur1" :all.sync="all1" v-on:btn-click="listen1"></page>
                 </tab-item>
             </tab>
 
@@ -120,10 +122,15 @@
                 msg: 'hello vue',
                 fields: [],
                 fields_unpay: [],
+                cur: 1,
+                all: 8,
+                cur1: 1,
+                all1: 10,
                 qrcode: 'test',
                 showRePayForm: false,
                 price: '',
                 description: '',
+                orderNo:'',
                 isWechat: false,
                 isAlipay: true
             }
@@ -136,11 +143,12 @@
             Page
         },
         ready : function() {
-          this.$get('initPage')();
+          this.$get('initPaid')(1);
+          this.$get('initUnPay')(1);
         },
         methods: {
-            cancelOrder: function() {
-
+            cancelOrder: function(item) {
+                var _self = this;
                 new ModalCtrl({
                     el: document.createElement('div'),
                     props: {
@@ -154,19 +162,37 @@
                     },
                     events: {
                         'confirmed': function() {
+
+                            services.Common.delete({
+                              url: 'orders',
+                              param: {
+                                id: item.id
+                              },
+                              ctx: _self,
+                              target: 'fields_unpay',
+                              reload: _self.$get("initPage")()
+                            })
                             this.$destroy(true);
                         }
                     }
                 }).show();
 
             },
-
+            listen: function(data) {
+              console.log('你点击了'+data+ '页');
+              this.$get('initPaid')(data);
+            },
+            listen1: function(data) {
+              console.log('你点击了'+data+ '页');
+              this.$get('initUnPay')(data);
+            },
             continueToPay: function(item) {
 
               this.showRePayForm = true;
               var _self = this;
               this.showRenewForm = true;
               this.price = item.price;
+              this.orderNo = item.orderNo;
               this.description =  item.name;
 
               services.OrderService.order({
@@ -186,10 +212,9 @@
             confirmRenew: function() {
               if(this.isAlipay){
                 services.OrderService.order({
-                  products: this.products,
-                  price: this.size * this.unitPrice,
-                  size: this.size,
-                  unitPrice: this.unitPrice
+                  out_trade_no: this.orderNo,
+                  price: this.price,
+                  type: "alipay"
                 }).then(function(res){
                     console.log(res);
                     window.location.href = res.body;
@@ -200,24 +225,33 @@
                 notification.alert("请确认微信扫码支付完成");
               }
             },
-            initPage: function() {
+            initPaid: function(cur) {
 
               var _self = this;
               services.Common.list({
                 param: {
                   status: 2,
+                  cur: cur,
+                  limit: 20,
                   creator: currentUser,
                 },
                 ctx: _self,
                 url: 'orders'
               });
+
+            },
+            initUnPay:function (cur) {
+                var _self = this;
               services.Common.list({
                 param: {
                   status: 1,
+                  cur: cur,
+                  limit: 1,
                   creator: currentUser,
 
                 },
                 ctx: _self,
+                all: 'all1',
                 url: 'orders',
                 target: 'fields_unpay'
               });
