@@ -23,7 +23,7 @@
 
                       <div class="team" >
 
-                        <article class="media" v-for="item in items">
+                        <article class="media" v-for="item in fields">
                             <figure class="media-left">
                                 <p class="image is-64x64">
                                     <img src="https://dn-daoweb-prod.qbox.me/static/organization_200.png">
@@ -84,7 +84,7 @@
         data () {
             return {
                 showTeamAddingForm: false,
-                items: '',
+                fields: '',
                 team:{
                   name: ''
                 }
@@ -115,7 +115,10 @@
                   }
                 }
                 var options = {
-                    param: this.team,
+                    param: {
+                      name: this.team.name,
+                      creator: currentUser
+                    },
                     cb: cb,
                     url: 'teams'
                 };
@@ -123,19 +126,15 @@
 
                 services.Common.create(options);
             },
-            teamList: function(ctx) {
+            teamList: function() {
 
 
-              services.TeamService.list().then(function(res) {
-                if(res.status === 200) {
-
-                  var data = JSON.parse(res.body);
-                  ctx.items = data.fields;
-                }else {
-
-                }
-              }, function(err){
-
+              services.Common.list({
+                url: 'teams',
+                param: {
+                  creator: currentUser
+                },
+                ctx: this,
               });
             },
             delete: function(id) {
@@ -159,7 +158,7 @@
             }
         },
         ready: function() {
-          this.$get('teamList')(this);
+          this.$get('teamList')();
         },
     }
 </script>
