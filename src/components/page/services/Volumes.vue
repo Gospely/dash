@@ -5,7 +5,7 @@
         <hr>
         <div class="content">
 
-            <tab :active-index = "0" style= "width: 100%;">
+            <tab :active-index.sync="activeIndex" style= "width: 100%;">
                 <tab-item title="基本信息">
                     <section class="section">
                         <div class="columns">
@@ -65,7 +65,7 @@
                         @click="confirmRenewIDEVolume">
                     确定
                     </button>
-                    <button class="button" @click="renewIDEVolumeForm = false">取消</button>
+                    <button class="button" @click="cancelRenew">取消</button>
                 </div>
             </modal>
 
@@ -120,7 +120,9 @@
             cur: 1,
             qrcode: '',
 
-            renewIDEVolumeForm: false
+            renewIDEVolumeForm: false,
+
+            activeIndex: 0
           }
       },
       components: {
@@ -163,6 +165,11 @@
                 }
               }
             );
+        },
+
+        cancelRenew: function() {
+          this.renewIDEVolumeForm = false;
+          // this.activeIndex = 0;
         }
       },
       ready: function() {
