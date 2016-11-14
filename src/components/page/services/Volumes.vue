@@ -91,12 +91,7 @@
                         @click="confirmRenewIDEVolume">
                     确定支付
                     </button>
-<<<<<<< HEAD
                     <button class="button" @click="cancelRenew">取消</button>
-=======
-
-                    <button class="button" @click="renewIDEVolumeForm = false">取消</button>
->>>>>>> d705d08766b9eec1271313a8c7843d4d057f66ce
                 </div>
             </modal>
 
