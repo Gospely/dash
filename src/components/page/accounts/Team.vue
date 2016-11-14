@@ -109,7 +109,7 @@
                 function cb(res) {
                   if(res.status === 200) {
                     _self.$get('teamList')(_self);
-                    notification.alert('添加');
+                    notification.alert('添加成功');
                   }else {
 
                   }

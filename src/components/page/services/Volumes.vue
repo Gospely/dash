@@ -132,7 +132,24 @@
           }
       },
       created () {
+        var _self =  this;
+        var used = 100;
+        var rest = 100;
+        services.VolumeService.info({
+          user: currentUser
+        }).then(function(res){
+          console.log(res);
+          var data = res.data.fields;
+          used = parseInt(data.used)/1024;
+          rest = parseInt(data.size) - used;
+        },function(err){
 
+        });
+        　setTimeout(function () {
+          console.log(used);
+          _self.data.$set(0,used.toFixed(2));
+          _self.data.$set(1,rest.toFixed(2));
+        }, 3000)
       },
       beforeDestroy () {
           if (this.timer) {
@@ -292,10 +309,15 @@
           }else{
             notification.alert("请确认微信扫码支付完成");
           }
+        },
+        initVolume: function() {
+
+
         }
       },
       ready: function() {
           this.$get("init")();
+
       },
       events: {
         'weixin': function() {
