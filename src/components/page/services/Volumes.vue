@@ -224,10 +224,10 @@
                   _self.volume.min = data.fields.volumeSize;
                   if(data.fields.volumeSize>100) {
                     _self.volume.max = 1000;
-                    _self.volume.step = 100;
+                    _self.volume.step = 1;
                   }else{
                     _self.volume.max = 100;
-                    _self.volume.step = 10;
+                    _self.volume.step = 1;
                   }
                 }
               }
@@ -263,7 +263,8 @@
               size: this.volume.size - this.volume.min,
               unit: "GB",
               price: (this.volume.size - this.volume.min) * this.unitPrice,
-              unitPrice: this.unitPrice
+              unitPrice: this.unitPrice,
+              type: 'volume'
             },
             cb: function(res) {
               if(res.data.code == 1) {

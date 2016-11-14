@@ -403,10 +403,12 @@
                       creator: currentUser,
                       name: 'IDE续费或升级',
                       orderNo: this.orderNo,
-                      size: this.size,
-                      unit: "GB",
+                      timeSize: this.size,
+                      timeUnit: "月",
+                      products: this.products,
                       price: this.size * this.unitPrice,
-                      unitPrice: this.unitPrice
+                      unitPrice: this.unitPrice,
+                      type: 'ide'
                     },
                     cb: function(res) {
                       if(res.data.code == 1) {
