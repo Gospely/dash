@@ -5,7 +5,7 @@
         <hr>
         <div class="content">
 
-            <tab :active-index = "0" style= "width: 100%;">
+            <tab :active-index.sync="activeIndex" style= "width: 100%;">
                 <tab-item title="基本信息">
                     <section class="section">
                         <div class="columns">
@@ -91,8 +91,7 @@
                         @click="confirmRenewIDEVolume">
                     确定支付
                     </button>
-
-                    <button class="button" @click="renewIDEVolumeForm = false">取消</button>
+                    <button class="button" @click="cancelRenew">取消</button>
                 </div>
             </modal>
 
@@ -176,7 +175,7 @@
             unitPrice: '',
             products: '',
             renewIDEVolumeForm: false,
-
+            activeIndex: 0
             changeSize: true,
             goPay: false,
             isWechat: false,
@@ -231,7 +230,12 @@
                   }
                 }
               }
-            });
+            );
+        },
+
+        cancelRenew: function() {
+          this.renewIDEVolumeForm = false;
+          // this.activeIndex = 0;
             //获取数据卷的价格
             services.Common.list({
               url: 'products',
@@ -309,10 +313,14 @@
           }else{
             notification.alert("请确认微信扫码支付完成");
           }
+<<<<<<< HEAD
         },
         initVolume: function() {
 
 
+=======
+>>>>>>> d705d08766b9eec1271313a8c7843d4d057f66ce
+>>>>>>> d3d3556afa8f587019d469b3f89a1f3a53919259
         }
       },
       ready: function() {
