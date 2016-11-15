@@ -93,7 +93,7 @@
                       label: 'mysql'
                     },
                     {
-                      label: 'postgre'
+                      label: 'postgres'
                     },
                     {
                       label: 'mongodb'
@@ -105,6 +105,7 @@
                   type: '',
                   password: '',
                   docker: '',
+                  creator: currentUser
                 }
                 // fields: [],
                 // subDomain: '',
@@ -135,6 +136,9 @@
 
             confirmAddDatabase: function() {
 
+                if(this.db.type == ''){
+                  this.db.type= 'mysql';
+                }
                 services.Common.create({
                   url: 'dbs',
                   param: this.db,
