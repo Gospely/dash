@@ -229,8 +229,8 @@
     }
 
     .media-span-right {
-        display: inline-block; 
-        width: 100%; 
+        display: inline-block;
+        width: 100%;
         text-align: right;
     }
 
@@ -245,6 +245,8 @@
     import Cyc from '../../ui/Cyc.vue'
 
     import PayMethod from '../../ui/PayMethod.vue'
+    import uuid from 'node-uuid'
+    import _md5 from 'md5'
 
     export default{
         data () {
@@ -260,6 +262,7 @@
                 price: 0,
                 unitPrice: 0,
                 size: 1,
+                orderNo: '',
                 products: '',
                 volume: {
                   size: 20
@@ -300,24 +303,6 @@
         },
 
         methods: {
-            reNewIDE: function() {
-
-                var _self = this;
-                this.showRenewForm = true;
-                services.OrderService.order({
-                  products: this.products,
-                  price: this.size * this.unitPrice,
-                  size: this.size,
-                  unitPrice: this.unitPrice,
-                  type: 'wechat'
-                }).then(function(res){
-                    console.log(res);
-                    _self.qrcode = res.data.code_url;
-                    //window.location.href = res.body;
-                },function(err,res){
-
-                });
-            },
             confirmRenew: function() {
                 services.OrderService.order({
                   products: this.products,
@@ -382,6 +367,21 @@
             chooseSetMeal: function() {
                 this.showSetMealForm = false;
                 this.showTopupForm = true;
+                if(this.isAlipay){
+                  services.OrderService.order({
+                    out_trade_no: this.orderNo,
+                    price: this.size * this.unitPrice,
+                    type: "alipay"
+                  }).then(function(res){
+                      console.log(res);
+                      window.location.href = res.body;
+                  },function(err,res){
+
+                  });
+                }else{
+                  notification.alert("请确认微信扫码支付完成");
+                }
+
             },
 
             setMealNextStep: function() {
@@ -390,6 +390,45 @@
                   notification.alert("请选择收费版本,个人版无需升级");
                 }else{
                   this.setMeal.currentStep++;
+                }
+
+                if(this.setMeal.currentStep == 3) {
+
+                  var _self = this;
+                  this.orderNo =  _md5(uuid.v4());
+                  console.log(this.orderNo);
+                  services.Common.create({
+                    url: 'orders',
+                    param: {
+                      creator: currentUser,
+                      name: 'IDE续费或升级',
+                      orderNo: this.orderNo,
+                      timeSize: this.size,
+                      timeUnit: "月",
+                      products: this.products,
+                      price: this.size * this.unitPrice,
+                      unitPrice: this.unitPrice,
+                      type: 'ide'
+                    },
+                    cb: function(res) {
+                      if(res.data.code == 1) {
+                        notification.alert("下单成功");
+
+                        services.OrderService.order({
+
+                          out_trade_no: _self.orderNo,
+                          price: _self.size * _self.unitPrice,
+                          type: 'wechat'
+                        }).then(function(res){
+                            console.log(res);
+                            _self.qrcode = res.data.code_url;
+                            //window.location.href = res.body;
+                        },function(err,res){
+
+                        });
+                      }
+                    }
+                  });
                 }
             },
 
@@ -411,10 +450,8 @@
                 if(_self.isWechat) {
                   this.showRenewForm = true;
                   services.OrderService.order({
-                    products: this.products,
+                    out_trade_no: _self.orderNo,
                     price: this.size * this.unitPrice,
-                    size: this.size,
-                    unitPrice: this.unitPrice,
                     type: 'wechat'
                   }).then(function(res){
                       console.log(res);

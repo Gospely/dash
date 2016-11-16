@@ -56,6 +56,7 @@
                         </tr>
                       </tbody>
                     </table>
+                    <page :cur.sync="cur" :all.sync="all" v-on:btn-click="listen"></page>
                 </tab-item>
                 <tab-item title="未支付">
                     <table class="table">
@@ -95,6 +96,7 @@
                         </tr>
                       </tbody>
                     </table>
+                    <page :cur.sync="cur1" :all.sync="all1" v-on:btn-click="listen1"></page>
                 </tab-item>
             </tab>
 
@@ -120,6 +122,10 @@
                 msg: 'hello vue',
                 fields: [],
                 fields_unpay: [],
+                cur: 1,
+                all: 8,
+                cur1: 1,
+                all1: 10,
                 qrcode: 'test',
                 showRePayForm: false,
                 price: '',
@@ -137,11 +143,12 @@
             Page
         },
         ready : function() {
-          this.$get('initPage')();
+          this.$get('initPaid')(1);
+          this.$get('initUnPay')(1);
         },
         methods: {
-            cancelOrder: function() {
-
+            cancelOrder: function(item) {
+                var _self = this;
                 new ModalCtrl({
                     el: document.createElement('div'),
                     props: {
@@ -155,13 +162,30 @@
                     },
                     events: {
                         'confirmed': function() {
+
+                            services.Common.delete({
+                              url: 'orders',
+                              param: {
+                                id: item.id
+                              },
+                              ctx: _self,
+                              target: 'fields_unpay',
+                              reload: _self.$get("initPage")()
+                            })
                             this.$destroy(true);
                         }
                     }
                 }).show();
 
             },
-
+            listen: function(data) {
+              console.log('你点击了'+data+ '页');
+              this.$get('initPaid')(data);
+            },
+            listen1: function(data) {
+              console.log('你点击了'+data+ '页');
+              this.$get('initUnPay')(data);
+            },
             continueToPay: function(item) {
 
               this.showRePayForm = true;
@@ -201,24 +225,33 @@
                 notification.alert("请确认微信扫码支付完成");
               }
             },
-            initPage: function() {
+            initPaid: function(cur) {
 
               var _self = this;
               services.Common.list({
                 param: {
                   status: 2,
+                  cur: cur,
+                  limit: 20,
                   creator: currentUser,
                 },
                 ctx: _self,
                 url: 'orders'
               });
+
+            },
+            initUnPay:function (cur) {
+                var _self = this;
               services.Common.list({
                 param: {
                   status: 1,
+                  cur: cur,
+                  limit: 1,
                   creator: currentUser,
 
                 },
                 ctx: _self,
+                all: 'all1',
                 url: 'orders',
                 target: 'fields_unpay'
               });

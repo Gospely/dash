@@ -6,9 +6,10 @@ module.exports = {
 
 		return {
 
-			create: function(volume) {
-				console.log(volume);
-				return _this.$http.post(baseUrl + 'volumes',{creator: volume});
+			info: function(options) {
+				return _this.$http.get(baseUrl + 'users/volume/' + options.user);
+
+
 			}
 
 		}

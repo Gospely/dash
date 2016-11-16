@@ -10,8 +10,14 @@
         <div slot="body">
             <label class="label">数据库名称</label>
             <p class="control">
-              <input class="input" type="text" placeholder="数据库名称" v-model="edit.database">
+              <input class="input" type="text" placeholder="数据库名称" v-model="db.name">
+
             </p>
+            <label class="label">数据库密码</label>
+            <p class="control">
+              <input class="input" type="text" placeholder="数据密码" v-model="db.password">
+            </p>
+
             <p class="label">类型</p>
             <p class="control has-addons" style="height:32px;">
               <a :class="['button','database-type-opation',{'is-success': index == thisIndex}]" v-for="(index,item) in databaseType" :disabled="isDetailsThisDatabase" @click="selectThisType(item,index)">
@@ -87,16 +93,24 @@
                       label: 'mysql'
                     },
                     {
-                      label: 'postgre'
+                      label: 'postgres'
                     },
                     {
                       label: 'mongodb'
                     }
-                ]
+                ],
+                application: '',
+                db:{
+                  name: '',
+                  type: '',
+                  password: '',
+                  docker: '',
+                  creator: currentUser
+                }
                 // fields: [],
                 // subDomain: '',
                 // oldDomain: '',
-                
+
             }
         },
 
@@ -122,29 +136,21 @@
 
             confirmAddDatabase: function() {
 
-                // var _self = this;
-                // if(this.isDetailsThisDatabase){
-                //     services.Common.update({
-                //       param: _self.edit,
-                //       url: 'domains',
-                //       ctx: _self,
-                //       reload: _self.$get("initDomains")()
-                //     });
-                // }else{
-                //   services.Common.save({
-                //     url: 'domians/bind',
-                //     domain: edit.domain,
-                //     creator: currentUser,
-                //     application: _self.application,
-                //     ctx: _self,
-                //     reload: _self.$get("initDomains")()
-                //   });
-                // }
-                // this.hideAddDomainForm();
+                if(this.db.type == ''){
+                  this.db.type= 'mysql';
+                }
+                services.Common.create({
+                  url: 'dbs',
+                  param: this.db,
+                  cb: function(res){
+
+                  }
+                });
             },
 
             selectThisType(item,index){
               this.thisIndex = index;
+              this.db.type =  item.label;
             },
 
             DetailsThisDatabase: function(item) {
@@ -189,70 +195,32 @@
                     }
                 }).show();
             },
+            initApplication: function() {
 
+              var _self = this;
+              services.Common.getOne({
+                url: 'applications',
+                param: {
+                  id: this.application
+                },
+                cb: function(res) {
+
+                  var data = res.data;
+                  if(data.code == 1) {
+                    _self.db.docker =  data.fields.docker;
+                  }
+                }
+              });
+            },
             saveChanges: function() {
 
-                // var _self = this;
-                // if(this.domains !=  this.oldDomain){
-
-                //     services.Common.update({
-                //         param:{
-                //           subDomain: _self.subDomain,
-                //           oldDomain: _self.oldDomain,
-                //           creator: currentUser,
-                //           application: _self.application,
-                //           reload: _self.$get("initDomains")()
-                //         },
-                //         url: 'domains',
-                //     });
-                // }else{
-                //     notification.alert("未修改域名，请确认");
-                // }
-            },
-            // initDomains: function() {
-            //     console.log(11);
-            //     var _self = this;
-            //     services.Common.list({
-
-            //         param:{
-            //             application: _self.application,
-            //         },
-            //         url: 'domains',
-            //         ctx: _self,
-            //     });
-            // },
-            // initApplication:function(){
-            //   var _self = this;
-            //   services.Common.getOne({
-
-            //       param:{
-            //           id: _self.application,
-            //       },
-            //       url: 'applications',
-            //       cb: function(res){
-            //           if(res.status == 200){
-
-            //               var data = res.data;
-
-            //               if(data.code == 1){
-            //                 try {
-            //                   _self.subDomain = data.fields.domain.replace(".gospely.com","");
-            //                   _self.oldDomain = data.fields.domain.replace(".gospely.com","");
-            //                 }catch(err) {
-            //                   notification.alert('解析域名数据失败: ' + err.toString(), 'warning');
-            //                 }
-            //               }
-            //           }
-            //       }
-            //   });
-            // }
-
+            }
         },
         ready: function() {
 
             this.$set("application", this.$route.query.containerId);
             // this.$get("initDomains")();
-            // this.$get("initApplication")();
+            this.$get("initApplication")();
         }
     }
 </script>

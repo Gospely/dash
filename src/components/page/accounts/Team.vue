@@ -23,8 +23,13 @@
 
                       <div class="team" >
 
+<<<<<<< HEAD
                         <article class="media" v-for="item in items">
                             <figure class="media-left" @click="showTeamDetail(item)" style="cursor: pointer;">
+=======
+                        <article class="media" v-for="item in fields">
+                            <figure class="media-left">
+>>>>>>> dc001d620eb18a8e07fae30315242bdafda22707
                                 <p class="image is-64x64">
                                     <img src="https://dn-daoweb-prod.qbox.me/static/organization_200.png">
                                 </p>
@@ -104,8 +109,12 @@
         data () {
             return {
                 showTeamAddingForm: false,
+<<<<<<< HEAD
                 showTeamDetailForm: false,
                 items: '',
+=======
+                fields: '',
+>>>>>>> dc001d620eb18a8e07fae30315242bdafda22707
                 team:{
                   name: ''
                 }
@@ -130,13 +139,16 @@
                 function cb(res) {
                   if(res.status === 200) {
                     _self.$get('teamList')(_self);
-                    notification.alert('添加');
+                    notification.alert('添加成功');
                   }else {
 
                   }
                 }
                 var options = {
-                    param: this.team,
+                    param: {
+                      name: this.team.name,
+                      creator: currentUser
+                    },
                     cb: cb,
                     url: 'teams'
                 };
@@ -144,19 +156,15 @@
 
                 services.Common.create(options);
             },
-            teamList: function(ctx) {
+            teamList: function() {
 
 
-              services.TeamService.list().then(function(res) {
-                if(res.status === 200) {
-
-                  var data = JSON.parse(res.body);
-                  ctx.items = data.fields;
-                }else {
-
-                }
-              }, function(err){
-
+              services.Common.list({
+                url: 'teams',
+                param: {
+                  creator: currentUser
+                },
+                ctx: this,
               });
             },
             delete: function(id) {
@@ -184,7 +192,7 @@
             }
         },
         ready: function() {
-          this.$get('teamList')(this);
+          this.$get('teamList')();
         },
     }
 </script>
