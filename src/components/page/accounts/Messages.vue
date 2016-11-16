@@ -60,19 +60,6 @@
                 <div slot="header">我的消息</div>
                 <div slot="body">
 
-                  <h3>Third level</h3>
-                  <p>Quisque ante lacus, malesuada ac auctor vitae, congue <a href="#">non ante</a>. Phasellus lacus ex, semper ac tortor nec, fringilla condimentum orci. Fusce eu rutrum tellus.</p>
-                  <ol>
-                      <li>Donec blandit a lorem id convallis.</li>
-                      <li>Cras gravida arcu at diam gravida gravida.</li>
-                      <li>Integer in volutpat libero.</li>
-                      <li>Donec a diam tellus.</li>
-                      <li>Aenean nec tortor orci.</li>
-                      <li>Quisque aliquam cursus urna, non bibendum massa viverra eget.</li>
-                      <li>Vivamus maximus ultricies pulvinar.</li>
-                  </ol>
-                  <blockquote>Ut venenatis, nisl scelerisque sollicitudin fermentum, quam libero hendrerit ipsum, ut blandit est tellus sit amet turpis.</blockquote>
-
                 </div>
                 <div slot="footer">
                     <button class="button is-success"

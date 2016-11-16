@@ -24,7 +24,7 @@
                       <div class="team" >
 
                         <article class="media" v-for="item in items">
-                            <figure class="media-left">
+                            <figure class="media-left" @click="showTeamDetail(item)" style="cursor: pointer;">
                                 <p class="image is-64x64">
                                     <img src="https://dn-daoweb-prod.qbox.me/static/organization_200.png">
                                 </p>
@@ -68,6 +68,26 @@
                 </div>
             </modal>
 
+            <modal :is-html="true" :is-show.sync="showTeamDetailForm">
+                <div slot="header">组织成员</div>
+                <div slot="body">
+                  <article class="media" v-for="item in items">
+                    <figure class="media-left">
+                        <p class="image is-64x64">
+                            <img src="https://dn-daoweb-prod.qbox.me/static/organization_200.png">
+                        </p>
+                    </figure>  
+                    <div class="media-content"></div>
+                    <div class="media-right" style="height:64px;line-height:64px;">
+                        {{item.name}}
+                    </div>                  
+                  </div>
+                  <div slot="footer">
+                      <button class="button is-success" @click="showTeamDetailForm = false">确定</button>
+                  </div>
+                </article>
+            </modal>
+
         </div>
     </div>
 </template>
@@ -84,6 +104,7 @@
         data () {
             return {
                 showTeamAddingForm: false,
+                showTeamDetailForm: false,
                 items: '',
                 team:{
                   name: ''
@@ -156,6 +177,10 @@
                     cb: cb
                 };
                 services.Common.delete(options);
+            },
+            showTeamDetail(item) {
+              this.showTeamDetailForm = true;
+              // alert(item.name);
             }
         },
         ready: function() {

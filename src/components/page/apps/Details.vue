@@ -10,9 +10,6 @@
                 <tab-item title="容器">
                     <container></container>
                 </tab-item>
-                <tab-item title="数据库">
-                    <Database></Database>
-                </tab-item>
                 <tab-item title="域名">
                     <domain></domain>
                 </tab-item>

@@ -1,4 +1,4 @@
-<template>
+<!-- <template>
   <div class="container">
     <label class="label">添加数据库</label>
     <p class="control">
@@ -34,8 +34,8 @@
           <th>数据库名称</th>
           <th>数据库类型</th>
           <th>创建时间</th>
-          <th></th>
-          <th></th>
+          <th>详情</th>
+          <th>删除</th>
         </tr>
       </thead>
       <tbody>
@@ -256,3 +256,4 @@
         }
     }
 </script>
+ -->
