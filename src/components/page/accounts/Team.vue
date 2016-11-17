@@ -105,7 +105,7 @@
             return {
                 showTeamAddingForm: false,
                 showTeamDetailForm: false,
-                items: '',
+                items: [],
                 team:{
                   name: ''
                 }
@@ -155,6 +155,7 @@
                 param: {
                   creator: currentUser
                 },
+                target: items,
                 ctx: this,
               });
             },
