@@ -105,7 +105,7 @@
             return {
                 showTeamAddingForm: false,
                 showTeamDetailForm: false,
-                items: '',
+                items: [],
                 team:{
                   name: ''
                 }
@@ -143,19 +143,17 @@
                     cb: cb,
                     url: 'teams'
                 };
-
-
                 services.Common.create(options);
             },
             teamList: function() {
-
-
+              var self = this;
               services.Common.list({
                 url: 'teams',
                 param: {
                   creator: currentUser
                 },
-                ctx: this,
+                ctx: self,
+                target: 'items'
               });
             },
             delete: function(id) {
