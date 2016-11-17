@@ -196,7 +196,7 @@
                         ((expiredays == null) ? "" : ";expires=" + exdate.toGMTString())
                     }
 
-                    //window.location.href = window.baseUrl;
+                    window.location.href = window.baseUrl;
                   }
                 }
               },function(err){
