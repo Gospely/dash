@@ -81,11 +81,20 @@
                     <div class="media-right" style="height:64px;line-height:64px;">
                         {{item.name}}
                     </div>                  
+                  </article>
+                  <hr class="split">
+                  <div class="control is-grouped is-horizontal">
+                    <div class="control is-grouped">
+                          <input type="text" class="input" placeholder="账号" @keyup.enter="invitateMember">
+                    </div>
+                    <div class="control">
+                      <button class="button is-success" @click="invitateMember">邀请成员</button>
+                    </div>
                   </div>
-                  <div slot="footer">
-                      <button class="button is-success" @click="showTeamDetailForm = false">确定</button>
-                  </div>
-                </article>
+                </div>
+                <div slot="footer">
+                    <button class="button is-success" @click="showTeamDetailForm = false">确定</button>
+                </div>
             </modal>
 
         </div>
@@ -108,7 +117,9 @@
                 items: [],
                 team:{
                   name: ''
-                }
+                },
+
+                showAddTeamMember: false
             }
         },
         components: {
@@ -116,7 +127,9 @@
         },
 
         methods: {
-
+            invitateMember() {
+              alert(2)
+            },
 
             startCreateTeam: function() {
                 this.showTeamAddingForm = true;
@@ -152,13 +165,8 @@
                 param: {
                   creator: currentUser
                 },
-<<<<<<< HEAD
-                target: items,
-                ctx: this,
-=======
                 ctx: self,
                 target: 'items'
->>>>>>> e4c5547dd6748b6e0878bf84773b71dd200ebf7e
               });
             },
             delete: function(id) {
