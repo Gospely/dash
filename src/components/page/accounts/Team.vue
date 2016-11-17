@@ -23,13 +23,9 @@
 
                       <div class="team" >
 
-<<<<<<< HEAD
-                        <article class="media" v-for="item in items">
-                            <figure class="media-left" @click="showTeamDetail(item)" style="cursor: pointer;">
-=======
+
                         <article class="media" v-for="item in fields">
-                            <figure class="media-left">
->>>>>>> dc001d620eb18a8e07fae30315242bdafda22707
+                            <figure class="media-left" @click="showTeamDetail(item)" style="cursor: pointer;">
                                 <p class="image is-64x64">
                                     <img src="https://dn-daoweb-prod.qbox.me/static/organization_200.png">
                                 </p>
