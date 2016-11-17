@@ -4,7 +4,7 @@
         <h2 class="subtitle">您可以在这里创建基于<strong>dodora容器云</strong>，并使用Gospel集成开发环境进行开发的应用</h2>
         <hr>
 
-        
+
 
         <div class="content">
             <!-- <modal :is-html="true" :width="800" :is-show.sync="showImageSelectorForm">
@@ -414,15 +414,16 @@
                             _self.$get("reload")();
                         }
                     },
-                    reload: function() {
 
-                      console.log("reload ");
-                      this.application = null;
-                      this.isCreateApp = false;
-                    }
                 };
                 services.Common.create(options);
                 this.isCreateApp = true;
+            },
+            reload: function() {
+
+              console.log("reload ");
+              this.application = null;
+              this.isCreateApp = false;
             },
 
             confirmPayToCreateApp: function() {

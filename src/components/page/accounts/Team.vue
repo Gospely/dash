@@ -23,13 +23,9 @@
 
                       <div class="team" >
 
-<<<<<<< HEAD
                         <article class="media" v-for="item in items">
                             <figure class="media-left" @click="showTeamDetail(item)" style="cursor: pointer;">
-=======
-                        <article class="media" v-for="item in fields">
-                            <figure class="media-left">
->>>>>>> dc001d620eb18a8e07fae30315242bdafda22707
+
                                 <p class="image is-64x64">
                                     <img src="https://dn-daoweb-prod.qbox.me/static/organization_200.png">
                                 </p>
@@ -81,11 +77,11 @@
                         <p class="image is-64x64">
                             <img src="https://dn-daoweb-prod.qbox.me/static/organization_200.png">
                         </p>
-                    </figure>  
+                    </figure>
                     <div class="media-content"></div>
                     <div class="media-right" style="height:64px;line-height:64px;">
                         {{item.name}}
-                    </div>                  
+                    </div>
                   </div>
                   <div slot="footer">
                       <button class="button is-success" @click="showTeamDetailForm = false">确定</button>
@@ -109,12 +105,9 @@
         data () {
             return {
                 showTeamAddingForm: false,
-<<<<<<< HEAD
                 showTeamDetailForm: false,
                 items: '',
-=======
                 fields: '',
->>>>>>> dc001d620eb18a8e07fae30315242bdafda22707
                 team:{
                   name: ''
                 }

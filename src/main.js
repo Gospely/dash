@@ -1,7 +1,10 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
 import App from './App'
-import {menu} from './config'
+import {
+  menu
+}
+from './config'
 import services from './services/index.js'
 import notification from './lib/notification'
 import filter from './filter/index.js'
@@ -15,39 +18,49 @@ import 'animate.css'
 // 	window.debug = false;
 // }
 
-if(document.domain != 'localhost') {
-    document.domain = 'gospely.com';
+if (document.domain != 'localhost') {
+  document.domain = 'gospely.com';
 }
 
 document.title = 'Gospel控制面板 - Dodora 龙猫云';
 window.notification = notification;
 
-function getCookie(name){
-   var strCookie=document.cookie;
-   console.log(strCookie);
-   var arrCookie=strCookie.split("; ");
-   for(var i=0;i<arrCookie.length;i++){
-         var arr=arrCookie[i].split("=");
-         if(arr[0]==name)return arr[1];
-   }
-   return "";
+window.setCookie = function setCookie(c_name, value, expiredays) {
+  var exdate = new Date()
+  exdate.setDate(exdate.getDate() + expiredays)
+  document.cookie = c_name + "=" + escape(value) +
+    ((expiredays == null) ? "" : ";expires=" + exdate.toGMTString())
 }
 
-window.baseUrl ="http://"+ window.location.host
-//初始化XMLHttpRequest RestfulAPI
+window.getCookie = function getCookie(c_name) {
+  if (document.cookie.length > 0) {
+    c_start = document.cookie.indexOf(c_name + "=")
+    if (c_start != -1) {
+      c_start = c_start + c_name.length + 1
+      c_end = document.cookie.indexOf(";", c_start)
+      if (c_end == -1) c_end = document.cookie.length
+      return unescape(document.cookie.substring(c_start, c_end))
+    }
+  }
+  return ""
+}
+
+window.baseUrl = "http://" + window.location.host
+  //初始化XMLHttpRequest RestfulAPI
 Vue.use(require('vue-resource'));
 Vue.http.options.root = 'http://api.gospely.com/';
 Vue.http.headers['x-gospely'] = 'moha';
 Vue.http.headers.withCredentials = true;
 //localStorage.removeItem('token');
 
-if(localStorage.getItem('token') != '' && localStorage.getItem('token') != undefined) {
-	Vue.http.headers.common['Authorization'] = localStorage.getItem('token');
-}else {
+if (localStorage.getItem('token') != '' && localStorage.getItem('token') !=
+  undefined) {
+  Vue.http.headers.common['Authorization'] = localStorage.getItem('token');
+} else {
   var urls = window.location.href.split('?')
-  if(urls[0] == window.baseUrl + "/" && urls[1] !=''){
+  if (urls[0] == window.baseUrl + "/" && urls[1] != '') {
     console.log(window.location.search);
-    localStorage.setItem("token" , window.location.search.split("%20=%20")[1]);
+    localStorage.setItem("token", window.location.search.split("%20=%20")[1]);
     console.log(window.location.search.split("%20=%20")[1]);
   }
 }
@@ -56,11 +69,11 @@ Vue.use(VueRouter);
 // You can pass in additional options here, but let's
 // keep it simple for now.
 var router = new VueRouter({
-    hashbang: true,
-    history: false,
-    saveScrollPosition: true,
-    transitionOnLoad: true,
-    linkActiveClass: 'active'
+  hashbang: true,
+  history: false,
+  saveScrollPosition: true,
+  transitionOnLoad: true,
+  linkActiveClass: 'active'
 });
 
 window.router = router;
@@ -75,7 +88,7 @@ window.currentUserName = localStorage.getItem("userName");
 router.map(menu);
 
 router.redirect({
-    '*': '/dashboard'
+  '*': '/dashboard'
 });
 
 // Now we can start the app!
@@ -84,30 +97,31 @@ router.redirect({
 router.start(App, 'app');
 
 //路由请求开始时调用
-router.beforeEach(function (route) {
-    document.title = route.to.label + ' | Gospel控制面板 - Dodora 龙猫云';
-    var from = route.from;
+router.beforeEach(function(route) {
+  document.title = route.to.label + ' | Gospel控制面板 - Dodora 龙猫云';
+  var from = route.from;
 
-    if(route.from.name == "appdetail") {
-      clearInterval(window.monitorInterval);
-    }
+  if (route.from.name == "appdetail") {
+    clearInterval(window.monitorInterval);
+  }
 
-    route.next();
+  route.next();
 });
 
 //路由请求结束后调用
-router.afterEach(function () {
+router.afterEach(function() {
 
-  var base = "http://"+ window.location.host
-  var loginUrl =base + "/#!/accounts/login";
+  var base = "http://" + window.location.host
+  var loginUrl = base + "/#!/accounts/login";
   var register = base + '/#!/accounts/register';
-  if(window.location.href == loginUrl || window.location.href == register){
+  if (window.location.href == loginUrl || window.location.href == register) {
 
-  }else{
+  } else {
 
-    if(localStorage.getItem('token') == '' || localStorage.getItem('token') == undefined || localStorage.getItem('token') == 'undefined') {
+    if (localStorage.getItem('token') == '' || localStorage.getItem('token') ==
+      undefined || localStorage.getItem('token') == 'undefined') {
 
-        window.location.href = loginUrl
+      window.location.href = loginUrl
     }
   }
 
@@ -119,14 +133,14 @@ filter.init(Vue);
 new Vue({
   el: 'title',
 
-	data: {
-		title: 'Gospel - 控制台'
-	},
-	ready: function() {
+  data: {
+    title: 'Gospel - 控制台'
+  },
+  ready: function() {
 
     var store = services.init(this);
     window.services = store;
-	}
+  }
 });
 
 window.Vue = Vue;
