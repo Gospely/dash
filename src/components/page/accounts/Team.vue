@@ -143,20 +143,22 @@
                     cb: cb,
                     url: 'teams'
                 };
-
-
                 services.Common.create(options);
             },
             teamList: function() {
-
-
+              var self = this;
               services.Common.list({
                 url: 'teams',
                 param: {
                   creator: currentUser
                 },
+<<<<<<< HEAD
                 target: items,
                 ctx: this,
+=======
+                ctx: self,
+                target: 'items'
+>>>>>>> e4c5547dd6748b6e0878bf84773b71dd200ebf7e
               });
             },
             delete: function(id) {
