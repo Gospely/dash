@@ -78,6 +78,31 @@
                   <div slot="footer">
                       <button class="button is-success" @click="showTeamDetailForm = false">确定</button>
                   </div>
+
+  <!--                 <article class="media" v-for="item in items">
+                    <figure class="media-left">
+                        <p class="image is-64x64">
+                            <img src="https://dn-daoweb-prod.qbox.me/static/organization_200.png">
+                        </p>
+                    </figure>
+                    <div class="media-content"></div>
+                    <div class="media-right" style="height:64px;line-height:64px;">
+                        {{item.name}}
+                    </div>
+                  </article>
+                  <hr class="split">
+                  <div class="control is-grouped is-horizontal">
+                    <div class="control is-grouped">
+                          <input type="text" class="input" placeholder="账号" @keyup.enter="invitateMember">
+                    </div>
+                    <div class="control">
+                      <button class="button is-success" @click="invitateMember">邀请成员</button>
+                    </div>
+                  </div>
+                </div>
+                <div slot="footer">
+                    <button class="button is-success" @click="showTeamDetailForm = false">确定</button>
+                </div> -->
             </modal>
 
         </div>
@@ -97,11 +122,15 @@
             return {
                 showTeamAddingForm: false,
                 showTeamDetailForm: false,
+
+                fields: '',
                 items: [],
                 members:[],
                 team:{
                   name: ''
-                }
+                },
+
+                showAddTeamMember: false
             }
         },
         components: {
@@ -109,7 +138,9 @@
         },
 
         methods: {
-
+            invitateMember() {
+              alert(2)
+            },
 
             startCreateTeam: function() {
                 this.showTeamAddingForm = true;

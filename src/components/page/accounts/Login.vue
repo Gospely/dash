@@ -177,6 +177,8 @@
                     console.log(res.data.fields);
                     localStorage.removeItem('error');
                     localStorage.setItem("user",res.data.fields.id);
+                    setCookie('user',res.data.fields.id,30*60*1000);
+                    setCookie('token',res.data.fields.token,30*60*1000);
                     localStorage.setItem("userName",res.data.fields.name);
                     localStorage.removeItem("isActive");
                     if(res.data.fields.isBlocked === 1) {
@@ -186,6 +188,14 @@
                     localStorage.setItem("ideName",res.data.fields.ideName);
                     localStorage.setItem("token",res.data.fields.token);
                     notification.alert('登录成功');
+
+                    function setCookie(c_name, value, expiredays) {
+                      var exdate = new Date()
+                      exdate.setDate(exdate.getDate() + expiredays)
+                      document.cookie = c_name + "=" + escape(value) +
+                        ((expiredays == null) ? "" : ";expires=" + exdate.toGMTString())
+                    }
+
                     window.location.href = window.baseUrl;
                   }
                 }

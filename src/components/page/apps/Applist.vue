@@ -134,8 +134,13 @@
                         <div slot="body">
                             <label class="label">数据库名称</label>
                             <p class="control">
-                              <input class="input" type="text" placeholder="数据库名称" v-model="edit.database">
+                              <input class="input" type="text" @blur="checkExit" placeholder="数据库名称" v-model="db.name">
                             </p>
+                          </p>
+                          <label class="label">数据库密码</label>
+                          <p class="control">
+                            <input class="input" type="text" placeholder="数据密码" v-model="db.password">
+                          </p>
                             <p class="label">类型</p>
                             <p class="control has-addons" style="height:32px;">
                               <a :class="['button','database-type-opation',{'is-success': index == thisIndex}]" v-for="(index,item) in databaseType" :disabled="isDetailsThisDatabase" @click="selectThisType(item,index)">
@@ -157,31 +162,35 @@
                           <th>数据库名称</th>
                           <th>数据库类型</th>
                           <th>创建时间</th>
+                          <th>说明</th>
                           <th>详情</th>
                           <th>删除</th>
                         </tr>
                       </thead>
                       <tbody>
-                        <tr>
-                          <td>mysql</td>
-                          <td>mysql</td>
+                        <tr v-for="item in fields_db">
+                          <td>{{item.name}}</td>
+                          <td>{{item.type}}</td>
                           <td>
-                          2016-10-10
+                          {{item.createat | dateFormat 'yyyy-MM-dd hh:mm:ss'}}
+                          </td>
+                          <td>
+                          {{item.description}}
                           </td>
                           <td class="is-icon" title="详细信息">
-                            <a @click="DetailsThisDatabase()">
+                            <a @click="DetailsThisDatabase(item)">
                               <i class="fa fa-share"></i>
                             </a>
                           </td>
                           <td class="is-icon" title="删除数据库">
-                            <a @click="removeThisDatabase()">
+                            <a @click="removeThisDatabase(item)">
                               <i class="fa fa-times "></i>
                             </a>
                           </td>
                         </tr>
                       </tbody>
                     </table>
-                    <page :cur.sync="cur_stop" :all.sync="all_stop" v-on:btn-click="listen_stop"></page>
+                    <page :cur.sync="cur_db" :all.sync="all_db" v-on:btn-click="listen_db"></page>
                 </tab-item>
             </tab>
         </div>
@@ -218,18 +227,28 @@
                       label: 'mysql'
                     },
                     {
-                      label: 'postgre'
+                      label: 'postgres'
                     },
                     {
                       label: 'mongodb'
                     }
                 ],
-
+                application: '',
+                db:{
+                  name: '',
+                  type: '',
+                  password: '',
+                  docker: '',
+                  creator: currentUser
+                },
                 isRefresh: false,
                 currentIndex:0,
                 fields: [],
                 fields_stop: [],
                 fields_notpaid: [],
+                fields_db: [],
+                all_db: 8,
+                cur_db: 1,
                 cur: 1,
                 all: 8,
                 cur_stop: 1,
@@ -270,32 +289,49 @@
                 this.databaseInfoFormName = '新增数据库';
                 this.showAddDatabaseForm();
             },
-
+            checkExit: function() {
+              console.log("check");
+              var _self =  this;
+              services.Common.count({
+                url: 'dbs',
+                param: {
+                  name: this.db.name,
+                  creator: currentUser
+                },
+                cb:function(res) {
+                  var data = res.data;
+                  if(data.code == 1 ){
+                    console.log(data);
+                    var count = parseInt(data.fields )
+                    if(count > 0){
+                      console.log(count);
+                        _self.db.name = '';
+                        notification.alert('该数据库名已存在','danger');
+                    }
+                  }
+                }
+              });
+            },
             confirmAddDatabase: function() {
 
-                // var _self = this;
-                // if(this.isDetailsThisDatabase){
-                //     services.Common.update({
-                //       param: _self.edit,
-                //       url: 'domains',
-                //       ctx: _self,
-                //       reload: _self.$get("initDomains")()
-                //     });
-                // }else{
-                //   services.Common.save({
-                //     url: 'domians/bind',
-                //     domain: edit.domain,
-                //     creator: currentUser,
-                //     application: _self.application,
-                //     ctx: _self,
-                //     reload: _self.$get("initDomains")()
-                //   });
-                // }
-                // this.hideAddDomainForm();
+                if(this.db.type == ''){
+                  this.db.type= 'mysql';
+                }
+                var _self = this;
+                services.Common.create({
+                  url: 'dbs',
+                  param: this.db,
+                  ctx: this,
+                  reload: function(cur){
+                    _self.$get('initDb')(cur);
+                  }
+                });
+                this.showDatabaseAddingForm = false;
             },
 
             selectThisType(item,index){
               this.thisIndex = index;
+              this.db.type =  item.label;
             },
 
             DetailsThisDatabase: function(item) {
@@ -325,15 +361,17 @@
                             console.log(item);
 
 
-                            // services.Common.delete({
+                            services.Common.delete({
 
-                            //     param:{
-                            //         id: item.id,
-                            //     },
-                            //     url: 'domains',
-                            //     ctx: _self,
-                            //     reload: _self.$get("initDomains")(),
-                            // });
+                                param:{
+                                    id: item.id,
+                                },
+                                url: 'dbs',
+                                ctx: _self,
+                                reload: function(cur) {
+                                  _self.$get("initDb")(cur);
+                                }
+                            });
                             this.$destroy(true);
 
                         }
@@ -354,6 +392,10 @@
             listen_unBind: function(data) {
               console.log('你点击了'+data+ '页');
               this.$get('initUnBind')(data);
+            },
+            listen_db: function(data) {
+              console.log('你点击了'+data+ '页');
+              this.$get('initDb')(data);
             },
 
             stopThisAPP: function() {
@@ -461,6 +503,23 @@
 
                 services.Common.list(options);
             },
+            initDb: function(cur) {
+
+                var _self = this;
+                var options = {
+
+                  url: "dbs",
+                  param: {
+                    limit: 10,
+                    cur: cur,
+                    creator: currentUser
+                  },
+                  target: 'fields_db',
+                  all: 'all_db',
+                  ctx: _self
+                }
+                services.Common.list(options);
+            },
 
             payForApp: function(item) {
 
@@ -503,6 +562,8 @@
             this.$get("init")(1);
             this.$get("initStop")(1);
             this.$get("initNotpaid")(1);
+            this.$get("initDb")(1);
+            this.$set("application", this.$route.query.containerId);
         },
         events:{
           'selected':function (index) {

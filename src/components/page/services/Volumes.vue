@@ -162,7 +162,7 @@
       },
       data () {
           return {
-            data: [300, 200],
+            data: [300, 300],
 
             isRefresh: false,
             fields: [],
