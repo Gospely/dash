@@ -71,21 +71,13 @@
             <modal :is-html="true" :is-show.sync="showTeamDetailForm">
                 <div slot="header">组织成员</div>
                 <div slot="body">
-                  <article class="media" v-for="item in items">
-                    <figure class="media-left">
-                        <p class="image is-64x64">
-                            <img src="https://dn-daoweb-prod.qbox.me/static/organization_200.png">
-                        </p>
-                    </figure>  
-                    <div class="media-content"></div>
-                    <div class="media-right" style="height:64px;line-height:64px;">
-                        {{item.name}}
+                    <div v-for="item in members">
+                        {{item.members}}
                     </div>                  
                   </div>
                   <div slot="footer">
                       <button class="button is-success" @click="showTeamDetailForm = false">确定</button>
                   </div>
-                </article>
             </modal>
 
         </div>
@@ -106,6 +98,7 @@
                 showTeamAddingForm: false,
                 showTeamDetailForm: false,
                 items: [],
+                members:[],
                 team:{
                   name: ''
                 }
@@ -152,13 +145,8 @@
                 param: {
                   creator: currentUser
                 },
-<<<<<<< HEAD
-                target: items,
-                ctx: this,
-=======
                 ctx: self,
                 target: 'items'
->>>>>>> e4c5547dd6748b6e0878bf84773b71dd200ebf7e
               });
             },
             delete: function(id) {
@@ -180,7 +168,20 @@
                 };
                 services.Common.delete(options);
             },
+            getMembers:function(name){
+              var self = this;
+              services.Common.list({
+                url: 'teams',
+                param: {
+                  creator: currentUser,
+                  name:name
+                },
+                ctx: self,
+                target: 'members',
+              });
+            },
             showTeamDetail(item) {
+              this.getMembers(item.name);
               this.showTeamDetailForm = true;
               // alert(item.name);
             }
