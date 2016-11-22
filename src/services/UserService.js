@@ -28,8 +28,19 @@ module.exports = {
 			},
 			getCode: function(user) {
 				return _this.$http.get(baseUrl + 'users/code');
+			},
+			sendEmailCode:function(user){
+				return _this.$http.get(baseUrl+'users/email/code'+'?email='+user.email);
+			},
+			confirmVerifyEmail:function(user){
+				return _this.$http.post(baseUrl+'users/verifyemailcode',user);
+			},
+			sendPhoneCode:function(user){
+				return _this.$http.get(baseUrl+'users/phone/code'+'?phone='+user.phone);
+			},
+			confirmVerifyPhone:function(user){
+				return _this.$http.post(baseUrl+'users/verifyphonecode',user);
 			}
-
 		}
 
 	}

@@ -46,7 +46,7 @@
                 </p>
                 <a @click="startChangeMobile" v-show="!changeMobileState" class="button-right button is-primary"><i class="fa fa-pencil"></i></a>
                 <a v-show="changeMobileState" @click="cancelChangeMobile" class="button button-right is-primary"><i class="fa fa-close"></i></a>
-                <a v-show="changeMobileState" @click="" title="发送验证码" class="button button-right-two is-primary"><i class="fa fa-arrow-right"></i></a>
+                <a v-show="changeMobileState" @click="sendPhoneCode" title="发送验证码" class="button button-right-two is-primary" v-bind:class="{ 'is-disabled': stop}"><i class="fa fa-arrow-right">{{timevalue}}</i></a>
               </div>
             </div>
 
@@ -56,10 +56,10 @@
               </div>
               <div class="control">
                 <p class="control input-left has-icon has-icon-right">
-                    <input class="input" type="text" placeholder="请输入短信验证码">
+                    <input class="input" type="text" v-model="phoneCode" placeholder="请输入短信验证码">
                     <i class="fa fa-check"></i>
                 </p>
-                <a class="button button-right is-primary"><i class="fa fa-check"></i></a>
+                <a class="button button-right is-primary" @click="confirmVerifyPhone"><i class="fa fa-check"></i></a>
               </div>
             </div>
 
@@ -77,7 +77,7 @@
                 </p>
                 <a v-show="!isVerifingEmail" @click="verifyEmail" class="button button-right is-primary" ><i class="fa fa-pencil"></i></a>
                 <a v-show="isVerifingEmail" @click="cancelVerifyEmail" class="button button-right is-primary"><i class="fa fa-close"></i></a>
-                <a v-show="isVerifingEmail" @click="" title="发送验证码" class="button button-right-two  is-primary"><i class="fa fa-arrow-right"></i></a>
+                <a v-show="isVerifingEmail" @click="sendEmailCode" title="发送验证码" class="button button-right-two  is-primary"><i class="fa fa-arrow-right"></i></a>
               </div>
             </div>
 
@@ -88,7 +88,7 @@
               <div class="control">
 
                 <p class="control input-left has-icon has-icon-right">
-                    <input class="input" type="email" placeholder="请输入接收到的验证码">
+                    <input class="input" type="email" v-model="emailCode" placeholder="请输入接收到的验证码">
                     <i class="fa fa-lock"></i>
                 </p>
 
@@ -215,16 +215,22 @@
             //
             // });
             return {
-                  changePwState: false,
-                  isVerifingEmail: false,
-                  changeMobileState: false,
-                  pictureFile: null,
-                  photo: '',
-                  name: '',
-                  phone: '',
-                  email: '',
-                  rePwd: '',
-                  password: ''
+	              changePwState: false,
+	              isVerifingEmail: false,
+	              changeMobileState: false,
+	              pictureFile: null,
+	              photo: '',
+	              name: '',
+	              phone: '',
+	              email: '',
+	              rePwd: '',
+	              password: '',
+	              emailCode:'',
+	              phoneCode:'',
+	              timevalue:"发送验证码",
+		       timer:60,
+			stop:false,
+			token:''
               }
         },
         components: {
@@ -233,33 +239,103 @@
         },
 
         methods: {
-
-            startChangePw: function() {
+        	btnChange:function () {
+  			var self = this;
+  			if(this.timer==0){
+  				this.stop=false;
+				this.timevalue="重新发送";
+				this.timer=60;
+  			}else{
+  				this.stop=true;
+  				this.timevalue="重新发送("+this.timer+")";
+  				this.timer--;
+  				setTimeout(function() { 
+					self.btnChange();
+				},1000) 
+  			}
+  		},
+        	sendPhoneCode:function(){
+        		var user = {
+        			phone:this.phone
+        		}
+        		services.UserService.sendPhoneCode(user).then(function(res){
+      				if(res.status === 200){
+		                    notification.alert('发送验证码成功');
+		              }
+          		},function(err){
+          			console.log(err);
+      				notification.alert('服务器异常');
+          		});
+        		this.btnChange();
+        	},
+        	confirmVerifyPhone:function(){
+      			var user={
+            			id:currentUser,
+            			token:this.token,
+            			authCode:this.emailCode,
+            			phone:this.email
+            		}
+            		services.UserService.confirmVerifyPhone(user).then(function(res){
+            			if(res.status === 200){
+            				self.token = res.data.fields;
+		                    notification.alert('手机验证成功');
+		              }
+            		},function(err){
+            			console.log(err);
+      				notification.alert('服务器异常');
+            		});
+        	},
+              startChangePw: function() {
                 this.changePwState = !this.changePwState;
-            },
-
-            verifyEmail: function() {
+              },
+              verifyEmail: function() {
                 this.isVerifingEmail = true;
-            },
+              },
 
-            cancelVerifyEmail: function() {
+              cancelVerifyEmail: function() {
                 this.isVerifingEmail = false;
-            },
+              },
+          	sendEmailCode:function(){
+          		var user={
+          			email:this.email
+          		}
+          		var self = this;
+          		services.UserService.sendEmailCode(user).then(function(res){
+      				if(res.status === 200){
+      					self.token = res.data.fields;
+		                    notification.alert('发送验证码成功');
+		              }
+          		},function(err){
+          			console.log(err);
+      				notification.alert('服务器异常');
+          		});
+          	},
+              confirmVerifyEmail: function() {
+            		var user={
+            			id:currentUser,
+            			token:this.token,
+            			authCode:this.emailCode,
+            			phone:this.email
+            		}
+            		services.UserService.confirmVerifyEmail(user).then(function(res){
+            			if(res.status === 200){
+		                    notification.alert('邮箱验证成功');
+		              }
+            		},function(err){
+            			console.log(err);
+      				notification.alert('服务器异常');
+            		});
+              },
 
-            confirmVerifyEmail: function() {
-
-
-            },
-
-            startChangeMobile: function() {
+              startChangeMobile: function() {
                 this.changeMobileState = true;
-            },
+              },
 
-            cancelChangeMobile: function() {
+              cancelChangeMobile: function() {
                 this.changeMobileState = false;
-            },
+              },
 
-            confirmUpdatePwd: function(){
+              confirmUpdatePwd: function(){
 
                 var user = {
                   id: currentUser,
@@ -274,7 +350,7 @@
                     notification.alert('服务器异常');
                 }
                 );
-            },
+              },
             fileSelectedHandler: function(fileInput, event) {
                 var self = this;
                 var files = fileInput.files;
