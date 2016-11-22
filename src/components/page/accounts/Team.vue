@@ -71,7 +71,15 @@
             <modal :is-html="true" :is-show.sync="showTeamDetailForm">
                 <div slot="header">组织成员</div>
                 <div slot="body">
-                  <article class="media" v-for="item in items">
+                    <div v-for="item in members">
+                        {{item.members}}
+                    </div>                  
+                  </div>
+                  <div slot="footer">
+                      <button class="button is-success" @click="showTeamDetailForm = false">确定</button>
+                  </div>
+
+  <!--                 <article class="media" v-for="item in items">
                     <figure class="media-left">
                         <p class="image is-64x64">
                             <img src="https://dn-daoweb-prod.qbox.me/static/organization_200.png">
@@ -94,7 +102,7 @@
                 </div>
                 <div slot="footer">
                     <button class="button is-success" @click="showTeamDetailForm = false">确定</button>
-                </div>
+                </div> -->
             </modal>
 
         </div>
@@ -117,6 +125,7 @@
 
                 fields: '',
                 items: [],
+                members:[],
                 team:{
                   name: ''
                 },
@@ -190,7 +199,20 @@
                 };
                 services.Common.delete(options);
             },
+            getMembers:function(name){
+              var self = this;
+              services.Common.list({
+                url: 'teams',
+                param: {
+                  creator: currentUser,
+                  name:name
+                },
+                ctx: self,
+                target: 'members',
+              });
+            },
             showTeamDetail(item) {
+              this.getMembers(item.name);
               this.showTeamDetailForm = true;
               // alert(item.name);
             }
