@@ -1,7 +1,7 @@
 <template>
 
 <div>
-	<a v-for="(key, val) in cyc" style="margin-right: 4px;" @click="selectCycBykey(key)" class="button" v-bind:class="{'is-primary': currentCyc == key}">{{val.label}}</a>
+	<a v-for="(key, val) in cyc" style="margin-right: 4px;" v-show='showCyc' @click="selectCycBykey(key)" class="button" v-bind:class="{'is-primary': currentCyc == key}">{{val.label}}</a>
     <input v-model="otherTime" v-show="isOther == true" class="input" @blur="customSet(cyc.length -1)" type="text" @keydown.enter="selectThisCustomCyc(cyc.length -1)" style="width: 40px;height: 32px;box-shadow: none;" /><span style="line-height: 2.3;margin-left: 4px;" v-show="isOther == true" class="is-tip">/月</span>
     <p style="text-align:right;margin-top:20px" v-show="showTips">
 				<span class="is-tip">共计：{{price}} 元</span>
@@ -57,6 +57,12 @@
         	},
 
         	showTips: {
+        		type: Boolean,
+        		default () {
+        			return true;
+        		}
+        	},
+					showCyc: {
         		type: Boolean,
         		default () {
         			return true;
@@ -118,14 +124,17 @@
 				events: {
 		    'cyc-broadcast': function (month) {
 
-					this.otherTime = month;
-					this.isOther = true;
-					console.log("broadcast");
-					this.$dispatch('cycSelected', {
-						cyc: this.otherTime,
-						unit: '月'
-					});
-
+					console.log(month);
+					if(parseInt(month) > 12 ){
+						this.otherTime = month;
+						console.log(this.showCyc);
+						this.isOther = true;
+						console.log("broadcast");
+						this.$dispatch('cycSelected', {
+							cyc: this.otherTime,
+							unit: '月'
+						});
+					}
     		}
   },
     }

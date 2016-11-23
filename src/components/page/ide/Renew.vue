@@ -84,7 +84,7 @@
                         <hr class="split">
 
                         <p class="control">
-                          <cyc :show-tips="false" ></cyc>
+                          <cyc :show-tips="false" :showCyc.sync='showCyc'></cyc>
                         </p>
                         <div class="media-content">
                           <div class="content">
@@ -287,7 +287,8 @@
                 balancePeriod: '',
                 balanceTime: '',
                 isChange: false, //是否选择与当前版本一样的版本
-                oldVersion: '', //ide原版本
+                oldVersion: '', //ide原版本,
+                showCyc: true,
                 volume: {
                   size: 20
                 },
@@ -355,7 +356,7 @@
                   //计算差额
                   var month = daysBetween(dataFormat(new Date(),'yyyy-MM-dd hh:mm:ss'), dataFormat(new Date(_self.expireAt),'yyyy-MM-dd hh:mm:ss'));
 
-                  _self.$broadcast('cyc-broadcast',Math.round(month));
+
                   services.Common.getOne({
                     param: {
                       id: _self.oldVersion
@@ -370,6 +371,20 @@
                         _self.balance = month * data.fields.price,
                         _self.balanceTime = month + '月 X ' + data.fields.price
 
+                        var time = Math.ceil(_self.balance/item.price);
+
+                        if(time>12) {
+                          _self.showCyc = false;
+                          _self.$broadcast('cyc-broadcast',time);
+
+                        }else{
+                          _self.showCyc = true;
+                          _self.$emit('cycSelected',{
+                            cyc: time,
+                            unit: '月',
+                          });
+                        }
+
 
                       }
                     }
@@ -378,6 +393,7 @@
               }else {
                 this.isChange = false;
                 this.balance = 0;
+                this.showCyc = true;
               }
               this.goBuy = true;
               console.log(item, this.fields[key]);
@@ -392,10 +408,10 @@
               this.unitPrice = item.price;
               this.price = item.price * 1;
               this.ide_choose = item.name;
-              this.$emit('cycSelected',{
-                cyc: 1,
-                unit: '月',
-              });
+              // this.$emit('cycSelected',{
+              //   cyc: 1,
+              //   unit: '月',
+              // });
 
               function daysBetween(DateOne,DateTwo){
                 console.log(DateOne);
@@ -667,7 +683,13 @@
              this.time_show = dataFormat(d,"yyyy-MM-dd hh:mm:ss");
              console.log('时间是' + this.time_show);
              this.total = cyc.cyc * this.unitPrice - this.balance;
-             this.price = this.unitPrice + " X " + cyc.cyc + " " + cyc.unit + " = " + this.total;
+
+             if(this.balance == 0) {
+               this.price = this.unitPrice + " X " + cyc.cyc + " " + cyc.unit + " = " + this.total;
+             }else{
+               this.price = this.unitPrice + " X " + cyc.cyc + " " + cyc.unit + " - " + this.balance + " = " + this.total;
+             }
+
              console.log(cyc);
              this.genQrcode();
              function dataFormat(date,fmt){ //author: meizz
