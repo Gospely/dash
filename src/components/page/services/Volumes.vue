@@ -153,7 +153,7 @@
           console.log(used);
           _self.data.$set(0,used.toFixed(2));
           _self.data.$set(1,rest.toFixed(2));
-        }, 3000)
+        }, 2000)
       },
       beforeDestroy () {
           if (this.timer) {
