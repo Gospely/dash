@@ -33,6 +33,7 @@
                     <div v-show="setMeal.currentStep == 2" class="step2">
 
                         <span class="help is-tip">到期时间：{{time_show}}</span>
+                        <span class="help is-tip" v-show="isChange">差额补价：{{balanceTime}} = {{balance}} 元</span>
 
                         <!-- <hr class="split"> -->
 
@@ -83,7 +84,7 @@
                         <hr class="split">
 
                         <p class="control">
-                          <cyc :show-tips="false"></cyc>
+                          <cyc :show-tips="false" ></cyc>
                         </p>
                         <div class="media-content">
                           <div class="content">
@@ -248,6 +249,24 @@
     import uuid from 'node-uuid'
     import _md5 from 'md5'
 
+    function dataFormat(date,fmt){ //author: meizz
+       var o = {
+         "M+" : date.getMonth()+1,                 //月份
+         "d+" : date.getDate(),                    //日
+         "h+" : date.getHours(),                   //小时
+         "m+" : date.getMinutes(),                 //分
+         "s+" : date.getSeconds(),                 //秒
+         "q+" : Math.floor((date.getMonth()+3)/3), //季度
+         "S"  : date.getMilliseconds()             //毫秒
+       };
+       if(/(y+)/.test(fmt))
+         fmt=fmt.replace(RegExp.$1, (date.getFullYear()+"").substr(4 - RegExp.$1.length));
+       for(var k in o)
+         if(new RegExp("("+ k +")").test(fmt))
+       fmt = fmt.replace(RegExp.$1, (RegExp.$1.length==1) ? (o[k]) : (("00"+ o[k]).substr((""+ o[k]).length)));
+       return fmt;
+   }
+
     export default{
         data () {
             return {
@@ -264,6 +283,11 @@
                 size: 1,
                 orderNo: '',
                 products: '',
+                balance: 0,
+                balancePeriod: '',
+                balanceTime: '',
+                isChange: false, //是否选择与当前版本一样的版本
+                oldVersion: '', //ide原版本
                 volume: {
                   size: 20
                 },
@@ -321,6 +345,40 @@
             },
             chooseIde: function(item, key) {
 
+              console.log(this.ide.name);
+              console.log(item.name);
+              if(this.ide.name != item.name){
+                console.log("change");
+                this.isChange = true;
+                var _self = this;
+                if(_self.isChange){
+                  //计算差额
+                  var month = daysBetween(dataFormat(new Date(),'yyyy-MM-dd hh:mm:ss'), dataFormat(new Date(_self.expireAt),'yyyy-MM-dd hh:mm:ss'));
+
+                  _self.$broadcast('cyc-broadcast',Math.round(month));
+                  services.Common.getOne({
+                    param: {
+                      id: _self.oldVersion
+                    },
+                    url: "products",
+                    cb: function(res) {
+                      var data = res.data;
+
+                      if(data.code == 1) {
+
+
+                        _self.balance = month * data.fields.price,
+                        _self.balanceTime = month + '月 X ' + data.fields.price
+
+
+                      }
+                    }
+                  });
+                }
+              }else {
+                this.isChange = false;
+                this.balance = 0;
+              }
               this.goBuy = true;
               console.log(item, this.fields[key]);
 
@@ -336,21 +394,35 @@
               this.ide_choose = item.name;
               this.$emit('cycSelected',{
                 cyc: 1,
-                unit: '月'
+                unit: '月',
               });
-            },
-            initIdes: function() {
 
-                var _self = this;
-                services.Common.list({
-                    param: {
-                      type: 'ide'
-                    },
-                    url: "products",
-                    ctx: _self
-                });
-            },
+              function daysBetween(DateOne,DateTwo){
+                console.log(DateOne);
+                console.log(DateTwo);
+                _self.balancePeriod= DateOne + '--' + DateTwo;
+                 var OneMonth = DateOne.substring(5,DateOne.lastIndexOf ('-'));
 
+                 //计算两个时间相差几天时用的语句
+                 //var OneDay = DateOne.substring(DateOne.length,DateOne.lastIndexOf ('-')+1);
+                 var OneDay = DateOne.substring(DateOne.lastIndexOf('-') + 1, DateOne.indexOf(' '));
+                 var OneYear = DateOne.substring(0, DateOne.indexOf('-'));
+                 var OneHouse = DateOne.substring(DateOne.indexOf(' ') + 1, DateOne.indexOf(':'));
+
+                 var TwoMonth = DateTwo.substring(5,DateTwo.lastIndexOf ('-'));
+                 var TwoDay = DateTwo.substring(DateTwo.lastIndexOf('-') + 1, DateTwo.indexOf(' '));
+                 var TwoYear = DateTwo.substring(0, DateTwo.indexOf('-'));
+                 var TwoHouse = DateTwo.substring(DateTwo.indexOf(' ') + 1, DateTwo.indexOf(':'));
+
+                 //计算两个时间相差几个小时
+                 //var cha = ((Date.parse(OneMonth + '/' + OneDay + '/' + OneYear) - Date.parse(TwoMonth + '/' + TwoDay + '/' + TwoYear)) / 86400000 * 24 + (OneHouse - TwoHouse));
+
+                 //计算两个时间相差几天
+                 var cha = (Date.parse(OneMonth + '/' + OneDay + '/' + OneYear) - Date.parse(TwoMonth + '/' + TwoDay + '/' + TwoYear))/ (1000*60*60*24*30);
+                 console.log(cha);
+                 return Math.abs(cha);
+               }
+            },
             useWeixin: function() {
 
             },
@@ -406,9 +478,12 @@
                       timeSize: this.size,
                       timeUnit: "月",
                       products: this.products,
-                      price: this.size * this.unitPrice,
+                      price: this.size * this.unitPrice - this.balance,
                       unitPrice: this.unitPrice,
-                      type: 'ide'
+                      type: 'ide',
+                      balance: this.balance,
+                      balancePeriod: this.balancePeriod,
+                      balanceTime: this.balanceTime,
                     },
                     cb: function(res) {
                       if(res.data.code == 1) {
@@ -526,23 +601,7 @@
 
                 var ide = localStorage.getItem('ide');
 
-                function dataFormat(date,fmt){ //author: meizz
-                   var o = {
-                     "M+" : date.getMonth()+1,                 //月份
-                     "d+" : date.getDate(),                    //日
-                     "h+" : date.getHours(),                   //小时
-                     "m+" : date.getMinutes(),                 //分
-                     "s+" : date.getSeconds(),                 //秒
-                     "q+" : Math.floor((date.getMonth()+3)/3), //季度
-                     "S"  : date.getMilliseconds()             //毫秒
-                   };
-                   if(/(y+)/.test(fmt))
-                     fmt=fmt.replace(RegExp.$1, (date.getFullYear()+"").substr(4 - RegExp.$1.length));
-                   for(var k in o)
-                     if(new RegExp("("+ k +")").test(fmt))
-                   fmt = fmt.replace(RegExp.$1, (RegExp.$1.length==1) ? (o[k]) : (("00"+ o[k]).substr((""+ o[k]).length)));
-                   return fmt;
-               }
+
 
                 services.Common.getOne({
                    param: {
@@ -563,7 +622,11 @@
                              }else{
                                _self.time_show = '到期时间： ' + dataFormat(d,"yyyy-MM-dd hh:mm:ss");
                                _self.expireAt = data.fields.expireAt;
+                               _self.oldVersion = data.fields.product;
+
+
                              }
+
 
                          }
                      }
@@ -586,7 +649,7 @@
        events: {
          'cycSelected': function(cyc) {
 
-             this.size = cyc.cyc;
+            this.size = cyc.cyc;
             var d = "";
              if(this.expireAt == null || this.expireAt == '') {
                   d = new Date();
@@ -603,7 +666,7 @@
 
              this.time_show = dataFormat(d,"yyyy-MM-dd hh:mm:ss");
              console.log('时间是' + this.time_show);
-             this.total = cyc.cyc * this.unitPrice;
+             this.total = cyc.cyc * this.unitPrice - this.balance;
              this.price = this.unitPrice + " X " + cyc.cyc + " " + cyc.unit + " = " + this.total;
              console.log(cyc);
              this.genQrcode();

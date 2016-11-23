@@ -114,7 +114,20 @@
 							});
 						}
 
-        }
+        },
+				events: {
+		    'cyc-broadcast': function (month) {
+
+					this.otherTime = month;
+					this.isOther = true;
+					console.log("broadcast");
+					this.$dispatch('cycSelected', {
+						cyc: this.otherTime,
+						unit: '月'
+					});
+
+    		}
+  },
     }
 
 </script>
