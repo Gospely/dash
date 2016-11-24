@@ -355,7 +355,7 @@
                 if(_self.isChange){
                   //计算差额
                   var month = daysBetween(dataFormat(new Date(),'yyyy-MM-dd hh:mm:ss'), dataFormat(new Date(_self.expireAt),'yyyy-MM-dd hh:mm:ss'));
-
+                  month = month.toFixed(2);
 
                   services.Common.getOne({
                     param: {
@@ -687,7 +687,7 @@
              if(this.balance == 0) {
                this.price = this.unitPrice + " X " + cyc.cyc + " " + cyc.unit + " = " + this.total;
              }else{
-               this.price = this.unitPrice + " X " + cyc.cyc + " " + cyc.unit + " - " + this.balance + " = " + this.total;
+               this.price = this.unitPrice + " X " + cyc.cyc + " " + cyc.unit + " - " + this.balance + " = " + this.total.toFixed(2);
              }
 
              console.log(cyc);
