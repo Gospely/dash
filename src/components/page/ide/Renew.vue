@@ -83,9 +83,13 @@
 
                         <hr class="split">
 
-                        <p class="control">
-                          <cyc :show-tips="false" :showCyc.sync='showCyc'></cyc>
-                        </p>
+                        <div class="control" style="position: relative;">
+                          <cyc :show-tips="false" :other-time="size" :show-cyc.sync='showCyc'></cyc>
+                          <div class="control" style="position: absolute;top: 0;left:390px;">
+                            <button class="button is-primary" @click="minusMonth"><i class="fa fa-minus"></i></button>
+                            <button class="button is-primary" @click="addMonth"><i class="fa fa-plus"></i></button>
+                          </div>
+                        </div>
                         <div class="media-content">
                           <div class="content">
                             <div class="media-right" style="text-align:right">
@@ -439,6 +443,16 @@
                  return Math.abs(cha);
                }
             },
+
+            addMonth() {
+              console.log(this.size)
+              this.size ++;
+            },
+
+            minusMonth() {
+              this.size --;
+            },
+
             useWeixin: function() {
 
             },
