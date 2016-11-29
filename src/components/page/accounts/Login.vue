@@ -179,7 +179,9 @@
                     localStorage.setItem("user",res.data.fields.id);
                     setCookie('user',res.data.fields.id,30*60*1000);
                     setCookie('token',res.data.fields.token,30*60*1000);
+                    setCookie('userName',res.data.fields.name,30*60*1000);
                     localStorage.setItem("userName",res.data.fields.name);
+
                     localStorage.removeItem("isActive");
                     if(res.data.fields.isBlocked === 1) {
                       localStorage.setItem("isActive",true);
