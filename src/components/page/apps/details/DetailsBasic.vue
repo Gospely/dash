@@ -167,7 +167,7 @@
           },
 
           openInIde: function(){
-            window.open("http://localhost:8080/#!/archive/" + this.appId);
+            window.open("http://localhost:8989/#/project/" + this.appId);
           },
 
           inspect: function() {
