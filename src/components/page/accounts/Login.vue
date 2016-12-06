@@ -149,12 +149,25 @@
             login: function() {
 
               var _self = this;
-              var user = {
-                  phone: this.phone,
-                  password: this.password,
-                  code: this.code,
-                  code_token: this.token
-              }
+              //判断是否是邮箱
+              var reg = /^\w+((-\w+)|(\.\w+))*\@[A-Za-z0-9]+((\.|-)[A-Za-z0-9]+)*\.[A-Za-z0-9]+$/;
+    		 var isok = reg.test(this.phone);
+    		 var user = {};
+    		 if(isok){
+    		 	user = {
+				email: this.phone,
+				password: this.password,
+				code: this.code,
+				code_token: this.token
+    		 	}
+    		 }else{
+    		 	user = {
+				phone: this.phone,
+				password: this.password,
+				code: this.code,
+				code_token: this.token
+	              }
+    		 }
 
               services.UserService.login(user).then(function(res) {
 
