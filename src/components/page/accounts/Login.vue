@@ -139,6 +139,17 @@
         },
 
         methods: {
+
+        	getRequest:function(){
+			var url = window.location.href; 
+			if (url.indexOf("?") != -1) {    //判断?后面是否有参数
+				var str = url.split("?")[1]; 
+				var strNum = str.split("=");  
+				return strNum[1];
+			}else{
+				return null;
+			}
+        	},
             sendCode: function() {
 
             },
@@ -147,7 +158,8 @@
 
             },
             login: function() {
-
+            	var where = this.getRequest();
+            	console.log(where);
               var _self = this;
               //判断是否是邮箱
               var reg = /^\w+((-\w+)|(\.\w+))*\@[A-Za-z0-9]+((\.|-)[A-Za-z0-9]+)*\.[A-Za-z0-9]+$/;
@@ -210,8 +222,12 @@
                       document.cookie = c_name + "=" + escape(value) +
                         ((expiredays == null) ? "" : ";expires=" + exdate.toGMTString())
                     }
-
-                    window.location.href = window.baseUrl;
+                    if(where=="fromIde"){
+                    	window.location.href = "http://localhost:8989/";
+                    }else{
+                    	window.location.href = window.baseUrl;
+                    }
+                    
                   }
                 }
               },function(err){
