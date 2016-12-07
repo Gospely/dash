@@ -402,6 +402,12 @@
                                     notification.alert('您当前创建的是付费应用，创建完成后不会启动，请到[我的应用 - 未支付]处完成支付操作', 'warning');
                                     _self.$router.replace('/apps/list/');
                                 }else {
+                                    var message = {
+                                      key: 'finishAppCreate',
+                                      application: 'data.fields.id'
+                                    }
+                                    console.log(window.parent);
+                                    window.parent.postMessage(message,'*');
                                     _self.$router.replace('/apps/detail/?containerId=' + data.fields.id);
                                 }
                             }else{
