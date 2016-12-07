@@ -82,7 +82,7 @@
                 rePwd:'',
                 authCode:'',
                 token: '',
-                isPhone: false,
+                isPhone: true,
                 btn_info: "获取验证码",
                 btn_disabled: false,
                 wait: 60,
