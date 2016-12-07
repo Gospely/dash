@@ -18,7 +18,7 @@
                     <div class="input-field">
                       <input type="password" v-model="rePwd" placeholder="重复密码" autocapitalize="off" style="border: none;"></div>
                     <div class="input-field">
-                      <input type="text" v-model="authCode" placeholder="验证码" autocapitalize="off" style="border: none;" v-show="isPhone" ></div>
+                      <input type="text" v-model="authCode" placeholder="验证码" autocapitalize="off" style="border: none;" ></div>
                   </div>
                   <a class="button" @click="getTelCode" v-show="isPhone" :disabled="btn_disabled" style="position: absolute; margin-top: -42px; height: 41px; right: 30px; border: 1px solid #dfebf2;">{{btn_info}}</a>
                   <ul class="error-msg-list"></ul>
