@@ -6,7 +6,7 @@
             <div class="signup-form__logo"></div>
             <div class="signup-form__catchphrase">快速开始您的创作过程</div></div>
           <div id="container-login">
-            <div data-reactroot="" id="LoginComponent">
+            <div data-reactroot="" id="LoginComponent" @keydown="keyDownLogin">
               <span>
                   <div class="input-field-group">
                     <div class="input-field">
@@ -124,6 +124,13 @@
             }
             );
           },
+          keyDownLogin:function(){
+              if (event.keyCode == 13)
+                {
+                  console.log("按下了enter键");
+                    this.register();
+                }
+            },
           getTelCode: function(){
 
               if(this.isPhone){

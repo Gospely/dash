@@ -8,11 +8,11 @@
             <div class="signup-form__logo"></div>
             <div class="signup-form__catchphrase">快速开始您的创作过程</div></div>
           <div id="container-login">
-            <div data-reactroot="" id="LoginComponent">
+            <div data-reactroot="" id="LoginComponent" @keydown="keyDownLogin">
               <span>
                   <div class="input-field-group">
                     <div class="input-field">
-                      <input type="text" v-model='phone' placeholder="邮箱/手机号码" autocapitalize="off" style="border: none;"></div>
+                      <input type="text" v-model='phone' placeholder="邮箱/手机号码" autocapitalize="off" style="border: none;" ></div>
                     <div class="input-field">
                       <input type="password" v-model='password' placeholder="请输入密码" autocapitalize="off" style="border: none;"></div>
                       <div class="input-field">
@@ -23,7 +23,7 @@
                     </div>
 
                   <ul class="error-msg-list"></ul>
-                  <button  class="signup-form__submit" @click="login">登录</button>
+                  <button  class="signup-form__submit" @click="login" >登录</button>
                   <div class="signup-form-nav">
                     <div class="left">
                     </div>
@@ -236,6 +236,13 @@
                   this.password = '';
               }
               );
+            },
+            keyDownLogin:function(){
+              if (event.keyCode == 13)
+                {
+                  console.log("按下了enter键");
+                    this.login();
+                }
             },
             changeCode: function() {
                 this.isAuth = true;
