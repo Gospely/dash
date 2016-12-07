@@ -404,7 +404,7 @@
                                 }else {
                                     var message = {
                                       key: 'finishAppCreate',
-                                      application: 'data.fields.id'
+                                      application: data.fields.id
                                     }
                                     console.log(window.parent);
                                     window.parent.postMessage(message,'*');
@@ -453,6 +453,7 @@
                     notification.alert('请完整填写内容', 'warning');
                     return false;
                 }
+
 
                 this.realCreateApp();
             },
