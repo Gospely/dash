@@ -403,8 +403,7 @@
                                     _self.$router.replace('/apps/list/');
                                 }else {
                                     var message = {
-                                      key: 'finishAppCreate',
-                                      application: data.fields.id
+                                      'finishAppCreate': data.fields.id
                                     }
                                     console.log(window.parent);
                                     window.parent.postMessage(message,'*');
