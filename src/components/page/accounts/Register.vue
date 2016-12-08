@@ -6,7 +6,7 @@
             <div class="signup-form__logo"></div>
             <div class="signup-form__catchphrase">快速开始您的创作过程</div></div>
           <div id="container-login">
-            <div data-reactroot="" id="LoginComponent">
+            <div data-reactroot="" id="LoginComponent" @keydown="keyDownLogin">
               <span>
                   <div class="input-field-group">
                     <div class="input-field">
@@ -18,9 +18,9 @@
                     <div class="input-field">
                       <input type="password" v-model="rePwd" placeholder="重复密码" autocapitalize="off" style="border: none;"></div>
                     <div class="input-field">
-                      <input type="text" v-model="authCode" placeholder="验证码" autocapitalize="off" style="border: none;" v-show="isPhone" ></div>
+                      <input type="text" v-model="authCode" placeholder="验证码" autocapitalize="off" style="border: none;" ></div>
                   </div>
-                  <a class="button" @click="getTelCode" v-show="isPhone" :disabled="btn_disabled" style="position: absolute; margin-top: -42px; height: 41px; right: 30px; border: 1px solid #dfebf2;">{{btn_info}}</a>
+                  <a class="button" @click="getTelCode" :disabled="btn_disabled" style="position: absolute; margin-top: -42px; height: 41px; right: 30px; border: 1px solid #dfebf2;">{{btn_info}}</a>
                   <ul class="error-msg-list"></ul>
                   <button class="signup-form__submit" @click="register" >注册</button>
                   <div class="signup-form-nav">
@@ -82,7 +82,7 @@
                 rePwd:'',
                 authCode:'',
                 token: '',
-                isPhone: false,
+                isPhone: true,
                 btn_info: "获取验证码",
                 btn_disabled: false,
                 wait: 60,
@@ -124,26 +124,55 @@
             }
             );
           },
+          keyDownLogin:function(){
+              if (event.keyCode == 13)
+                {
+                  console.log("按下了enter键");
+                    this.register();
+                }
+            },
           getTelCode: function(){
 
-              console.log("code");
-              var _self = this;
-              services.Common.list({
-                url: 'users/phone/code',
-                param: {
-                  phone: _self.phone,
-                },
-                cb: function(res) {
-                    if(res.status == 200){
-                      var data = res.data;
-                      if(data.code ==1){
-                        console.log(data);
-                        _self.token = data.fields;
-                        notification.alert(data.message);
+              if(this.isPhone){
+                console.log("code");
+                var _self = this;
+                services.Common.list({
+                  url: 'users/phone/code',
+                  param: {
+                    phone: _self.phone,
+                  },
+                  cb: function(res) {
+                      if(res.status == 200){
+                        var data = res.data;
+                        if(data.code ==1){
+                          console.log(data);
+                          _self.token = data.fields;
+                          notification.alert(data.message);
+                        }
                       }
-                    }
-                }
-              });
+                  }
+                });
+              }else{
+                console.log("code");
+                var _self = this;
+                services.Common.list({
+                  url: 'users/email/code',
+                  param: {
+                    email: _self.phone,
+                  },
+                  cb: function(res) {
+                      if(res.status == 200){
+                        var data = res.data;
+                        if(data.code ==1){
+                          console.log(data);
+                          _self.token = data.fields;
+                          notification.alert(data.message);
+                        }
+                      }
+                  }
+                });
+              }
+
               _self.$get("renderButton")();
           },
           renderButton: function() {

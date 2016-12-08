@@ -96,7 +96,7 @@ router.afterEach(function() {
   var base = "http://" + window.location.host
   var loginUrl = base + "/#!/accounts/login";
   var register = base + '/#!/accounts/register';
-  if (window.location.href == loginUrl || window.location.href == register) {
+  if (window.location.href == loginUrl || window.location.href == register || window.location.href == loginUrl + "?where=fromIde") {
 
   } else {
 

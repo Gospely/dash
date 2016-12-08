@@ -8,11 +8,11 @@
             <div class="signup-form__logo"></div>
             <div class="signup-form__catchphrase">快速开始您的创作过程</div></div>
           <div id="container-login">
-            <div data-reactroot="" id="LoginComponent">
+            <div data-reactroot="" id="LoginComponent" @keydown="keyDownLogin">
               <span>
                   <div class="input-field-group">
                     <div class="input-field">
-                      <input type="text" v-model='phone' placeholder="邮箱/手机号码" autocapitalize="off" style="border: none;"></div>
+                      <input type="text" v-model='phone' placeholder="邮箱/手机号码" autocapitalize="off" style="border: none;" ></div>
                     <div class="input-field">
                       <input type="password" v-model='password' placeholder="请输入密码" autocapitalize="off" style="border: none;"></div>
                       <div class="input-field">
@@ -23,7 +23,7 @@
                     </div>
 
                   <ul class="error-msg-list"></ul>
-                  <button  class="signup-form__submit" @click="login">登录</button>
+                  <button  class="signup-form__submit" @click="login" >登录</button>
                   <div class="signup-form-nav">
                     <div class="left">
                     </div>
@@ -139,6 +139,17 @@
         },
 
         methods: {
+
+        	getRequest:function(){
+			var url = window.location.href; 
+			if (url.indexOf("?") != -1) {    //判断?后面是否有参数
+				var str = url.split("?")[1]; 
+				var strNum = str.split("=");  
+				return strNum[1];
+			}else{
+				return null;
+			}
+        	},
             sendCode: function() {
 
             },
@@ -147,14 +158,28 @@
 
             },
             login: function() {
-
+            	var where = this.getRequest();
+            	console.log(where);
               var _self = this;
-              var user = {
-                  phone: this.phone,
-                  password: this.password,
-                  code: this.code,
-                  code_token: this.token
-              }
+              //判断是否是邮箱
+              var reg = /^\w+((-\w+)|(\.\w+))*\@[A-Za-z0-9]+((\.|-)[A-Za-z0-9]+)*\.[A-Za-z0-9]+$/;
+    		 var isok = reg.test(this.phone);
+    		 var user = {};
+    		 if(isok){
+    		 	user = {
+				email: this.phone,
+				password: this.password,
+				code: this.code,
+				code_token: this.token
+    		 	}
+    		 }else{
+    		 	user = {
+				phone: this.phone,
+				password: this.password,
+				code: this.code,
+				code_token: this.token
+	              }
+    		 }
 
               services.UserService.login(user).then(function(res) {
 
@@ -197,8 +222,12 @@
                       document.cookie = c_name + "=" + escape(value) +
                         ((expiredays == null) ? "" : ";expires=" + exdate.toGMTString())
                     }
-
-                    window.location.href = window.baseUrl;
+                    if(where=="fromIde"){
+                    	window.location.href = "http://localhost:8989/";
+                    }else{
+                    	window.location.href = window.baseUrl;
+                    }
+                    
                   }
                 }
               },function(err){
@@ -207,6 +236,13 @@
                   this.password = '';
               }
               );
+            },
+            keyDownLogin:function(){
+              if (event.keyCode == 13)
+                {
+                  console.log("按下了enter键");
+                    this.login();
+                }
             },
             changeCode: function() {
                 this.isAuth = true;
