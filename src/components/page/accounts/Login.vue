@@ -267,7 +267,11 @@
             }
         },
         ready: function(){
-
+          console.log(localStorage.token);
+          console.log(this.token);
+          if(localStorage.token){
+            window.location.href = "http://localhost:8088/";
+          }
           var _self = this;
           localStorage.removeItem("isActive");
           var count = localStorage.getItem('error');

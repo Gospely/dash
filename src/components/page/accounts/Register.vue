@@ -16,7 +16,7 @@
                     <div class="input-field">
                       <input type="password" v-model="password" placeholder="请输入密码" autocapitalize="off" style="border: none;"></div>
                     <div class="input-field">
-                      <input type="password" v-model="rePwd" placeholder="重复密码" autocapitalize="off" style="border: none;"></div>
+                      <input type="password" v-model="rePwd" placeholder="重复密码" autocapitalize="off" style="border: none;" @blur="checkPwd"></div>
                     <div class="input-field">
                       <input type="text" v-model="authCode" placeholder="验证码" autocapitalize="off" style="border: none;" ></div>
                   </div>
@@ -102,7 +102,7 @@
               authCode: this.authCode
             };
             services.UserService.register(user).then(function(res) {
-
+              console.log(res);
               if(res.status === 200){
                 notification.alert('注册成功');
                 var data = res.data;
@@ -261,7 +261,16 @@
                   }
                 }
               });
-          }
+            }
+            var reg = /[\u4E00-\u9FA5\uF900-\uFA2D]/;
+            if(reg.test(this.name)){
+              notification.alert("用户名不能包含中文");
+            }
+          },
+          checkPwd(){
+            if(this.password!=this.rePwd){
+              notification.alert("密码不一致");
+            }
           }
         }
     }
