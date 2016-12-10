@@ -405,6 +405,7 @@
                                     var message = {
                                       'finishAppCreate': data.fields.id
                                     }
+                                    console.log("======data======");
                                     console.log(window.parent);
                                     window.parent.postMessage(message,'*');
                                     _self.$router.replace('/apps/detail/?containerId=' + data.fields.id);
