@@ -69,6 +69,18 @@
 
             <hr>
 
+		<div class="control is-horizontal user-center">
+              <div class="control-label">
+                <label class="label">从git创建</label>
+              </div>
+              <div class="control is-grouped">
+                <p class="control is-expanded">
+                    <input class="input" type="text" placeholder="请填git地址(选填)，并选择下面对应的容器镜像" v-model="application.git">
+                </p>
+              </div>
+            </div>
+
+		<hr>
             <div class="control is-horizontal user-center">
               <div class="control-label">
                 <label class="label">容器镜像</label>
@@ -217,7 +229,8 @@
                     unit: '',
                     price: '',
                     unitPrice: '',
-                    products: ''
+                    products: '',
+                    git:''
                 },
 
                 price: '10 X 100 = 1000',
