@@ -2,7 +2,7 @@
     <div class="container">
 
         <div class="columns">
-            
+
             <div class="column">
                 <h5>CPU监控</h5>
                 <chart :type = "'line'" :data = "CPUChartData"></chart>
@@ -198,7 +198,7 @@
                         this.stats();
                     }, 1000);
 
-                    window.monitorInterval = this.interval; 
+                    window.monitorInterval = this.interval;
                 }
             },
 
@@ -219,7 +219,7 @@
 
                             if(data.code == 200) {
                                 var stats = JSON.parse(data.fields);
-                                    
+
                                 var time = stats.read.substring(11, 19);
                                 console.log(time);
                                 self.timeLabel.push(time);

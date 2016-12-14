@@ -337,7 +337,6 @@
       },
       watch:{
         'volume.size': function(newVal, oldVal) {
-
             var total = (newVal - this.volume.min) * this.unitPrice;
             this.price = (newVal - this.volume.min) +" X " +  this.unitPrice + "GB = " + total;
         }

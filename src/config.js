@@ -67,7 +67,13 @@ let menu = {
                 label: '创建应用',
                 hide: false,
                 component: makeComponent('./components/page/apps/NewApp.vue')
-            },    
+            },
+            '/create': {
+                name: 'create',
+                label: '创建应用',
+                hide: false,
+                component: makeComponent('./components/page/apps/CreateApp.vue')
+            },            
             '/list': {
                 name: 'applist',
                 label: '我的应用',

@@ -141,10 +141,10 @@
         methods: {
 
         	getRequest:function(){
-			var url = window.location.href; 
+			var url = window.location.href;
 			if (url.indexOf("?") != -1) {    //判断?后面是否有参数
-				var str = url.split("?")[1]; 
-				var strNum = str.split("=");  
+				var str = url.split("?")[1];
+				var strNum = str.split("=");
 				return strNum[1];
 			}else{
 				return null;
@@ -227,7 +227,7 @@
                     }else{
                     	window.location.href = window.baseUrl;
                     }
-                    
+
                   }
                 }
               },function(err){
@@ -267,7 +267,24 @@
             }
         },
         ready: function(){
+          console.log(localStorage.token);
+          console.log(this.token);
+          function getCookie(c_name) {
+            if (document.cookie.length > 0) {
+                var c_start = document.cookie.indexOf(c_name + "=");
+              if (c_start != -1) {
+                c_start = c_start + c_name.length + 1;
+                var c_end = document.cookie.indexOf(";",c_start);
+                if (c_end == -1) c_end=document.cookie.length;
+                return unescape(document.cookie.substring(c_start,c_end));
+              }
+            }
+            return "";
+          }
 
+          if(getCookie.token){
+            window.location.href = "http://localhost:8088/";
+          }
           var _self = this;
           localStorage.removeItem("isActive");
           var count = localStorage.getItem('error');

@@ -1,10 +1,7 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
 import App from './App'
-import {
-  menu
-}
-from './config'
+import { menu } from './config'
 import services from './services/index.js'
 import notification from './lib/notification'
 import filter from './filter/index.js'
@@ -35,16 +32,29 @@ Vue.http.headers['x-gospely'] = 'moha';
 Vue.http.headers.withCredentials = true;
 //localStorage.removeItem('token');
 
-if (localStorage.getItem('token') != '' && localStorage.getItem('token') !=
-  undefined) {
-  Vue.http.headers.common['Authorization'] = localStorage.getItem('token');
-} else {
-  var urls = window.location.href.split('?')
-  if (urls[0] == window.baseUrl + "/" && urls[1] != '') {
-    console.log(window.location.search);
-    localStorage.setItem("token", window.location.search.split("%20=%20")[1]);
-    console.log(window.location.search.split("%20=%20")[1]);
+function getCookie(c_name) {
+  if (document.cookie.length > 0) {
+      var c_start = document.cookie.indexOf(c_name + "=");
+    if (c_start != -1) {
+      c_start = c_start + c_name.length + 1;
+      var c_end = document.cookie.indexOf(";",c_start);
+      if (c_end == -1) c_end=document.cookie.length;
+      return unescape(document.cookie.substring(c_start,c_end));
+    }
   }
+  return "";
+}
+
+if (getCookie('token') != '' && getCookie('token') !=
+  undefined) {
+  Vue.http.headers.common['Authorization'] = getCookie('token');
+} else {
+  // var urls = window.location.href.split('?')
+  // if (urls[0] == window.baseUrl + "/" && urls[1] != '') {
+  //   console.log(window.location.search);
+  //   localStorage.setItem("token", window.location.search.split("%20=%20")[1]);
+  //   console.log(window.location.search.split("%20=%20")[1]);
+  // }
 }
 Vue.use(VueRouter);
 // Create a router instance.
@@ -100,8 +110,8 @@ router.afterEach(function() {
 
   } else {
 
-    if (localStorage.getItem('token') == '' || localStorage.getItem('token') ==
-      undefined || localStorage.getItem('token') == 'undefined') {
+    if (getCookie('token') == '' || getCookie('token') ==
+      null || getCookie == undefined) {
 
       window.location.href = loginUrl
     }
