@@ -1,10 +1,7 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
 import App from './App'
-import {
-  menu
-}
-from './config'
+import { menu } from './config'
 import services from './services/index.js'
 import notification from './lib/notification'
 import filter from './filter/index.js'
