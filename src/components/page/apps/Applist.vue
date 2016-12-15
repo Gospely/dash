@@ -41,7 +41,7 @@
             </modal>
 
             <tab :active-index="0" style="width: 100%;">
-                <tab-item title="运行中">
+                <tab-item title="已部署">
                     <table class="table">
                       <thead>
                         <tr>
@@ -56,7 +56,7 @@
                           <td>{{item.name}}</td>
                           <td>{{item.image}}</td>
                           <td>
-                            运行中
+                            已部署
                           </td>
                           <td class="is-icon" title="进入应用">
                             <a  v-link="{path: '/apps/detail',query: {containerId: item.id}}">
@@ -95,7 +95,7 @@
                     </table>
                     <page :cur.sync="cur_stop" :all.sync="all_stop" v-on:btn-click="listen_stop"></page>
                 </tab-item>
-                <tab-item title="已停止">
+                <tab-item title="未部署">
                     <table class="table">
                       <thead>
                         <tr>
@@ -110,7 +110,7 @@
                             <td>{{item.name}}</td>
                             <td>{{item.image}}</td>
                           <td>
-                            已停止
+                            未部署
                           </td>
                           <td class="is-icon" title="进入应用">
                             <a v-link="{path: '/apps/detail',query: {containerId: item.id}}">

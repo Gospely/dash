@@ -12,18 +12,19 @@
               <span>
                   <div class="input-field-group">
                     <div class="input-field">
-                      <input type="text" v-model='phone' placeholder="邮箱/手机号码" autocapitalize="off" style="border: none;" ></div>
+                      <input type="text" v-model='phone' placeholder="邮箱/手机号码" autocapitalize="off" style="border: none;" disabled={{logining}}></div>
                     <div class="input-field">
-                      <input type="password" v-model='password' placeholder="请输入密码" autocapitalize="off" style="border: none;"></div>
-                      <div class="input-field">
-                          <input type="text" v-model='code' placeholder="请输入验证码" autocapitalize="off" style="border: none;" v-show='code_show'>
+                      <input type="password" v-model='password' placeholder="请输入密码" autocapitalize="off" style="border: none;" disabled={{logining}}>
                     </div>
-                    <div class="input-field" style="position: absolute; height: 41px; width:100px; margin-top: -42px; right: 32px; border: 1px solid #dfebf2;">
-                      <img :src="code_src" height='41px' width='100px' alt="验证码" v-show='code_show' @click="changeCode"/>
+                    <div class="input-field">
+                          <input type="text" v-model='code' placeholder="请输入验证码" autocapitalize="off" style="border: none;" v-show='code_show' disabled={{logining}}>
+                    </div>
+                    <div v-show='code_show' class="input-field" style="position: absolute; height: 41px; width:100px; margin-top: -42px; right: 32px; border: 1px solid #dfebf2;">
+                      <img :src="code_src" height='41px' width='100px' alt="验证码" @click="changeCode"/>
                     </div>
 
                   <ul class="error-msg-list"></ul>
-                  <button  class="signup-form__submit" @click="login" >登录</button>
+                  <button :class="['signup-form__submit', {'is-disabled': logining || phone =='' || password == '' || code_show && code == ''}]" @click="login" >登录</button>
                   <div class="signup-form-nav">
                     <div class="left">
                     </div>
@@ -109,6 +110,9 @@
         padding: 0px;
         margin-top: 0px;
     }
+    .input-field-group .is-disabled {
+        opacity: 0.5;
+    }
 
 </style>
 <script>
@@ -129,7 +133,8 @@
                 code_src: '',
                 code_show: false,
                 code: '',
-                token: ''
+                token: '',
+                logining: false
             }
         },
         components: {
@@ -158,90 +163,101 @@
 
             },
             login: function() {
-            	var where = this.getRequest();
+                this.logining = true;
+                var where = this.getRequest();
             	console.log(where);
-              var _self = this;
-              //判断是否是邮箱
-              var reg = /^\w+((-\w+)|(\.\w+))*\@[A-Za-z0-9]+((\.|-)[A-Za-z0-9]+)*\.[A-Za-z0-9]+$/;
-    		 var isok = reg.test(this.phone);
-    		 var user = {};
-    		 if(isok){
-    		 	user = {
-				email: this.phone,
-				password: this.password,
-				code: this.code,
-				code_token: this.token
-    		 	}
-    		 }else{
-    		 	user = {
-				phone: this.phone,
-				password: this.password,
-				code: this.code,
-				code_token: this.token
-	              }
-    		 }
+                var _self = this;
+                //判断是否是邮箱
+                var reg = /^\w+((-\w+)|(\.\w+))*\@[A-Za-z0-9]+((\.|-)[A-Za-z0-9]+)*\.[A-Za-z0-9]+$/;
+    		    var isok = reg.test(this.phone);
+    		    var user = {};
+        		if(isok){
+        		 	user = {
+      				email: this.phone,
+      				password: this.password,
+      				code: this.code,
+      				code_token: this.token
+        		 	}
+        		}else{
+              if(!(/^0?(13[0-9]|15[012356789]|18[0-9]|17[0-9])[0-9]{8}$/.test(this.phone))) {
+                notification.alert('手机号码错误','danger');
+                this.logining = false;
+                return false;
+              }
+        		 	user = {
+          				phone: this.phone,
+          				password: this.password,
+          				code: this.code,
+          				code_token: this.token
+    	         }
+        		}
 
-              services.UserService.login(user).then(function(res) {
+                services.UserService.login(user).then(function(res) {
 
-                if(res.status === 200){
-                  if(res.data.code != 1){
-                      notification.alert(res.data.message,'danger');
-                      var count = localStorage.getItem('error');
-                      if(count != null &&  count != undefined && count != ''){
+                    if(res.status === 200){
+                          if(res.data.code != 1){
+                              notification.alert(res.data.message,'danger');
+                              var count = localStorage.getItem('error');
+                              if(count != null &&  count != undefined && count != ''){
 
-                        if(count > 3){
-                          _self.isAuth = true;
-                          _self.code_show = true;
-                          _self.$get('getImageCode')();
+                                if(count > 3){
+                                  _self.isAuth = true;
+                                  _self.code_show = true;
+                                  _self.$get('getImageCode')();
+                                }
+                                localStorage.setItem('error',count+1);
+                              }else{
+                                localStorage.setItem('error',1);
+                              }
+                          }else{
+                            console.log(res.data.fields);
+                            localStorage.removeItem('error');
+                            localStorage.setItem("user",res.data.fields.id);
+                            setCookie('user',res.data.fields.id,24*60*60*1000);
+                            setCookie('token',res.data.fields.token,24*30*60*1000);
+                            setCookie('userName',res.data.fields.name,24*30*60*1000);
+                            localStorage.setItem("userName",res.data.fields.name);
+
+                            localStorage.removeItem("isActive");
+                            if(res.data.fields.isBlocked === 1) {
+                              localStorage.setItem("isActive",true);
+                            }
+                            localStorage.setItem("ide",res.data.fields.ide);
+                            localStorage.setItem("ideName",res.data.fields.ideName);
+                            localStorage.setItem("token",res.data.fields.token);
+                            notification.alert('登录成功');
+
+                            function setCookie(c_name, value, expiredays) {
+                              var exdate = new Date()
+                              exdate.setDate(exdate.getDate() + expiredays)
+                              document.cookie = c_name + "=" + escape(value) +
+                                ((expiredays == null) ? "" : ";expires=" + exdate.toGMTString())
+                            }
+                            if(where=="fromIde"){
+                            	window.location.href = "http://localhost:8989/";
+                            }else{
+                            	window.location.href = window.baseUrl;
+                            }
+
                         }
-                        localStorage.setItem('error',count+1);
-                      }else{
-                        localStorage.setItem('error',1);
-                      }
-                  }else{
-                    console.log(res.data.fields);
-                    localStorage.removeItem('error');
-                    localStorage.setItem("user",res.data.fields.id);
-                    setCookie('user',res.data.fields.id,24*60*60*1000);
-                    setCookie('token',res.data.fields.token,24*30*60*1000);
-                    setCookie('userName',res.data.fields.name,24*30*60*1000);
-                    localStorage.setItem("userName",res.data.fields.name);
-
-                    localStorage.removeItem("isActive");
-                    if(res.data.fields.isBlocked === 1) {
-                      localStorage.setItem("isActive",true);
                     }
-                    localStorage.setItem("ide",res.data.fields.ide);
-                    localStorage.setItem("ideName",res.data.fields.ideName);
-                    localStorage.setItem("token",res.data.fields.token);
-                    notification.alert('登录成功');
-
-                    function setCookie(c_name, value, expiredays) {
-                      var exdate = new Date()
-                      exdate.setDate(exdate.getDate() + expiredays)
-                      document.cookie = c_name + "=" + escape(value) +
-                        ((expiredays == null) ? "" : ";expires=" + exdate.toGMTString())
-                    }
-                    if(where=="fromIde"){
-                    	window.location.href = "http://localhost:8989/";
-                    }else{
-                    	window.location.href = window.baseUrl;
-                    }
-
-                  }
-                }
               },function(err){
                   notification.alert('服务器异常','danger');
                   this.phone = '';
                   this.password = '';
               }
               );
+                this.logining = false;
+
             },
             keyDownLogin:function(){
-              if (event.keyCode == 13)
+               var disabled = this.logining || this.phone =='' || this.password == '' || this.code_show && this.code == '';
+              if (event.keyCode == 13 && !disabled)
                 {
                   console.log("按下了enter键");
                     this.login();
+                }else {
+                    return false;
                 }
             },
             changeCode: function() {
