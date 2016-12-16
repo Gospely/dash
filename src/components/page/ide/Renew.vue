@@ -33,7 +33,8 @@
                     <div v-show="setMeal.currentStep == 2" class="step2">
 
                         <span class="help is-tip">到期时间：{{time_show}}</span>
-                        <span class="help is-tip" v-show="isChange">差额补价：{{balanceTime}} = {{balance}} 元</span>
+                        <span class="help is-tip" v-show="isChange">差额补价时长：{{balanceTime}}</span>
+                        <span class="help is-tip" v-show="isChange">差额补价：{{balance}} 元</span>
 
                         <!-- <hr class="split"> -->
 
@@ -354,41 +355,43 @@
                 var _self = this;
                 if(_self.isChange){
                   //计算差额
-                  var month = daysBetween(dataFormat(new Date(),'yyyy-MM-dd hh:mm:ss'), dataFormat(new Date(_self.expireAt),'yyyy-MM-dd hh:mm:ss'));
-                  month = month.toFixed(2);
+                  var month = 0;
+                  _self.balance = 0;
+                  _self.balanceTime = "无";
+                  if(_self.expireAt == null || _self.expireAt == undefined) {
 
-                  services.Common.getOne({
-                    param: {
-                      id: _self.oldVersion
-                    },
-                    url: "products",
-                    cb: function(res) {
-                      var data = res.data;
+                    daysBetween(dataFormat(new Date(),'yyyy-MM-dd hh:mm:ss'), dataFormat(new Date(_self.expireAt),'yyyy-MM-dd hh:mm:ss'));
+                    month = month.toFixed(2);
+                    services.Common.getOne({
+                      param: {
+                        id: _self.oldVersion
+                      },
+                      url: "products",
+                      cb: function(res) {
 
-                      if(data.code == 1) {
+                        var data = res.data;
+                        if(data.code == 1) {
 
+                          _self.balance = month * data.fields.price,
+                          _self.balanceTime = month + '月 X ' + data.fields.price
+                          var time = Math.ceil(_self.balance/item.price);
 
-                        _self.balance = month * data.fields.price,
-                        _self.balanceTime = month + '月 X ' + data.fields.price
+                          if(time>12) {
+                            _self.showCyc = false;
+                            _self.$broadcast('cyc-broadcast',time);
 
-                        var time = Math.ceil(_self.balance/item.price);
-
-                        if(time>12) {
-                          _self.showCyc = false;
-                          _self.$broadcast('cyc-broadcast',time);
-
-                        }else{
-                          _self.showCyc = true;
-                          _self.$emit('cycSelected',{
-                            cyc: time,
-                            unit: '月',
-                          });
+                          }else{
+                            _self.showCyc = true;
+                            _self.$emit('cycSelected',{
+                              cyc: time,
+                              unit: '月',
+                            });
+                          }
                         }
-
-
                       }
-                    }
-                  });
+                    });
+                  }
+
                 }
               }else {
                 this.isChange = false;
