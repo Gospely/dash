@@ -22,8 +22,6 @@ if (document.domain != 'localhost') {
 document.title = 'Gospel控制面板 - Dodora 龙猫云';
 window.notification = notification;
 
-
-
 window.baseUrl = "http://" + window.location.host
   //初始化XMLHttpRequest RestfulAPI
 Vue.use(require('vue-resource'));
