@@ -232,7 +232,7 @@
                 param: {
                   status: 2,
                   cur: cur,
-                  limit: 20,
+                  limit: 10,
                   creator: currentUser,
                 },
                 ctx: _self,
@@ -246,7 +246,7 @@
                 param: {
                   status: 1,
                   cur: cur,
-                  limit: 1,
+                  limit: 10,
                   creator: currentUser,
 
                 },
