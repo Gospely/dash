@@ -48,7 +48,7 @@
                           <th>应用名称</th>
                           <th>镜像(运行环境)</th>
                           <th>状态</th>
-                          <th>操作</th>
+                          <th>详情</th>
                         </tr>
                       </thead>
                       <tbody>
@@ -63,6 +63,7 @@
                               <i class="fa fa-share"></i>
                             </a>
                           </td>
+
                         </tr>
                       </tbody>
                     </table>
@@ -102,21 +103,28 @@
                           <th>应用名称</th>
                           <th>镜像(运行环境)</th>
                           <th>状态</th>
-                          <th>操作</th>
+                          <th>详情</th>
+                          <th>部署</th>
                         </tr>
                       </thead>
                       <tbody>
-                          <tr v-for="item in fields_stop">
+                        <tr v-for="item in fields_stop">
                             <td>{{item.name}}</td>
                             <td>{{item.image}}</td>
-                          <td>
-                            未部署
-                          </td>
-                          <td class="is-icon" title="进入应用">
-                            <a v-link="{path: '/apps/detail',query: {containerId: item.id}}">
-                              <i class="fa fa-share"></i>
-                            </a>
-                          </td>
+                            <td>
+                                未部署
+                            </td>
+                            <td class="is-icon" title="进入应用">
+                                <a class="tdInline" v-link="{path: '/apps/detail',query: {containerId: item.id}}">
+                                  <i class="fa fa-share"></i>
+                                </a>
+                                
+                            </td>
+                            <td class="is-icon" title="部署">
+                                <a class="tdInline" @click="deployThisApp(item)">
+                                  <i class="fa fa-cogs"></i>
+                                </a>
+                            </td>
                         </tr>
                       </tbody>
                     </table>
@@ -136,7 +144,6 @@
                             <p class="control">
                               <input class="input" type="text" @blur="checkExit" placeholder="数据库名称" v-model="db.name">
                             </p>
-                          </p>
                           <label class="label">数据库密码</label>
                           <p class="control">
                             <input class="input" type="text" placeholder="数据密码" v-model="db.password">
@@ -194,11 +201,139 @@
                 </tab-item>
             </tab>
         </div>
+
+        <modal :is-html="true" :width="800" :is-show.sync="showDeployMoal">
+                <div slot="header">您正在部署应用 {{deployApp.appName}}</div>
+                <div slot="body">
+
+                    <div class="control is-horizontal user-center">
+                      <div class="control-label">
+                        <label class="label">容器配置&nbsp;&nbsp;&nbsp;</label>
+                      </div>
+                      <div class="control is-grouped">
+
+                        <div class="columns" style="margin-left: 82px;">
+
+                            <div class="column" v-for="(key, val) in deployApp.dockerConfigs">
+                                <div v-bind:class="['docker-config-box',{'active': deployApp.configIsActive[key].isActive}]" @click="selectThisDockerConfig(val, key)">
+                                    <ul class="text-center parameter">
+                                        <li>{{val.memory}} 内存</li>
+                                        {{val.cpu}} CPU{{val.cpuType}}
+                                    </ul>
+                                    <div class="down-style">{{val.name}}</div>
+                                </div>
+                            </div>
+
+                        </div>
+
+                      </div>
+                    </div>
+
+                    <hr v-show="deployApp.showCaculateResourceSlider">
+
+                    <div v-show="deployApp.showCaculateResourceSlider" class="control is-horizontal user-center">
+                      <div class="control-label">
+                        <label class="label">使用时长&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</label>
+                      </div>
+                      <div class="control is-grouped" style="margin-left:30px">
+                        <div class="columns">
+                            <div class="column">
+                               <cyc :price.sync="deployApp.price"></cyc>
+                            </div>
+                        </div>
+                      </div>
+                    </div>
+
+                    <hr>
+
+                    <div class="control is-horizontal user-center">
+                      <div class="control-label">
+                        <label class="label">ssh地址&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</label>
+                      </div>
+                      <div class="control is-grouped">
+                        <p class="control is-expanded">
+                            <input class="input" type="text" placeholder="ssh地址" v-model="deployApp.sshAddress">
+                        </p>
+                      </div>
+                    </div>
+
+                    <hr>
+
+                    <div class="control is-horizontal user-center">
+                      <div class="control-label">
+                        <label class="label">ssh密码&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</label>
+                      </div>
+                      <div class="control is-grouped">
+                        <p class="control is-expanded">
+                            <input class="input" type="password" placeholder="sshmim" v-model="deployApp.sshPassword">
+                        </p>
+                      </div>
+                    </div>
+                    
+                    <hr>
+                    <p class="control">
+                      <label class="checkbox">
+                        <input type="checkbox" v-model="deployApp.isCreatedDatabase">
+                        创建本地数据库
+                      </label>
+                    </p>
+
+                    <hr v-show="deployApp.isCreatedDatabase">
+                    
+                    <div class="control is-horizontal user-center" v-show="deployApp.isCreatedDatabase">
+                        <div class="control-label">
+                            <label class="label">数据库名称</label>
+                        </div>
+                        <div class="control is-grouped">
+                            <p class="control is-expanded">
+                                <input class="input" type="text" @blur="checkExit" placeholder="数据库名称" v-model="db.name">
+                            </p>
+                        </div>
+                    </div>
+
+                    <hr v-show="deployApp.isCreatedDatabase">
+                    <div class="control is-horizontal user-center" v-show="deployApp.isCreatedDatabase">
+                        <div class="control-label">
+                            <label class="label">数据库密码</label>
+                        </div>
+                        <div class="control is-grouped">
+                            <p class="control is-expanded">
+                                <input class="input" type="text" placeholder="数据库密码" v-model="db.password">
+                            </p>
+                        </div>
+                    </div>
+
+                    <hr v-show="deployApp.isCreatedDatabase">
+                    <div class="control is-horizontal user-center" v-show="deployApp.isCreatedDatabase">
+                        <div class="control-label">
+                            <p class="label">数据库类型&nbsp;&nbsp;</p>
+                        </div>
+                        <div class="control is-grouped">
+                            <p class="control has-addons" style="height:32px;">
+                                <a :class="['button','database-type-opation',{'is-primary': index == thisIndex}]" v-for="(index,item) in databaseType" :disabled="isDetailsThisDatabase" @click="selectThisType(item,index)">
+                                  <span>{{item.label}}</span>
+                                </a>
+                            </p>
+                        </div>
+                    </div>
+
+                </div>
+                <div slot="footer">
+                    <button class="button is-success"
+                        @click="confirmToPay">
+                    部署
+                    </button>
+                    <button class="button" @click="showPayForm = false">取消</button>
+                </div>
+        </modal>
     </div>
 </template>
 <style>
   .database-type-opation:hover {
       border-bottom-color: #aeb1b5!important;
+  }
+  .tdInline {
+    display: inline;
   }
 </style>
 <script>
@@ -206,7 +341,7 @@
     import {Tab, TabItem} from '../../ui/Tab'
     import Page from '../../ui/Page/Page.vue'
     import Modal from '../../ui/Modal/Modal.vue'
-
+    import Cyc from '../../ui/Cyc.vue'
     import PayMethod from '../../ui/PayMethod.vue';
 
     let ModalCtrl = Vue.extend(Modal);
@@ -217,6 +352,32 @@
                 showDatabaseAddingForm: false,
                 isDetailsThisDatabase: false,
                 databaseInfoFormName: '新增数据库',
+
+                deployApp: {
+                    appName: '',
+                    dockerConfigs: [],
+                    configIsActive: [{
+                        isActive: true
+                    }, {
+                        isActive: false
+                    }, {
+                        isActive: false
+                    }, {
+                        isActive: false
+                    }, {
+                        isActive: false
+                    }],
+                    currentActiveConfig: 0,
+                    showCaculateResourceSlider: false,
+                    price: '10 X 100 = 1000',
+                    unitPrice: '',
+                    sshAddress: '',
+                    sshPassword: '',
+                    total: '',
+                    isCreatedDatabase: false
+
+                },
+                showDeployMoal: false,
 
                 edit:{
                   database: ''
@@ -271,7 +432,8 @@
             TabItem,
             Page,
             Modal,
-            PayMethod
+            PayMethod,
+            Cyc
         },
 
         methods: {
@@ -332,6 +494,43 @@
             selectThisType(item,index){
               this.thisIndex = index;
               this.db.type =  item.label;
+            },
+
+            deployThisApp(item) {
+                this.deployApp.appName = item.name;
+                this.showDeployMoal = true;
+            },
+
+            selectThisDockerConfig: function(dockerConfig, key) {
+
+                // this.application.products = dockerConfig.id;
+                // this.application.image = dockerConfig.id;
+                // this.application.free = dockerConfig.free;
+
+                var unit = '';
+                if(dockerConfig.memoryUnit == "MB"){
+                    unit = 'm'
+                }else{
+                    unit = 'g'
+                }
+                // this.application.memory = dockerConfig.memory + unit;
+                this.deployApp.showCaculateResourceSlider = !dockerConfig.free;
+
+                this.deployApp.configIsActive[key].isActive = true;
+                if(key === this.deployApp.currentActiveConfig) {
+                    this.deployApp.configIsActive[this.currentActiveConfig].isActive = true;
+                }else {
+                    this.deployApp.configIsActive[this.deployApp.currentActiveConfig].isActive = false;
+                }
+
+                this.deployApp.currentActiveConfig = key;
+                this.deployApp.unitPrice = dockerConfig.price;
+                // this.application.unitPrice = dockerConfig.price;
+
+                // this.total = this.unitPrice;
+                this.deployApp.price = this.deployApp.unitPrice +"X 1月 = " + this.deployApp.unitPrice;
+
+
             },
 
             DetailsThisDatabase: function(item) {
@@ -521,6 +720,49 @@
                 services.Common.list(options);
             },
 
+            initDockerConfig: function() {
+
+                var _self =  this;
+                function callback(res){
+
+                    console.log("callback");
+                    var data = res.data;
+                    var arr = new Array();
+
+                    for(var i = 0; i < data.fields.length; i++){
+
+                        var active = false;
+
+                        if(i === 0) {
+                            active = true;
+                        }
+
+                        arr.push({
+                            isActive: active
+                        });
+
+                        if(data.fields[i].free) {
+                          _self.deployApp.currentActiveConfig = i;
+                          // _self.application.products = data.fields[i].id;
+                        }
+                    }
+                    _self.deployApp.dockerConfigs = data.fields;
+                    _self.deployApp.configIsActive = arr;
+                }
+
+                var options = {
+
+                    param: {
+                        type: 'docker'
+                    },
+                    ctx: _self,
+                    url: "products",
+                    cb: callback
+                }
+
+                services.Common.list(options);
+            },
+
             payForApp: function(item) {
 
               this.orderNo = item.orderNo;
@@ -564,21 +806,33 @@
             this.$get("initNotpaid")(1);
             this.$get("initDb")(1);
             this.$set("application", this.$route.query.containerId);
+            this.$get('initDockerConfig')();
         },
         events:{
           'selected':function (index) {
             this.currentIndex = index;
           },
+
           'weixin': function() {
 
             console.log("wechat");
             this.isWechat = true;
             this.isAlipay = false;
           },
+
           'alipay': function() {
             this.isWechat = false;
             this.isAlipay = true;
-          }
+          },
+
+          'cycSelected': function(cyc) {
+                this.deployApp.total = cyc.cyc * this.deployApp.unitPrice;
+                // this.size = cyc.cyc;
+                // this.application.size = cyc.cyc;
+                // this.application.unit = cyc.unit;
+                this.deployApp.price = this.deployApp.unitPrice + " X " + cyc.cyc + " " + cyc.unit + " = " + this.deployApp.total;
+                console.log(cyc);
+            },
         }
     }
 </script>
