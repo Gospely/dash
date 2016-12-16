@@ -70,11 +70,17 @@
         	},
 
         	price: {
-        		number: String,
+        		type: String,
         		default () {
         			return '40'
         		}
         	},
+            otherTime: {
+                // type: String || Number,
+                default() {
+                    return 0;
+                }
+            }
         },
 
         methods: {
