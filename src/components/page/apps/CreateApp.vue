@@ -1,12 +1,12 @@
 <template>
 
 	<div>
-		
+
 		<div class="wrapper">
-			
-			<div :class="['wrap', 'animated', 
-				{ fadeInLeft: steps.currentStep == 0 && steps.slidDirection == 'left' }, 
-				{ fadeInRight: steps.currentStep == 0 && steps.slidDirection == 'right' }]" 
+
+			<div :class="['wrap', 'animated',
+				{ fadeInLeft: steps.currentStep == 0 && steps.slidDirection == 'left' },
+				{ fadeInRight: steps.currentStep == 0 && steps.slidDirection == 'right' }]"
 				v-show="steps.currentStep == 0">
 				<h2 class="subtitle">您的新项目叫什么名字?</h2>
 				<p class="control">
@@ -15,27 +15,27 @@
 				<br><br>
 			</div>
 
-			<div :class="['wrap', 'animated',  
-				{ fadeInRight: steps.currentStep == 1 && steps.slidDirection == 'right' }, 
-				{ fadeInLeft: steps.currentStep == 1 && steps.slidDirection == 'left' }]" 
+			<div :class="['wrap', 'animated',
+				{ fadeInRight: steps.currentStep == 1 && steps.slidDirection == 'right' },
+				{ fadeInLeft: steps.currentStep == 1 && steps.slidDirection == 'left' }]"
 				v-show="steps.currentStep == 1">
 				<h2 class="subtitle">您是否想从Git创建?</h2>
 				<p class="control">
-				  <input v-model="app.gitAddress" placeholder="https://github.com/xxx" class="input custom-input" 
+				  <input v-model="app.gitAddress" placeholder="https://github.com/xxx" class="input custom-input"
 				  type="text">
 				</p>
 				<br><br>
 			</div>
 
-			<div :class="['wrap', 'animated', 
-				{ fadeInRight: steps.currentStep == 2 && steps.slidDirection == 'right' }, 
-				{ fadeInLeft: steps.currentStep == 2 && steps.slidDirection == 'left' }]" 
+			<div :class="['wrap', 'animated',
+				{ fadeInRight: steps.currentStep == 2 && steps.slidDirection == 'right' },
+				{ fadeInLeft: steps.currentStep == 2 && steps.slidDirection == 'left' }]"
 				v-show="steps.currentStep == 2">
 				<h2 class="subtitle">您的项目使用主要哪种语言?</h2>
 				<div class="columns">
 				    <div class="column" v-for="item in languageTypes">
-				        <div @click="selectThisLanguage(item)" 
-				        	:class="['creation-modal-choice', { isSelected: app.languageType == item.name}]" 
+				        <div @click="selectThisLanguage(item)"
+				        	:class="['creation-modal-choice', { isSelected: app.languageType == item.name}]"
 				        	:style="{backgroundImage: 'url(' + item.description + ')'}">
 				     		{{item.name}}
 				    	</div>
@@ -44,15 +44,15 @@
 				<page :cur.sync="cur_gospel" :all.sync="all_gospel" v-on:btn-click="listen_gospel"></page>
 			</div>
 
-			<div :class="['wrap', 'animated', 
-				{ fadeInRight: steps.currentStep == 3 && steps.slidDirection == 'right' }, 
-				{ fadeInLeft: steps.currentStep == 3 && steps.slidDirection == 'left' }]" 
+			<div :class="['wrap', 'animated',
+				{ fadeInRight: steps.currentStep == 3 && steps.slidDirection == 'right' },
+				{ fadeInLeft: steps.currentStep == 3 && steps.slidDirection == 'left' }]"
 				v-show="steps.currentStep == 3">
 				<h2 class="subtitle">您想要使用哪个框架?</h2>
 				<div class="columns">
 				  <div class="column" v-for="item in frameworks">
-				    <div @click="selectThisFramework(item)" 
-				    	:class="['creation-modal-choice', { isSelected: app.framework == item.name}]"  
+				    <div @click="selectThisFramework(item)"
+				    	:class="['creation-modal-choice', { isSelected: app.framework == item.name}]"
 				    	:style="{backgroundImage: 'url(' + item.description + ')'}">
 				      	{{item.name}}
 				    </div>
@@ -61,9 +61,9 @@
 				<page :cur.sync="cur_gospel" :all.sync="all_gospel" v-on:btn-click="listen_gospel"></page>
 			</div>
 
-			<div :class="['wrap', 'animated', 
-				{ fadeInRight: steps.currentStep == 4 && steps.slidDirection == 'right' }, 
-				{ fadeInLeft: steps.currentStep == 4 && steps.slidDirection == 'left' }]" 
+			<div :class="['wrap', 'animated',
+				{ fadeInRight: steps.currentStep == 4 && steps.slidDirection == 'right' },
+				{ fadeInLeft: steps.currentStep == 4 && steps.slidDirection == 'left' }]"
 				  v-show="steps.currentStep == 4">
 				<h2 class="subtitle">此应用在哪个端口开放?</h2>
 				<p class="control">
@@ -72,15 +72,15 @@
 				<br><br>
 			</div>
 
-			<div :class="['wrap', 'animated', 
-				{ fadeInRight: steps.currentStep == 5 && steps.slidDirection == 'right' }, 
-				{ fadeInLeft: steps.currentStep == 5 && steps.slidDirection == 'left' }]" 
+			<div :class="['wrap', 'animated',
+				{ fadeInRight: steps.currentStep == 5 && steps.slidDirection == 'right' },
+				{ fadeInLeft: steps.currentStep == 5 && steps.slidDirection == 'left' }]"
 				v-show="steps.currentStep == 5">
 				<h2 class="subtitle">您是否想在开发环境创建数据库?</h2>
 				<div class="columns">
 				    <div class="column" v-for="item in languageTypes">
-				        <div @click="selectThisDatabase(item)" 
-				        	:class="['creation-modal-choice', { isSelected: app.databaseType == item.name}]" 
+				        <div @click="selectThisDatabase(item)"
+				        	:class="['creation-modal-choice', { isSelected: app.databaseType == item.name}]"
 				        	:style="{backgroundImage: 'url(' + item.description + ')'}">
 				     		{{item.name}}
 				    	</div>
@@ -89,9 +89,9 @@
 				<br><br>
 			</div>
 
-			<div :class="['wrap', 'animated', 
-				{ fadeInRight: steps.currentStep == 6 && steps.slidDirection == 'right' }, 
-				{ fadeInLeft: steps.currentStep == 6 && steps.slidDirection == 'left' }]" 
+			<div :class="['wrap', 'animated',
+				{ fadeInRight: steps.currentStep == 6 && steps.slidDirection == 'right' },
+				{ fadeInLeft: steps.currentStep == 6 && steps.slidDirection == 'left' }]"
 				  v-show="steps.currentStep == 6">
 				<h2 class="subtitle">您的数据库密码?</h2>
 				<p class="control">
@@ -100,26 +100,26 @@
 				<br><br>
 			</div>
 
-			<div :class="['wrap', 'animated', 
-				{ fadeInRight: steps.currentStep == 7 && steps.slidDirection == 'right' }, 
-				{ fadeInLeft: steps.currentStep == 7 && steps.slidDirection == 'left' }]" 
+			<div :class="['wrap', 'animated',
+				{ fadeInRight: steps.currentStep == 7 && steps.slidDirection == 'right' },
+				{ fadeInLeft: steps.currentStep == 7 && steps.slidDirection == 'left' }]"
 				  v-show="steps.currentStep == 7">
 				<h2 class="subtitle">信息都对吗?</h2>
-				
+
 				<br><br>
 			</div>
 
 		</div>
 
 		<div class="steps">
-			<a v-show="preVisible" 
+			<a v-show="preVisible"
 			   :class="['button', 'is-large', 'is-primary', 'is-outlined', 'custom-btn', 'animated', { fadeInLeft: true }]"
 			   @click="prevStep"
 			>
 				&#60;
 				上一步
 			</a>
-			<a v-show="nextVisible"  
+			<a v-show="nextVisible"
 				:class="['button', 'is-large', 'is-primary', 'is-outlined', 'custom-btn', 'animated', { fadeInLeft: true }]"
 				@click="nextStep"
 				:disabled="false"
@@ -127,28 +127,28 @@
 				下一步
 				&#62;
 			</a>
-			<a v-show="steps.currentStep == 1 || steps.currentStep == 5"  
+			<a v-show="steps.currentStep == 1 || steps.currentStep == 5"
 				:class="['button', 'is-large', 'is-primary', 'is-outlined', 'custom-btn', 'animated', { fadeInLeft: true }]"
 				@click="skipStep"
 			>
 				跳过
 				&#62;&#62;
 			</a>
-			<a v-show="steps.currentStep == 7"  
+			<a v-show="steps.currentStep == 7"
 				:class="['button', 'is-large', 'is-primary', 'is-outlined', 'custom-btn', 'animated', { fadeInLeft: true }]"
 				@click="goCreate"
 			>
 				确认创建
 			</a>
 		</div>
-		
+
 		<modal :is-html="true" :width="400" :is-show.sync="showVersionModal">
 			<div slot="header">选择版本</div>
 			<div slot="body">
     			<p class="control">
     				<label v-for="item in languageVersions" class="radio" @click="app.languageVersion = item">
 				    	<input type="radio" name="version">
-				   		 {{item}}
+				   		 {{item.label}}
 					</label>
 				</p>
 			</div>
@@ -177,7 +177,7 @@
 </template>
 
 <style>
-	
+
 	.wrap {
 		margin: 0 auto;
 		width: 65rem;
@@ -230,7 +230,7 @@
 	.subtitle {
 		font-weight: 200!important;
 	}
-	
+
 	.creation-modal-choice {
       cursor: pointer;
       width: 100px;
@@ -397,6 +397,11 @@ export default {
 			this.steps.currentStep++;
 			this.preVisible = true;
 			this.steps.slidDirection = 'right';
+
+			//初始化框架面板
+			if( (this.app.git == null || this.app.git == '') && this.app.languageType != null && this.app.languageType != '' && this.steps.currentStep == 3){
+				this.$get("init_app_hub")(1);
+			}
 		},
 
 		prevStep: function() {
@@ -429,6 +434,7 @@ export default {
 
 		selectThisLanguage(item) {
 			this.app.languageType = item.name;
+			this.$get("initVersion")();
 			this.showVersionModal = true;
 		},
 
@@ -456,6 +462,7 @@ export default {
 
 		init_gospel_hub: function(cur) {
 
+			debugger;
             var _self = this;
             var options = {
                 param: {
@@ -473,24 +480,42 @@ export default {
 
         init_app_hub: function(cur){
 
+			debugger;
             var _self = this;
             var options = {
 
              	param: {
-                	type: 'application',
                 	limit: 10,
                 	cur: cur,
+					parent: this.app.languageType + ":latest",
+					type: 'framework'
               	},
               	url: 'images',
               	ctx: _self,
               	target: 'frameworks'
             }
+			console.log(options);
             services.Common.list(options);
-        }
+        },
+		initVersion: function(){
+			var _self = this;
+            var options = {
+
+             	param: {
+					parent: this.app.languageType + ":latest",
+					type: 'lang'
+              	},
+              	url: 'images',
+              	ctx: _self,
+              	target: 'languageVersions'
+            }
+			console.log(options);
+            services.Common.list(options);
+		}
 	},
 
 	watch: function () {
-		
+
 	},
 
 	computed: {
@@ -502,7 +527,6 @@ export default {
 
 	ready: function () {
 		this.$get("init_gospel_hub")(1);
-		this.$get("init_app_hub")(1);
 	}
 
 }
