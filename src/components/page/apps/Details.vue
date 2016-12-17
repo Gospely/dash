@@ -39,6 +39,7 @@
         data () {
             return {
                 containerId: null,
+                deploy: false
             }
         },
         ready () {

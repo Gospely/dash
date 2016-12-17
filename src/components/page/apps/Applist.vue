@@ -86,7 +86,7 @@
                           <td>
                             未支付
                           </td>
-                          <td class="is-icon" title="进入应用">
+                          <td class="is-icon" title="支付">
                             <a @click="payForApp(item)">
                               <i class="fa fa-share"></i>
                             </a>
@@ -265,7 +265,7 @@
                       </div>
                       <div class="control is-grouped">
                         <p class="control is-expanded">
-                            <input class="input" type="password" placeholder="sshmim" v-model="deployApp.sshPassword">
+                            <input class="input" type="password" placeholder="ssh密码" v-model="deployApp.sshPassword">
                         </p>
                       </div>
                     </div>
@@ -320,10 +320,10 @@
                 </div>
                 <div slot="footer">
                     <button class="button is-success"
-                        @click="confirmToPay">
+                        @click="goToDeployApp">
                     部署
                     </button>
-                    <button class="button" @click="showPayForm = false">取消</button>
+                    <button class="button" @click="showDeployMoal = false">取消</button>
                 </div>
         </modal>
     </div>
@@ -499,6 +499,10 @@
             deployThisApp(item) {
                 this.deployApp.appName = item.name;
                 this.showDeployMoal = true;
+            },
+
+            goToDeployApp() {
+                this.showDeployMoal = false;
             },
 
             selectThisDockerConfig: function(dockerConfig, key) {
