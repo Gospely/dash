@@ -127,7 +127,7 @@
 				下一步
 				&#62;
 			</a>
-			<a v-show="steps.currentStep == 1 || steps.currentStep == 5"
+			<a v-show="steps.currentStep == 1 || steps.currentStep == 5 || steps.currentStep == 3"
 				:class="['button', 'is-large', 'is-primary', 'is-outlined', 'custom-btn', 'animated', { fadeInLeft: true }]"
 				@click="skipStep"
 			>
@@ -153,7 +153,7 @@
 				</p>
 			</div>
 			<div slot="footer">
-			     <button class="button is-primary" @click="showVersionModal = false">
+			     <button class="button is-primary" @click="showVersionModal = false; alert(3)">
 			        确定
 			    </button>
 			</div>
@@ -300,7 +300,7 @@ export default {
 			},
 			languageTypes: [],
 			frameworks: [],
-			languageVersions: ['1.1.1','1.1.2','2.2.0'],
+			languageVersions: [],
 			showVersionModal: false
 
 		}
@@ -351,10 +351,13 @@ export default {
 			if (currentStep == 1) {
 				currentStep = 2;
 				this.steps.skipFrom = 1;
+			}else if (currentStep == 3) {
+				currentStep ++;
 			}else {
 				currentStep = 7;
 				this.steps.skipFrom = 5
 			}
+
 			this.steps.currentStep = currentStep;
 			this.steps.slidDirection = 'right';
 		},
@@ -362,7 +365,6 @@ export default {
 		selectThisLanguage(item) {
 			this.app.languageType = item.name;
 			this.$get("initVersion")();
-			this.showVersionModal = true;
 		},
 
 		selectThisDatabase(item) {
@@ -389,7 +391,6 @@ export default {
 
 		init_gospel_hub: function(cur) {
 
-			debugger;
             var _self = this;
             var options = {
                 param: {
@@ -407,7 +408,6 @@ export default {
 
         init_app_hub: function(cur){
 
-			debugger;
             var _self = this;
             var options = {
 
@@ -433,8 +433,19 @@ export default {
 					type: 'lang'
               	},
               	url: 'images',
-              	ctx: _self,
-              	target: 'languageVersions'
+              	cb: function(res){
+
+                        if(res.status == 200){
+                            var data = res.data;
+                            if(data.code == 1){
+                                _self.languageVersions = data.fields;
+                                if (data.fields.length !== 0) {
+                                	_self.showVersionModal = true;
+                                }
+                            }
+                        }
+
+                }
             }
 			console.log(options);
             services.Common.list(options);

@@ -67,6 +67,9 @@
                         </tr>
                       </tbody>
                     </table>
+                    <article class="noData" v-if="!fields.length">
+                      您还没有已部署应用，快去部署吧...
+                    </article>
                     <page :cur.sync="cur" :all.sync="all" v-on:btn-click="listen"></page>
                 </tab-item>
                 <tab-item title="未支付">
@@ -94,6 +97,9 @@
                         </tr>
                       </tbody>
                     </table>
+                    <article class="noData" v-if="!fields_notpaid.length">
+                      您还没有未支付应用...
+                    </article>
                     <page :cur.sync="cur_stop" :all.sync="all_stop" v-on:btn-click="listen_stop"></page>
                 </tab-item>
                 <tab-item title="未部署">
@@ -128,6 +134,9 @@
                         </tr>
                       </tbody>
                     </table>
+                    <article class="noData" v-if="!fields_stop.length">
+                      您的应用都已部署...
+                    </article>
                     <page :cur.sync="cur_stop" :all.sync="all_stop" v-on:btn-click="listen_stop"></page>
                 </tab-item>
 
@@ -197,6 +206,9 @@
                         </tr>
                       </tbody>
                     </table>
+                    <article class="noData" v-if="!fields_db.length">
+                      您还没有创建过数据库...
+                    </article>
                     <page :cur.sync="cur_db" :all.sync="all_db" v-on:btn-click="listen_db"></page>
                 </tab-item>
             </tab>

@@ -56,6 +56,9 @@
                         </tr>
                       </tbody>
                     </table>
+                    <article class="noData" v-if="!fields.length">
+                      暂无已支付订单
+                    </article>
                     <page :cur.sync="cur" :all.sync="all" v-on:btn-click="listen"></page>
                 </tab-item>
                 <tab-item title="未支付">
@@ -96,6 +99,9 @@
                         </tr>
                       </tbody>
                     </table>
+                    <article class="noData" v-if="!fields_unpay.length">
+                      暂无未支付订单
+                    </article>
                     <page :cur.sync="cur1" :all.sync="all1" v-on:btn-click="listen1"></page>
                 </tab-item>
             </tab>

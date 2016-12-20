@@ -30,6 +30,9 @@
                         </tr>
                       </tbody>
                     </table>
+                    <article class="noData" v-if="!fields.length">
+                      暂无未读消息
+                    </article>
                     <page :cur.sync="cur" :all.sync="all" v-on:btn-click="listen"></page>
                 </tab-item>
                 <tab-item title="已读">
@@ -51,7 +54,9 @@
                         </tr>
                       </tbody>
                     </table>
-
+                    <article class="noData" v-if="!fields2.length">
+                      暂无已读消息
+                    </article>
                     <page :cur.sync="cur1" :all.sync="all1" v-on:btn-click="listen1"></page>
                 </tab-item>
             </tab>
