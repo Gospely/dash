@@ -10,7 +10,7 @@
 				v-show="steps.currentStep == 0">
 				<h2 class="subtitle">您的新项目叫什么名字?</h2>
 				<p class="control">
-				  <input v-model="app.appName" class="input custom-input" type="text" placeholder="myApp">
+				  <input v-model="app.name" class="input custom-input" type="text" placeholder="myApp">
 				</p>
 				<br><br>
 			</div>
@@ -21,7 +21,7 @@
 				v-show="steps.currentStep == 1">
 				<h2 class="subtitle">您是否想从Git创建?</h2>
 				<p class="control">
-				  <input v-model="app.gitAddress" placeholder="https://github.com/xxx" class="input custom-input"
+				  <input v-model="app.git" placeholder="https://github.com/xxx" class="input custom-input"
 				  type="text">
 				</p>
 				<br><br>
@@ -67,7 +67,7 @@
 				  v-show="steps.currentStep == 4">
 				<h2 class="subtitle">此应用在哪个端口开放?</h2>
 				<p class="control">
-				    <input v-model="app.prot" placeholder="8080" class="input custom-input" type="text">
+				    <input v-model="app.exposePort" placeholder="8080" class="input custom-input" type="text">
 				</p>
 				<br><br>
 			</div>
@@ -78,11 +78,11 @@
 				v-show="steps.currentStep == 5">
 				<h2 class="subtitle">您是否想在开发环境创建数据库?</h2>
 				<div class="columns">
-				    <div class="column" v-for="item in languageTypes">
+				    <div class="column" v-for="item in databaseTypes">
 				        <div @click="selectThisDatabase(item)"
-				        	:class="['creation-modal-choice', { isSelected: app.databaseType == item.name}]"
+				        	:class="['creation-modal-choice', { isSelected: app.databaseType == item.label}]"
 				        	:style="{backgroundImage: 'url(' + item.description + ')'}">
-				     		{{item.name}}
+				     		{{item.label}}
 				    	</div>
 				    </div>
 				</div>
@@ -146,7 +146,7 @@
 			<div slot="header">选择版本</div>
 			<div slot="body">
     			<p class="control">
-    				<label v-for="item in languageVersions" class="radio" @click="app.languageVersion = item">
+    				<label v-for="item in languageVersions" class="radio" @click="app.languageVersion = item.label">
 				    	<input type="radio" name="version">
 				   		 {{item.label}}
 					</label>
@@ -158,7 +158,7 @@
 			    </button>
 			</div>
 		</modal>
-		
+
 		<loading :loading="isCreating" tip="创建中,请稍后..."></loading>
 	</div>
 
@@ -261,16 +261,30 @@ export default {
 			// nextVisible: true,
 			isCreating: false,
 			app: {
-				appName: '',
-				gitAddress: '',
+				name: '',
+				git: '',
 				languageType: '',
 				languageVersion: '',
 				databaseType: '',
 				detabasePassword: '',
 				framework: '',
-				prot: '',
+				exposePort: '',
+				creator: currentUser
 			},
-
+			databaseTypes:[
+				{
+				  label: 'mysql',
+				  description: '../../../assets/projects/db/mysql.png',
+				},
+				{
+				  label: 'postgres',
+				  description: ''
+				},
+				{
+				  label: 'mongodb',
+				  description: ''
+				}
+			],
 			steps: {
 				currentStep: 0,
 
@@ -281,15 +295,15 @@ export default {
 				skipFrom: '',
 
 				step: [{
-					name: 'appName'
+					name: 'name'
 				}, {
-					name: 'gitAddress'
+					name: 'git'
 				}, {
 					name: 'languageType'
 				}, {
 					name: 'framework'
 			 	}, {
-					name: 'prot'
+					name: 'exposePort'
 				}, {
 					name: 'databaseType'
 				}, {
@@ -326,7 +340,7 @@ export default {
 			this.steps.slidDirection = 'right';
 
 			//初始化框架面板
-			if( (this.app.git == null || this.app.git == '') && this.app.languageType != null && this.app.languageType != '' && this.steps.currentStep == 3){
+			if(this.app.languageType != null && this.app.languageType != '' && this.steps.currentStep == 3){
 				this.$get("init_app_hub")(1);
 			}
 		},
@@ -368,7 +382,7 @@ export default {
 		},
 
 		selectThisDatabase(item) {
-			this.app.databaseType = item.name;
+			this.app.databaseType = item.label;
 		},
 
 		selectThisFramework(item) {
@@ -377,11 +391,20 @@ export default {
 
 		goCreate() {
 			this.isCreating = true;
-			if (!/^https?/.test(this.app.gitAddress)) {
-				this.app.gitAddress = this.app.gitAddress.replace(/git@github.com:/,'https://github.com/')
-			}else if (!/https:\/\/github.com\/?/.test(this.app.gitAddress) && !/git@github.com:?/.test(this.app.gitAddress)) {
+			if (!/^https?/.test(this.app.git)) {
+				this.app.git = this.app.git.replace(/git@github.com:/,'https://github.com/')
+			}else if (!/https:\/\/github.com\/?/.test(this.app.git) && !/git@github.com:?/.test(this.app.git)) {
 				notification.alert('git地址错误 ', 'danger')
 			}
+			console.log(this.app);
+
+			services.Common.create({
+				url: 'applications',
+				param: this.app,
+				cb: function(res){
+
+				}
+			});
 		},
 
 		listen_gospel(data) {
@@ -429,7 +452,7 @@ export default {
             var options = {
 
              	param: {
-					parent: this.app.languageType + ":latest",
+					name: this.app.languageType,
 					type: 'lang'
               	},
               	url: 'images',
