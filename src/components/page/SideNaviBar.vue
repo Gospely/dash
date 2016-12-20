@@ -202,6 +202,8 @@
         methods: {
             signOut(){
                 localStorage.removeItem('token');
+                document.cookie = "token=; expires=Thu, 01 Jan 1970 00:00:00 GMT";
+                document.cookie = "user=; expires=Thu, 01 Jan 1970 00:00:00 GMT";
                 this.$router.go('/accounts/login');
             },
             toggleCollapse () {

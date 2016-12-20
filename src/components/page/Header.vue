@@ -39,7 +39,7 @@
             display:none;
         }
     }*/
-    
+
     .my-nav-left,.my-nav-center,.my-nav-right {
         width: 33.3%;
         float: left;
@@ -78,11 +78,11 @@
         transition: all .3s;
         transform: rotate(180deg);
     }
-    
+
     .my-nav-left .iconHiddened{
         display: none;
     }
-     
+
 
     .header-bar {
         background: #fff;
@@ -92,7 +92,7 @@
         padding: 0 0 0 15px;
         text-align: left;
     }
-    
+
     .my-nav-left .fa-angle-right{
         font-size: 50px;
         color: #69707a;
@@ -130,13 +130,13 @@
 
     .btn-sns, .btn-gplus, .btn-facebook, .btn-twitter, .btn-weibo { width: 80px; height: 40px; margin-top: 10px; }
 
-    @media (max-width 540px) { 
-        .signup-form { 
-            top: 50px; 
-            width: 310px; 
-            margin-left: -160px; 
-            background-color: #eeeeee; 
-            }   
+    @media (max-width 540px) {
+        .signup-form {
+            top: 50px;
+            width: 310px;
+            margin-left: -160px;
+            background-color: #eeeeee;
+            }
         }
 
     .signup-form__logo-box {
@@ -181,8 +181,8 @@
             background-color: #eee
         }
     }
-    
-    
+
+
 
     .signup-form #g-recaptcha {
         margin: 0 auto;
@@ -457,7 +457,7 @@
         clear: both;
         content: ''
     }
-    
+
     .notification.noty {
         position: absolute;
         width: 280px;
@@ -493,6 +493,8 @@
         methods:{
             signOut(){
                 localStorage.removeItem('token');
+                document.cookie = "token=; expires=Thu, 01 Jan 1970 00:00:00 GMT";
+                document.cookie = "user=; expires=Thu, 01 Jan 1970 00:00:00 GMT";
                 this.$router.go("/accounts/login");
             },
             toggleMenu () {

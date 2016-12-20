@@ -67,7 +67,7 @@
 				  v-show="steps.currentStep == 4">
 				<h2 class="subtitle">此应用在哪个端口开放?</h2>
 				<p class="control">
-				    <input v-model="app.port" placeholder="8080" class="input custom-input" type="text">
+				    <input v-model="app.exposePort" placeholder="8080" class="input custom-input" type="text">
 				</p>
 				<br><br>
 			</div>
@@ -268,7 +268,8 @@ export default {
 				databaseType: '',
 				detabasePassword: '',
 				framework: '',
-				port: '',
+				exposePort: '',
+				creator: currentUser
 			},
 			databaseTypes:[
 				{
@@ -302,7 +303,7 @@ export default {
 				}, {
 					name: 'framework'
 			 	}, {
-					name: 'port'
+					name: 'exposePort'
 				}, {
 					name: 'databaseType'
 				}, {
@@ -339,7 +340,7 @@ export default {
 			this.steps.slidDirection = 'right';
 
 			//初始化框架面板
-			if( (this.app.git == null || this.app.git == '') && this.app.languageType != null && this.app.languageType != '' && this.steps.currentStep == 3){
+			if(this.app.languageType != null && this.app.languageType != '' && this.steps.currentStep == 3){
 				this.$get("init_app_hub")(1);
 			}
 		},
@@ -397,7 +398,7 @@ export default {
 
 			services.Common.create({
 				url: 'applications',
-				params: this.app,
+				param: this.app,
 				cb: function(res){
 
 				}
