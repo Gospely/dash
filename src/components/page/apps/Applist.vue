@@ -87,7 +87,7 @@
                             <td>{{item.name}}</td>
                             <td>{{item.image}}</td>
                           <td>
-                            未支付
+                            待支付
                           </td>
                           <td class="is-icon" title="支付">
                             <a @click="payForApp(item)">
@@ -743,6 +743,7 @@
                     limit: 10,
                     cur: cur,
                     status: -1,
+                    payStatus: 0,
                     creator: currentUser
                   },
                   target: 'fields_stop',
