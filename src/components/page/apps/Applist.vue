@@ -124,7 +124,7 @@
                                 <a class="tdInline" v-link="{path: '/apps/detail',query: {containerId: item.id}}">
                                   <i class="fa fa-share"></i>
                                 </a>
-                                
+
                             </td>
                             <td class="is-icon" title="部署">
                                 <a class="tdInline" @click="deployThisApp(item)">
@@ -260,11 +260,11 @@
 
                     <div class="control is-horizontal user-center">
                       <div class="control-label">
-                        <label class="label">ssh地址&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</label>
+                        <label class="label">用户名&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</label>
                       </div>
                       <div class="control is-grouped">
                         <p class="control is-expanded">
-                            <input class="input" type="text" placeholder="ssh地址" v-model="deployApp.sshAddress">
+                            <input class="input" type="text" value="root" disabled v-model="deployApp.sshAddress">
                         </p>
                       </div>
                     </div>
@@ -281,7 +281,7 @@
                         </p>
                       </div>
                     </div>
-                    
+
                     <hr>
                     <p class="control">
                       <label class="checkbox">
@@ -291,10 +291,10 @@
                     </p>
 
                     <hr v-show="deployApp.isCreatedDatabase">
-                    
+
                     <div class="control is-horizontal user-center" v-show="deployApp.isCreatedDatabase">
                         <div class="control-label">
-                            <label class="label">数据库名称</label>
+                            <label class="label">用户名</label>
                         </div>
                         <div class="control is-grouped">
                             <p class="control is-expanded">
@@ -366,7 +366,7 @@
                 databaseInfoFormName: '新增数据库',
 
                 deployApp: {
-                    appName: '',
+                    name: '',
                     dockerConfigs: [],
                     configIsActive: [{
                         isActive: true
@@ -386,6 +386,11 @@
                     sshAddress: '',
                     sshPassword: '',
                     total: '',
+                    id: '',
+                    size: '',
+                    unit: '',
+                    products: '',
+                    free: '',
                     isCreatedDatabase: false
 
                 },
@@ -510,18 +515,53 @@
 
             deployThisApp(item) {
                 this.deployApp.appName = item.name;
+                this.deployApp.id = item.id;
                 this.showDeployMoal = true;
             },
 
             goToDeployApp() {
+                console.log(this.deployApp);
+                var _self = this;
+                services.Common.create({
+                    url: 'applications',
+                    param: {
+                        id: this.deployApp.id,
+                        unitPrice: this.deployApp.unitPrice,
+                        price: this.deployApp.total,
+                        size: this.deployApp.size,
+                        unit: this.deployApp.unit,
+                        free: this.deployApp.free,
+                        products: this.deployApp.products,
+                        sshPassword: this.deployApp.sshPassword,
+                    },
+                    cb: function(res){
+
+                        var data = res.data;
+                        if(data.code == 1) {
+                            _self.deployApp.id='';
+                            _self.deployApp.unitPrice='';
+                            _self.deployApp.total='';
+                            _self.deployApp.size='';
+                            _self.deployApp.unit='';
+                            _self.deployApp.free='';
+                            _self.deployApp.products='';
+                            _self.deployApp.sshPassword='';
+                            _self.$get("init")(1);
+                            _self.$get("initStop")(1);
+                            _self.$get("initNotpaid")(1);
+                            _self.$get("initDb")(1);
+                        }
+                        notification.alert(data.message);
+                    }
+                });
                 this.showDeployMoal = false;
             },
 
             selectThisDockerConfig: function(dockerConfig, key) {
 
-                // this.application.products = dockerConfig.id;
+                this.deployApp.products = dockerConfig.id;
                 // this.application.image = dockerConfig.id;
-                // this.application.free = dockerConfig.free;
+                this.deployApp.free = dockerConfig.free;
 
                 var unit = '';
                 if(dockerConfig.memoryUnit == "MB"){
@@ -843,9 +883,8 @@
 
           'cycSelected': function(cyc) {
                 this.deployApp.total = cyc.cyc * this.deployApp.unitPrice;
-                // this.size = cyc.cyc;
-                // this.application.size = cyc.cyc;
-                // this.application.unit = cyc.unit;
+                this.deployApp.size = cyc.cyc;
+                this.deployApp.unit = cyc.unit;
                 this.deployApp.price = this.deployApp.unitPrice + " X " + cyc.cyc + " " + cyc.unit + " = " + this.deployApp.total;
                 console.log(cyc);
             },
