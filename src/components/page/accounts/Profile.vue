@@ -55,12 +55,14 @@
             </div>
             <div class="control is-grouped">
                 <p class="control is-expanded">
-                    <img class="rounded-image" style="width:100px;height:100px" :src="photo">
+                    
                     <file-input name="file1" accept="image/jpg;image/gif;image/png" @changed="fileSelectedHandler">
-                        <a class="button is-primary">修改头像</a>
+                        <img class="rounded-image" style="width:100px;height:100px;cursor:pointer" :src="photo">
                     </file-input>
                     <span class="help is-tip">支持 JPG, GIF, PNG 格式，文件小于 1M。</span>
+                    <button class="button is-primary" v-show="isUploadPhoto" :disabled="uploading" @click="uploadPhoto">确定</button>
                 </p>
+
             </div>
         </div>
 
@@ -226,6 +228,8 @@ export default {
                 changeMobileState: false,
                 pictureFile: null,
                 photo: '',
+                isUploadPhoto: false,
+                uploading: false,
                 name: '',
                 phone: '',
                 email: '',
@@ -430,6 +434,7 @@ export default {
                 var self = this;
                 var files = fileInput.files;
                 if (files.length > 0) {
+                    self.isUploadPhoto = true;
                     var file = files[0];
                     self.pictureFile = file.name;
                     self.pictureUrl = window.URL.createObjectURL(file);
@@ -438,21 +443,29 @@ export default {
                     var reader = new FileReader();
                     reader.readAsDataURL(file);
                     reader.onload = function(e) {
-                        var user = {
-                            id: currentUser,
-                            photo: this.result
-                        }
-                        services.UserService.uploadHead(user).then(function(res) {
-
-                            if (res.status === 200) {
-                                notification.alert('修改头像成功');
-                            }
-                        }, function(err) {
-                            notification.alert('服务器异常');
-                        });
+                        self.photo = this.result;
                     }
 
                 }
+            },
+            uploadPhoto: function () {
+                var self = this;
+                self.uploading = true;
+                var user = {
+                    id: currentUser,
+                    photo: self.photo
+                }
+                services.UserService.uploadHead(user).then(function(res) {
+
+                    if (res.status === 200) {
+                        self.uploading = false;
+                        self.isUploadPhoto = false;
+                        notification.alert('修改头像成功');
+                    }
+                }, function(err) {
+                    notification.alert('服务器异常');
+                    self.uploading = false;
+                });
             }
 
         }

@@ -20,8 +20,11 @@
                             <div class="column is-half">
                                 <div class="box">
                                     <h3 class="title">收费存储</h3>
-                                    <div>
+                                    <div v-if="chartData.chargeMemory">
                                       <chart type = "pie" :data = "chartData"></chart>
+                                    </div>
+                                    <div v-else>
+                                        您还未购买数据卷
                                     </div>
                                 </div>
                             </div>

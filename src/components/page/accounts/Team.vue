@@ -19,7 +19,7 @@
                   <div class="control-label">
                       <label class="label">组织列表</label>
                   </div>
-                  <div class="control is-grouped" >
+                  <div class="control is-grouped" v-if="items.length">
 
                       <div class="team" >
 
@@ -47,6 +47,8 @@
                       </div>
 
                   </div>
+
+                  <div v-else style="width: 77%; padding-top: 6px">您还未加入任何组织，去加入或者创建吧...</div>
 
               </div>
 
