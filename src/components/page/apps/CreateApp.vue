@@ -376,7 +376,6 @@ export default {
 		selectThisLanguage(item) {
 			this.app.languageType = item.name;
 			this.$get("initVersion")();
-			this.showVersionModal = true;
 		},
 
 		selectThisDatabase(item) {
@@ -457,7 +456,15 @@ export default {
               	},
               	url: 'images',
               	ctx: _self,
-              	target: 'languageVersions'
+				cb: function(res) {
+					var data = res.data;
+					if(data.code == 1) {
+						_self.languageVersions = data.fields;
+						if(data.fields.length > 1){
+							_self.showVersionModal = true;
+						}
+					}
+				}
             }
 			console.log(options);
             services.Common.list(options);
