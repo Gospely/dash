@@ -95,8 +95,7 @@
 				  v-show="steps.currentStep == 6">
 				<h2 class="subtitle">您的数据库用户名?</h2>
 				<p class="control">
-				    <input v-model="app.password" placeholder="* * * * *" class="input custom-input" type="password">
-				    <input v-model="app.dbUser" placeholder="root" class="input custom-input" type="text">
+					<input v-model="app.dbUser" placeholder="不建议root，将创建一个与用户名同名的数据库" class="input custom-small-input" type="text">
 				</p>
 				<br><br>
 			</div>
@@ -107,7 +106,7 @@
 				  v-show="steps.currentStep == 7">
 				<h2 class="subtitle">您的数据库密码?</h2>
 				<p class="control">
-				    <input v-model="app.databasePassword" placeholder="* * * * *" class="input custom-input" type="password">
+				    <input v-model="app.password" placeholder="* * * * *" class="input custom-input" type="password">
 				</p>
 				<br><br>
 			</div>
@@ -146,7 +145,7 @@
 				跳过
 				&#62;&#62;
 			</a>
-			<a v-show="steps.currentStep == 7"
+			<a v-show="steps.currentStep == 8"
 				:class="['button', 'is-large', 'is-primary', 'is-outlined', 'custom-btn', 'animated', { fadeInLeft: true }]"
 				@click="goCreate"
 			>
@@ -208,7 +207,18 @@
 		letter-spacing: 1px;
 		width: 50rem;
 	}
-
+	.custom-small-input {
+		border-left: 0px;
+		border-right: 0px;
+		border-top: 0px;
+		box-shadow: none;
+		border-radius: 0px;
+		font-size: 2rem;
+		padding: 2.5rem 0;
+		color: #363636;
+		letter-spacing: 1px;
+		width: 50rem;
+	}
 	.custom-btn {
 		border: none;
 		font-weight: 100;
@@ -280,7 +290,6 @@ export default {
 				databaseType: '',
 				password: '',
 				dbUser: '',
-				databasePassword: '',
 				framework: '',
 				exposePort: '',
 				creator: currentUser
@@ -323,7 +332,7 @@ export default {
 				}, {
 					name: 'dbUser'
 				},{
-					name: 'databasePassword'
+					name: 'password'
 				}, {
 					name: 'comfirmInformation'
 				}]
