@@ -95,7 +95,7 @@
 				  v-show="steps.currentStep == 6">
 				<h2 class="subtitle">您的数据库密码?</h2>
 				<p class="control">
-				    <input v-model="app.detabasePassword" placeholder="* * * * *" class="input custom-input" type="password">
+				    <input v-model="app.password" placeholder="* * * * *" class="input custom-input" type="password">
 				</p>
 				<br><br>
 			</div>
@@ -266,7 +266,7 @@ export default {
 				languageType: '',
 				languageVersion: '',
 				databaseType: '',
-				detabasePassword: '',
+				password: '',
 				framework: '',
 				exposePort: '',
 				creator: currentUser
@@ -307,7 +307,7 @@ export default {
 				}, {
 					name: 'databaseType'
 				}, {
-					name: 'detabasePassword'
+					name: 'password'
 				}, {
 					name: 'comfirmInformation'
 				}]
