@@ -93,9 +93,10 @@
 				{ fadeInRight: steps.currentStep == 6 && steps.slidDirection == 'right' },
 				{ fadeInLeft: steps.currentStep == 6 && steps.slidDirection == 'left' }]"
 				  v-show="steps.currentStep == 6">
-				<h2 class="subtitle">您的数据库密码?</h2>
+				<h2 class="subtitle">您的数据库用户名?</h2>
 				<p class="control">
 				    <input v-model="app.password" placeholder="* * * * *" class="input custom-input" type="password">
+				    <input v-model="app.dbUser" placeholder="root" class="input custom-input" type="text">
 				</p>
 				<br><br>
 			</div>
@@ -104,6 +105,17 @@
 				{ fadeInRight: steps.currentStep == 7 && steps.slidDirection == 'right' },
 				{ fadeInLeft: steps.currentStep == 7 && steps.slidDirection == 'left' }]"
 				  v-show="steps.currentStep == 7">
+				<h2 class="subtitle">您的数据库密码?</h2>
+				<p class="control">
+				    <input v-model="app.databasePassword" placeholder="* * * * *" class="input custom-input" type="password">
+				</p>
+				<br><br>
+			</div>
+
+			<div :class="['wrap', 'animated',
+				{ fadeInRight: steps.currentStep == 8 && steps.slidDirection == 'right' },
+				{ fadeInLeft: steps.currentStep == 8 && steps.slidDirection == 'left' }]"
+				  v-show="steps.currentStep == 8">
 				<h2 class="subtitle">信息都对吗?</h2>
 
 				<br><br>
@@ -267,6 +279,8 @@ export default {
 				languageVersion: '',
 				databaseType: '',
 				password: '',
+				dbUser: '',
+				databasePassword: '',
 				framework: '',
 				exposePort: '',
 				creator: currentUser
@@ -288,7 +302,7 @@ export default {
 			steps: {
 				currentStep: 0,
 
-				totalSteps: 8,
+				totalSteps: 9,
 
 				slidDirection: 'right',
 
@@ -307,7 +321,9 @@ export default {
 				}, {
 					name: 'databaseType'
 				}, {
-					name: 'password'
+					name: 'dbUser'
+				},{
+					name: 'databasePassword'
 				}, {
 					name: 'comfirmInformation'
 				}]
@@ -349,7 +365,7 @@ export default {
 			let currentStep = this.steps.currentStep
 			if (this.steps.skipFrom == 1 && currentStep == 2) {
 				currentStep = 1;
-			}else if (this.steps.skipFrom == 5 && currentStep == 7) {
+			}else if (this.steps.skipFrom == 5 && currentStep == 8) {
 				currentStep = 5
 			}else {
 				currentStep--;
@@ -478,7 +494,7 @@ export default {
 	computed: {
 		nextVisible() {
 			let _self = this;
-			return this.app[this.steps.step[this.steps.currentStep].name] != '' && this.steps.currentStep != 7;
+			return this.app[this.steps.step[this.steps.currentStep].name] != '' && this.steps.currentStep != 8;
 		}
 	},
 
