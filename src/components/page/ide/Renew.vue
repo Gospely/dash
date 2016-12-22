@@ -192,7 +192,7 @@
                         <p class="title is-5" style="margin-bottom:7px">{{ide.name}}</p>
                         <p class="subtitle is-6" style="margin-top:0px" v-show = "isFree" >免费</p>
                         <div class="text-right">
-                            <a @click="changeSetMeal" class="button is-small is-warning">更改</a>
+                            <a @click="changeSetMeal" class="button is-small is-warning">升级</a>
                         </div>
                       </div>
                     </div>
