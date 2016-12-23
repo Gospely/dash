@@ -800,7 +800,8 @@
 
                         if(data.fields[i].free) {
                           _self.deployApp.currentActiveConfig = i;
-                          // _self.application.products = data.fields[i].id;
+                          _self.deployApp.products = data.fields[i].id;
+                          _self.deployApp.free = true;
                         }
                     }
                     _self.deployApp.dockerConfigs = data.fields;

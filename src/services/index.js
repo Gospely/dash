@@ -8,6 +8,7 @@ var Common = require('./CommonService');
 var model = {
 	instance: undefined,
 	//baseUrl: 'http://localhost:8089/'
+	//baseUrl: 'http://api.gospely.com:9999/'
 	baseUrl: 'http://api.gospely.com/'
 };
 
