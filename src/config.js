@@ -64,7 +64,7 @@ let menu = {
         subRoutes: {
             '/new': {
                 name: 'newapp',
-                label: '创建应用',
+                label: '快速部署',
                 hide: false,
                 component: makeComponent('./components/page/apps/NewApp.vue')
             },
