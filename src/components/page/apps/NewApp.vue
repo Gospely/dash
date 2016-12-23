@@ -1,7 +1,7 @@
 <template>
     <div class="container">
-        <h1 class="title">创建应用</h1>
-        <h2 class="subtitle">您可以在这里创建基于<strong>dodora容器云</strong>，并使用Gospel集成开发环境进行开发的应用</h2>
+        <h1 class="title">快速部署</h1>
+        <h2 class="subtitle">您可以在这里快速部署应用，并使用Gospel集成开发环境进行开发</h2>
         <hr>
 
 

@@ -41,7 +41,7 @@
             </modal>
 
             <tab :active-index="0" style="width: 100%;">
-                <tab-item title="已部署">
+                <tab-item title="应用">
                     <table class="table">
                       <thead>
                         <tr>
@@ -102,7 +102,7 @@
                     </article>
                     <page :cur.sync="cur_stop" :all.sync="all_stop" v-on:btn-click="listen_stop"></page>
                 </tab-item>
-                <tab-item title="未部署">
+                <tab-item title="快速应用">
                     <table class="table">
                       <thead>
                         <tr>
