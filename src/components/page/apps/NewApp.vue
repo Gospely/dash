@@ -111,7 +111,7 @@
               </div>
               <div class="control is-grouped">
                 <p class="control is-expanded">
-                    <input class="input" type="password" v-model="application.password">
+                    <input class="input" type="password" v-model="application.sshPassword">
                 </p>
               </div>
             </div>
@@ -144,7 +144,7 @@
                 </div>
                 <div class="control is-grouped">
                     <p class="control is-expanded">
-                        <input class="input" type="text" placeholder="数据库密码" v-model="application.password">
+                        <input class="input" type="password" placeholder="数据库密码" v-model="application.password">
                     </p>
                 </div>
             </div>
