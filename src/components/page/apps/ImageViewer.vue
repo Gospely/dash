@@ -3,7 +3,7 @@
     <div class="container">
 
 	    <tab :active-index = "0" style= "width: 100%;">
-	        <tab-item title="官方镜像">
+	        <!-- <tab-item title="官方镜像">
             <div class="columns">
               <div class="column" v-for="item in fields2">
                 <div @click="selectThisImage(item)" class="creation-modal-choice" :style="{backgroundImage: 'url(' + item.description + ')'}">
@@ -12,7 +12,7 @@
               </div>
             </div>
             <page :cur.sync="cur_gospel" :all.sync="all_gospel" v-on:btn-click="listen_gospel"></page>
-            </tab-item>
+            </tab-item> -->
             <tab-item title="快速应用部署">
             <div class="columns">
               <div class="column" v-for="item in fields">
@@ -86,7 +86,7 @@
             this.$get('init_gospel_hub')(data);
           },
         	selectThisImage: function(item) {
-				        this.$dispatch('imageOnSelected', item);
+				this.$dispatch('imageOnSelected', item);
         	},
           init_app_hub: function(cur){
 
@@ -127,7 +127,7 @@
 
             console.log("init hub");
             this.$get("init_app_hub")(1);
-            this.$get("init_gospel_hub")(1);
+            //this.$get("init_gospel_hub")(1);
         }
     }
 

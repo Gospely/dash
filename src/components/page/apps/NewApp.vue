@@ -66,21 +66,7 @@
                 </div>
               </div>
             </div>
-
-            <hr>
-
-		<div class="control is-horizontal user-center">
-              <div class="control-label">
-                <label class="label">从git创建</label>
-              </div>
-              <div class="control is-grouped">
-                <p class="control is-expanded">
-                    <input class="input" type="text" placeholder="请填git地址(选填)，并选择下面对应的容器镜像" v-model="application.git">
-                </p>
-              </div>
-            </div>
-
-		<hr>
+		    <hr>
             <div class="control is-horizontal user-center">
               <div class="control-label">
                 <label class="label">容器镜像</label>
@@ -108,7 +94,7 @@
 
             <div class="control is-horizontal user-center">
               <div class="control-label">
-                <label class="label">用户名称</label>
+                <label class="label">ssh用户</label>
               </div>
               <div class="control is-grouped">
                 <p class="control is-expanded">
@@ -121,13 +107,60 @@
 
             <div class="control is-horizontal user-center">
               <div class="control-label">
-                <label class="label">用户密码</label>
+                <label class="label">ssh密码</label>
               </div>
               <div class="control is-grouped">
                 <p class="control is-expanded">
                     <input class="input" type="password" v-model="application.password">
                 </p>
               </div>
+            </div>
+
+            <hr>
+            <p class="control">
+              <label class="checkbox">
+                <input type="checkbox" v-model="application.isCreatedDatabase">
+                创建本地数据库
+              </label>
+            </p>
+
+            <hr v-show="application.isCreatedDatabase">
+
+            <div class="control is-horizontal user-center" v-show="application.isCreatedDatabase">
+                <div class="control-label">
+                    <label class="label">数据库用户</label>
+                </div>
+                <div class="control is-grouped">
+                    <p class="control is-expanded">
+                        <input class="input" type="text" @blur="checkExit" placeholder="用户名即数据库名称" v-model="application.dbUser">
+                    </p>
+                </div>
+            </div>
+
+            <hr v-show="application.isCreatedDatabase">
+            <div class="control is-horizontal user-center" v-show="application.isCreatedDatabase">
+                <div class="control-label">
+                    <label class="label">数据库密码</label>
+                </div>
+                <div class="control is-grouped">
+                    <p class="control is-expanded">
+                        <input class="input" type="text" placeholder="数据库密码" v-model="application.password">
+                    </p>
+                </div>
+            </div>
+
+            <hr v-show="application.isCreatedDatabase">
+            <div class="control is-horizontal user-center" v-show="application.isCreatedDatabase">
+                <div class="control-label">
+                    <p class="label">数据库类型&nbsp;&nbsp;</p>
+                </div>
+                <div class="control is-grouped">
+                    <p class="control has-addons" style="height:32px;">
+                        <a :class="['button','database-type-opation',{'is-primary': index == thisIndex}]" v-for="(index,item) in databaseType" :disabled="isDetailsThisDatabase" @click="selectThisType(item,index)">
+                          <span>{{item.label}}</span>
+                        </a>
+                    </p>
+                </div>
             </div>
 
 <!--             <hr>
@@ -218,11 +251,28 @@
     export default{
         data () {
             return {
+                showDatabaseAddingForm: false,
+                isDetailsThisDatabase: false,
+                databaseInfoFormName: '新增数据库',
+                thisIndex: '0',
+                databaseType:[
+                    {
+                      label: 'mysql'
+                    },
+                    {
+                      label: 'postgres'
+                    },
+                    {
+                      label: 'mongodb'
+                    }
+                ],
                 application:{
                     name: '',
                     image: '',
                     volume: '',
                     username: 'root',
+                    dbUser: '',
+                    sshPassword: '',
                     password: '',
                     imageName: '',
                     size: '',
@@ -230,7 +280,9 @@
                     price: '',
                     unitPrice: '',
                     products: '',
-                    git:''
+                    git:'',
+                    databaseType: '',
+                    isCreatedDatabase: false
                 },
 
                 price: '10 X 100 = 1000',
@@ -309,8 +361,24 @@
         },
 
         methods: {
+            selectThisType(item,index){
+              this.thisIndex = index;
+              this.application.databaseType =  item.label;
+            },
+            showAddDatabaseForm: function() {
+                this.showDatabaseAddingForm = true;
+            },
 
-          genQrcode: function() {
+            hideAddDatabaseForm: function() {
+                this.showDatabaseAddingForm = false;
+            },
+
+            addDatabase: function() {
+                this.isDetailsThisDatabase= false;
+                this.databaseInfoFormName = '新增数据库';
+                this.showAddDatabaseForm();
+            },
+            genQrcode: function() {
 
               var _self = this;
               this.showRenewForm = true;
@@ -391,7 +459,7 @@
 
                   _self.application.price = _self.application.size * this.unitPrice;
                 }
-
+                this.application.deploy = true;
                 var options = {
 
                     param: this.application,
@@ -576,21 +644,24 @@
                 var _self = this;
                 console.log("select" + item.id);
                 this.showImageSelectorForm = false;
-                this.showVersionModal = true;
                 this.selectName = item.name;
                 this.selectDescription = item.description;
                 this.imageId = item.id;
                 this.application.image = item.name;
                 this.imageName = item.name;
 
-                services.Common.list({
-                  url: 'images',
-                  param: {
-                    parent: item.id
-                  },
-                  target: 'versions',
-                  ctx: _self
-                });
+                // services.Common.list({
+                //   url: 'images',
+                //   param: {
+                //     parent: item.id
+                //   },
+                //   target: 'versions',
+                //   ctx: _self
+                // });
+                // this.showVersionModal = true;
+                this.withImage = true;
+                this.showVersionModal = false;
+                this.showServices = false;
             },
             'selectThisVersion': function(item) {
                 console.log(item.id);
