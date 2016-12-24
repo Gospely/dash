@@ -139,7 +139,7 @@
                           <cyc :show-tips="false"></cyc>
                         </p> -->
                         <span>合计：</span>
-                        <span class="media-span-right" ="">{{price}} 元</span>
+                        <span class="media-span-right">{{price}} 元</span>
                         <hr class="split">
                         <pay-method :val.sync="qrcode"></pay-method>
 
