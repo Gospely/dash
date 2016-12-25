@@ -84,6 +84,8 @@
                 <button class="button" @click="showForgotPwForm = false">取消</button>
             </div>
         </modal>
+
+        <Loading :loading="logining" tip="登录中..."></Loading>
     </div>
 
 </template>
@@ -121,6 +123,7 @@
     import Modal from '../../ui/Modal/Modal.vue'
     import Qrcanvas from 'jsqrgen-vue';
     import bg from '../../ui/Bg.vue';
+    import Loading from '../../ui/Loading.vue'
 
     export default{
         data () {
@@ -140,7 +143,8 @@
         components: {
             Modal,
             Qrcanvas,
-            bg
+            bg,
+            Loading
         },
 
         methods: {
@@ -180,7 +184,7 @@
         		 	}
         		}else{
               if(!(/^0?(13[0-9]|15[012356789]|18[0-9]|17[0-9])[0-9]{8}$/.test(this.phone))) {
-                notification.alert('手机号码错误','danger');
+                notification.alert('账号格式错误','danger');
                 this.logining = false;
                 return false;
               }
@@ -189,7 +193,7 @@
           				password: this.password,
           				code: this.code,
           				code_token: this.token
-    	         }
+    	           }
         		}
 
                 services.UserService.login(user).then(function(res) {

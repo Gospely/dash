@@ -286,7 +286,7 @@
 			    if (i !== -1) {
 			      S.UI.simulate(decodeURI(action).substring(i + 3));
 			    } else {
-			      S.UI.simulate('Dodora|龙猫|云|欢迎您||');
+			      S.UI.simulate('Gospel|你的福音');
 			    }
 
 			    S.Drawing.loop(function () {

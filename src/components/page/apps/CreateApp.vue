@@ -502,7 +502,6 @@ export default {
 
 	computed: {
 		nextVisible() {
-			let _self = this;
 			return this.app[this.steps.step[this.steps.currentStep].name] != '' && this.steps.currentStep != 8;
 		}
 	},

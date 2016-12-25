@@ -10,19 +10,20 @@
               <span>
                   <div class="input-field-group">
                     <div class="input-field">
-                      <input type="text" v-model="phone" placeholder="邮箱/手机号码" autocapitalize="off" @blur="checkPhone" style="border: none;"></div>
+                      <input type="text" id="registerAccount" v-model="phone" placeholder="邮箱/手机号码" autocapitalize="off" @blur="checkPhone" style="border: none;"></div>
                     <div class="input-field">
-                      <input type="text"v-model='name' placeholder="用户名,仅支持英文" autocapitalize="off" @blur="checkName" style="border: none;"></div>
+                      <input type="text" v-model='name' id="registerName" placeholder="用户名,仅支持英文" autocapitalize="off" @blur="checkName" style="border: none;"></div>
                     <div class="input-field">
                       <input type="password" v-model="password" placeholder="请输入密码" autocapitalize="off" style="border: none;"></div>
                     <div class="input-field">
-                      <input type="password" v-model="rePwd" placeholder="重复密码" autocapitalize="off" style="border: none;" @blur="checkPwd"></div>
+                      <input type="password" id="registerRePassword" v-model="rePwd" placeholder="重复密码" autocapitalize="off" style="border: none;" @blur="checkPwd"></div>
                     <div class="input-field">
-                      <input type="text" v-model="authCode" placeholder="验证码" autocapitalize="off" style="border: none;" ></div>
+                      <input type="text" v-model="authCode" :disabled="btn_info == '获取验证码'" placeholder="验证码" autocapitalize="off" style="border: none;" >
+                    </div>
                   </div>
-                  <a class="button" @click="getTelCode" :disabled="btn_disabled" style="position: absolute; margin-top: -42px; height: 41px; right: 30px; border: 1px solid #dfebf2;">{{btn_info}}</a>
+                  <a class="button" @click="getTelCode" :disabled="phone == '' || btn_disabled" style="position: absolute; margin-top: -42px; height: 41px; right: 30px; border: 1px solid #dfebf2;">{{btn_info}}</a>
                   <ul class="error-msg-list"></ul>
-                  <button class="signup-form__submit" @click="register" >注册</button>
+                  <button :class="['signup-form__submit', {'is-disabled': !isValNull}]" @click="register" >注册</button>
                   <div class="signup-form-nav">
                     <div class="left">
                     </div>
@@ -41,7 +42,7 @@
             </div>
           </div>
         </div>
-
+        <Loading :loading="isRegisting" tip="注册中..."></Loading>
     </div>
 </template>
 <style>
@@ -68,10 +69,15 @@
         margin-top: 0px;
     }
 
+    #LoginComponent .is-disabled {
+        opacity: .5;
+    }
+
 </style>
 <script>
 
     import bg from '../../ui/Bg.vue';
+    import Loading from '../../ui/Loading.vue';
 
     export default{
         data () {
@@ -86,14 +92,17 @@
                 btn_info: "获取验证码",
                 btn_disabled: false,
                 wait: 60,
+                isRegisting: false
             }
         },
         components: {
-          bg
+          bg,
+          Loading
         },
 
         methods: {
           register: function(){
+            this.isRegisting = true;
             var user = {
               phone: this.phone,
               password: this.password,
@@ -123,6 +132,7 @@
                 this.rePwd = '';
             }
             );
+            this.isRegisting = false;
           },
           keyDownLogin:function(){
               if (event.keyCode == 13)
@@ -153,8 +163,11 @@
                   }
                 });
               }else{
-                console.log("code");
                 var _self = this;
+                if (!(/^([a-zA-Z0-9_-])+@([a-zA-Z0-9_-])+(.[a-zA-Z0-9_-])+/).test(_self.phone)) {
+                    return false;
+                }
+                
                 services.Common.list({
                   url: 'users/email/code',
                   param: {
@@ -218,7 +231,13 @@
                   }
                 }
              }else{
-               _self.isPhone = false;
+                _self.isPhone = false;
+                let email = /^([a-zA-Z0-9_-])+@([a-zA-Z0-9_-])+(.[a-zA-Z0-9_-])+/;
+                if(!email.test(_self.phone)) {
+                    notification.alert('邮箱或手机号码错误');
+                    document.getElementById('registerAccount').focus();
+                    return false;
+                }
                var options = {
                  url: "users",
                  param: {
@@ -237,7 +256,7 @@
                }
              }
 
-            if(_self.phone !=null &&_self.phone != '' && _self.phone != undefined) {
+            if(_self.phone != null && _self.phone != '' && _self.phone != undefined) {
               services.Common.validator(options);
             }
           },
@@ -265,13 +284,21 @@
             var reg = /[\u4E00-\u9FA5\uF900-\uFA2D]/;
             if(reg.test(this.name)){
               notification.alert("用户名不能包含中文");
+              document.getElementById('registerName').focus();
             }
           },
           checkPwd(){
             if(this.password!=this.rePwd){
-              notification.alert("密码不一致");
+              notification.alert("两次密码不一致");
+              // document.getElementById('registerRePassword').focus();
             }
           }
+        },
+
+        computed: {
+            isValNull() {
+                return this.phone != '' && this.name !='' && this.password != '' && this.rePwd != '' && this.authCode != '' && this.password == this.rePwd;
+            }
         }
     }
 </script>
