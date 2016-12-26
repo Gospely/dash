@@ -3,7 +3,7 @@
 
         <div class="columns">
             <div class="column">
-
+<!-- 
                 <label class="label">修改子域名</label>
                 <div class="columns">
 
@@ -20,7 +20,7 @@
                         </p>
                     </div>
 
-                </div>
+                </div> -->
 
                 <modal :is-html="true" :is-show.sync="showDomainAddingForm">
                     <div slot="header">{{domainInfoFormName}}</div>

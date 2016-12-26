@@ -32,15 +32,15 @@
 <style>
 
   .creation-modal-choice {
-      cursor: pointer;
-      width: 100px;
-      display: inline-block;
-      height: 100px;
-      padding: 75px 0 0 0;
-      text-align: center;
-      margin-right: calc((600px - 2rem - 500px) / 8);
-      background-size: contain;
-      border-radius: 2px;
+    cursor: pointer;
+    width: 100px;
+    display: inline-block;
+    height: 100px;
+    padding: 75px 0 0 0;
+    text-align: center;
+    margin-right: calc((600px - 2rem - 500px) / 8);
+    background-size: contain;
+    border-radius: 2px;
   }
 
   .creation-modal-choice:hover {
@@ -86,7 +86,7 @@
             this.$get('init_gospel_hub')(data);
           },
         	selectThisImage: function(item) {
-				this.$dispatch('imageOnSelected', item);
+				    this.$dispatch('imageOnSelected', item);
         	},
           init_app_hub: function(cur){
 
@@ -124,7 +124,6 @@
         },
 
         ready: function(){
-
             console.log("init hub");
             this.$get("init_app_hub")(1);
             //this.$get("init_gospel_hub")(1);
