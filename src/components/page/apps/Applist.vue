@@ -5,7 +5,7 @@
         <hr>
         <div class="content">
 
-            <a class="button is-primary" v-link="{path: '/apps/new'}">创建应用(IDE)</a>
+            <a class="button is-primary" @click="createAppInIDE">创建应用(IDE)</a>
 
             <a class="button is-primary" v-link="{path: '/apps/new'}">快速应用部署</a>
 
@@ -449,7 +449,12 @@
                 price: '',
                 isWechat: false,
                 isAlipay: true,
-                orderNo: ''
+                orderNo: '',
+
+                appLoaded: false,
+                IDEAppLoaded: false,
+                databaseLoaded: false,
+                unPaidAppLoaded: false
             }
         },
 
@@ -463,6 +468,10 @@
         },
 
         methods: {
+
+            createAppInIDE: function() {
+              window.location.href = "http://ide.gospely.com";
+            },
 
             showAddDatabaseForm: function() {
                 this.showDatabaseAddingForm = true;
@@ -569,7 +578,6 @@
             selectThisDockerConfig: function(dockerConfig, key) {
 
                 this.deployApp.products = dockerConfig.id;
-                // this.application.image = dockerConfig.id;
                 this.deployApp.free = dockerConfig.free;
 
                 var unit = '';
@@ -578,7 +586,7 @@
                 }else{
                     unit = 'g'
                 }
-                // this.application.memory = dockerConfig.memory + unit;
+
                 this.deployApp.showCaculateResourceSlider = !dockerConfig.free;
 
                 this.deployApp.configIsActive[key].isActive = true;
@@ -590,12 +598,7 @@
 
                 this.deployApp.currentActiveConfig = key;
                 this.deployApp.unitPrice = dockerConfig.price;
-                // this.application.unitPrice = dockerConfig.price;
-
-                // this.total = this.unitPrice;
                 this.deployApp.price = this.deployApp.unitPrice +"X 1月 = " + this.deployApp.unitPrice;
-
-
             },
 
             DetailsThisDatabase: function(item) {
@@ -606,8 +609,6 @@
             },
 
             removeThisDatabase: function(item) {
-
-
                 var _self = this;
                 new ModalCtrl({
                     el: document.createElement('div'),
@@ -622,11 +623,7 @@
                     },
                     events: {
                         'confirmed': function() {
-                            console.log(item);
-
-
                             services.Common.delete({
-
                                 param:{
                                     id: item.id,
                                 },
@@ -637,7 +634,6 @@
                                 }
                             });
                             this.$destroy(true);
-
                         }
                     }
                 }).show();
@@ -667,8 +663,6 @@
             },
 
             confirmToPay: function() {
-
-              console.log(this.isAlipay);
               if(this.isAlipay){
                 services.OrderService.order({
                   out_trade_no: this.orderNo,
@@ -696,8 +690,8 @@
             },
 
             init: function(cur) {
-
                 var _self = this;
+                _self.IDEAppLoaded = false;
                 var options = {
                   param: {
                     limit: 10,
@@ -707,9 +701,15 @@
                   },
                   url: "applications",
                   ctx: _self,
+                  cb: function(res) {
+                    var data = res.data;
+                    _self.fields = data.fields;
+                    _self.IDEAppLoaded = true;
+                  },
                   reload:function () {
                     if (_self.isRefresh) {
                       notification.alert("刷新成功");
+                      _self.IDEAppLoaded = true;
                     }
                     _self.isRefresh = false;
                   }
@@ -718,8 +718,8 @@
                 services.Common.list(options);
             },
             initNotpaid: function(cur) {
-
                 var _self = this;
+                _self.unPaidAppLoaded = false;
                 var options = {
 
                   url: "applications",
@@ -732,9 +732,15 @@
                   target: 'fields_notpaid',
                   all: 'all_notpaid',
                   ctx: _self,
+                  cb: function(res) {
+                    var data = res.data;
+                    _self.fields_notpaid = data.fields;
+                    _self.unPaidAppLoaded = true;
+                  },
                   reload:function () {
                     if (_self.isRefresh) {
                       notification.alert("刷新成功");
+                      _self.unPaidAppLoaded = true;
                     }
                     _self.isRefresh = false;
                   }
@@ -743,10 +749,9 @@
                 services.Common.list(options);
             },
             initStop: function(cur) {
-
                 var _self = this;
+                _self.appLoaded = false;
                 var options = {
-
                   url: "applications",
                   param: {
                     limit: 10,
@@ -758,9 +763,15 @@
                   target: 'fields_stop',
                   all: 'all_stop',
                   ctx: _self,
+                  cb: function(res) {
+                    var data = res.data;
+                    _self.fields_stop = data.fields;
+                    _self.appLoaded = true;
+                  },
                   reload:function () {
                     if (_self.isRefresh) {
                       notification.alert("刷新成功");
+                      _self.appLoaded = true;
                     }
                     _self.isRefresh = false;
                   }
@@ -771,8 +782,8 @@
             initDb: function(cur) {
 
                 var _self = this;
+                _self.databaseLoaded = false;
                 var options = {
-
                   url: "dbs",
                   param: {
                     limit: 10,
@@ -781,7 +792,12 @@
                   },
                   target: 'fields_db',
                   all: 'all_db',
-                  ctx: _self
+                  ctx: _self,
+                  cb: function(res) {
+                    var data = res.data;
+                    _self.fields_db = data.fields;
+                    _self.databaseLoaded = true;
+                  }
                 }
                 services.Common.list(options);
             },
