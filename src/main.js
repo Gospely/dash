@@ -19,7 +19,7 @@ if (document.domain != 'localhost') {
   document.domain = 'gospely.com';
 }
 
-document.title = 'Gospel控制面板 - Dodora 龙猫云';
+document.title = '控制面板 - Gospel 容器云';
 window.notification = notification;
 
 window.baseUrl = "http://" + window.location.host
@@ -88,7 +88,7 @@ router.start(App, 'app');
 
 //路由请求开始时调用
 router.beforeEach(function(route) {
-  document.title = route.to.label + ' | Gospel控制面板 - Dodora 龙猫云';
+  document.title = route.to.label + ' | 控制面板 - Gospel 容器云';
   var from = route.from;
 
   if (route.from.name == "appdetail") {

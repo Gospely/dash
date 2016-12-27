@@ -151,12 +151,12 @@
 
             <hr v-show="application.isCreatedDatabase">
             <div class="control is-horizontal user-center" v-show="application.isCreatedDatabase">
-                <div class="control-label">
+                <div class="control-label" style="margin-right:10px">
                     <p class="label">数据库类型&nbsp;&nbsp;</p>
                 </div>
                 <div class="control is-grouped">
-                    <p class="control has-addons" style="height:32px;">
-                        <a :class="['button','database-type-opation',{'is-primary': index == thisIndex}]" v-for="(index,item) in databaseType" :disabled="isDetailsThisDatabase" @click="selectThisType(item,index)">
+                    <p class="control has-addons" style="height:32px;width:100%">
+                        <a v-show="item.label != 'postgres'" :class="['button','database-type-opation',{'is-primary': index == thisIndex}]" v-for="(index,item) in databaseType" :disabled="isDetailsThisDatabase" @click="selectThisType(item,index)">
                           <span>{{item.label}}</span>
                         </a>
                     </p>
