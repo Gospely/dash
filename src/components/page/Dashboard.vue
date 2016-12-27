@@ -6,25 +6,25 @@
             <div class="column">
                 <div class="notification is-success has-text-centered">
                     <p class="title">应用</p>
-                    <p class="subtitle">{{applicationsCount}}</p>
+                    <p class="subtitle">{{applicationsCount}}<i v-show="dataLoaded" class="fa fa-spinner fa-spin fa-fw"></i></p>
                 </div>
             </div>
             <div class="column">
                 <div class="notification is-info has-text-centered">
                     <p class="title">域名</p>
-                    <p class="subtitle">{{domainsCount}}</p>
+                    <p class="subtitle">{{domainsCount}}<i v-show="dataLoaded" class="fa fa-spinner fa-spin fa-fw"></i></p>
                 </div>
             </div>
             <div class="column">
                 <div class=" notification is-warning has-text-centered">
                     <p class="title">运行中</p>
-                    <p class="subtitle">{{application_running}}</p>
+                    <p class="subtitle">{{application_running}}<i v-show="dataLoaded" class="fa fa-spinner fa-spin fa-fw"></i></p>
                 </div>
             </div>
             <div class="column">
                 <div class="notification is-danger has-text-centered">
                     <p class="title">已停止</p>
-                    <p class="subtitle">{{application_stop}}</p>
+                    <p class="subtitle">{{application_stop}}<i v-show="dataLoaded" class="fa fa-spinner fa-spin fa-fw"></i></p>
                 </div>
             </div>
             <div class="column">
@@ -41,12 +41,12 @@
         <div class="columns">
             <div class="column is-one-third">
                 <p class="notification has-text-centered">
-                    <span class="title">版本<br><span class="subtitle">{{version}}</span></span>
+                    <span class="title">版本<br><span class="subtitle">{{version}}<i v-show="dataLoaded" class="fa fa-spinner fa-spin fa-fw"></i></span></span>
                 </p>
             </div>
             <div class="column">
                 <p class="notification has-text-centered">
-                    <span class="title">到期时间<br><span class="subtitle">{{expireat}}</span></span>
+                    <span class="title">到期时间<br><span class="subtitle">{{expireat}}<i v-show="dataLoaded" class="fa fa-spinner fa-spin fa-fw"></i></span></span>
                 </p>
             </div>
         </div>
@@ -100,6 +100,7 @@
                 version: '个人版',
                 expireat: '',
                 doughnutData: [200, 300],
+                dataLoaded: false,
                 barData: {
                     labels: ['January', 'February', 'March', 'April', 'May', 'June', 'July'],
                     datasets: [{
