@@ -8,8 +8,6 @@ module.exports = {
 
 			info: function(options) {
 				return _this.$http.get(baseUrl + 'users/volume/' + options.user);
-
-
 			}
 
 		}

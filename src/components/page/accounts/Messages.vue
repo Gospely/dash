@@ -2,7 +2,7 @@
     <div class="container">
         <h1 class="title">我的消息</h1>
         <hr>
-        <div class="content">
+        <div class="content" v-show="messageLoaded">
 
             <button class="button is-primary">全部标记为已读</button>
 
@@ -75,6 +75,7 @@
             </modal>
 
         </div>
+        <loading v-show="!messageLoaded"></loading>
     </div>
 </template>
 <style>
@@ -98,6 +99,7 @@
               all: 1,
               cur1: 1,
               all1: 1,
+              messageLoaded: false
             }
         },
         components: {
@@ -141,6 +143,7 @@
             },
             init: function(cur) {
               var _self = this;
+              _self.messageLoaded = false;
               var options = {
                   param: {
                     limit: 10,
@@ -151,7 +154,13 @@
                   target: 'fields2',
                   all: 'all1',
                   url: 'notices',
-                  ctx: _self
+                  ctx: _self,
+
+                  cb: function(res) {
+                    var data = res.data;
+                    _self.fields2 = data.fields;
+                    _self.messageLoaded = true;
+                  }
               };
               services.Common.list(options);
             },

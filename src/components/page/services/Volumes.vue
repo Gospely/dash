@@ -1,9 +1,10 @@
 <template>
     <div class="container">
         <h1 class="title">数据卷服务</h1>
-        <h2 class="subtitle">数据卷服务是<strong>dodora容器云</strong>持久化数据、共享数据的存储空间</h2>
+        <h2 class="subtitle">数据卷服务是持久化容器数据的存储空间</h2>
         <hr>
-        <div class="content">
+        <loading v-show="!storageLoaded"></loading>
+        <div class="content" v-show="storageLoaded">
 
             <tab :active-index = "0" style= "width: 100%;">
                 <tab-item title="基本信息">
@@ -187,7 +188,9 @@
             changeSize: true,
             goPay: false,
             isWechat: false,
-            isAlipay: true
+            isAlipay: true,
+
+            storageLoaded: false
           }
       },
       components: {
@@ -236,6 +239,7 @@
                     _self.volume.max = 100;
                     _self.volume.step = 1;
                   }
+                  _self.storageLoaded = true;
                 }
               }
             });
