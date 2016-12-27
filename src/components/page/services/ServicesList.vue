@@ -45,31 +45,45 @@
 
         events: {
             'imageOnSelected': function(item) {
-                console.log(item.id);
-                this.showVersionModal = true;
-                this.selectName = item.id;
-                // alert(this.selectName)
-                this.selectDescription = item.description;
-                // alert(this.selectDescription)
+                console.log(item.id, item.type);
 
-                // alert(showVersionModal)
-                services.Common.list({
-                  url: 'images',
-                  param: {
-                    parent: item.id
-                  },
-                  target: 'versions',
-                  ctx: this
-                });
+                if(item.type != 'application') {
+                    this.showVersionModal = true;
+
+                    services.Common.list({
+                        url: 'images',
+                        param: {
+                            parent: item.id
+                        },
+                        target: 'versions',
+                        ctx: this
+                    });
+                }else {
+
+                    this.$router.go({
+                        path: '/apps/new/',
+                        query: {
+                            imageId: this.selectName
+                        }
+                    });
+                    menu['/apps'].isShowSubMenu = true;
+
+                }
+
+                this.selectName = item.id;
+                this.selectDescription = item.description;
+
                 sessionStorage.currentImage = JSON.stringify(item);
                 // this.$router.go('/apps/new/' + item.name);
             },
+
             'selectThisVersion': function(item) {
                 console.log(item.id);
                 this.selectName = item.id;
                 this.imageName = item.name + ":" +item.label;
                 sessionStorage.currentImage = JSON.stringify(item);
             },
+
             comfirmVersion() {
                 this.$router.go({
                     path: '/apps/new/',
