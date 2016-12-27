@@ -42,9 +42,11 @@
                             <div class="down-style">{{val.name}}</div>
                         </div>
                     </div>
+
                 </div>
                 
                 <loading v-show="!dockerConfigLoaded"></loading>
+
               </div>
             </div>
 
