@@ -248,7 +248,6 @@
               cb: function(res) {
                   var data =  res.data;
                   if(data.code == 1) {
-                    console.log(data);
                     _self.unitPrice =  data.fields[0].price;
                     _self.products = data.fields[0].id;
                   }

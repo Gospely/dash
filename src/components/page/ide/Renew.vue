@@ -3,7 +3,7 @@
         <h1 class="title">Gospel集成开发环境</h1>
         <h2 class="subtitle">在这里您可以续费您的<strong>Gospel集成开发环境</strong></h2>
         <hr>
-        <div class="content">
+        <div class="content" v-show="ideInfoLoaded">
 
             <modal :is-html="true" :is-show.sync="showSetMealForm">
                 <div slot="header">{{modalHeader[setMeal.currentStep - 1]}}</div>
@@ -210,6 +210,7 @@
 
             <hr>
         </div>
+        <loading v-show="!ideInfoLoaded"></loading>
     </div>
 </template>
 <style>
@@ -318,7 +319,9 @@
                 },
 
                 mealTicks: [],
-                time_show: ''
+                time_show: '',
+
+                ideInfoLoaded: false
 
             }
         },
@@ -585,10 +588,8 @@
                         if(res.status == 200){
 
                             var data = res.data;
-                            console.log(data);
                             if(data.code == 1){
 
-                                console.log(data.fields);
                                 var show = new Array();
                                 for(var i = 0; i<= data.fields.length-1; i++){
                                   if(!data.fields[i].free){
@@ -608,8 +609,9 @@
                                     data.fields[i].active = false;
                                   }
 
+                                  _self.ideInfoLoaded = true;
+
                                 }
-                                console.log(show);
                                 _self.fields = show;
                             }
                         }

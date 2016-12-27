@@ -2,7 +2,7 @@
 
     <div class="container">
 
-	    <tab :active-index = "0" style= "width: 100%;">
+	    <tab :active-index = "0" style= "width: 100%;" v-show="imageLoaded">
 	        <!-- <tab-item title="官方镜像">
             <div class="columns">
               <div class="column" v-for="item in fields2">
@@ -24,6 +24,8 @@
             <page :cur.sync="cur" :all.sync="all" v-on:btn-click="listen"></page>
             </tab-item>
 	    </tab>
+
+      <loading v-show="!imageLoaded"></loading>
 
     </div>
 
@@ -66,6 +68,8 @@
                 all: 8,
                 cur_gospel: 1,
                 all_gospel: 8,
+
+                imageLoaded: false
             }
         },
 
@@ -99,7 +103,13 @@
                   cur: cur,
                 },
                 url: 'images',
-                ctx: _self
+                ctx: _self,
+
+                cb: function(res) {
+                  var data = res.data
+                  _self.fields = data.fields;
+                  _self.imageLoaded = true;
+                }
               }
               services.Common.list(options);
           },

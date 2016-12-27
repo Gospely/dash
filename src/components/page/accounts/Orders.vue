@@ -2,7 +2,7 @@
     <div class="container">
         <h1 class="title">交易记录</h1>
         <hr>
-        <div class="content">
+        <div v-show="ordersLoaded" class="content">
 
             <modal :is-html="true" :is-show.sync="showRePayForm">
                 <div slot="header">继续支付</div>
@@ -107,6 +107,9 @@
             </tab>
 
         </div>
+
+        <loading v-show="!ordersLoaded"><loading>
+
     </div>
 </template>
 <style>
@@ -138,7 +141,9 @@
                 description: '',
                 orderNo:'',
                 isWechat: false,
-                isAlipay: true
+                isAlipay: true,
+
+                ordersLoaded: false
             }
         },
         components: {
@@ -185,11 +190,9 @@
 
             },
             listen: function(data) {
-              console.log('你点击了'+data+ '页');
               this.$get('initPaid')(data);
             },
             listen1: function(data) {
-              console.log('你点击了'+data+ '页');
               this.$get('initUnPay')(data);
             },
             continueToPay: function(item) {
@@ -246,26 +249,29 @@
 
             },
             initUnPay:function (cur) {
-                var _self = this;
+              var _self = this;
               services.Common.list({
                 param: {
                   status: 1,
                   cur: cur,
                   limit: 10,
                   creator: currentUser,
-
                 },
                 ctx: _self,
                 all: 'all1',
                 url: 'orders',
-                target: 'fields_unpay'
+                target: 'fields_unpay',
+
+                cb: function(res) {
+                  var data =  res.data;
+                  _self.fields_unpay = data.fields;
+                  _self.ordersLoaded = true;
+                }
               });
             }
         },
         events:{
           'weixin': function() {
-
-            console.log("wechat");
             this.isWechat = true;
             this.isAlipay = false;
           },
