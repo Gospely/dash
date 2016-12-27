@@ -65,9 +65,9 @@
                 fields: [],
                 fields2: [],
                 cur: 1,
-                all: 8,
+                all: 1,
                 cur_gospel: 1,
-                all_gospel: 8,
+                all_gospel: 1,
 
                 imageLoaded: false
             }

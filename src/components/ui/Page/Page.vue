@@ -28,7 +28,7 @@ export default {
           var left = 1
           var right = this.all
           var ar = []
-          if(this.all>= 11){
+          if(this.all >= 11){
             if(this.cur > 5 && this.cur < this.all-4){
                     left = this.cur - 5
                     right = this.cur + 4

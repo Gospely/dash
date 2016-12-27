@@ -95,9 +95,9 @@
               fields: [],
               fields2: [],
               cur: 1,
-              all: 8,
+              all: 1,
               cur1: 1,
-              all1: 10,
+              all1: 1,
             }
         },
         components: {
