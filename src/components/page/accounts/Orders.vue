@@ -193,39 +193,38 @@
               this.$get('initUnPay')(data);
             },
             continueToPay: function(item) {
-
               this.showRePayForm = true;
               var _self = this;
               this.showRenewForm = true;
               this.price = item.price;
               this.orderNo = item.orderNo;
               this.description =  item.name;
-
               services.OrderService.order({
-
                 out_trade_no: item.orderNo,
                 price: item.price,
                 type: 'wechat'
               }).then(function(res){
-                  console.log(res);
                   _self.qrcode = res.data.code_url;
-                  //window.location.href = res.body;
               },function(err,res){
-
+                  notification.error("请求微信付款失败，请重试");
               });
-
             },
             confirmRenew: function() {
               if(this.isAlipay){
+                notification.alert("正在请求支付宝付款操作...");
                 services.OrderService.order({
                   out_trade_no: this.orderNo,
                   price: this.price,
                   type: "alipay"
                 }).then(function(res){
-                    console.log(res);
-                    window.location.href = res.body;
-                },function(err,res){
-
+                    notification.alert("请求成功，即将跳转...");
+                    setTimeout(function() {
+                      if(!window.open(res.body, '__blank')) {
+                        notification.alert("窗口打开失败，请检查您的浏览器设置");
+                      }
+                    }, 100);
+                }, function(err,res){
+                    notification.error("请求支付宝付款失败，请重试");
                 });
               }else{
                 notification.alert("请确认微信扫码支付完成");
