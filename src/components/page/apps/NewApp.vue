@@ -116,14 +116,6 @@
               </div>
             </div>
 
-            <hr>
-            <p class="control">
-              <label class="checkbox">
-                <input type="checkbox" v-model="application.isCreatedDatabase">
-                创建本地数据库
-              </label>
-            </p>
-
             <hr v-show="application.isCreatedDatabase">
 
             <div class="control is-horizontal user-center" v-show="application.isCreatedDatabase">
@@ -281,8 +273,8 @@
                     unitPrice: '',
                     products: '',
                     git:'',
-                    databaseType: '',
-                    isCreatedDatabase: false
+                    databaseType: 'mysql',
+                    isCreatedDatabase: true
                 },
 
                 price: '10 X 100 = 1000',
