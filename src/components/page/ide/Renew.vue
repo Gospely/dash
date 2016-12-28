@@ -1,7 +1,7 @@
 <template>
     <div class="container">
         <h1 class="title">Gospel集成开发环境</h1>
-        <h2 class="subtitle">在这里您可以续费您的<strong>Gospel集成开发环境</strong></h2>
+        <h2 class="subtitle"><a href="http://ide.gospely.com">访问<strong>Gospel集成开发环境</strong></a></h2>
         <hr>
         <div class="content" v-show="ideInfoLoaded">
 
@@ -192,6 +192,7 @@
                         <p class="title is-5" style="margin-bottom:7px">{{ide.name}}</p>
                         <p class="subtitle is-6" style="margin-top:0px" v-show = "isFree" >免费</p>
                         <div class="text-right">
+                            <a @click="visitIDE" class="button is-small is-primary">访问</a>
                             <a @click="changeSetMeal" class="button is-small is-warning">升级</a>
                         </div>
                       </div>
@@ -336,6 +337,11 @@
         },
 
         methods: {
+
+            visitIDE: function() {
+              window.location.href = "http://ide.gospely.com";
+            },
+
             confirmRenew: function() {
                 services.OrderService.order({
                   products: this.products,

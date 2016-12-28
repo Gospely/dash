@@ -6,35 +6,35 @@
             <div class="column">
                 <div class="notification is-success has-text-centered">
                     <p class="title">应用</p>
-                    <p v-show="dataLoaded" class="subtitle">{{applicationsCount}}</p>
                     <i v-show="!dataLoaded" class="fa fa-spinner fa-spin fa-fw"></i>
+                    <p v-show="dataLoaded" class="subtitle">{{applicationsCount}}</p>
                 </div>
             </div>
             <div class="column">
                 <div class="notification is-info has-text-centered">
                     <p class="title">域名</p>
-                    <p v-show="dataLoaded" class="subtitle">{{domainsCount}}</p>
                     <i v-show="!dataLoaded" class="fa fa-spinner fa-spin fa-fw"></i>
+                    <p v-show="dataLoaded" class="subtitle">{{domainsCount}}</p>
                 </div>
             </div>
             <div class="column">
                 <div class=" notification is-warning has-text-centered">
                     <p class="title">运行中</p>
-                    <p v-show="dataLoaded" class="subtitle">{{application_running}}</p>
                     <i v-show="!dataLoaded" class="fa fa-spinner fa-spin fa-fw"></i>                    
+                    <p v-show="dataLoaded" class="subtitle">{{application_running}}</p>
                 </div>
             </div>
             <div class="column">
                 <div class="notification is-danger has-text-centered">
                     <p class="title">已停止</p>
-                    <p v-show="dataLoaded" class="subtitle">{{application_stop}}</p>
                     <i v-show="!dataLoaded" class="fa fa-spinner fa-spin fa-fw"></i>
+                    <p v-show="dataLoaded" class="subtitle">{{application_stop}}</p>
                 </div>
             </div>
             <div class="column">
                 <div class="notification has-text-centered">
                     <p class="title">
-                        <button class="button is-primary" @click="toNewApp">创建新应用</button>
+                        <button class="button is-primary" @click="toNewApp">访问IDE</button>
                     </p>
                     <p class="subtitle" style="font-size:15px">享受一站式开发</p>
                 </div>
@@ -267,7 +267,8 @@
         methods: {
 
             toNewApp: function() {
-                this.$router.replace('/apps/new');
+                // this.$router.replace('/apps/new');
+                window.location.href = "http://ide.gospely.com";
             }
 
         },

@@ -148,7 +148,6 @@
         },
 
         created () {
-          alert(this.$get('logining'))
         },
 
         methods: {
