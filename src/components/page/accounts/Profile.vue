@@ -204,7 +204,19 @@ export default {
                 id: currentUser
             },
             url: "users",
-            ctx: _self
+            ctx: _self,
+
+            cb: function(res) {
+                console.log(res);
+                var data = res.data.fields;
+                _self.name = data.name;
+                _self.phone = data.phone;
+                _self.email = data.email;
+                _self.token = localStorage.token;
+                _self.photo = data.photo;
+
+                _self.profileLoaded = true;
+            }
         }
         services.Common.getOne(options);
 
@@ -230,6 +242,10 @@ export default {
 
             profileLoaded: false
         }
+    },
+
+    created () {
+
     },
 
     components: {
@@ -371,6 +387,7 @@ export default {
                 notification.alert('服务器异常');
             });
         },
+
         confirmVerifyEmail: function() {
 
             var self = this;
@@ -405,13 +422,12 @@ export default {
         },
 
         confirmUpdatePwd: function() {
-
             var user = {
                 id: currentUser,
                 password: this.password
             };
-            services.UserService.updatePwd(user).then(function(res) {
 
+            services.UserService.updatePwd(user).then(function(res) {
                 if (res.status === 200) {
                     notification.alert('修改密码成功');
                 }
@@ -419,6 +435,7 @@ export default {
                 notification.alert('服务器异常');
             });
         },
+
         fileSelectedHandler: function(fileInput, event) {
             var self = this;
             var files = fileInput.files;
@@ -437,6 +454,7 @@ export default {
 
             }
         },
+
         uploadPhoto: function () {
             var self = this;
             self.uploading = true;

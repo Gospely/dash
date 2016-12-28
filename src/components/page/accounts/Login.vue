@@ -85,7 +85,7 @@
             </div>
         </modal>
 
-        <Loading :loading="logining" tip="登录中..."></Loading>
+        <Loading :loading.sync="logining" tip="登录中..."></Loading>
     </div>
 
 </template>
@@ -147,145 +147,148 @@
             Loading
         },
 
+        created () {
+          alert(this.$get('logining'))
+        },
+
         methods: {
 
         	getRequest:function(){
-			var url = window.location.href;
-			if (url.indexOf("?") != -1) {    //判断?后面是否有参数
-				var str = url.split("?")[1];
-				var strNum = str.split("=");
-				return strNum[1];
-			}else{
-				return null;
-			}
+			      var url = window.location.href;
+			      if (url.indexOf("?") != -1) {    //判断?后面是否有参数
+				      var str = url.split("?")[1];
+				      var strNum = str.split("=");
+				      return strNum[1];
+			      }else{
+				      return null;
+			      }
         	},
-            sendCode: function() {
 
-            },
+          sendCode: function() {
 
-            confirmVerify: function() {
+          },
 
-            },
-            login: function() {
-                this.logining = true;
-                var where = this.getRequest();
-            	console.log(where);
-                var _self = this;
-                //判断是否是邮箱
-                var reg = /^\w+((-\w+)|(\.\w+))*\@[A-Za-z0-9]+((\.|-)[A-Za-z0-9]+)*\.[A-Za-z0-9]+$/;
+          confirmVerify: function() {
+
+          },
+
+          login: function() {
+            this.logining = true;
+            var where = this.getRequest();
+            var _self = this;
+            //判断是否是邮箱
+            var reg = /^\w+((-\w+)|(\.\w+))*\@[A-Za-z0-9]+((\.|-)[A-Za-z0-9]+)*\.[A-Za-z0-9]+$/;
     		    var isok = reg.test(this.phone);
     		    var user = {};
         		if(isok){
         		 	user = {
-      				email: this.phone,
-      				password: this.password,
-      				code: this.code,
-      				code_token: this.token
-        		 	}
+      	 	 	   	email: this.phone,
+      	     		password: this.password,
+      				  code: this.code,
+      				  code_token: this.token
+      		 	  }
         		}else{
               if(!(/^0?(13[0-9]|15[012356789]|18[0-9]|17[0-9])[0-9]{8}$/.test(this.phone))) {
                 notification.alert('账号格式错误','danger');
                 this.logining = false;
                 return false;
               }
-        		 	user = {
-          				phone: this.phone,
-          				password: this.password,
-          				code: this.code,
-          				code_token: this.token
-    	           }
-        		}
+      		   	user = {
+        				phone: this.phone,
+        				password: this.password,
+        				code: this.code,
+        				code_token: this.token
+  	           }
+      		  }
+              services.UserService.login(user).then(function(res) {
 
-                services.UserService.login(user).then(function(res) {
+                  if(res.status === 200){
+                        if(res.data.code != 1){
+                            notification.alert(res.data.message,'danger');
+                            var count = localStorage.getItem('error');
+                            if(count != null &&  count != undefined && count != ''){
 
-                    if(res.status === 200){
-                          if(res.data.code != 1){
-                              notification.alert(res.data.message,'danger');
-                              var count = localStorage.getItem('error');
-                              if(count != null &&  count != undefined && count != ''){
-
-                                if(count > 3){
-                                  _self.isAuth = true;
-                                  _self.code_show = true;
-                                  _self.$get('getImageCode')();
-                                }
-                                localStorage.setItem('error',count+1);
-                              }else{
-                                localStorage.setItem('error',1);
+                              if(count > 3){
+                                _self.isAuth = true;
+                                _self.code_show = true;
+                                _self.$get('getImageCode')();
                               }
-                          }else{
-                            console.log(res.data.fields);
-                            localStorage.removeItem('error');
-                            localStorage.setItem("user",res.data.fields.id);
-                            setCookie('user',res.data.fields.id,24*60*60*1000);
-                            setCookie('token',res.data.fields.token,24*30*60*1000);
-                            setCookie('userName',res.data.fields.name,24*30*60*1000);
-                            localStorage.setItem("userName",res.data.fields.name);
-
-                            localStorage.removeItem("isActive");
-                            if(res.data.fields.isBlocked === 1) {
-                              localStorage.setItem("isActive",true);
-                            }
-                            localStorage.setItem("ide",res.data.fields.ide);
-                            localStorage.setItem("ideName",res.data.fields.ideName);
-                            localStorage.setItem("token",res.data.fields.token);
-                            notification.alert('登录成功');
-
-                            function setCookie(c_name, value, expiredays) {
-                              var exdate = new Date()
-                              exdate.setDate(exdate.getDate() + expiredays)
-                              document.cookie = c_name + "=" + escape(value) +
-                                ((expiredays == null) ? "" : ";expires=" + exdate.toGMTString())
-                            }
-                            if(where=="fromIde"){
-                            	window.location.href = "http://localhost:8989/";
+                              localStorage.setItem('error',count+1);
                             }else{
-                            	window.location.href = window.baseUrl;
+                              localStorage.setItem('error',1);
                             }
+                        }else{
+                          localStorage.removeItem('error');
+                          localStorage.setItem("user",res.data.fields.id);
+                          setCookie('user',res.data.fields.id,24*60*60*1000);
+                          setCookie('token',res.data.fields.token,24*30*60*1000);
+                          setCookie('userName',res.data.fields.name,24*30*60*1000);
+                          localStorage.setItem("userName",res.data.fields.name);
 
-                        }
-                    }
-              },function(err){
-                  notification.alert('服务器异常','danger');
-                  this.phone = '';
-                  this.password = '';
-              }
-              );
-                this.logining = false;
+                          localStorage.removeItem("isActive");
+                          if(res.data.fields.isBlocked === 1) {
+                            localStorage.setItem("isActive",true);
+                          }
+                          localStorage.setItem("ide",res.data.fields.ide);
+                          localStorage.setItem("ideName",res.data.fields.ideName);
+                          localStorage.setItem("token",res.data.fields.token);
+                          notification.alert('登录成功');
 
-            },
-            keyDownLogin:function(){
-               var disabled = this.logining || this.phone =='' || this.password == '' || this.code_show && this.code == '';
-              if (event.keyCode == 13 && !disabled)
-                {
-                  console.log("按下了enter键");
-                    this.login();
-                }else {
-                    return false;
-                }
-            },
-            changeCode: function() {
-                this.isAuth = true;
-                // this.code_src = 'http://api.gospely.com/users/code?time=' + Date.now();
-                this.$get('getImageCode')();
-            },
-            getImageCode: function() {
+                          function setCookie(c_name, value, expiredays) {
+                            var exdate = new Date()
+                            exdate.setDate(exdate.getDate() + expiredays)
+                            document.cookie = c_name + "=" + escape(value) +
+                              ((expiredays == null) ? "" : ";expires=" + exdate.toGMTString())
+                          }
+                          if(where=="fromIde"){
+                          	window.location.href = "http://localhost:8989/";
+                          }else{
+                          	window.location.href = window.baseUrl;
+                          }
 
-              var _self = this;
-              services.UserService.getCode().then(function(res){
-                  if(res.status === 200) {
-                    var data = res.data;
-                    console.log(data);
-                    if(data.code == 1) {
-                        _self.token = data.fields.token;
-                        _self.code_src = data.fields.buf;
-                    }
+                      }
                   }
-              }, function(err){
+            },function(err){
+                notification.alert('服务器异常','danger');
+                this.phone = '';
+                this.password = '';
+            });
+            this.logining = false;
+          },
 
-              })
+          keyDownLogin:function(){
+            var disabled = this.logining || this.phone =='' || this.password == '' || this.code_show && this.code == '';
+            if (event.keyCode == 13 && !disabled) {
+                this.login();
+            }else {
+                return false;
             }
+          },
+
+          changeCode: function() {
+              this.isAuth = true;
+              // this.code_src = 'http://api.gospely.com/users/code?time=' + Date.now();
+              this.$get('getImageCode')();
+          },
+
+          getImageCode: function() {
+
+            var _self = this;
+            services.UserService.getCode().then(function(res){
+                if(res.status === 200) {
+                  var data = res.data;
+                  console.log(data);
+                  if(data.code == 1) {
+                      _self.token = data.fields.token;
+                      _self.code_src = data.fields.buf;
+                  }
+                }
+            }, function(err){
+              notification.error('获取验证码失败');
+            });
+          },
         },
+
         ready: function(){
           console.log(localStorage.token);
           console.log(this.token);
@@ -305,6 +308,7 @@
           if(getCookie.token){
             window.location.href = "http://localhost:8088/";
           }
+
           var _self = this;
           localStorage.removeItem("isActive");
           var count = localStorage.getItem('error');
