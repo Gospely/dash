@@ -148,7 +148,10 @@
         },
 
         created () {
+<<<<<<< HEAD
           // alert(this.$get('logining'))
+=======
+>>>>>>> 434f34b6e80865800159af636d8da5d1b8bfd23e
         },
 
         methods: {
