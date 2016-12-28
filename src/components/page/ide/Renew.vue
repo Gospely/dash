@@ -1,9 +1,9 @@
 <template>
     <div class="container">
         <h1 class="title">Gospel集成开发环境</h1>
-        <h2 class="subtitle">在这里您可以续费您的<strong>Gospel集成开发环境</strong></h2>
+        <h2 class="subtitle"><a href="http://ide.gospely.com">访问<strong>Gospel集成开发环境</strong></a></h2>
         <hr>
-        <div class="content">
+        <div class="content" v-show="ideInfoLoaded">
 
             <modal :is-html="true" :is-show.sync="showSetMealForm">
                 <div slot="header">{{modalHeader[setMeal.currentStep - 1]}}</div>
@@ -192,6 +192,7 @@
                         <p class="title is-5" style="margin-bottom:7px">{{ide.name}}</p>
                         <p class="subtitle is-6" style="margin-top:0px" v-show = "isFree" >免费</p>
                         <div class="text-right">
+                            <a @click="visitIDE" class="button is-small is-primary">访问</a>
                             <a @click="changeSetMeal" class="button is-small is-warning">升级</a>
                         </div>
                       </div>
@@ -210,6 +211,7 @@
 
             <hr>
         </div>
+        <loading v-show="!ideInfoLoaded"></loading>
     </div>
 </template>
 <style>
@@ -318,7 +320,9 @@
                 },
 
                 mealTicks: [],
-                time_show: ''
+                time_show: '',
+
+                ideInfoLoaded: false
 
             }
         },
@@ -333,6 +337,11 @@
         },
 
         methods: {
+
+            visitIDE: function() {
+              window.location.href = "http://ide.gospely.com";
+            },
+
             confirmRenew: function() {
                 services.OrderService.order({
                   products: this.products,
@@ -585,10 +594,8 @@
                         if(res.status == 200){
 
                             var data = res.data;
-                            console.log(data);
                             if(data.code == 1){
 
-                                console.log(data.fields);
                                 var show = new Array();
                                 for(var i = 0; i<= data.fields.length-1; i++){
                                   if(!data.fields[i].free){
@@ -608,8 +615,9 @@
                                     data.fields[i].active = false;
                                   }
 
+                                  _self.ideInfoLoaded = true;
+
                                 }
-                                console.log(show);
                                 _self.fields = show;
                             }
                         }

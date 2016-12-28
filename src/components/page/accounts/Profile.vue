@@ -47,7 +47,7 @@
 <div class="container">
     <h1 class="title">个人信息</h1>
     <hr>
-    <div class="content">
+    <div class="content" v-show="profileLoaded">
 
         <div class="control is-horizontal user-center">
             <div class="control-label">
@@ -74,7 +74,7 @@
             </div>
             <div class="control">
                 <p class="control input-left has-icon has-icon-right">
-                    <input class="input" type="text" placeholder="ivydom" v-model="name" disabled>
+                    <input class="input" type="text" placeholder="您的用户名" v-model="name" disabled>
                     <i class="fa fa-lock"></i>
                 </p>
             </div>
@@ -185,6 +185,7 @@
         <hr>
 
     </div>
+    <loading v-show="!profileLoaded"></loading>
 </div>
 
 </template>
@@ -197,278 +198,284 @@ import FileInput from '../../ui/NiceFileInput.vue'
 
 export default {
     data() {
+        var _self = this;
+        var options = {
+            param: {
+                id: currentUser
+            },
+            url: "users",
+            ctx: _self,
+
+            cb: function(res) {
+                console.log(res);
+                var data = res.data.fields;
+                _self.name = data.name;
+                _self.phone = data.phone;
+                _self.email = data.email;
+                _self.token = localStorage.token;
+                _self.photo = data.photo;
+
+                _self.profileLoaded = true;
+            }
+        }
+        services.Common.getOne(options);
+
+        return {
+            changePwState: false,
+            isVerifingEmail: false,
+            changeMobileState: false,
+            pictureFile: null,
+            photo: '',
+            isUploadPhoto: false,
+            uploading: false,
+            name: '',
+            phone: '',
+            email: '',
+            rePwd: '',
+            password: '',
+            emailCode: '',
+            phoneCode: '',
+            timevalue: "发送验证码",
+            timer: 60,
+            stop: false,
+            token: '',
+
+            profileLoaded: false
+        }
+    },
+
+    created () {
+
+    },
+
+    components: {
+        Modal,
+        FileInput
+    },
+
+    methods: {
+        btnChange: function() {
+            var self = this;
+            if (this.timer == 0) {
+                this.stop = false;
+                this.timevalue = "重新发送";
+                this.timer = 60;
+            } else {
+                this.stop = true;
+                this.timevalue = "重新发送(" + this.timer + ")";
+                this.timer--;
+                setTimeout(function() {
+                    self.btnChange();
+                }, 1000)
+            }
+        },
+        sendPhoneCode: function() {
+            var user = {
+                phone: this.phone
+            }
+            services.UserService.sendPhoneCode(user).then(function(res) {
+                if (res.status === 200) {
+                    notification.alert('发送验证码成功');
+                }
+            }, function(err) {
+                console.log(err);
+                notification.alert('服务器异常');
+            });
+            this.btnChange();
+        },
+        confirmVerifyPhone: function() {
+
+            var self = this;
+            var user = {
+                id: currentUser,
+                token: this.token,
+                authCode: this.emailCode,
+                phone: this.phone
+            }
+            services.UserService.confirmVerifyPhone(user).then(function(res) {
+                if (res.status === 200) {
+                    var data = res.data;
+                    if (data.code == 1) {
+                        notification.alert('手机验证成功');
+                        self.changeMobileState = false;
+                    } else {
+                        notification.alert(data.message);
+                    }
+                }
+            }, function(err) {
+                console.log(err);
+                notification.alert('服务器异常');
+            });
+        },
+        startChangePw: function() {
+            this.changePwState = !this.changePwState;
+        },
+        verifyEmail: function() {
+            this.isVerifingEmail = true;
+        },
+
+        cancelVerifyEmail: function() {
+            this.isVerifingEmail = false;
+        },
+        checkPhone: function() {
+
             var _self = this;
             var options = {
-                param: {
-                    id: currentUser
-                },
                 url: "users",
-                ctx: _self
-            }
-            services.Common.getOne(options);
-            // services.UserService.userInfo('1').then(function(res) {
-            //
-            //   if(res.status === 200) {
-            //
-            //     var data = JSON.parse(res.body);
-            //     _self.pictureUrl = data.fields.photo;
-            //     _self.username = data.fields.name;
-            //     _self.phone = data.fields.phone;
-            //     _self.email = data.fields.email;
-            //
-            //   }else {
-            //
-            //   }
-            // }, function(err) {
-            //
-            // });
-            return {
-                changePwState: false,
-                isVerifingEmail: false,
-                changeMobileState: false,
-                pictureFile: null,
-                photo: '',
-                isUploadPhoto: false,
-                uploading: false,
-                name: '',
-                phone: '',
-                email: '',
-                rePwd: '',
-                password: '',
-                emailCode: '',
-                phoneCode: '',
-                timevalue: "发送验证码",
-                timer: 60,
-                stop: false,
-                token: ''
-            }
-        },
-        components: {
-            Modal,
-            FileInput
-        },
-
-        methods: {
-            btnChange: function() {
-                var self = this;
-                if (this.timer == 0) {
-                    this.stop = false;
-                    this.timevalue = "重新发送";
-                    this.timer = 60;
-                } else {
-                    this.stop = true;
-                    this.timevalue = "重新发送(" + this.timer + ")";
-                    this.timer--;
-                    setTimeout(function() {
-                        self.btnChange();
-                    }, 1000)
-                }
-            },
-            sendPhoneCode: function() {
-                var user = {
-                    phone: this.phone
-                }
-                services.UserService.sendPhoneCode(user).then(function(res) {
-                    if (res.status === 200) {
-                        notification.alert('发送验证码成功');
-                    }
-                }, function(err) {
-                    console.log(err);
-                    notification.alert('服务器异常');
-                });
-                this.btnChange();
-            },
-            confirmVerifyPhone: function() {
-
-                var self = this;
-                var user = {
-                    id: currentUser,
-                    token: this.token,
-                    authCode: this.emailCode,
-                    phone: this.phone
-                }
-                services.UserService.confirmVerifyPhone(user).then(function(res) {
-                    if (res.status === 200) {
+                param: {
+                    phone: _self.phone
+                },
+                cb: function(res) {
+                    if (res.status == 200) {
                         var data = res.data;
-                        if (data.code == 1) {
-                            notification.alert('手机验证成功');
-                            self.changeMobileState = false;
-                        } else {
-                            notification.alert(data.message);
+                        if (data.code == -1) {
+                            console.log(data);
+                            notification.alert('该手机已注册');
+                            _self.phone = '';
                         }
                     }
-                }, function(err) {
-                    console.log(err);
-                    notification.alert('服务器异常');
-                });
-            },
-            startChangePw: function() {
-                this.changePwState = !this.changePwState;
-            },
-            verifyEmail: function() {
-                this.isVerifingEmail = true;
-            },
-
-            cancelVerifyEmail: function() {
-                this.isVerifingEmail = false;
-            },
-            checkPhone: function() {
-
-                var _self = this;
-                var options = {
-                    url: "users",
-                    param: {
-                        phone: _self.phone
-                    },
-                    cb: function(res) {
-                        if (res.status == 200) {
-                            var data = res.data;
-                            if (data.code == -1) {
-                                console.log(data);
-                                notification.alert('该手机已注册');
-                                _self.phone = '';
-                            }
-                        }
-                    }
-                };
-                var re = /^1[34578]\d{9}$/;
-                if (re.test(_self.phone)) {
-
                 }
+            };
+            var re = /^1[34578]\d{9}$/;
+            if (re.test(_self.phone)) {
 
-                if (_self.phone != null && _self.phone != '' && _self.phone != undefined) {
-                    services.Common.validator(options);
-                }
-            },
-            checkEmail: function() {
-              var _self = this;
-              var options = {
-                  url: "users",
-                  param: {
-                      email: _self.phone
-                  },
-                  cb: function(res) {
-                      if (res.status == 200) {
-                          var data = res.data;
-                          if (data.code == -1) {
-                              console.log(data);
-                              notification.alert('该手机已注册');
-                              _self.email = '';
-                          }
+            }
+
+            if (_self.phone != null && _self.phone != '' && _self.phone != undefined) {
+                services.Common.validator(options);
+            }
+        },
+        checkEmail: function() {
+          var _self = this;
+          var options = {
+              url: "users",
+              param: {
+                  email: _self.phone
+              },
+              cb: function(res) {
+                  if (res.status == 200) {
+                      var data = res.data;
+                      if (data.code == -1) {
+                          console.log(data);
+                          notification.alert('该手机已注册');
+                          _self.email = '';
                       }
                   }
-              };
-              var re = /^1[34578]\d{9}$/;
-              if (re.test(_self.email)) {
-
               }
+          };
+          var re = /^1[34578]\d{9}$/;
+          if (re.test(_self.email)) {
 
-              if (_self.email != null && _self.email != '' && _self.email != undefined) {
-                  services.Common.validator(options);
-              }
-            },
-            sendEmailCode: function() {
-                var user = {
-                    email: this.email
-                }
-                var self = this;
-                services.UserService.sendEmailCode(user).then(function(res) {
-                    if (res.status === 200) {
-                        self.token = res.data.fields;
-                        notification.alert('发送验证码成功');
-                    }
-                }, function(err) {
-                    console.log(err);
-                    notification.alert('服务器异常');
-                });
-            },
-            confirmVerifyEmail: function() {
+          }
 
-                var self = this;
-                var user = {
-                    id: currentUser,
-                    token: this.token,
-                    authCode: this.emailCode,
-                    phone: this.email,
-                }
-                services.UserService.confirmVerifyEmail(user).then(function(res) {
-                    if (res.status === 200) {
-                        var data = res.data;
-                        if (data.code == 1) {
-                            notification.alert('修改邮箱成功');
-                            self.isVerifingEmail = false;
-                        } else {
-                            notification.alert(data.message);
-                        }
-                    }
-                }, function(err) {
-                    console.log(err);
-                    notification.alert('服务器异常');
-                });
-            },
-
-            startChangeMobile: function() {
-                this.changeMobileState = true;
-            },
-
-            cancelChangeMobile: function() {
-                this.changeMobileState = false;
-            },
-
-            confirmUpdatePwd: function() {
-
-                var user = {
-                    id: currentUser,
-                    password: this.password
-                };
-                services.UserService.updatePwd(user).then(function(res) {
-
-                    if (res.status === 200) {
-                        notification.alert('修改密码成功');
-                    }
-                }, function(err) {
-                    notification.alert('服务器异常');
-                });
-            },
-            fileSelectedHandler: function(fileInput, event) {
-                var self = this;
-                var files = fileInput.files;
-                if (files.length > 0) {
-                    self.isUploadPhoto = true;
-                    var file = files[0];
-                    self.pictureFile = file.name;
-                    self.pictureUrl = window.URL.createObjectURL(file);
-
-                    //图片转base64
-                    var reader = new FileReader();
-                    reader.readAsDataURL(file);
-                    reader.onload = function(e) {
-                        self.photo = this.result;
-                    }
-
-                }
-            },
-            uploadPhoto: function () {
-                var self = this;
-                self.uploading = true;
-                var user = {
-                    id: currentUser,
-                    photo: self.photo
-                }
-                services.UserService.uploadHead(user).then(function(res) {
-
-                    if (res.status === 200) {
-                        self.uploading = false;
-                        self.isUploadPhoto = false;
-                        notification.alert('修改头像成功');
-                    }
-                }, function(err) {
-                    notification.alert('服务器异常');
-                    self.uploading = false;
-                });
+          if (_self.email != null && _self.email != '' && _self.email != undefined) {
+              services.Common.validator(options);
+          }
+        },
+        sendEmailCode: function() {
+            var user = {
+                email: this.email
             }
+            var self = this;
+            services.UserService.sendEmailCode(user).then(function(res) {
+                if (res.status === 200) {
+                    self.token = res.data.fields;
+                    notification.alert('发送验证码成功');
+                }
+            }, function(err) {
+                console.log(err);
+                notification.alert('服务器异常');
+            });
+        },
 
+        confirmVerifyEmail: function() {
+
+            var self = this;
+            var user = {
+                id: currentUser,
+                token: this.token,
+                authCode: this.emailCode,
+                phone: this.email,
+            }
+            services.UserService.confirmVerifyEmail(user).then(function(res) {
+                if (res.status === 200) {
+                    var data = res.data;
+                    if (data.code == 1) {
+                        notification.alert('修改邮箱成功');
+                        self.isVerifingEmail = false;
+                    } else {
+                        notification.alert(data.message);
+                    }
+                }
+            }, function(err) {
+                console.log(err);
+                notification.alert('服务器异常');
+            });
+        },
+
+        startChangeMobile: function() {
+            this.changeMobileState = true;
+        },
+
+        cancelChangeMobile: function() {
+            this.changeMobileState = false;
+        },
+
+        confirmUpdatePwd: function() {
+            var user = {
+                id: currentUser,
+                password: this.password
+            };
+
+            services.UserService.updatePwd(user).then(function(res) {
+                if (res.status === 200) {
+                    notification.alert('修改密码成功');
+                }
+            }, function(err) {
+                notification.alert('服务器异常');
+            });
+        },
+
+        fileSelectedHandler: function(fileInput, event) {
+            var self = this;
+            var files = fileInput.files;
+            if (files.length > 0) {
+                self.isUploadPhoto = true;
+                var file = files[0];
+                self.pictureFile = file.name;
+                self.pictureUrl = window.URL.createObjectURL(file);
+
+                //图片转base64
+                var reader = new FileReader();
+                reader.readAsDataURL(file);
+                reader.onload = function(e) {
+                    self.photo = this.result;
+                }
+
+            }
+        },
+
+        uploadPhoto: function () {
+            var self = this;
+            self.uploading = true;
+            var user = {
+                id: currentUser,
+                photo: self.photo
+            }
+            services.UserService.uploadHead(user).then(function(res) {
+
+                if (res.status === 200) {
+                    self.uploading = false;
+                    self.isUploadPhoto = false;
+                    notification.alert('修改头像成功');
+                }
+            }, function(err) {
+                notification.alert('服务器异常');
+                self.uploading = false;
+            });
         }
+
+    }
 }
 
 </script>

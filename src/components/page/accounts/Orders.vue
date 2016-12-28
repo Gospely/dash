@@ -2,7 +2,7 @@
     <div class="container">
         <h1 class="title">交易记录</h1>
         <hr>
-        <div class="content">
+        <div v-show="ordersLoaded" class="content">
 
             <modal :is-html="true" :is-show.sync="showRePayForm">
                 <div slot="header">继续支付</div>
@@ -107,6 +107,9 @@
             </tab>
 
         </div>
+
+        <loading v-show="!ordersLoaded"><loading>
+
     </div>
 </template>
 <style>
@@ -129,16 +132,18 @@
                 fields: [],
                 fields_unpay: [],
                 cur: 1,
-                all: 8,
+                all: 1,
                 cur1: 1,
-                all1: 10,
+                all1: 1,
                 qrcode: 'test',
                 showRePayForm: false,
                 price: '',
                 description: '',
                 orderNo:'',
                 isWechat: false,
-                isAlipay: true
+                isAlipay: true,
+
+                ordersLoaded: false
             }
         },
         components: {
@@ -185,47 +190,44 @@
 
             },
             listen: function(data) {
-              console.log('你点击了'+data+ '页');
               this.$get('initPaid')(data);
             },
             listen1: function(data) {
-              console.log('你点击了'+data+ '页');
               this.$get('initUnPay')(data);
             },
             continueToPay: function(item) {
-
               this.showRePayForm = true;
               var _self = this;
               this.showRenewForm = true;
               this.price = item.price;
               this.orderNo = item.orderNo;
               this.description =  item.name;
-
               services.OrderService.order({
-
                 out_trade_no: item.orderNo,
                 price: item.price,
                 type: 'wechat'
               }).then(function(res){
-                  console.log(res);
                   _self.qrcode = res.data.code_url;
-                  //window.location.href = res.body;
               },function(err,res){
-
+                  notification.error("请求微信付款失败，请重试");
               });
-
             },
             confirmRenew: function() {
               if(this.isAlipay){
+                notification.alert("正在请求支付宝付款操作...");
                 services.OrderService.order({
                   out_trade_no: this.orderNo,
                   price: this.price,
                   type: "alipay"
                 }).then(function(res){
-                    console.log(res);
-                    window.location.href = res.body;
-                },function(err,res){
-
+                    notification.alert("请求成功，即将跳转...");
+                    setTimeout(function() {
+                      if(!window.open(res.body, '__blank')) {
+                        notification.alert("窗口打开失败，请检查您的浏览器设置");
+                      }
+                    }, 100);
+                }, function(err,res){
+                    notification.error("请求支付宝付款失败，请重试");
                 });
               }else{
                 notification.alert("请确认微信扫码支付完成");
@@ -247,26 +249,29 @@
 
             },
             initUnPay:function (cur) {
-                var _self = this;
+              var _self = this;
               services.Common.list({
                 param: {
                   status: 1,
                   cur: cur,
                   limit: 10,
                   creator: currentUser,
-
                 },
                 ctx: _self,
                 all: 'all1',
                 url: 'orders',
-                target: 'fields_unpay'
+                target: 'fields_unpay',
+
+                cb: function(res) {
+                  var data =  res.data;
+                  _self.fields_unpay = data.fields;
+                  _self.ordersLoaded = true;
+                }
               });
             }
         },
         events:{
           'weixin': function() {
-
-            console.log("wechat");
             this.isWechat = true;
             this.isAlipay = false;
           },

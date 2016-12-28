@@ -6,31 +6,35 @@
             <div class="column">
                 <div class="notification is-success has-text-centered">
                     <p class="title">应用</p>
-                    <p class="subtitle">{{applicationsCount}}</p>
+                    <i v-show="!dataLoaded" class="fa fa-spinner fa-spin fa-fw"></i>
+                    <p v-show="dataLoaded" class="subtitle">{{applicationsCount}}</p>
                 </div>
             </div>
             <div class="column">
                 <div class="notification is-info has-text-centered">
                     <p class="title">域名</p>
-                    <p class="subtitle">{{domainsCount}}</p>
+                    <i v-show="!dataLoaded" class="fa fa-spinner fa-spin fa-fw"></i>
+                    <p v-show="dataLoaded" class="subtitle">{{domainsCount}}</p>
                 </div>
             </div>
             <div class="column">
                 <div class=" notification is-warning has-text-centered">
                     <p class="title">运行中</p>
-                    <p class="subtitle">{{application_running}}</p>
+                    <i v-show="!dataLoaded" class="fa fa-spinner fa-spin fa-fw"></i>                    
+                    <p v-show="dataLoaded" class="subtitle">{{application_running}}</p>
                 </div>
             </div>
             <div class="column">
                 <div class="notification is-danger has-text-centered">
                     <p class="title">已停止</p>
-                    <p class="subtitle">{{application_stop}}</p>
+                    <i v-show="!dataLoaded" class="fa fa-spinner fa-spin fa-fw"></i>
+                    <p v-show="dataLoaded" class="subtitle">{{application_stop}}</p>
                 </div>
             </div>
             <div class="column">
                 <div class="notification has-text-centered">
                     <p class="title">
-                        <button class="button is-primary" @click="toNewApp">创建新应用</button>
+                        <button class="button is-primary" @click="toNewApp">访问IDE</button>
                     </p>
                     <p class="subtitle" style="font-size:15px">享受一站式开发</p>
                 </div>
@@ -41,12 +45,12 @@
         <div class="columns">
             <div class="column is-one-third">
                 <p class="notification has-text-centered">
-                    <span class="title">版本<br><span class="subtitle">{{version}}</span></span>
+                    <span class="title">版本<br><span v-show="dataLoaded" class="subtitle">{{version}}</span><i v-show="!dataLoaded" class="fa fa-spinner fa-spin fa-fw"></i></span>
                 </p>
             </div>
             <div class="column">
                 <p class="notification has-text-centered">
-                    <span class="title">到期时间<br><span class="subtitle">{{expireat}}</span></span>
+                    <span class="title">到期时间<br><span v-show="dataLoaded" class="subtitle">{{expireat}}</span><i v-show="!dataLoaded" class="fa fa-spinner fa-spin fa-fw"></i></span>
                 </p>
             </div>
         </div>
@@ -73,19 +77,15 @@
     </section>
 </template>
 <style>
-    /* always present */
     .expand-transition {
         overflow: hidden;
     }
 
-    /* .expand-enter defines the starting state for entering */
-    /* .expand-leave defines the ending state for leaving */
     .expand-enter, .expand-leave {
         height: 0;
         padding: 0 10px;
         opacity: 0;
     }
-
 </style>
 <script>
     import Chart from '../ui/Chart.vue'
@@ -100,6 +100,7 @@
                 version: '个人版',
                 expireat: '',
                 doughnutData: [200, 300],
+                dataLoaded: false,
                 barData: {
                     labels: ['January', 'February', 'March', 'April', 'May', 'June', 'July'],
                     datasets: [{
@@ -154,52 +155,53 @@
 
             var _self = this;
             if(localStorage.getItem('ideName') != undefined){
-                  this.version = localStorage.getItem('ideName');
-                  var ide = localStorage.getItem('ide');
-                  services.Common.getOne({
+                this.version = localStorage.getItem('ideName');
+                var ide = localStorage.getItem('ide');
+                services.Common.getOne({
                     param: {
-                      id: ide
+                        id: ide
                     },
+
                     url: "ides",
+
                     cb: function(res) {
-                      if(res.status == 200){
-                          var data = res.data;
-                          if(data.code == 1){
+                        if(res.status == 200){
+                            var data = res.data;
+                            if(data.code == 1){
 
-                            function dateFormat(date,fmt){ //author: meizz
-                               var o = {
-                                 "M+" : date.getMonth()+1,                 //月份
-                                 "d+" : date.getDate(),                    //日
-                                 "h+" : date.getHours(),                   //小时
-                                 "m+" : date.getMinutes(),                 //分
-                                 "s+" : date.getSeconds(),                 //秒
-                                 "q+" : Math.floor((date.getMonth()+3)/3), //季度
-                                 "S"  : date.getMilliseconds()             //毫秒
-                               };
-                               if(/(y+)/.test(fmt))
-                                 fmt=fmt.replace(RegExp.$1, (date.getFullYear()+"").substr(4 - RegExp.$1.length));
-                               for(var k in o)
-                                 if(new RegExp("("+ k +")").test(fmt))
-                               fmt = fmt.replace(RegExp.$1, (RegExp.$1.length==1) ? (o[k]) : (("00"+ o[k]).substr((""+ o[k]).length)));
-                               return fmt;
-                           }
-                              if(data.fields.expireAt == null || data.fields.expireAt == undefined) {
-                                _self.expireat = '免费无限版本';
-                              }else{
-                                _self.expireat = dateFormat(new Date(data.fields.expireAt),"yyyy-MM-dd");
-                              }
+                                function dateFormat(date,fmt){ //author: meizz
+                                    var o = {
+                                        "M+" : date.getMonth()+1,                 //月份
+                                        "d+" : date.getDate(),                    //日
+                                        "h+" : date.getHours(),                   //小时
+                                        "m+" : date.getMinutes(),                 //分
+                                        "s+" : date.getSeconds(),                 //秒
+                                        "q+" : Math.floor((date.getMonth()+3)/3), //季度
+                                        "S"  : date.getMilliseconds()             //毫秒
+                                    };
+                                    if(/(y+)/.test(fmt))
+                                        fmt=fmt.replace(RegExp.$1, (date.getFullYear()+"").substr(4 - RegExp.$1.length));
+                                    for(var k in o)
+                                        if(new RegExp("("+ k +")").test(fmt))
+                                    fmt = fmt.replace(RegExp.$1, (RegExp.$1.length==1) ? (o[k]) : (("00"+ o[k]).substr((""+ o[k]).length)));
+                                    return fmt;
+                                }
 
-                          }
-                      }
+                                if(data.fields.expireAt == null || data.fields.expireAt == undefined) {
+                                    _self.expireat = '免费无限版本';
+                                }else{
+                                    _self.expireat = dateFormat(new Date(data.fields.expireAt),"yyyy-MM-dd");
+                                }
 
+                                _self.dataLoaded = true;
+
+                            }
+                        }
 
                     }
-                  });
-
+                });
             }
 
-
-            console.log(currentUser);
             services.Common.count({
                 url: 'applications',
                 param: {
@@ -225,7 +227,6 @@
                       if(res.status == 200){
                           var data = res.data;
                           if(data.code == 1){
-
                               _self.application_stop = data.fields;
                           }
                       }
@@ -241,7 +242,6 @@
                       if(res.status == 200){
                           var data = res.data;
                           if(data.code == 1){
-
                               _self.application_running = data.fields;
                           }
                       }
@@ -256,7 +256,6 @@
                       if(res.status == 200){
                           var data = res.data;
                           if(data.code == 1){
-
                               _self.domainsCount = data.fields;
                           }
 
@@ -268,7 +267,8 @@
         methods: {
 
             toNewApp: function() {
-                this.$router.replace('/apps/new');
+                // this.$router.replace('/apps/new');
+                window.location.href = "http://ide.gospely.com";
             }
 
         },

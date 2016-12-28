@@ -1,11 +1,13 @@
 <template>
     <div class="container">
         <h1 class="title">应用列表</h1>
-        <h2 class="subtitle">这里有您在<strong>dodora容器云</strong>上部署的所有应用</h2>
+        <h2 class="subtitle">这里有您在<strong>Gospel 容器云</strong>上部署或创建的所有应用</h2>
         <hr>
         <div class="content">
 
-            <a class="button is-primary" v-link="{path: '/apps/new'}">创建应用</a>
+            <a class="button is-primary" @click="createAppInIDE">创建应用(IDE)</a>
+
+            <a class="button is-primary" v-link="{path: '/apps/new'}">快速应用部署</a>
 
             <a class="button is-primary" v-bind:class="{'is-loading': isRefresh}" @click="refreshAppList">
               <i class="fa fa-refresh" aria-hidden="true"></i>
@@ -42,7 +44,8 @@
 
             <tab :active-index="0" style="width: 100%;">
                 <tab-item title="应用">
-                    <table class="table">
+                    <loading v-show="!IDEAppLoaded"></loading>
+                    <table class="table" v-show="IDEAppLoaded">
                       <thead>
                         <tr>
                           <th>应用名称</th>
@@ -67,13 +70,14 @@
                         </tr>
                       </tbody>
                     </table>
-                    <article class="noData" v-if="!fields.length">
+                    <article class="noData" v-if="!fields.length" v-show="IDEAppLoaded">
                       您还没有已部署应用，快去部署吧...
                     </article>
                     <page :cur.sync="cur" :all.sync="all" v-on:btn-click="listen"></page>
                 </tab-item>
                 <tab-item title="未支付">
-                    <table class="table">
+                    <loading v-show="!unPaidAppLoaded"></loading>
+                    <table class="table" v-show="unPaidAppLoaded">
                       <thead>
                         <tr>
                           <th>应用名称</th>
@@ -97,13 +101,14 @@
                         </tr>
                       </tbody>
                     </table>
-                    <article class="noData" v-if="!fields_notpaid.length">
+                    <article class="noData" v-if="!fields_notpaid.length" v-show="unPaidAppLoaded">
                       您还没有未支付应用...
                     </article>
                     <page :cur.sync="cur_stop" :all.sync="all_stop" v-on:btn-click="listen_stop"></page>
                 </tab-item>
                 <tab-item title="快速应用">
-                    <table class="table">
+                    <loading v-show="!appLoaded"></loading>
+                    <table class="table" v-show="appLoaded">
                       <thead>
                         <tr>
                           <th>应用名称</th>
@@ -134,15 +139,17 @@
                         </tr>
                       </tbody>
                     </table>
-                    <article class="noData" v-if="!fields_stop.length">
+                    <article class="noData" v-if="!fields_stop.length" v-show="appLoaded">
                       您的应用都已部署...
                     </article>
                     <page :cur.sync="cur_stop" :all.sync="all_stop" v-on:btn-click="listen_stop"></page>
                 </tab-item>
 
                 <tab-item title="数据库">
-                    <label class="label">添加数据库</label>
-                    <p class="control">
+                    <loading v-show="!databaseLoaded"></loading>
+
+                    <label class="label" v-show="databaseLoaded">添加数据库</label>
+                    <p class="control" v-show="databaseLoaded">
                         <button class="button is-success" @click="addDatabase">增加</button>
                     </p>
 
@@ -172,7 +179,7 @@
                             <button class="button" @click="hideAddDatabaseForm()">取消</button>
                         </div>
                     </modal>
-                    <table class="table">
+                    <table class="table" v-show="databaseLoaded">
                       <thead>
                         <tr>
                           <th>数据库名称</th>
@@ -206,7 +213,7 @@
                         </tr>
                       </tbody>
                     </table>
-                    <article class="noData" v-if="!fields_db.length">
+                    <article class="noData" v-if="!fields_db.length" v-show="databaseLoaded">
                       您还没有创建过数据库...
                     </article>
                     <page :cur.sync="cur_db" :all.sync="all_db" v-on:btn-click="listen_db"></page>
@@ -365,6 +372,8 @@
                 isDetailsThisDatabase: false,
                 databaseInfoFormName: '新增数据库',
 
+                appLoaded: false,
+
                 deployApp: {
                     name: '',
                     dockerConfigs: [],
@@ -425,13 +434,13 @@
                 fields_stop: [],
                 fields_notpaid: [],
                 fields_db: [],
-                all_db: 8,
+                all_db: 1,
                 cur_db: 1,
                 cur: 1,
-                all: 8,
+                all: 1,
                 cur_stop: 1,
-                all_stop: 8,
-                all_notpaid: 8,
+                all_stop: 1,
+                all_notpaid: 1,
                 cur_notpaid: 1,
 
                 showPayForm: false,
@@ -440,7 +449,12 @@
                 price: '',
                 isWechat: false,
                 isAlipay: true,
-                orderNo: ''
+                orderNo: '',
+
+                appLoaded: false,
+                IDEAppLoaded: false,
+                databaseLoaded: false,
+                unPaidAppLoaded: false
             }
         },
 
@@ -454,6 +468,10 @@
         },
 
         methods: {
+
+            createAppInIDE: function() {
+              window.location.href = "http://ide.gospely.com";
+            },
 
             showAddDatabaseForm: function() {
                 this.showDatabaseAddingForm = true;
@@ -560,7 +578,6 @@
             selectThisDockerConfig: function(dockerConfig, key) {
 
                 this.deployApp.products = dockerConfig.id;
-                // this.application.image = dockerConfig.id;
                 this.deployApp.free = dockerConfig.free;
 
                 var unit = '';
@@ -569,7 +586,7 @@
                 }else{
                     unit = 'g'
                 }
-                // this.application.memory = dockerConfig.memory + unit;
+
                 this.deployApp.showCaculateResourceSlider = !dockerConfig.free;
 
                 this.deployApp.configIsActive[key].isActive = true;
@@ -581,12 +598,7 @@
 
                 this.deployApp.currentActiveConfig = key;
                 this.deployApp.unitPrice = dockerConfig.price;
-                // this.application.unitPrice = dockerConfig.price;
-
-                // this.total = this.unitPrice;
                 this.deployApp.price = this.deployApp.unitPrice +"X 1月 = " + this.deployApp.unitPrice;
-
-
             },
 
             DetailsThisDatabase: function(item) {
@@ -597,8 +609,6 @@
             },
 
             removeThisDatabase: function(item) {
-
-
                 var _self = this;
                 new ModalCtrl({
                     el: document.createElement('div'),
@@ -613,11 +623,7 @@
                     },
                     events: {
                         'confirmed': function() {
-                            console.log(item);
-
-
                             services.Common.delete({
-
                                 param:{
                                     id: item.id,
                                 },
@@ -628,7 +634,6 @@
                                 }
                             });
                             this.$destroy(true);
-
                         }
                     }
                 }).show();
@@ -658,8 +663,6 @@
             },
 
             confirmToPay: function() {
-
-              console.log(this.isAlipay);
               if(this.isAlipay){
                 services.OrderService.order({
                   out_trade_no: this.orderNo,
@@ -687,8 +690,8 @@
             },
 
             init: function(cur) {
-
                 var _self = this;
+                _self.IDEAppLoaded = false;
                 var options = {
                   param: {
                     limit: 10,
@@ -698,9 +701,15 @@
                   },
                   url: "applications",
                   ctx: _self,
+                  cb: function(res) {
+                    var data = res.data;
+                    _self.fields = data.fields;
+                    _self.IDEAppLoaded = true;
+                  },
                   reload:function () {
                     if (_self.isRefresh) {
                       notification.alert("刷新成功");
+                      _self.IDEAppLoaded = true;
                     }
                     _self.isRefresh = false;
                   }
@@ -709,8 +718,8 @@
                 services.Common.list(options);
             },
             initNotpaid: function(cur) {
-
                 var _self = this;
+                _self.unPaidAppLoaded = false;
                 var options = {
 
                   url: "applications",
@@ -723,9 +732,15 @@
                   target: 'fields_notpaid',
                   all: 'all_notpaid',
                   ctx: _self,
+                  cb: function(res) {
+                    var data = res.data;
+                    _self.fields_notpaid = data.fields;
+                    _self.unPaidAppLoaded = true;
+                  },
                   reload:function () {
                     if (_self.isRefresh) {
                       notification.alert("刷新成功");
+                      _self.unPaidAppLoaded = true;
                     }
                     _self.isRefresh = false;
                   }
@@ -734,10 +749,9 @@
                 services.Common.list(options);
             },
             initStop: function(cur) {
-
                 var _self = this;
+                _self.appLoaded = false;
                 var options = {
-
                   url: "applications",
                   param: {
                     limit: 10,
@@ -749,9 +763,15 @@
                   target: 'fields_stop',
                   all: 'all_stop',
                   ctx: _self,
+                  cb: function(res) {
+                    var data = res.data;
+                    _self.fields_stop = data.fields;
+                    _self.appLoaded = true;
+                  },
                   reload:function () {
                     if (_self.isRefresh) {
                       notification.alert("刷新成功");
+                      _self.appLoaded = true;
                     }
                     _self.isRefresh = false;
                   }
@@ -762,8 +782,8 @@
             initDb: function(cur) {
 
                 var _self = this;
+                _self.databaseLoaded = false;
                 var options = {
-
                   url: "dbs",
                   param: {
                     limit: 10,
@@ -772,7 +792,12 @@
                   },
                   target: 'fields_db',
                   all: 'all_db',
-                  ctx: _self
+                  ctx: _self,
+                  cb: function(res) {
+                    var data = res.data;
+                    _self.fields_db = data.fields;
+                    _self.databaseLoaded = true;
+                  }
                 }
                 services.Common.list(options);
             },

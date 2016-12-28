@@ -8,6 +8,11 @@ import filter from './filter/index.js'
 
 import 'animate.css'
 
+import loading from 'src/components/page/animation/Loading.vue';
+
+Vue.component('loading', loading);
+
+
 // if(document.domain == 'gospely.com') {
 // 	window.debug = true;
 // }else {

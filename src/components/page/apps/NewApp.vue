@@ -3,9 +3,6 @@
         <h1 class="title">快速部署</h1>
         <h2 class="subtitle">您可以在这里快速部署应用，并使用Gospel集成开发环境进行开发</h2>
         <hr>
-
-
-
         <div class="content">
             <!-- <modal :is-html="true" :width="800" :is-show.sync="showImageSelectorForm">
                 <div slot="header">选择镜像</div>
@@ -34,8 +31,7 @@
                 <label class="label">容器配置</label>
               </div>
               <div class="control is-grouped">
-
-                <div class="columns" style="margin-left: 82px;">
+                <div class="columns" style="margin-left: 82px;"  v-show="dockerConfigLoaded">
 
                     <div class="column" v-for="(key, val) in dockerConfigs">
                         <div v-bind:class="['docker-config-box',{'active': configIsActive[key].isActive}]" @click="selectThisDockerConfig(val, key)">
@@ -48,6 +44,8 @@
                     </div>
 
                 </div>
+                
+                <loading v-show="!dockerConfigLoaded"></loading>
 
               </div>
             </div>
@@ -320,7 +318,9 @@
                 selectDescription: '',
                 versions:[
                 ],
-                showVersionModal:false
+                showVersionModal: false,
+
+                dockerConfigLoaded: false
             }
         },
 
@@ -537,6 +537,9 @@
             initConfig: function() {
 
                 var _self =  this;
+
+                _self.dockerConfigLoaded = false;
+
                 function callback(res){
 
                     console.log("callback");
@@ -562,6 +565,7 @@
                     }
                     _self.dockerConfigs = data.fields;
                     _self.configIsActive = arr;
+                    _self.dockerConfigLoaded = true;
                 }
 
                 var options = {

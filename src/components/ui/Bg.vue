@@ -286,7 +286,7 @@
 			    if (i !== -1) {
 			      S.UI.simulate(decodeURI(action).substring(i + 3));
 			    } else {
-			      S.UI.simulate('Gospel|你的福音');
+			      S.UI.simulate('Gospel|福音计划');
 			    }
 
 			    S.Drawing.loop(function () {
