@@ -71,7 +71,7 @@
                       </tbody>
                     </table>
                     <article class="noData" v-if="!fields.length" v-show="IDEAppLoaded">
-                      您还没有已部署应用，快去部署吧...
+                      您还没有应用，快去创建吧...
                     </article>
                     <page :cur.sync="cur" :all.sync="all" v-on:btn-click="listen"></page>
                 </tab-item>
@@ -140,7 +140,7 @@
                       </tbody>
                     </table>
                     <article class="noData" v-if="!fields_stop.length" v-show="appLoaded">
-                      您的应用都已部署...
+                      您暂时还没有快速部署的应用...
                     </article>
                     <page :cur.sync="cur_stop" :all.sync="all_stop" v-on:btn-click="listen_stop"></page>
                 </tab-item>
@@ -409,17 +409,11 @@
                   database: ''
                 },
                 thisIndex: '0',
-                databaseType:[
-                    {
-                      label: 'mysql'
-                    },
-                    {
-                      label: 'postgres'
-                    },
-                    {
-                      label: 'mongodb'
-                    }
-                ],
+                databaseType:[{
+                  label: 'mysql'
+                }, {
+                  label: 'mongodb'
+                }],
                 application: '',
                 db:{
                   name: '',

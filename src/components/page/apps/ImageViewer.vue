@@ -17,7 +17,7 @@
             <div class="columns">
               <div class="column" v-for="item in fields">
                 <div @click="selectThisImage(item)" class="creation-modal-choice" :style="{backgroundImage: 'url(' + item.description + ')'}">
-                  {{item.name}}
+                  <!-- {{item.name}} -->
                 </div>
               </div>
             </div>
@@ -43,12 +43,15 @@
     margin-right: calc((600px - 2rem - 500px) / 8);
     background-size: contain;
     border-radius: 2px;
+    background-repeat: no-repeat;
+    background-position: center;
   }
 
   .creation-modal-choice:hover {
     background: #f5f5f5;
     background-position: center;
     background-size: 100%;
+    background-repeat: no-repeat;
   }
 
 

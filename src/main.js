@@ -12,14 +12,6 @@ import loading from 'src/components/page/animation/Loading.vue';
 
 Vue.component('loading', loading);
 
-
-// if(document.domain == 'gospely.com') {
-// 	window.debug = true;
-// }else {
-// 	document.domain = 'dash.dodora.cn';
-// 	window.debug = false;
-// }
-
 if (document.domain != 'localhost') {
   document.domain = 'gospely.com';
 }
@@ -28,12 +20,11 @@ document.title = '控制面板 - Gospel 容器云';
 window.notification = notification;
 
 window.baseUrl = "http://" + window.location.host
-  //初始化XMLHttpRequest RestfulAPI
+
 Vue.use(require('vue-resource'));
 Vue.http.options.root = 'http://api.gospely.com/';
 Vue.http.headers['x-gospely'] = 'moha';
 Vue.http.headers.withCredentials = true;
-//localStorage.removeItem('token');
 
 function getCookie(c_name) {
   if (document.cookie.length > 0) {
@@ -60,9 +51,7 @@ if (getCookie('token') != '' && getCookie('token') !=
   // }
 }
 Vue.use(VueRouter);
-// Create a router instance.
-// You can pass in additional options here, but let's
-// keep it simple for now.
+
 var router = new VueRouter({
   hashbang: true,
   history: false,
@@ -75,20 +64,12 @@ window.router = router;
 window.currentUser = localStorage.getItem("user");
 window.currentUserName = localStorage.getItem("userName");
 
-// Define some routes.
-// Each route should map to a component. The "component" can
-// either be an actual component constructor created via
-// Vue.extend(), or just a component options object.
-// We'll talk about nested routes later.
 router.map(menu);
 
 router.redirect({
   '*': '/dashboard'
 });
 
-// Now we can start the app!
-// The router will create an instance of App and mount to
-// the element matching the selector #app.
 router.start(App, 'app');
 
 //路由请求开始时调用

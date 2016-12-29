@@ -24,7 +24,9 @@
                             <span class="help is-tip">访问方式: HTTP/SSH, HTTP端口：{{inspectInfo.port}}, SSH端口：{{inspectInfo.sshPort}}</span>
                             <span class="help is-tip">运行环境: Dodora云平台</span>
                             <span class="help is-tip">运行系统: Linux Ubuntu</span>
-                            <span class="help is-tip">访问地址: {{inspectInfo.domain}}.gsopel.org</span>
+                            <span class="help is-tip">数据库用户名: {{inspectInfo.dbUser}}</span>
+                            <span class="help is-tip">数据库表: {{inspectInfo.dbUser}}</span>
+                            <span class="help is-tip">访问地址: <a style="margin-top: -30px;margin-left: -187px;" target="__blank" href="http://gospely.com:{{inspectInfo.port}}">http://gospely.com:{{inspectInfo.port}}</a></span>
 
                         </div>
                     </div>
@@ -167,7 +169,7 @@
           },
 
           openInIde: function(){
-            window.open("http://localhost:8989/#/project/" + this.appId +"?from=dash");
+            window.open(location.origin + "/#/project/" + this.appId +"?from=dash");
           },
 
           inspect: function() {
