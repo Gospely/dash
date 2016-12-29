@@ -366,7 +366,7 @@
                             default: '为什么需要数据库信息？'
                         },
                         body: {
-                            default: 'Gospel会将您的数据库用户名作为数据库表，在安装wordpress、discuz!或其它Web应用时时您需要输入这里录入的数据库信息'
+                            default: 'Gospel会将您的数据库用户名作为数据库表，在安装wordpress、discuz!或其它Web应用时您需要提供这里录入的数据库信息'
                         }
                     },
                     events: {
