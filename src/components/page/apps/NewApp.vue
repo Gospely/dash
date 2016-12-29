@@ -116,6 +116,8 @@
 
             <hr v-show="application.isCreatedDatabase">
 
+            <a @click="openHelp">为什么需要数据库信息？</a>
+
             <div class="control is-horizontal user-center" v-show="application.isCreatedDatabase">
                 <div class="control-label">
                     <label class="label">数据库用户</label>
@@ -353,6 +355,30 @@
         },
 
         methods: {
+
+            openHelp() {
+
+                new ModalCtrl({
+                    el: document.createElement('div'),
+                    props: {
+                        isShow: false,
+                        header: {
+                            default: '为什么需要数据库信息？'
+                        },
+                        body: {
+                            default: 'Gospel会将您的数据库用户名作为数据库表，在安装wordpress、discuz!或其它Web应用时时您需要输入这里录入的数据库信息'
+                        }
+                    },
+                    events: {
+                        'confirmed': function() {
+                            console.log('sssss');
+                            this.$destroy(true);
+                        }
+                    }
+                }).show();
+
+            },
+
             selectThisType(item,index){
               this.thisIndex = index;
               this.application.databaseType =  item.label;
@@ -638,7 +664,6 @@
             'imageOnSelected': function(item) {
 
                 var _self = this;
-                console.log("select" + item.id);
                 this.showImageSelectorForm = false;
                 this.selectName = item.name;
                 this.selectDescription = item.description;
@@ -672,7 +697,6 @@
                 this.application.size = cyc.cyc;
                 this.application.unit = cyc.unit;
                 this.price = this.unitPrice +" X "+ cyc.cyc+" "+cyc.unit +" = "+this.total;
-                console.log(cyc);
             },
             comfirmVersion() {
                 // this.$router.go('/apps/new/' + this.selectName);

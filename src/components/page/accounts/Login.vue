@@ -241,7 +241,12 @@
                               ((expiredays == null) ? "" : ";expires=" + exdate.toGMTString())
                           }
                           if(where=="fromIde"){
-                          	window.location.href = "http://localhost:8989/";
+
+                            if(document.domain == 'localhost') {
+                              window.location.href = "http://ide.gospely.com";
+                            }else {
+                              window.location.href = "http://localhost:8989/";
+                            }
                           }else{
                           	window.location.href = window.baseUrl;
                           }
@@ -310,7 +315,11 @@
           }
 
           if(getCookie.token){
-            window.location.href = "http://localhost:8088/";
+            if(document.domain == 'localhost') {
+              window.location.href = "http://localhost:8088/";              
+            }else {
+              window.location.href = "http://dash.gospely.com";
+            }
           }
 
           var _self = this;
