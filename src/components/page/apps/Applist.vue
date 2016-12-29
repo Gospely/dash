@@ -464,7 +464,11 @@
         methods: {
 
             createAppInIDE: function() {
-              window.location.href = "http://ide.gospely.com";
+              if(document.domain == 'localhost') {
+                window.location.href = "http://localhost:8989";
+              }else {
+                window.location.href = "http://ide.gospely.com";
+              }
             },
 
             showAddDatabaseForm: function() {
