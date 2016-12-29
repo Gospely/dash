@@ -170,7 +170,7 @@
 			</div>
 		</modal>
 
-		<loading :loading="isCreating" tip="创建中,请稍后..."></loading>
+		<create-loading v-show="isCreating" tip="创建中,请稍后..."></create-loading>
 	</div>
 
 
@@ -272,7 +272,7 @@
 
 import Page from '../../ui/Page/Page.vue'
 import Modal from '../../ui/Modal/Modal.vue'
-import Loading from '../../ui/Loading.vue'
+import CreateLoading from '../../ui/Loading.vue'
 
 export default {
 
@@ -349,7 +349,7 @@ export default {
 	components: {
         Page,
         Modal,
-        Loading
+        CreateLoading
     },
 
 	created () {

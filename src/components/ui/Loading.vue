@@ -1,6 +1,6 @@
 <template>
 	<!-- 加载动画 -->
-		<div class="spinnerWraper" v-show="loading">
+		<div class="spinnerWraper">
 			<div class="spinner">
 				 <div class="rect1"></div>
 				 <div class="rect2"></div>
@@ -81,15 +81,8 @@
 <script>
 	export default {
 		props: {
-			loading: {
-				required: true,
-				type: Boolean,
-				default() {
-					return false;
-				}
-			},
 			tip: {
-				required: true,
+				required: false,
 				type: String,
 				default() {
 					return '请稍后...'

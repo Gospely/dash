@@ -42,7 +42,7 @@
             </div>
           </div>
         </div>
-        <Loading :loading="isRegisting" tip="注册中..."></Loading>
+        <register-loading v-show="isRegisting" tip="注册中..."></register-loading>
     </div>
 </template>
 <style>
@@ -77,7 +77,7 @@
 <script>
 
     import bg from '../../ui/Bg.vue';
-    import Loading from '../../ui/Loading.vue';
+    import RegisterLoading from '../../ui/Loading.vue';
 
     export default{
         data () {
@@ -97,7 +97,7 @@
         },
         components: {
           bg,
-          Loading
+          RegisterLoading
         },
 
         methods: {

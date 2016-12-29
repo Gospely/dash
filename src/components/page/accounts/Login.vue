@@ -85,7 +85,7 @@
             </div>
         </modal>
 
-        <Loading :loading.sync="logining" tip="登录中..."></Loading>
+        <login-loading v-show="logining" :tip="'登录中...'"></login-loading>
     </div>
 
 </template>
@@ -123,7 +123,7 @@
     import Modal from '../../ui/Modal/Modal.vue'
     import Qrcanvas from 'jsqrgen-vue';
     import bg from '../../ui/Bg.vue';
-    import Loading from '../../ui/Loading.vue'
+    import LoginLoading from '../../ui/Loading.vue'
 
     export default{
         data () {
@@ -144,10 +144,11 @@
             Modal,
             Qrcanvas,
             bg,
-            Loading
+            LoginLoading
         },
 
         created () {
+
         },
 
         methods: {
@@ -286,6 +287,10 @@
               notification.error('获取验证码失败');
             });
           },
+
+          verifyCode: function () {
+              
+          }
         },
 
         ready: function(){
