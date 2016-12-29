@@ -252,12 +252,14 @@
       margin-right: calc((600px - 2rem - 500px) / 8);
       background-size: contain;
       border-radius: 2px;
+      background-repeat: no-repeat;
   }
 
   .creation-modal-choice:hover {
     background: #f5f5f5;
     background-position: center;
     background-size: 100%;
+    background-repeat: no-repeat;
   }
 
   .isSelected {
