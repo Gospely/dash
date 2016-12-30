@@ -136,6 +136,7 @@
                 cur1: 1,
                 all1: 1,
                 qrcode: 'test',
+                alipayUrl: '',
                 showRePayForm: false,
                 price: '',
                 description: '',
@@ -202,33 +203,12 @@
               this.price = item.price;
               this.orderNo = item.orderNo;
               this.description =  item.name;
-              services.OrderService.order({
-                out_trade_no: item.orderNo,
-                price: item.price,
-                type: 'wechat'
-              }).then(function(res){
-                  _self.qrcode = res.data.code_url;
-              },function(err,res){
-                  notification.error("请求微信付款失败，请重试");
-              });
+              this.qrcode = item.wechat;
+              this.alipayUrl = item.alipay;
             },
             confirmRenew: function() {
               if(this.isAlipay){
-                notification.alert("正在请求支付宝付款操作...");
-                services.OrderService.order({
-                  out_trade_no: this.orderNo,
-                  price: this.price,
-                  type: "alipay"
-                }).then(function(res){
-                    notification.alert("请求成功，即将跳转...");
-                    setTimeout(function() {
-                      if(!window.open(res.body, '__blank')) {
-                        notification.alert("窗口打开失败，请检查您的浏览器设置");
-                      }
-                    }, 100);
-                }, function(err,res){
-                    notification.error("请求支付宝付款失败，请重试");
-                });
+                  window.location.href = this.alipayUrl;
               }else{
                 notification.alert("请确认微信扫码支付完成");
               }

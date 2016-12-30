@@ -11,7 +11,7 @@ var model = {
 	//baseUrl: 'http://api.gospely.com:9999/'
 	baseUrl: 'http://api.gospely.com/'
 	//baseUrl: 'http://192.168.31.23:9999/'
-	// baseUrl: 'http://120.76.235.234:9999'
+	//baseUrl: 'http://120.76.235.234:9999'
 };
 
 module.exports = {

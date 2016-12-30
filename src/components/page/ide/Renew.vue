@@ -302,7 +302,8 @@
 
                 isWeixin: false,
                 isFree: false,
-                qrcode: 'http://www.baidu.com',
+                qrcode: 'http://www.gospely.com',
+                alipay: '',
                 currentIDE: localStorage.getItem('ide'),
                 fields: [],
                 applicationsCount: '',
@@ -482,16 +483,7 @@
                 this.showSetMealForm = false;
                 this.showTopupForm = true;
                 if(this.isAlipay){
-                  services.OrderService.order({
-                    out_trade_no: this.orderNo,
-                    price: this.size * this.unitPrice,
-                    type: "alipay"
-                  }).then(function(res){
-                      console.log(res);
-                      window.location.href = res.body;
-                  },function(err,res){
-
-                  });
+                  window.location.href = this.alipayUrl;
                 }else{
                   notification.alert("请确认微信扫码支付完成");
                 }
@@ -530,19 +522,8 @@
                     cb: function(res) {
                       if(res.data.code == 1) {
                         notification.alert("下单成功");
-
-                        services.OrderService.order({
-
-                          out_trade_no: _self.orderNo,
-                          price: _self.size * _self.unitPrice,
-                          type: 'wechat'
-                        }).then(function(res){
-                            console.log(res);
-                            _self.qrcode = res.data.code_url;
-                            //window.location.href = res.body;
-                        },function(err,res){
-
-                        });
+                        _self.qrcode = res.data.fields.wechat;
+                        _self.alipayUrl = res.data.fields.alipay;
                       }
                     }
                   });
@@ -569,7 +550,8 @@
                   services.OrderService.order({
                     out_trade_no: _self.orderNo,
                     price: this.size * this.unitPrice,
-                    type: 'wechat'
+                    type: 'wechat',
+                    name: 'Gospel IDE 付费升级',
                   }).then(function(res){
                       console.log(res);
                       _self.qrcode = res.data.code_url;
@@ -716,7 +698,6 @@
              }
 
              console.log(cyc);
-             this.genQrcode();
              function dataFormat(date,fmt){ //author: meizz
                 var o = {
                   "M+" : date.getMonth()+1,                 //月份
