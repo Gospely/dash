@@ -236,12 +236,6 @@
                     return false;
                 }
 
-                if(_self.phone.indexOf('@outlook.com') != -1) {
-                    notification.alert('抱歉，目前不支持outlook邮箱');
-                    document.getElementById('registerAccount').focus();
-                    return false;
-                }
-
                 var options = {
                   url: "users",
                   param: {
