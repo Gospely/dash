@@ -464,8 +464,6 @@
         methods: {
 
             createAppInIDE: function() {
-              alert(document.domain);
-
               if(document.domain == 'localhost') {
                 window.location.href = "http://localhost:8989";
               }else {
