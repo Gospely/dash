@@ -12,7 +12,7 @@
               <span>
                   <div class="input-field-group">
                     <div class="input-field">
-                      <input type="text" v-model='phone' placeholder="邮箱/手机号码" autocapitalize="off" style="border: none;" disabled={{logining}}></div>
+                      <input type="text" v-model='phone' placeholder="封测阶段暂不支持手机注册，请填写邮箱账号" autocapitalize="off" style="border: none;" disabled={{logining}}></div>
                     <div class="input-field">
                       <input type="password" v-model='password' placeholder="请输入密码" autocapitalize="off" style="border: none;" disabled={{logining}}>
                     </div>
@@ -36,9 +36,9 @@
             </div>
           </div>
           <div class="signup-form__sns-btn-area">
-            <div>我们目前仅支持通过微信登录</div>
+            <div>封测阶段暂不支持第三方OAuth登录</div>
             <div class="sns-button-list">
-              <a href="https://open.weixin.qq.com/connect/qrconnect?appid=wx48e0c6824ebf0d3a&redirect_uri=http://api.gospely.com/weixin/callback&response_type=code&scope=snsapi_login&state=12123#wechat_redirect"><span class="icon"><i class="fa fa-wechat"></i></span></a>
+              <!-- <a href="https://open.weixin.qq.com/connect/qrconnect?appid=wx48e0c6824ebf0d3a&redirect_uri=http://api.gospely.com/weixin/callback&response_type=code&scope=snsapi_login&state=12123#wechat_redirect"><span class="icon"><i class="fa fa-wechat"></i></span></a> -->
               <!-- <a><span class="icon"><i class="fa fa-github"></i></span></a> -->
             </div>
           </div>

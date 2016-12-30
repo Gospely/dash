@@ -4,13 +4,13 @@
         <div class="signup-form ">
           <div class="signup-form__logo-box">
             <div class="signup-form__logo"></div>
-            <div class="signup-form__catchphrase">快速开始您的创作过程</div></div>
+            <div class="signup-form__catchphrase">快速开始您的开发</div></div>
           <div id="container-login">
             <div data-reactroot="" id="LoginComponent" @keydown="keyDownLogin">
               <span>
                   <div class="input-field-group">
                     <div class="input-field">
-                      <input type="text" id="registerAccount" v-model="phone" placeholder="邮箱/手机号码" autocapitalize="off" @blur="checkPhone" style="border: none;"></div>
+                      <input type="text" id="registerAccount" v-model="phone" placeholder="封测阶段暂不支持手机注册，请填写邮箱账号" autocapitalize="off" @blur="checkPhone" style="border: none;"></div>
                     <div class="input-field">
                       <input type="text" v-model='name' id="registerName" placeholder="用户名,仅支持英文" autocapitalize="off" @blur="checkName" style="border: none;"></div>
                     <div class="input-field">
@@ -35,9 +35,9 @@
             </div>
           </div>
           <div class="signup-form__sns-btn-area">
-            <div>我们仅支持通过微信登录</div>
+            <div>封测阶段暂不支持第三方OAuth登录</div>
             <div class="sns-button-list">
-              <a><span class="icon"><i class="fa fa-wechat"></i></span></a>
+              <!-- <a><span class="icon"><i class="fa fa-wechat"></i></span></a> -->
               <!-- <a><span class="icon"><i class="fa fa-github"></i></span></a> -->
             </div>
           </div>
@@ -111,11 +111,9 @@
               authCode: this.authCode
             };
             services.UserService.register(user).then(function(res) {
-              console.log(res);
               if(res.status === 200){
                 notification.alert('注册成功');
                 var data = res.data;
-                console.log(res.data.fields);
                 localStorage.setItem("user",res.data.fields.id);
                 localStorage.setItem("userName",res.data.fields.name);
                 localStorage.setItem("ide",res.data.fields.ide);
@@ -137,7 +135,6 @@
           keyDownLogin:function(){
               if (event.keyCode == 13)
                 {
-                  console.log("按下了enter键");
                     this.register();
                 }
             },
@@ -238,22 +235,29 @@
                     document.getElementById('registerAccount').focus();
                     return false;
                 }
-               var options = {
-                 url: "users",
-                 param: {
-                   email: _self.phone
-                 },
-                 cb: function(res) {
-                   if(res.status == 200){
-                     var data = res.data;
-                     if(data.code == -1){
-                       console.log(data);
-                       notification.alert('该邮箱已注册');
-                      _self.phone = '';
-                     }
-                   }
-                 }
-               }
+
+                if(_self.phone.indexOf('@outlook.com') != -1) {
+                    notification.alert('抱歉，目前不支持outlook邮箱');
+                    document.getElementById('registerAccount').focus();
+                    return false;
+                }
+
+                var options = {
+                  url: "users",
+                  param: {
+                    email: _self.phone
+                  },
+                  cb: function(res) {
+                    if(res.status == 200){
+                      var data = res.data;
+                      if(data.code == -1){
+                        console.log(data);
+                        notification.alert('该邮箱已注册');
+                        _self.phone = '';
+                      }
+                    }
+                  }
+                }
              }
 
             if(_self.phone != null && _self.phone != '' && _self.phone != undefined) {
