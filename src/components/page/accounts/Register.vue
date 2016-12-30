@@ -9,6 +9,8 @@
             <div data-reactroot="" id="LoginComponent" @keydown="keyDownLogin">
               <span>
                   <div class="input-field-group">
+                     <div class="input-field">
+                        <input type="text" id="inviteCode" v-model="inviteCode" placeholder="邀请码" autocapitalize="off" style="border: none;"></div>
                     <div class="input-field">
                       <input type="text" id="registerAccount" v-model="phone" placeholder="邮箱/手机号码" autocapitalize="off" @blur="checkPhone" style="border: none;"></div>
                     <div class="input-field">
@@ -90,6 +92,7 @@
                 token: '',
                 isPhone: true,
                 btn_info: "获取验证码",
+                inviteCode: '',
                 btn_disabled: false,
                 wait: 60,
                 isRegisting: false
@@ -108,21 +111,37 @@
               password: this.password,
               name: this.name,
               token: this.token,
-              authCode: this.authCode
+              authCode: this.authCode,
+              inviteCode: this.inviteCode
             };
             services.UserService.register(user).then(function(res) {
               console.log(res);
               if(res.status === 200){
-                notification.alert('注册成功');
+
                 var data = res.data;
-                console.log(res.data.fields);
-                localStorage.setItem("user",res.data.fields.id);
-                localStorage.setItem("userName",res.data.fields.name);
-                localStorage.setItem("ide",res.data.fields.ide);
-                localStorage.setItem("ideName",res.data.fields.ideName);
-                localStorage.setItem("token",res.data.fields.token);
-                console.log(localStorage.getItem("user"));
-                window.location.href = window.baseUrl;
+                if(data.code == 1){
+                    notification.alert('注册成功');
+                    console.log(res.data.fields);
+                    localStorage.setItem("user",res.data.fields.id);
+                    localStorage.setItem("userName",res.data.fields.name);
+                    localStorage.setItem("ide",res.data.fields.ide);
+                    localStorage.setItem("ideName",res.data.fields.ideName);
+                    localStorage.setItem("token",res.data.fields.token);
+                    setCookie('user',res.data.fields.id,24*60*60*1000);
+                    setCookie('token',res.data.fields.token,24*30*60*1000);
+                    setCookie('userName',res.data.fields.name,24*30*60*1000);
+                    setCookie('host',res.data.fields.host,24*30*60*1000);
+                    console.log(localStorage.getItem("user"));
+                    window.location.href = window.baseUrl;
+                }else{
+                    notification.alert(data.message);
+                }
+                function setCookie(c_name, value, expiredays) {
+                  var exdate = new Date()
+                  exdate.setDate(exdate.getDate() + expiredays)
+                  document.cookie = c_name + "=" + escape(value) +
+                    ((expiredays == null) ? "" : ";expires=" + exdate.toGMTString())
+                }
               }
             },function(err){
                 notification.alert('服务器异常');
@@ -167,7 +186,7 @@
                 if (!(/^([a-zA-Z0-9_-])+@([a-zA-Z0-9_-])+(.[a-zA-Z0-9_-])+/).test(_self.phone)) {
                     return false;
                 }
-                
+
                 services.Common.list({
                   url: 'users/email/code',
                   param: {
