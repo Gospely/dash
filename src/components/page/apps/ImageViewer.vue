@@ -17,7 +17,7 @@
             <div class="columns">
               <div class="column" v-for="item in fields">
                 <div @click="selectThisImage(item)" class="creation-modal-choice" :style="{backgroundImage: 'url(' + item.description + ')'}">
-                  <!-- {{item.name}} -->
+                  {{item.name}}
                 </div>
               </div>
             </div>
