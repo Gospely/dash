@@ -50,7 +50,6 @@ module.exports = {
 				HTTP(options).then(function(res) {
 
 						var data = res.data;
-						console.log("res");
 						if (res.status == 200) {
 							if (data.code == -100) {
 								notification.error(data.message);
@@ -63,7 +62,6 @@ module.exports = {
 						options.cb(res);
 					},
 					function(err) {
-						console.log(err);
 						notification.alert("服务器异常", 'danger');
 						globalLoader.setAttribute('value', 100);
 						globalLoader.style.display = 'none';
@@ -187,7 +185,6 @@ module.exports = {
 		return {
 
 			get: function(options) {
-
 				options.method = 'get';
 				requestAndHandlerError(options);
 
