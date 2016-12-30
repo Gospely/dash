@@ -270,7 +270,6 @@ export default {
             }
         },
         sendPhoneCode: function() {
-
             notification.alert('封测阶段暂不开放手机号验证！');
             this.cancelChangeMobile();
             return false;
