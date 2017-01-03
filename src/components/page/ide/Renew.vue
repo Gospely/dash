@@ -363,6 +363,7 @@
 
               console.log(this.ide.name);
               console.log(item.name);
+              this.products = item.id;
               if(this.ide.name != item.name){
                 console.log("change");
                 this.isChange = true;
@@ -467,7 +468,7 @@
             },
 
             useWeixin: function() {
-
+                console.log("useWeixin");
             },
 
             useAlipay: function() {
@@ -493,7 +494,7 @@
             setMealNextStep: function() {
                 console.log(this.goBuy);
                 if(!this.goBuy) {
-                  notification.alert("请选择收费版本,个人版无需升级");
+                  notification.alert("请选择非当前版本的收费版本");
                 }else{
                   this.setMeal.currentStep++;
                 }
@@ -502,6 +503,7 @@
 
                   var _self = this;
                   this.orderNo =  _md5(uuid.v4());
+                  localStorage.orderNo = this.orderNo;
                   console.log(this.orderNo);
                   services.Common.create({
                     url: 'orders',
@@ -662,12 +664,11 @@
             this.$get("initIDE")();
         },
         watch: {
-           // selected: function(item) {
-           //    this.products = item.id;
-           //    this.unitPrice = item.price;
-           //    this.price = this.unitPrice + " X 1 月 = " + this.unitPrice;
-           //    this.reNewIDE();
-           // }
+        //    selected: function(item) {
+        //       this.products = item.id;
+        //       this.unitPrice = item.price;
+        //       this.price = this.unitPrice + " X 1 月 = " + this.unitPrice;
+        //    }
        },
        events: {
          'cycSelected': function(cyc) {
@@ -719,6 +720,36 @@
          'weixin': function() {
 
            console.log("wechat");
+           if(!window.timerId){
+               window.timerId = window.setInterval(function(){
+                   console.log("check");
+                   services.Common.list({
+                       url: 'orders',
+                       param: {
+                           orderNo:  localStorage.orderNo,
+                           status: 2
+                       },
+                       cb: function(res){
+                           if(res.data.fields.length == 1){
+                               window.clearInterval(window.timerId);
+                               window.timerId = null;
+                               notification.alert("支付成功");
+                               services.Common.getOne({
+                                   url: 'users',
+                                   param: {
+                                       id: currentUser
+                                   },
+                                   cb: function(res){
+                                       localStorage.setItem("ideName",res.data.fields.ideName);
+                                       localStorage.orderNo='';
+                                       window.location.href = window.location.origin + '/#!/ide'
+                                   }
+                               });
+                           }
+                       }
+                   });
+               },1000);
+           }
            this.isWechat = true;
            this.isAlipay = false;
          },
