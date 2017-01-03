@@ -373,9 +373,9 @@
                   var month = 0;
                   _self.balance = 0;
                   _self.balanceTime = "无";
-                  if(_self.expireAt == null || _self.expireAt == undefined) {
+                  if(_self.expireAt != null || _self.expireAt != undefined) {
 
-                    daysBetween(dataFormat(new Date(),'yyyy-MM-dd hh:mm:ss'), dataFormat(new Date(_self.expireAt),'yyyy-MM-dd hh:mm:ss'));
+                    month = daysBetween(dataFormat(new Date(),'yyyy-MM-dd hh:mm:ss'), dataFormat(new Date(_self.expireAt),'yyyy-MM-dd hh:mm:ss'));
                     month = month.toFixed(2);
                     services.Common.getOne({
                       param: {

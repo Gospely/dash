@@ -115,19 +115,19 @@
 
                 this.$dispatch('cycSelected', {
                 	cyc: this.otherTime,
-									unit: this.cyc[key].unit
+					unit: this.cyc[key].unit
                 });
 
             },
-						customSet: function(key) {
-							this.$dispatch('cycSelected', {
-								cyc: this.otherTime,
-								unit: this.cyc[key].unit
-							});
-						}
+			customSet: function(key) {
+				this.$dispatch('cycSelected', {
+					cyc: this.otherTime,
+					unit: this.cyc[key].unit
+				});
+			}
 
         },
-				events: {
+		events: {
 		    'cyc-broadcast': function (month) {
 
 					console.log(month);
@@ -141,8 +141,17 @@
 							unit: '月'
 						});
 					}
-    		}
-  },
+    		},
+  		},
+		watch: {
+			'otherTime': function(newVal, oldVal){
+				console.log("change");
+				this.$dispatch('cycSelected', {
+                	cyc: newVal,
+					unit: '月'
+                });
+			}
+		}
     }
 
 </script>
