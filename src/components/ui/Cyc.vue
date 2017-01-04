@@ -18,8 +18,6 @@
 	export default{
         data () {
             return {
-
-                otherTime: '其它',
                 isOther: false
             }
         },
@@ -82,9 +80,8 @@
         	},
 
             otherTime: {
-                // type: String || Number,
                 default() {
-                    return 0;
+                    return '其它';
                 }
             }
         },
@@ -135,23 +132,18 @@
         },
 		events: {
 		    'cyc-broadcast': function (month) {
-
-					console.log(month);
-					if(parseInt(month) > 12 ){
-						this.otherTime = month;
-						console.log(this.showCyc);
-						this.isOther = true;
-						console.log("broadcast");
-						this.$dispatch('cycSelected', {
-							cyc: this.otherTime,
-							unit: '月'
-						});
-					}
+				if(parseInt(month) > 12 ){
+					this.otherTime = month;
+					this.isOther = true;
+					this.$dispatch('cycSelected', {
+						cyc: this.otherTime,
+						unit: '月'
+					});
+				}
     		},
   		},
 		watch: {
 			'otherTime': function(newVal, oldVal){
-				console.log("change");
 				this.$dispatch('cycSelected', {
                 	cyc: newVal,
 					unit: '月'
