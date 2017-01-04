@@ -363,6 +363,12 @@
             },
             chooseIde: function(item, key) {
 
+<<<<<<< HEAD
+=======
+              console.log(this.ide.name);
+              console.log(item.name);
+              this.products = item.id;
+>>>>>>> c83339f361efa685fbbd092645b05da05f9219ee
               if(this.ide.name != item.name){
                 this.isChange = true;
                 var _self = this;
@@ -371,9 +377,9 @@
                   var month = 0;
                   _self.balance = 0;
                   _self.balanceTime = "无";
-                  if(_self.expireAt == null || _self.expireAt == undefined) {
+                  if(_self.expireAt != null || _self.expireAt != undefined) {
 
-                    daysBetween(dataFormat(new Date(),'yyyy-MM-dd hh:mm:ss'), dataFormat(new Date(_self.expireAt),'yyyy-MM-dd hh:mm:ss'));
+                    month = daysBetween(dataFormat(new Date(),'yyyy-MM-dd hh:mm:ss'), dataFormat(new Date(_self.expireAt),'yyyy-MM-dd hh:mm:ss'));
                     month = month.toFixed(2);
                     services.Common.getOne({
                       param: {
@@ -386,6 +392,7 @@
                         if(data.code == 1) {
 
                           _self.balance = month * data.fields.price,
+                          _self.balance = _self.balance.toFixed(2);
                           _self.balanceTime = month + '月 X ' + data.fields.price
                           var time = Math.ceil(_self.balance/item.price);
 
@@ -466,7 +473,7 @@
             },
 
             useWeixin: function() {
-
+                console.log("useWeixin");
             },
 
             useAlipay: function() {
@@ -492,7 +499,7 @@
             setMealNextStep: function() {
                 console.log(this.goBuy);
                 if(!this.goBuy) {
-                  notification.alert("请选择收费版本,个人版无需升级");
+                  notification.alert("请选择非当前版本的收费版本");
                 }else{
                   this.setMeal.currentStep++;
                 }
@@ -501,6 +508,7 @@
 
                   var _self = this;
                   this.orderNo =  _md5(uuid.v4());
+                  localStorage.orderNo = this.orderNo;
                   console.log(this.orderNo);
                   services.Common.create({
                     url: 'orders',
@@ -661,12 +669,11 @@
             this.$get("initIDE")();
         },
         watch: {
-           // selected: function(item) {
-           //    this.products = item.id;
-           //    this.unitPrice = item.price;
-           //    this.price = this.unitPrice + " X 1 月 = " + this.unitPrice;
-           //    this.reNewIDE();
-           // }
+        //    selected: function(item) {
+        //       this.products = item.id;
+        //       this.unitPrice = item.price;
+        //       this.price = this.unitPrice + " X 1 月 = " + this.unitPrice;
+        //    }
        },
        events: {
          'cycSelected': function(cyc) {
@@ -718,6 +725,26 @@
          'weixin': function() {
 
            console.log("wechat");
+           if(!window.timerId){
+               window.timerId = window.setInterval(function(){
+                   console.log("check");
+                   services.Common.list({
+                       url: 'orders',
+                       param: {
+                           orderNo:  localStorage.orderNo,
+                           status: 2
+                       },
+                       cb: function(res){
+                           if(res.data.fields.length == 1){
+                               window.clearInterval(window.timerId);
+                               window.timerId = null;
+                               notification.alert("支付成功");
+                               window.location.href = window.location.origin + '/#!/accounts/orders?code=pay'
+                           }
+                       }
+                   });
+               },1000);
+           }
            this.isWechat = true;
            this.isAlipay = false;
          },
