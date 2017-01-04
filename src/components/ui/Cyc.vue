@@ -40,8 +40,8 @@
 	                    label: '6个月',
 	                    cyc: '6',
 						unit: '月'
-									}, {
-											label: '12个月',
+					}, {
+						label: '12个月',
 	                    cyc: '12',
 						unit: '月'
 	                }, {
@@ -158,7 +158,9 @@
   		},
 		watch: {
 			'otherTime': function(newVal, oldVal){
-				console.log("change");
+                if(!oldVal) {
+                    return false;
+                }
 				this.$dispatch('cycSelected', {
                 	cyc: newVal,
 					unit: '月'

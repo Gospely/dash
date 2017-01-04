@@ -14,7 +14,7 @@
 
                         <hr class="split">
 
-                        <article class="message"  @click="chooseIde(item, key)" v-for="(key, item) in fields"  >
+                        <article class="message" @click="chooseIde(item, key)" v-for="(key, item) in fields"  >
                             <div class="message-body">
                                 <div class="message-title">
                                     <h4>{{item.name}}</h4>
@@ -363,8 +363,6 @@
             },
             chooseIde: function(item, key) {
 
-              console.log(this.ide.name);
-              console.log(item.name);
               this.products = item.id;
               if(this.ide.name != item.name){
                 this.isChange = true;
@@ -386,17 +384,21 @@
                       cb: function(res) {
 
                         var data = res.data;
+
+                        console.log('========================')
+                        //这里打印出来的是docker配置
+                        console.log(data);
+
+                        console.log('========================')
                         if(data.code == 1) {
 
                           _self.balance = month * data.fields.price,
                           _self.balance = _self.balance.toFixed(2);
                           _self.balanceTime = month + '月 X ' + data.fields.price
                           var time = Math.ceil(_self.balance/item.price);
-                          console.log(time);
                           if(time>12) {
                             _self.showCyc = false;
                             _self.$broadcast('cyc-broadcast',time);
-
                           }else{
                             if(time<=1) {
                                 _self.defaultCycIndex = 0;
@@ -472,7 +474,6 @@
             },
 
             addMonth() {
-              console.log(this.size)
               this.size ++;
             },
 
@@ -489,7 +490,6 @@
             },
 
             changeSetMeal: function() {
-
                 this.showSetMealForm = true;
             },
 
@@ -505,7 +505,6 @@
             },
 
             setMealNextStep: function() {
-                console.log(this.goBuy);
                 if(!this.goBuy) {
                   notification.alert("请选择非当前版本的收费版本");
                 }else{
@@ -513,7 +512,6 @@
                 }
 
                 if(this.setMeal.currentStep == 3) {
-
                   var _self = this;
                   this.orderNo =  _md5(uuid.v4());
                   localStorage.orderNo = this.orderNo;
@@ -643,8 +641,6 @@
                 });
 
                 var ide = localStorage.getItem('ide');
-
-
 
                 services.Common.getOne({
                    param: {
