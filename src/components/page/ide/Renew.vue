@@ -14,7 +14,7 @@
 
                         <hr class="split">
 
-                        <article class="message"  @click="chooseIde(item, key)" v-for="(key, item) in fields"  >
+                        <article class="message" @click="chooseIde(item, key)" v-for="(key, item) in fields"  >
                             <div class="message-body">
                                 <div class="message-title">
                                     <h4>{{item.name}}</h4>
@@ -391,10 +391,9 @@
                           _self.balanceTime = month + '月 X ' + data.fields.price
                           var time = Math.ceil(_self.balance/item.price);
 
-                          if(time>12) {
+                          if(time > 12) {
                             _self.showCyc = false;
                             _self.$broadcast('cyc-broadcast',time);
-
                           }else{
                             _self.showCyc = true;
                             _self.$emit('cycSelected',{
@@ -459,7 +458,6 @@
             },
 
             addMonth() {
-              console.log(this.size)
               this.size ++;
             },
 
@@ -476,7 +474,6 @@
             },
 
             changeSetMeal: function() {
-
                 this.showSetMealForm = true;
             },
 
@@ -492,7 +489,6 @@
             },
 
             setMealNextStep: function() {
-                console.log(this.goBuy);
                 if(!this.goBuy) {
                   notification.alert("请选择非当前版本的收费版本");
                 }else{
@@ -500,7 +496,6 @@
                 }
 
                 if(this.setMeal.currentStep == 3) {
-
                   var _self = this;
                   this.orderNo =  _md5(uuid.v4());
                   localStorage.orderNo = this.orderNo;
