@@ -363,12 +363,7 @@
             },
             chooseIde: function(item, key) {
 
-<<<<<<< HEAD
-=======
-              console.log(this.ide.name);
-              console.log(item.name);
               this.products = item.id;
->>>>>>> c83339f361efa685fbbd092645b05da05f9219ee
               if(this.ide.name != item.name){
                 this.isChange = true;
                 var _self = this;
