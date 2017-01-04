@@ -372,7 +372,7 @@
                   var month = 0;
                   _self.balance = 0;
                   _self.balanceTime = "无";
-                  if(_self.expireAt != null || _self.expireAt != undefined) {
+                  if(_self.expireAt != null && _self.expireAt != undefined) {
 
                     month = daysBetween(dataFormat(new Date(),'yyyy-MM-dd hh:mm:ss'), dataFormat(new Date(_self.expireAt),'yyyy-MM-dd hh:mm:ss'));
                     month = month.toFixed(2);
@@ -658,6 +658,7 @@
                              if(data.fields.expireAt == null) {
 
                                _self.time_show = '个人免费版本';
+                               _self.expireAt = null;
                              }else{
                                _self.time_show = '到期时间： ' + dataFormat(d,"yyyy-MM-dd hh:mm:ss");
                                _self.expireAt = data.fields.expireAt;
