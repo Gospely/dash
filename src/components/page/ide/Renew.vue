@@ -325,7 +325,7 @@
 
                 ideInfoLoaded: false,
 
-                defaultCycIndex: 2
+                defaultCycIndex: 0
 
             }
         },
@@ -363,12 +363,9 @@
             },
             chooseIde: function(item, key) {
 
-<<<<<<< HEAD
-=======
               console.log(this.ide.name);
               console.log(item.name);
               this.products = item.id;
->>>>>>> c83339f361efa685fbbd092645b05da05f9219ee
               if(this.ide.name != item.name){
                 this.isChange = true;
                 var _self = this;
@@ -395,17 +392,28 @@
                           _self.balance = _self.balance.toFixed(2);
                           _self.balanceTime = month + '月 X ' + data.fields.price
                           var time = Math.ceil(_self.balance/item.price);
-
+                          console.log(time);
                           if(time>12) {
                             _self.showCyc = false;
                             _self.$broadcast('cyc-broadcast',time);
 
                           }else{
-                            _self.showCyc = true;
-                            _self.$emit('cycSelected',{
-                              cyc: time,
-                              unit: '月',
-                            });
+                            if(time<=1) {
+                                _self.defaultCycIndex = 0;
+                            }else{
+                                if(time<= 3){
+                                    _self.defaultCycIndex = 1;
+                                }else{
+                                    if(time<=6){
+                                        _self.defaultCycIndex = 2;
+                                    }else{
+                                        if(time <=12){
+                                            _self.defaultCycIndex = 3;
+                                        }
+                                    }
+                                }
+                            }
+                            _self.$broadcast('cyc-broadcast',time);
                           }
                         }
                       }
@@ -510,30 +518,35 @@
                   this.orderNo =  _md5(uuid.v4());
                   localStorage.orderNo = this.orderNo;
                   console.log(this.orderNo);
-                  services.Common.create({
-                    url: 'orders',
-                    param: {
-                      creator: currentUser,
-                      name: 'IDE续费或升级',
-                      orderNo: this.orderNo,
-                      timeSize: this.size,
-                      timeUnit: "月",
-                      products: this.products,
-                      price: this.size * this.unitPrice - this.balance,
-                      unitPrice: this.unitPrice,
-                      type: 'ide',
-                      balance: this.balance,
-                      balancePeriod: this.balancePeriod,
-                      balanceTime: this.balanceTime,
-                    },
-                    cb: function(res) {
-                      if(res.data.code == 1) {
-                        notification.alert("下单成功");
-                        _self.qrcode = res.data.fields.wechat;
-                        _self.alipayUrl = res.data.fields.alipay;
-                      }
-                    }
-                  });
+
+                  if((this.size * this.unitPrice - this.balance) < 0){
+                      notification.alert('订单价格不能为负数，请选择最少购买月份');
+                  }else{
+                      services.Common.create({
+                        url: 'orders',
+                        param: {
+                          creator: currentUser,
+                          name: 'IDE续费或升级',
+                          orderNo: this.orderNo,
+                          timeSize: this.size,
+                          timeUnit: "月",
+                          products: this.products,
+                          price: this.size * this.unitPrice - this.balance,
+                          unitPrice: this.unitPrice,
+                          type: 'ide',
+                          balance: this.balance,
+                          balancePeriod: this.balancePeriod,
+                          balanceTime: this.balanceTime,
+                        },
+                        cb: function(res) {
+                          if(res.data.code == 1) {
+                            notification.alert("下单成功");
+                            _self.qrcode = res.data.fields.wechat;
+                            _self.alipayUrl = res.data.fields.alipay;
+                          }
+                        }
+                      });
+                  }
                 }
             },
 

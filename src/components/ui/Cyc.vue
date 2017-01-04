@@ -146,6 +146,13 @@
 							cyc: this.otherTime,
 							unit: '月'
 						});
+					}else{
+						console.log("ss");
+						this.showCyc = true;
+						this.$dispatch('cycSelected', {
+							cyc: month,
+							unit: '月'
+						});
 					}
     		},
   		},
