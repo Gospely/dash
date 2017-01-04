@@ -388,6 +388,7 @@
                         if(data.code == 1) {
 
                           _self.balance = month * data.fields.price,
+                          _self.balance = _self.balance.toFixed(2);
                           _self.balanceTime = month + '月 X ' + data.fields.price
                           var time = Math.ceil(_self.balance/item.price);
 
@@ -734,17 +735,7 @@
                                window.clearInterval(window.timerId);
                                window.timerId = null;
                                notification.alert("支付成功");
-                               services.Common.getOne({
-                                   url: 'users',
-                                   param: {
-                                       id: currentUser
-                                   },
-                                   cb: function(res){
-                                       localStorage.setItem("ideName",res.data.fields.ideName);
-                                       localStorage.orderNo='';
-                                       window.location.href = window.location.origin + '/#!/ide'
-                                   }
-                               });
+                               window.location.href = window.location.origin + '/#!/accounts/orders?code=pay'
                            }
                        }
                    });

@@ -30,7 +30,7 @@
                 </div>
             </modal>
 
-            <tab :active-index = "1" style= "width: 100%;">
+            <tab :active-index = "activeTab" style= "width: 100%;">
                 <tab-item title="已支付">
                     <table class="table">
                       <thead>
@@ -143,6 +143,7 @@
                 orderNo:'',
                 isWechat: false,
                 isAlipay: true,
+                activeTab: 0,
 
                 ordersLoaded: false
             }
@@ -155,8 +156,23 @@
             Page
         },
         ready : function() {
-          this.$get('initPaid')(1);
-          this.$get('initUnPay')(1);
+            var code = this.$route.query.code;
+            if(code == 'pay'){
+                this.activeTab = 0;
+                services.Common.getOne({
+                    url: 'users',
+                    param: {
+                        id: currentUser
+                    },
+                    cb: function(res){
+                        localStorage.setItem("ideName",res.data.fields.ideName);
+                        localStorage.orderNo='';
+
+                    }
+                });
+            }
+            this.$get('initPaid')(1);
+            this.$get('initUnPay')(1);
         },
         methods: {
             cancelOrder: function(item) {
