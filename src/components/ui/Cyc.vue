@@ -20,10 +20,7 @@
             return {
 
                 otherTime: '其它',
-                isOther: false,
-
-                currentCyc: 0
-
+                isOther: false
             }
         },
 
@@ -56,13 +53,21 @@
         		}
         	},
 
+            currentCyc: {
+                type: Number,
+                default () {
+                    return 0
+                }
+            },
+
         	showTips: {
         		type: Boolean,
         		default () {
         			return true;
         		}
         	},
-					showCyc: {
+
+			showCyc: {
         		type: Boolean,
         		default () {
         			return true;
@@ -75,6 +80,7 @@
         			return '40'
         		}
         	},
+
             otherTime: {
                 // type: String || Number,
                 default() {

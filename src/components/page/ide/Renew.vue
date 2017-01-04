@@ -85,7 +85,7 @@
                         <hr class="split">
 
                         <div class="control" style="position: relative;">
-                          <cyc :show-tips="false" :other-time="size" :show-cyc.sync='showCyc'></cyc>
+                          <cyc :current-cyc="defaultCycIndex" :show-tips="false" :other-time="size" :show-cyc.sync='showCyc'></cyc>
                           <div class="control" style="position: absolute;top: 0;left:390px;">
                             <button class="button is-primary" @click="minusMonth"><i class="fa fa-minus"></i></button>
                             <button class="button is-primary" @click="addMonth"><i class="fa fa-plus"></i></button>
@@ -323,7 +323,9 @@
                 mealTicks: [],
                 time_show: '',
 
-                ideInfoLoaded: false
+                ideInfoLoaded: false,
+
+                defaultCycIndex: 2
 
             }
         },
@@ -361,10 +363,7 @@
             },
             chooseIde: function(item, key) {
 
-              console.log(this.ide.name);
-              console.log(item.name);
               if(this.ide.name != item.name){
-                console.log("change");
                 this.isChange = true;
                 var _self = this;
                 if(_self.isChange){
