@@ -385,11 +385,6 @@
 
                         var data = res.data;
 
-                        console.log('========================')
-                        //这里打印出来的是docker配置
-                        console.log(data);
-
-                        console.log('========================')
                         if(data.code == 1) {
 
                           _self.balance = month * data.fields.price,

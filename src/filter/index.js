@@ -40,6 +40,10 @@ module.exports = {
 			}
 		});
 
+		this.vue.filter('appDBInfo', function(value) {
+			return value == '' ? '无数据库信息' : value;
+		});
+
 		this.vue.filter('dateFormat', function(date,fmt) {
 			if(date) {
 				date = new Date(date);
