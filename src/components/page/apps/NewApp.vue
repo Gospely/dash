@@ -427,7 +427,7 @@
 
             selectThisDockerConfig: function(dockerConfig, key) {
 
-                notification.alert("封测期间，不提供该配置Docker")
+                notification.alert("封测期间，暂不提供该配置");
                 // this.application.products = dockerConfig.id;
                 // this.application.image = dockerConfig.id;
                 // this.application.free = dockerConfig.free;
