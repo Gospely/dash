@@ -10,9 +10,9 @@
                         <div class="column is-half">
 
                             <h4><button class="button is-small" v-bind:class="{'is-success': !status_running, 'is-danger': !status_stop}">{{status}}</button> {{inspectInfo.name}}</h4>
-                            <h4 class="subtitle">部署于：{{inspectInfo.createat}}</h4>
+                            <h4 class="subtitle">运行于：{{inspectInfo.createat}}</h4>
 
-                            <button class="button is-primary" v-bind:class="{'is-loading': isLoading}" v-on:click="start" v-show="status_running">部署</button>
+                            <button class="button is-primary" v-bind:class="{'is-loading': isLoading}" v-on:click="start" v-show="status_running">运行</button>
                             <button class="button is-warning" v-bind:class="{'is-loading': isLoading}" v-on:click="stop" v-show="status_stop">停止</button>
                             <button class="button is-success" v-bind:class="{'is-loading': isLoading}" v-on:click="restart">重新启动</button>
                             <button class="button is-primary" v-bind:class="{'is-loading': isLoading}" v-on:click="openInIde">从IDE打开</button>
@@ -195,7 +195,7 @@
                     if(data.fields.status == -1 ){
                         self.status_running = true;
                         self.status_stop = false;
-                        self.status = '未部署';
+                        self.status = '未运行';
                     }
                   }
                 }
