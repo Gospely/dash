@@ -4,7 +4,7 @@
         <div class="signup-form">
           <div class="signup-form__logo-box">
             <div class="signup-form__logo"></div>
-            <div class="signup-form__catchphrase">快速开始您的创作过程</div></div>
+            <div class="signup-form__catchphrase">快速开始您的开发</div></div>
           <div>
             <a v-link="{name: 'signupa'}" class="signup-form__submit ga-event">注册</a>
             <a v-link="{name: 'login'}" class="signup-form__submit--login">登录</a></div>

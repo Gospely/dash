@@ -6,7 +6,7 @@
         <div class="signup-form ">
           <div class="signup-form__logo-box">
             <div class="signup-form__logo"></div>
-            <div class="signup-form__catchphrase">快速开始您的创作过程</div></div>
+            <div class="signup-form__catchphrase">快速开始您的开发</div></div>
           <div id="container-login">
             <div data-reactroot="" id="LoginComponent" @keydown="keyDownLogin">
               <span>
