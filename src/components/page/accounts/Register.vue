@@ -115,6 +115,11 @@
               authCode: this.authCode,
               inviteCode: this.inviteCode
             };
+            
+            setTimeout(function() {
+              _self.isRegisting = false;
+            }, 40000);
+
             services.UserService.register(user).then(function(res) {
               self.isRegisting = false;
               if(res.status === 200){

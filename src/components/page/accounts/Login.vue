@@ -201,61 +201,65 @@
         				code_token: this.token
   	           }
       		  }
-              services.UserService.login(user).then(function(res) {
-                  _self.logining = false;
-                  alert(_self.logining);
-                  if(res.status === 200){
-                        if(res.data.code != 1){
-                            notification.alert(res.data.message,'danger');
-                            var count = localStorage.getItem('error');
-                            if(count != null &&  count != undefined && count != ''){
 
-                              if(count > 3){
-                                _self.isAuth = true;
-                                _self.code_show = true;
-                                _self.$get('getImageCode')();
-                              }
-                              localStorage.setItem('error',count+1);
-                            }else{
-                              localStorage.setItem('error',1);
+            setTimeout(function() {
+              _self.logining = false;
+            }, 40000);
+
+            services.UserService.login(user).then(function(res) {
+                _self.logining = false;
+                if(res.status === 200){
+                      if(res.data.code != 1){
+                          notification.alert(res.data.message,'danger');
+                          var count = localStorage.getItem('error');
+                          if(count != null &&  count != undefined && count != ''){
+
+                            if(count > 3){
+                              _self.isAuth = true;
+                              _self.code_show = true;
+                              _self.$get('getImageCode')();
                             }
-                        }else{
-                          localStorage.removeItem('error');
-                          localStorage.setItem("user",res.data.fields.id);
-                          setCookie('user',res.data.fields.id,24*60*60*1000);
-                          setCookie('token',res.data.fields.token,24*30*60*1000);
-                          setCookie('userName',res.data.fields.name,24*30*60*1000);
-                          setCookie('host',res.data.fields.host,24*30*60*1000);
-                          localStorage.setItem("userName",res.data.fields.name);
-
-                          localStorage.removeItem("isActive");
-                          if(res.data.fields.isBlocked === 1) {
-                            localStorage.setItem("isActive",true);
-                          }
-                          localStorage.setItem("ide",res.data.fields.ide);
-                          localStorage.setItem("ideName",res.data.fields.ideName);
-                          localStorage.setItem("token",res.data.fields.token);
-                          notification.alert('登录成功');
-
-                          function setCookie(c_name, value, expiredays) {
-                            var exdate = new Date()
-                            exdate.setDate(exdate.getDate() + expiredays)
-                            document.cookie = c_name + "=" + escape(value) +
-                              ((expiredays == null) ? "" : ";expires=" + exdate.toGMTString())
-                          }
-                          if(where=="fromIde"){
-
-                            if(document.domain == 'localhost') {
-                              window.location.href = "http://ide.gospely.com";
-                            }else {
-                              window.location.href = "http://localhost:8989/";
-                            }
+                            localStorage.setItem('error',count+1);
                           }else{
-                          	window.location.href = window.baseUrl;
+                            localStorage.setItem('error',1);
                           }
+                      }else{
+                        localStorage.removeItem('error');
+                        localStorage.setItem("user",res.data.fields.id);
+                        setCookie('user',res.data.fields.id,24*60*60*1000);
+                        setCookie('token',res.data.fields.token,24*30*60*1000);
+                        setCookie('userName',res.data.fields.name,24*30*60*1000);
+                        setCookie('host',res.data.fields.host,24*30*60*1000);
+                        localStorage.setItem("userName",res.data.fields.name);
 
-                      }
-                  }
+                        localStorage.removeItem("isActive");
+                        if(res.data.fields.isBlocked === 1) {
+                          localStorage.setItem("isActive",true);
+                        }
+                        localStorage.setItem("ide",res.data.fields.ide);
+                        localStorage.setItem("ideName",res.data.fields.ideName);
+                        localStorage.setItem("token",res.data.fields.token);
+                        notification.alert('登录成功');
+
+                        function setCookie(c_name, value, expiredays) {
+                          var exdate = new Date()
+                          exdate.setDate(exdate.getDate() + expiredays)
+                          document.cookie = c_name + "=" + escape(value) +
+                            ((expiredays == null) ? "" : ";expires=" + exdate.toGMTString())
+                        }
+                        if(where=="fromIde"){
+
+                          if(document.domain == 'localhost') {
+                            window.location.href = "http://ide.gospely.com";
+                          }else {
+                            window.location.href = "http://localhost:8989/";
+                          }
+                        }else{
+                        	window.location.href = window.baseUrl;
+                        }
+
+                    }
+                }
             },function(err){
                 notification.alert('服务器异常','danger');
                 this.phone = '';
