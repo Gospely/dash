@@ -29,7 +29,8 @@
                     <div class="left">
                     </div>
                     <div class="right">
-                      <a v-link="{name:'signupa'}">注册新账户</a>&nbsp;&nbsp;<a @click="showForgotPwForm = true">忘记密码</a>
+                      <a v-link="{name:'signupa'}">注册新账户</a>&nbsp;&nbsp;
+                      <!-- <a @click="showForgotPwForm = true">忘记密码</a> -->
                     </div>
                   </div>
               </span>
@@ -201,7 +202,8 @@
   	           }
       		  }
               services.UserService.login(user).then(function(res) {
-
+                  _self.logining = false;
+                  alert(_self.logining);
                   if(res.status === 200){
                         if(res.data.code != 1){
                             notification.alert(res.data.message,'danger');
@@ -259,7 +261,6 @@
                 this.phone = '';
                 this.password = '';
             });
-            this.logining = false;
           },
 
           keyDownLogin:function(){

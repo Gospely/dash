@@ -106,6 +106,7 @@
         methods: {
           register: function(){
             this.isRegisting = true;
+            var self = this;
             var user = {
               phone: this.phone,
               password: this.password,
@@ -115,6 +116,7 @@
               inviteCode: this.inviteCode
             };
             services.UserService.register(user).then(function(res) {
+              self.isRegisting = false;
               if(res.status === 200){
 
                 var data = res.data;
@@ -150,7 +152,6 @@
                 this.rePwd = '';
             }
             );
-            this.isRegisting = false;
           },
           keyDownLogin:function(){
               if (event.keyCode == 13)
