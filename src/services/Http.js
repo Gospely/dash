@@ -129,12 +129,7 @@ module.exports = {
 							if (options.msg != null && options.msg != undefined) {
 								notification.alert(options.msg.success);
 							}
-							if (options.reload != null && options.reload != undefined) {
-
-								console.log("reload");
-								console.log("data cur" + options.ctx.$data.cur);
-								console.log("data" + data.cur);
-
+							if (options.reload) {
 								options.reload(options.ctx.$data.cur);
 							}
 							if (options.code === 500) {
@@ -150,7 +145,7 @@ module.exports = {
 								notification.alert(options.msg.failed, 'danger');
 							}
 							notification.alert("服务器繁忙，请重试");
-							if (options.reload != null && options.reload != undefined) {
+							if (options.reload) {
 
 								console.log("reload");
 								console.log("data cur" + options.ctx.$data.cur);
@@ -161,7 +156,7 @@ module.exports = {
 						}
 					},
 					function(err) {
-						if (options.reload != null && options.reload != undefined) {
+						if (options.reload) {
 
 							console.log("reload");
 							if (options.ctx.$data.cur != undefined) {

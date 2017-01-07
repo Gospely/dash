@@ -1,8 +1,9 @@
 <template>
     <div class="container">
         <div class="basic-wrapper">
+            <loading v-show="isDeleting"></loading>
 
-            <div class="columns">
+            <div v-show="!isDeleting" class="columns">
 
                 <div class="column">
 
@@ -29,7 +30,11 @@
         data () {
             return {
                 msg: 'hello vue',
-                application: ''
+                application: '',
+
+                isDeleting: false,
+
+                result: {}
             }
         },
 
@@ -40,6 +45,7 @@
         methods: {
             askIfRemove: function() {
                 var _self = this;
+                notification.alert('正在删除...请稍候...')
                 new ModalCtrl({
                     el: document.createElement('div'),
                     props: {
@@ -53,19 +59,19 @@
                     },
                     events: {
                         'confirmed': function() {
-                            console.log('sssss');
-
-                            console.log(_self.application);
                             var options = {
-                              param: {
-                                id: _self.application
-                              },
-                              url: 'applications',
-                              reload: function() {
-                                this.$router.go('/apps/list');
-                              }
+                                param: {
+                                    id: _self.application
+                                },
+                                url: 'applications',
+                                target: 'result',
+                                reload: function() {
+                                    _self.$router.go('/apps/list');
+                                },
+                                ctx: _self
                             }
-                            services.Common.delete(options)
+                            services.Common.delete(options);
+                            _self.isDeleting = true;
                             this.$destroy(true);
                         }
                     }
