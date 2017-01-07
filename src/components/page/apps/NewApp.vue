@@ -207,7 +207,7 @@
             <hr>
 
         </div>
-
+        <new-loading v-show="isCreateApp" tip="部署中..."></new-loading>
     </div>
 </template>
 <style>
@@ -237,6 +237,8 @@
 
     import PayMethod from '../../ui/PayMethod.vue';
     import VersionModal from '../../ui/ChooseServicesVersion.vue'
+
+    import NewLoading from '../../ui/Loading.vue'
 
     let ModalCtrl = Vue.extend(Modal);
 
@@ -351,7 +353,8 @@
             Cyc,
             PayMethod,
             Details,
-            VersionModal
+            VersionModal,
+            NewLoading
         },
 
         methods: {
@@ -517,6 +520,7 @@
                         }else {
                             notification.alert('创建失败: ' + res.statusText);
                             _self.$get("reload")();
+                            _self.isCreateApp = false;
                         }
                     },
 
