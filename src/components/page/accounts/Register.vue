@@ -16,17 +16,18 @@
                     <div class="input-field">
                       <input type="password" v-model="password" placeholder="请输入密码" autocapitalize="off" style="border: none;"></div>
                     <div class="input-field">
-                      <input type="password" id="registerRePassword" v-model="rePwd" placeholder="重复密码" autocapitalize="off" style="border: none;" @blur="checkPwd"></div>
-                    <div class="input-field">
+                      <input type="password" id="registerRePassword" v-model="rePwd" placeholder="重复密码" autocapitalize="off" style="border: none;" @blur="checkPwd">
+                    </div>
+                 <!--    <div class="input-field">
 <<<<<<< HEAD
                       <input type="text" v-model="authCode" :disabled="btn_info == '获取验证码'" 
                         placeholder="验证码" autocapitalize="off" style="border: none;" >
 =======
                       <input type="text" id="inviteCode" v-model="inviteCode" placeholder="封测期间，采用邀请码注册" autocapitalize="off" style="border: none;">
-                    </div>
+                    </div> -->
                     <div class="input-field">
                       <input type="text" v-model="authCode" :disabled="btn_info == '获取验证码'" placeholder="验证码" autocapitalize="off" style="border: none;" >
->>>>>>> b2f3b61d4effadb96addc6f0f2f7b63101d6eec7
+<!-- >>>>>>> b2f3b61d4effadb96addc6f0f2f7b63101d6eec7 -->
                     </div>
                   </div>
                   <a class="button" @click="getTelCode" :disabled="phone == '' || btn_disabled" style="position: absolute; margin-top: -42px; height: 41px; right: 30px; border: 1px solid #dfebf2;">{{btn_info}}</a>
