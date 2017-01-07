@@ -14,7 +14,7 @@
                     <div class="input-field">
                       <input type="text" v-model='name' id="registerName" placeholder="用户名,仅支持英文" autocapitalize="off" @blur="checkName" style="border: none;"></div>
                     <div class="input-field">
-                      <input type="password" v-model="password" placeholder="请输入密码" autocapitalize="off" style="border: none;"></div>
+                      <input type="password" v-model="password" placeholder="请输入密码" autocapitalize="off" style="border: none;" @blur="checkPwdAgain"></div>
                     <div class="input-field">
                       <input type="password" id="registerRePassword" v-model="rePwd" placeholder="重复密码" autocapitalize="off" style="border: none;" @blur="checkPwd">
                     </div>
@@ -258,7 +258,7 @@
              }else{
                 _self.isPhone = false;
                 let email = /^([a-zA-Z0-9_-])+@([a-zA-Z0-9_-])+(.[a-zA-Z0-9_-])+/;
-                if(!email.test(_self.phone)) {
+                if(!email.test(_self.phone) && _self.phone != '') {
                     notification.alert('邮箱或手机号码错误');
                     document.getElementById('registerAccount').focus();
                     return false;
@@ -317,6 +317,11 @@
             if(this.password != this.rePwd){
               notification.alert("两次密码不一致");
               // document.getElementById('registerRePassword').focus();
+            }
+          },
+          checkPwdAgain() {
+            if (this.rePwd != '' && this.password != this.rePwd) {
+                notification.alert("两次密码不一致");
             }
           }
         },
