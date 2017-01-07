@@ -43,7 +43,7 @@
             </modal>
 
             <tab :active-index="0" style="width: 100%;">
-                <tab-item title="应用">
+                <tab-item title="运行中">
                     <loading v-show="!IDEAppLoaded"></loading>
                     <table class="table" v-show="IDEAppLoaded">
                       <thead>
@@ -59,7 +59,7 @@
                           <td>{{item.name}}</td>
                           <td>{{item.image}}</td>
                           <td>
-                            已部署
+                            运行中
                           </td>
                           <td class="is-icon" title="进入应用">
                             <a  v-link="{path: '/apps/detail',query: {containerId: item.id}}">
@@ -71,7 +71,7 @@
                       </tbody>
                     </table>
                     <article class="noData" v-if="!fields.length" v-show="IDEAppLoaded">
-                      您还没有应用，快去创建吧...
+                      您还没有运行中的应用，快去启动一个吧...
                     </article>
                     <page :cur.sync="cur" :all.sync="all" v-on:btn-click="listen"></page>
                 </tab-item>
@@ -106,7 +106,7 @@
                     </article>
                     <page :cur.sync="cur_stop" :all.sync="all_stop" v-on:btn-click="listen_stop"></page>
                 </tab-item>
-                <tab-item title="快速应用">
+                <tab-item title="已停止">
                     <loading v-show="!appLoaded"></loading>
                     <table class="table" v-show="appLoaded">
                       <thead>
@@ -123,7 +123,7 @@
                             <td>{{item.name}}</td>
                             <td>{{item.image}}</td>
                             <td>
-                                未部署
+                                已停止
                             </td>
                             <td class="is-icon" title="进入应用">
                                 <a class="tdInline" v-link="{path: '/apps/detail',query: {containerId: item.id}}">
@@ -439,6 +439,7 @@
 
                 showPayForm: false,
                 qrcode: '',
+                alipayUrl: '',
                 description: '',
                 price: '',
                 isWechat: false,
@@ -464,8 +465,6 @@
         methods: {
 
             createAppInIDE: function() {
-              alert(document.domain);
-
               if(document.domain == 'localhost') {
                 window.location.href = "http://localhost:8989";
               }else {
@@ -664,16 +663,7 @@
 
             confirmToPay: function() {
               if(this.isAlipay){
-                services.OrderService.order({
-                  out_trade_no: this.orderNo,
-                  price: this.price,
-                  type: 'alipay',
-                }).then(function(res){
-                    console.log(res);
-                    window.location.href = res.body;
-                },function(err,res){
-
-                });
+                window.location.href = this.alipayUrl;
               }else{
                 notification.alert("请确认微信扫码支付完成");
               }
@@ -861,7 +851,11 @@
                   if(data.code == 1) {
 
                     _self.description = data.fields.name;
+                    console.log(data.fields);
                     _self.price =  data.fields.price;
+                    _self.qrcode = data.fields.wechat;
+                    localStorage.orderNo = data.fields.orderNo;
+                    _self.alipayUrl= data.fields.alipay;
                     _self.showPayForm = true;
                     _self.orderNo = data.fields.orderNo;
                     services.OrderService.order({
@@ -899,6 +893,26 @@
           'weixin': function() {
 
             console.log("wechat");
+            if(!window.timerId){
+                window.timerId = window.setInterval(function(){
+                    console.log("check");
+                    services.Common.list({
+                        url: 'orders',
+                        param: {
+                            orderNo:  localStorage.orderNo,
+                            status: 2
+                        },
+                        cb: function(res){
+                            if(res.data.fields.length == 1){
+                                window.clearInterval(window.timerId);
+                                window.timerId = null;
+                                notification.alert("支付成功");
+                                window.location.href = window.location.origin + '/#!/accounts/orders?code=pay'
+                            }
+                        }
+                    });
+                },1000);
+            }
             this.isWechat = true;
             this.isAlipay = false;
           },

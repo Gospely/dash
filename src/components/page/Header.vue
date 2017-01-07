@@ -118,7 +118,7 @@
         display: inline-block;
         width: 180px;
         height: 70px;
-        background-image: url(http://i65.tinypic.com/zm0gns.png);
+        background-image: url(http://i63.tinypic.com/25iu97d.png);
         background-repeat: no-repeat;
         background-size: 100%;
         background-position: center;

@@ -91,13 +91,15 @@ router.afterEach(function() {
   var loginUrl = base + "/#!/accounts/login";
   var register = base + '/#!/accounts/register';
   if (window.location.href == loginUrl || window.location.href == register || window.location.href == loginUrl + "?where=fromIde") {
+      if (getCookie('token') != '' && getCookie('token') != null && getCookie != undefined) {
 
+              window.location.href = base
+      }
   } else {
 
-    if (getCookie('token') == '' || getCookie('token') ==
-      null || getCookie == undefined) {
+    if (getCookie('token') == '' || getCookie('token') == null || getCookie == undefined) {
 
-      window.location.href = loginUrl
+            window.location.href = loginUrl
     }
   }
 

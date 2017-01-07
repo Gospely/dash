@@ -44,7 +44,7 @@
                     </div>
 
                 </div>
-                
+
                 <loading v-show="!dockerConfigLoaded"></loading>
 
               </div>
@@ -430,32 +430,33 @@
 
             selectThisDockerConfig: function(dockerConfig, key) {
 
-                this.application.products = dockerConfig.id;
-                this.application.image = dockerConfig.id;
-                this.application.free = dockerConfig.free;
-
-                var unit = '';
-                if(dockerConfig.memoryUnit == "MB"){
-                    unit = 'm'
-                }else{
-                    unit = 'g'
-                }
-                this.application.memory = dockerConfig.memory + unit;
-                this.showCaculateResourceSlider = !dockerConfig.free;
-
-                this.configIsActive[key].isActive = true;
-                if(key === this.currentActiveConfig) {
-                    this.configIsActive[this.currentActiveConfig].isActive = true;
-                }else {
-                    this.configIsActive[this.currentActiveConfig].isActive = false;
-                }
-
-                this.currentActiveConfig = key;
-                this.unitPrice = dockerConfig.price;
-                this.application.unitPrice = dockerConfig.price;
-
-                this.total = this.unitPrice;
-                this.price = this.unitPrice +"X 1月 = "+this.unitPrice;
+                notification.alert("封测期间，暂不提供该配置");
+                // this.application.products = dockerConfig.id;
+                // this.application.image = dockerConfig.id;
+                // this.application.free = dockerConfig.free;
+                //
+                // var unit = '';
+                // if(dockerConfig.memoryUnit == "MB"){
+                //     unit = 'm'
+                // }else{
+                //     unit = 'g'
+                // }
+                // this.application.memory = dockerConfig.memory + unit;
+                // this.showCaculateResourceSlider = !dockerConfig.free;
+                //
+                // this.configIsActive[key].isActive = true;
+                // if(key === this.currentActiveConfig) {
+                //     this.configIsActive[this.currentActiveConfig].isActive = true;
+                // }else {
+                //     this.configIsActive[this.currentActiveConfig].isActive = false;
+                // }
+                //
+                // this.currentActiveConfig = key;
+                // this.unitPrice = dockerConfig.price;
+                // this.application.unitPrice = dockerConfig.price;
+                //
+                // this.total = this.unitPrice;
+                // this.price = this.unitPrice +"X 1月 = "+this.unitPrice;
 
 
             },

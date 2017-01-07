@@ -30,7 +30,7 @@
                 </div>
             </modal>
 
-            <tab :active-index = "1" style= "width: 100%;">
+            <tab :active-index = "activeTab" style= "width: 100%;">
                 <tab-item title="已支付">
                     <table class="table">
                       <thead>
@@ -136,12 +136,14 @@
                 cur1: 1,
                 all1: 1,
                 qrcode: 'test',
+                alipayUrl: '',
                 showRePayForm: false,
                 price: '',
                 description: '',
                 orderNo:'',
                 isWechat: false,
                 isAlipay: true,
+                activeTab: 0,
 
                 ordersLoaded: false
             }
@@ -154,8 +156,23 @@
             Page
         },
         ready : function() {
-          this.$get('initPaid')(1);
-          this.$get('initUnPay')(1);
+            var code = this.$route.query.code;
+            if(code == 'pay'){
+                this.activeTab = 0;
+                services.Common.getOne({
+                    url: 'users',
+                    param: {
+                        id: currentUser
+                    },
+                    cb: function(res){
+                        localStorage.setItem("ideName",res.data.fields.ideName);
+                        localStorage.orderNo='';
+
+                    }
+                });
+            }
+            this.$get('initPaid')(1);
+            this.$get('initUnPay')(1);
         },
         methods: {
             cancelOrder: function(item) {
@@ -202,33 +219,12 @@
               this.price = item.price;
               this.orderNo = item.orderNo;
               this.description =  item.name;
-              services.OrderService.order({
-                out_trade_no: item.orderNo,
-                price: item.price,
-                type: 'wechat'
-              }).then(function(res){
-                  _self.qrcode = res.data.code_url;
-              },function(err,res){
-                  notification.error("请求微信付款失败，请重试");
-              });
+              this.qrcode = item.wechat;
+              this.alipayUrl = item.alipay;
             },
             confirmRenew: function() {
               if(this.isAlipay){
-                notification.alert("正在请求支付宝付款操作...");
-                services.OrderService.order({
-                  out_trade_no: this.orderNo,
-                  price: this.price,
-                  type: "alipay"
-                }).then(function(res){
-                    notification.alert("请求成功，即将跳转...");
-                    setTimeout(function() {
-                      if(!window.open(res.body, '__blank')) {
-                        notification.alert("窗口打开失败，请检查您的浏览器设置");
-                      }
-                    }, 100);
-                }, function(err,res){
-                    notification.error("请求支付宝付款失败，请重试");
-                });
+                  window.location.href = this.alipayUrl;
               }else{
                 notification.alert("请确认微信扫码支付完成");
               }

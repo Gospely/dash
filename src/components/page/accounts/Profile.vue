@@ -270,6 +270,10 @@ export default {
             }
         },
         sendPhoneCode: function() {
+            notification.alert('封测阶段暂不开放手机号验证！');
+            this.cancelChangeMobile();
+            return false;
+
             var user = {
                 phone: this.phone
             }
@@ -329,7 +333,6 @@ export default {
                     if (res.status == 200) {
                         var data = res.data;
                         if (data.code == -1) {
-                            console.log(data);
                             notification.alert('该手机已注册');
                             _self.phone = '';
                         }

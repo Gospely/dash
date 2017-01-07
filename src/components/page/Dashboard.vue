@@ -267,8 +267,11 @@
         methods: {
 
             toNewApp: function() {
-                // this.$router.replace('/apps/new');
-                window.location.href = "http://ide.gospely.com";
+                if(document.domain == 'localhost') {
+                    window.location.href = "http://localhost:8989";
+                }else {
+                    window.location.href = "http://ide.gospely.com";
+                }
             }
 
         },

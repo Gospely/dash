@@ -173,6 +173,7 @@
             all: 8,
             cur: 1,
             qrcode: '',
+            alipayUrl: '',
             volume: {
               size: 10,
               min: 10,
@@ -279,19 +280,8 @@
             cb: function(res) {
               if(res.data.code == 1) {
                 notification.alert("下单成功");
-
-                services.OrderService.order({
-
-                  out_trade_no: _self.orderNo,
-                  price: (_self.volume.size - _self.volume.min) * _self.unitPrice,
-                  type: 'wechat'
-                }).then(function(res){
-                    console.log(res);
-                    _self.qrcode = res.data.code_url;
-                    //window.location.href = res.body;
-                },function(err,res){
-
-                });
+                _self.qrcode = res.data.fields.wechat;
+                _self.alipayUrl = res.data.fields.alipay;
               }
             }
           });
@@ -307,16 +297,7 @@
         },
         confirmRenewIDEVolume() {
           if(this.isAlipay){
-            services.OrderService.order({
-              out_trade_no: this.orderNo,
-              price: (this.volume.size - this.volume.min) * this.unitPrice,
-              type: "alipay"
-            }).then(function(res){
-                console.log(res);
-                window.location.href = res.body;
-            },function(err,res){
-
-            });
+              window.location.href = this.alipayUrl;
           }else{
             notification.alert("请确认微信扫码支付完成");
           }
@@ -333,6 +314,26 @@
       events: {
         'weixin': function() {
            console.log("wechat");
+           if(!window.timerId){
+               window.timerId = window.setInterval(function(){
+                   console.log("check");
+                   services.Common.list({
+                       url: 'orders',
+                       param: {
+                           orderNo:  localStorage.orderNo,
+                           status: 2
+                       },
+                       cb: function(res){
+                           if(res.data.fields.length == 1){
+                               window.clearInterval(window.timerId);
+                               window.timerId = null;
+                               notification.alert("支付成功");
+                               window.location.href = window.location.origin + '/#!/accounts/orders?code=pay'
+                           }
+                       }
+                   });
+               },1000);
+           }
            this.isWechat = true;
            this.isAlipay = false;
          },

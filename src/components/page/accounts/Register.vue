@@ -4,13 +4,13 @@
         <div class="signup-form ">
           <div class="signup-form__logo-box">
             <div class="signup-form__logo"></div>
-            <div class="signup-form__catchphrase">快速开始您的创作过程</div></div>
+            <div class="signup-form__catchphrase">快速开始您的开发</div></div>
           <div id="container-login">
             <div data-reactroot="" id="LoginComponent" @keydown="keyDownLogin">
               <span>
                   <div class="input-field-group">
                     <div class="input-field">
-                      <input type="text" id="registerAccount" v-model="phone" placeholder="邮箱/手机号码" autocapitalize="off" @blur="checkPhone" style="border: none;"></div>
+                      <input type="text" id="registerAccount" v-model="phone" placeholder="封测阶段暂不支持手机注册，请填写邮箱账号" autocapitalize="off" @blur="checkPhone" style="border: none;"></div>
                     <div class="input-field">
                       <input type="text" v-model='name' id="registerName" placeholder="用户名,仅支持英文" autocapitalize="off" @blur="checkName" style="border: none;"></div>
                     <div class="input-field">
@@ -18,8 +18,15 @@
                     <div class="input-field">
                       <input type="password" id="registerRePassword" v-model="rePwd" placeholder="重复密码" autocapitalize="off" style="border: none;" @blur="checkPwd"></div>
                     <div class="input-field">
+<<<<<<< HEAD
                       <input type="text" v-model="authCode" :disabled="btn_info == '获取验证码'" 
                         placeholder="验证码" autocapitalize="off" style="border: none;" >
+=======
+                      <input type="text" id="inviteCode" v-model="inviteCode" placeholder="封测期间，采用邀请码注册" autocapitalize="off" style="border: none;">
+                    </div>
+                    <div class="input-field">
+                      <input type="text" v-model="authCode" :disabled="btn_info == '获取验证码'" placeholder="验证码" autocapitalize="off" style="border: none;" >
+>>>>>>> b2f3b61d4effadb96addc6f0f2f7b63101d6eec7
                     </div>
                   </div>
                   <a class="button" @click="getTelCode" :disabled="phone == '' || btn_disabled" style="position: absolute; margin-top: -42px; height: 41px; right: 30px; border: 1px solid #dfebf2;">{{btn_info}}</a>
@@ -36,9 +43,9 @@
             </div>
           </div>
           <div class="signup-form__sns-btn-area">
-            <div>我们仅支持通过微信登录</div>
+            <div>封测阶段暂不支持第三方OAuth登录</div>
             <div class="sns-button-list">
-              <a><span class="icon"><i class="fa fa-wechat"></i></span></a>
+              <!-- <a><span class="icon"><i class="fa fa-wechat"></i></span></a> -->
               <!-- <a><span class="icon"><i class="fa fa-github"></i></span></a> -->
             </div>
           </div>
@@ -91,6 +98,7 @@
                 token: '',
                 isPhone: true,
                 btn_info: "获取验证码",
+                inviteCode: '',
                 btn_disabled: false,
                 wait: 60,
                 isRegisting: false
@@ -104,26 +112,48 @@
         methods: {
           register: function(){
             this.isRegisting = true;
+            var self = this;
             var user = {
               phone: this.phone,
               password: this.password,
               name: this.name,
               token: this.token,
-              authCode: this.authCode
+              authCode: this.authCode,
+              inviteCode: this.inviteCode
             };
+
+            setTimeout(function() {
+              _self.isRegisting = false;
+            }, 40000);
+
             services.UserService.register(user).then(function(res) {
-              console.log(res);
+              self.isRegisting = false;
               if(res.status === 200){
-                notification.alert('注册成功');
+
                 var data = res.data;
-                console.log(res.data.fields);
-                localStorage.setItem("user",res.data.fields.id);
-                localStorage.setItem("userName",res.data.fields.name);
-                localStorage.setItem("ide",res.data.fields.ide);
-                localStorage.setItem("ideName",res.data.fields.ideName);
-                localStorage.setItem("token",res.data.fields.token);
-                console.log(localStorage.getItem("user"));
-                window.location.href = window.baseUrl;
+                if(data.code == 1){
+                    notification.alert('注册成功');
+                    console.log(res.data.fields);
+                    localStorage.setItem("user",res.data.fields.id);
+                    localStorage.setItem("userName",res.data.fields.name);
+                    localStorage.setItem("ide",res.data.fields.ide);
+                    localStorage.setItem("ideName",res.data.fields.ideName);
+                    localStorage.setItem("token",res.data.fields.token);
+                    setCookie('user',res.data.fields.id,24*60*60*1000);
+                    setCookie('token',res.data.fields.token,24*30*60*1000);
+                    setCookie('userName',res.data.fields.name,24*30*60*1000);
+                    setCookie('host',res.data.fields.host,24*30*60*1000);
+                    console.log(localStorage.getItem("user"));
+                    window.location.href = window.baseUrl;
+                }else{
+                    notification.alert(data.message);
+                }
+                function setCookie(c_name, value, expiredays) {
+                  var exdate = new Date()
+                  exdate.setDate(exdate.getDate() + expiredays)
+                  document.cookie = c_name + "=" + escape(value) +
+                    ((expiredays == null) ? "" : ";expires=" + exdate.toGMTString())
+                }
               }
             },function(err){
                 notification.alert('服务器异常');
@@ -133,12 +163,10 @@
                 this.rePwd = '';
             }
             );
-            this.isRegisting = false;
           },
           keyDownLogin:function(){
               if (event.keyCode == 13)
                 {
-                  console.log("按下了enter键");
                     this.register();
                 }
             },
@@ -168,7 +196,7 @@
                 if (!(/^([a-zA-Z0-9_-])+@([a-zA-Z0-9_-])+(.[a-zA-Z0-9_-])+/).test(_self.phone)) {
                     return false;
                 }
-                
+
                 services.Common.list({
                   url: 'users/email/code',
                   param: {
@@ -239,22 +267,23 @@
                     document.getElementById('registerAccount').focus();
                     return false;
                 }
-               var options = {
-                 url: "users",
-                 param: {
-                   email: _self.phone
-                 },
-                 cb: function(res) {
-                   if(res.status == 200){
-                     var data = res.data;
-                     if(data.code == -1){
-                       console.log(data);
-                       notification.alert('该邮箱已注册');
-                      _self.phone = '';
-                     }
-                   }
-                 }
-               }
+
+                var options = {
+                  url: "users",
+                  param: {
+                    email: _self.phone
+                  },
+                  cb: function(res) {
+                    if(res.status == 200){
+                      var data = res.data;
+                      if(data.code == -1){
+                        console.log(data);
+                        notification.alert('该邮箱已注册');
+                        _self.phone = '';
+                      }
+                    }
+                  }
+                }
              }
 
             if(_self.phone != null && _self.phone != '' && _self.phone != undefined) {

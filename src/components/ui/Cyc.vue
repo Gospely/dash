@@ -20,10 +20,7 @@
             return {
 
                 otherTime: '其它',
-                isOther: false,
-
-                currentCyc: 0
-
+                isOther: false
             }
         },
 
@@ -43,8 +40,8 @@
 	                    label: '6个月',
 	                    cyc: '6',
 						unit: '月'
-									}, {
-											label: '12个月',
+					}, {
+						label: '12个月',
 	                    cyc: '12',
 						unit: '月'
 	                }, {
@@ -56,13 +53,21 @@
         		}
         	},
 
+            currentCyc: {
+                type: Number,
+                default () {
+                    return 0
+                }
+            },
+
         	showTips: {
         		type: Boolean,
         		default () {
         			return true;
         		}
         	},
-					showCyc: {
+
+			showCyc: {
         		type: Boolean,
         		default () {
         			return true;
@@ -75,6 +80,7 @@
         			return '40'
         		}
         	},
+
             otherTime: {
                 // type: String || Number,
                 default() {
@@ -115,19 +121,19 @@
 
                 this.$dispatch('cycSelected', {
                 	cyc: this.otherTime,
-									unit: this.cyc[key].unit
+					unit: this.cyc[key].unit
                 });
 
             },
-						customSet: function(key) {
-							this.$dispatch('cycSelected', {
-								cyc: this.otherTime,
-								unit: this.cyc[key].unit
-							});
-						}
+			customSet: function(key) {
+				this.$dispatch('cycSelected', {
+					cyc: this.otherTime,
+					unit: this.cyc[key].unit
+				});
+			}
 
         },
-				events: {
+		events: {
 		    'cyc-broadcast': function (month) {
 
 					console.log(month);
@@ -140,9 +146,27 @@
 							cyc: this.otherTime,
 							unit: '月'
 						});
+					}else{
+						console.log("ss");
+						this.showCyc = true;
+						this.$dispatch('cycSelected', {
+							cyc: month,
+							unit: '月'
+						});
 					}
-    		}
-  },
+    		},
+  		},
+		watch: {
+			'otherTime': function(newVal, oldVal){
+                if(!oldVal) {
+                    return false;
+                }
+				this.$dispatch('cycSelected', {
+                	cyc: newVal,
+					unit: '月'
+                });
+			}
+		}
     }
 
 </script>

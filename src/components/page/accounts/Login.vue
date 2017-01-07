@@ -6,13 +6,13 @@
         <div class="signup-form ">
           <div class="signup-form__logo-box">
             <div class="signup-form__logo"></div>
-            <div class="signup-form__catchphrase">快速开始您的创作过程</div></div>
+            <div class="signup-form__catchphrase">快速开始您的开发</div></div>
           <div id="container-login">
             <div data-reactroot="" id="LoginComponent" @keydown="keyDownLogin">
               <span>
                   <div class="input-field-group">
                     <div class="input-field">
-                      <input type="text" v-model='phone' placeholder="邮箱/手机号码" autocapitalize="off" style="border: none;" disabled={{logining}}></div>
+                      <input type="text" v-model='phone' placeholder="封测阶段暂不支持手机注册，请填写邮箱账号" autocapitalize="off" style="border: none;" disabled={{logining}}></div>
                     <div class="input-field">
                       <input type="password" v-model='password' placeholder="请输入密码" autocapitalize="off" style="border: none;" disabled={{logining}}>
                     </div>
@@ -29,16 +29,17 @@
                     <div class="left">
                     </div>
                     <div class="right">
-                      <a v-link="{name:'signupa'}">注册新账户</a>&nbsp;&nbsp;<a @click="showForgotPwForm = true">忘记密码</a>
+                      <a v-link="{name:'signupa'}">注册新账户</a>&nbsp;&nbsp;
+                      <!-- <a @click="showForgotPwForm = true">忘记密码</a> -->
                     </div>
                   </div>
               </span>
             </div>
           </div>
           <div class="signup-form__sns-btn-area">
-            <div>我们目前仅支持通过微信登录</div>
+            <div>封测阶段暂不支持第三方OAuth登录</div>
             <div class="sns-button-list">
-              <a href="https://open.weixin.qq.com/connect/qrconnect?appid=wx48e0c6824ebf0d3a&redirect_uri=http://api.gospely.com/weixin/callback&response_type=code&scope=snsapi_login&state=12123#wechat_redirect"><span class="icon"><i class="fa fa-wechat"></i></span></a>
+              <!-- <a href="https://open.weixin.qq.com/connect/qrconnect?appid=wx48e0c6824ebf0d3a&redirect_uri=http://api.gospely.com/weixin/callback&response_type=code&scope=snsapi_login&state=12123#wechat_redirect"><span class="icon"><i class="fa fa-wechat"></i></span></a> -->
               <!-- <a><span class="icon"><i class="fa fa-github"></i></span></a> -->
             </div>
           </div>
@@ -200,65 +201,70 @@
         				code_token: this.token
   	           }
       		  }
-              services.UserService.login(user).then(function(res) {
 
-                  if(res.status === 200){
-                        if(res.data.code != 1){
-                            notification.alert(res.data.message,'danger');
-                            var count = localStorage.getItem('error');
-                            if(count != null &&  count != undefined && count != ''){
+            setTimeout(function() {
+              _self.logining = false;
+            }, 40000);
 
-                              if(count > 3){
-                                _self.isAuth = true;
-                                _self.code_show = true;
-                                _self.$get('getImageCode')();
-                              }
-                              localStorage.setItem('error',count+1);
-                            }else{
-                              localStorage.setItem('error',1);
+            services.UserService.login(user).then(function(res) {
+                _self.logining = false;
+                if(res.status === 200){
+                      if(res.data.code != 1){
+                          notification.alert(res.data.message,'danger');
+                          var count = localStorage.getItem('error');
+                          if(count != null &&  count != undefined && count != ''){
+
+                            if(count > 3){
+                              _self.isAuth = true;
+                              _self.code_show = true;
+                              _self.$get('getImageCode')();
                             }
-                        }else{
-                          localStorage.removeItem('error');
-                          localStorage.setItem("user",res.data.fields.id);
-                          setCookie('user',res.data.fields.id,24*60*60*1000);
-                          setCookie('token',res.data.fields.token,24*30*60*1000);
-                          setCookie('userName',res.data.fields.name,24*30*60*1000);
-                          localStorage.setItem("userName",res.data.fields.name);
-
-                          localStorage.removeItem("isActive");
-                          if(res.data.fields.isBlocked === 1) {
-                            localStorage.setItem("isActive",true);
-                          }
-                          localStorage.setItem("ide",res.data.fields.ide);
-                          localStorage.setItem("ideName",res.data.fields.ideName);
-                          localStorage.setItem("token",res.data.fields.token);
-                          notification.alert('登录成功');
-
-                          function setCookie(c_name, value, expiredays) {
-                            var exdate = new Date()
-                            exdate.setDate(exdate.getDate() + expiredays)
-                            document.cookie = c_name + "=" + escape(value) +
-                              ((expiredays == null) ? "" : ";expires=" + exdate.toGMTString())
-                          }
-                          if(where=="fromIde"){
-
-                            if(document.domain == 'localhost') {
-                              window.location.href = "http://ide.gospely.com";
-                            }else {
-                              window.location.href = "http://localhost:8989/";
-                            }
+                            localStorage.setItem('error',count+1);
                           }else{
-                          	window.location.href = window.baseUrl;
+                            localStorage.setItem('error',1);
                           }
+                      }else{
+                        localStorage.removeItem('error');
+                        localStorage.setItem("user",res.data.fields.id);
+                        setCookie('user',res.data.fields.id,24*60*60*1000);
+                        setCookie('token',res.data.fields.token,24*30*60*1000);
+                        setCookie('userName',res.data.fields.name,24*30*60*1000);
+                        setCookie('host',res.data.fields.host,24*30*60*1000);
+                        localStorage.setItem("userName",res.data.fields.name);
 
-                      }
-                  }
+                        localStorage.removeItem("isActive");
+                        if(res.data.fields.isBlocked === 1) {
+                          localStorage.setItem("isActive",true);
+                        }
+                        localStorage.setItem("ide",res.data.fields.ide);
+                        localStorage.setItem("ideName",res.data.fields.ideName);
+                        localStorage.setItem("token",res.data.fields.token);
+                        notification.alert('登录成功');
+
+                        function setCookie(c_name, value, expiredays) {
+                          var exdate = new Date()
+                          exdate.setDate(exdate.getDate() + expiredays)
+                          document.cookie = c_name + "=" + escape(value) +
+                            ((expiredays == null) ? "" : ";expires=" + exdate.toGMTString())
+                        }
+                        if(where=="fromIde"){
+
+                          if(document.domain == 'localhost') {
+                            window.location.href = "http://ide.gospely.com";
+                          }else {
+                            window.location.href = "http://localhost:8989/";
+                          }
+                        }else{
+                        	window.location.href = window.baseUrl;
+                        }
+
+                    }
+                }
             },function(err){
                 notification.alert('服务器异常','danger');
                 this.phone = '';
                 this.password = '';
             });
-            this.logining = false;
           },
 
           keyDownLogin:function(){
@@ -294,7 +300,7 @@
           },
 
           verifyCode: function () {
-              
+
           }
         },
 

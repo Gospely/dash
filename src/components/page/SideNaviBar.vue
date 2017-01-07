@@ -69,7 +69,7 @@
             color: $bg_side_bar_light;
             font-size: 0px;
             vertical-align: middle;
-            background-image: url(http://i63.tinypic.com/343oqxe.png);
+            background-image: url(http://i68.tinypic.com/2md5v76.png);
             background-position: center center;
             background-size: 70%;
             background-repeat: no-repeat;

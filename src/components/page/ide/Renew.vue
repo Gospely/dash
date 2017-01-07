@@ -14,7 +14,7 @@
 
                         <hr class="split">
 
-                        <article class="message"  @click="chooseIde(item, key)" v-for="(key, item) in fields"  >
+                        <article class="message" @click="chooseIde(item, key)" v-for="(key, item) in fields"  >
                             <div class="message-body">
                                 <div class="message-title">
                                     <h4>{{item.name}}</h4>
@@ -85,7 +85,7 @@
                         <hr class="split">
 
                         <div class="control" style="position: relative;">
-                          <cyc :show-tips="false" :other-time="size" :show-cyc.sync='showCyc'></cyc>
+                          <cyc :current-cyc="defaultCycIndex" :show-tips="false" :other-time="size" :show-cyc.sync='showCyc'></cyc>
                           <div class="control" style="position: absolute;top: 0;left:390px;">
                             <button class="button is-primary" @click="minusMonth"><i class="fa fa-minus"></i></button>
                             <button class="button is-primary" @click="addMonth"><i class="fa fa-plus"></i></button>
@@ -302,7 +302,8 @@
 
                 isWeixin: false,
                 isFree: false,
-                qrcode: 'http://www.baidu.com',
+                qrcode: 'http://www.gospely.com',
+                alipay: '',
                 currentIDE: localStorage.getItem('ide'),
                 fields: [],
                 applicationsCount: '',
@@ -322,7 +323,9 @@
                 mealTicks: [],
                 time_show: '',
 
-                ideInfoLoaded: false
+                ideInfoLoaded: false,
+
+                defaultCycIndex: 0
 
             }
         },
@@ -360,10 +363,8 @@
             },
             chooseIde: function(item, key) {
 
-              console.log(this.ide.name);
-              console.log(item.name);
+              this.products = item.id;
               if(this.ide.name != item.name){
-                console.log("change");
                 this.isChange = true;
                 var _self = this;
                 if(_self.isChange){
@@ -371,9 +372,9 @@
                   var month = 0;
                   _self.balance = 0;
                   _self.balanceTime = "无";
-                  if(_self.expireAt == null || _self.expireAt == undefined) {
+                  if(_self.expireAt != null && _self.expireAt != undefined) {
 
-                    daysBetween(dataFormat(new Date(),'yyyy-MM-dd hh:mm:ss'), dataFormat(new Date(_self.expireAt),'yyyy-MM-dd hh:mm:ss'));
+                    month = daysBetween(dataFormat(new Date(),'yyyy-MM-dd hh:mm:ss'), dataFormat(new Date(_self.expireAt),'yyyy-MM-dd hh:mm:ss'));
                     month = month.toFixed(2);
                     services.Common.getOne({
                       param: {
@@ -383,22 +384,33 @@
                       cb: function(res) {
 
                         var data = res.data;
+
                         if(data.code == 1) {
 
                           _self.balance = month * data.fields.price,
+                          _self.balance = _self.balance.toFixed(2);
                           _self.balanceTime = month + '月 X ' + data.fields.price
                           var time = Math.ceil(_self.balance/item.price);
-
                           if(time>12) {
                             _self.showCyc = false;
                             _self.$broadcast('cyc-broadcast',time);
-
                           }else{
-                            _self.showCyc = true;
-                            _self.$emit('cycSelected',{
-                              cyc: time,
-                              unit: '月',
-                            });
+                            if(time<=1) {
+                                _self.defaultCycIndex = 0;
+                            }else{
+                                if(time<= 3){
+                                    _self.defaultCycIndex = 1;
+                                }else{
+                                    if(time<=6){
+                                        _self.defaultCycIndex = 2;
+                                    }else{
+                                        if(time <=12){
+                                            _self.defaultCycIndex = 3;
+                                        }
+                                    }
+                                }
+                            }
+                            _self.$broadcast('cyc-broadcast',time);
                           }
                         }
                       }
@@ -457,7 +469,6 @@
             },
 
             addMonth() {
-              console.log(this.size)
               this.size ++;
             },
 
@@ -466,7 +477,7 @@
             },
 
             useWeixin: function() {
-
+                console.log("useWeixin");
             },
 
             useAlipay: function() {
@@ -474,7 +485,6 @@
             },
 
             changeSetMeal: function() {
-
                 this.showSetMealForm = true;
             },
 
@@ -482,16 +492,7 @@
                 this.showSetMealForm = false;
                 this.showTopupForm = true;
                 if(this.isAlipay){
-                  services.OrderService.order({
-                    out_trade_no: this.orderNo,
-                    price: this.size * this.unitPrice,
-                    type: "alipay"
-                  }).then(function(res){
-                      console.log(res);
-                      window.location.href = res.body;
-                  },function(err,res){
-
-                  });
+                  window.location.href = this.alipayUrl;
                 }else{
                   notification.alert("请确认微信扫码支付完成");
                 }
@@ -499,53 +500,46 @@
             },
 
             setMealNextStep: function() {
-                console.log(this.goBuy);
                 if(!this.goBuy) {
-                  notification.alert("请选择收费版本,个人版无需升级");
+                  notification.alert("请选择非当前版本的收费版本");
                 }else{
                   this.setMeal.currentStep++;
                 }
 
                 if(this.setMeal.currentStep == 3) {
-
                   var _self = this;
                   this.orderNo =  _md5(uuid.v4());
+                  localStorage.orderNo = this.orderNo;
                   console.log(this.orderNo);
-                  services.Common.create({
-                    url: 'orders',
-                    param: {
-                      creator: currentUser,
-                      name: 'IDE续费或升级',
-                      orderNo: this.orderNo,
-                      timeSize: this.size,
-                      timeUnit: "月",
-                      products: this.products,
-                      price: this.size * this.unitPrice - this.balance,
-                      unitPrice: this.unitPrice,
-                      type: 'ide',
-                      balance: this.balance,
-                      balancePeriod: this.balancePeriod,
-                      balanceTime: this.balanceTime,
-                    },
-                    cb: function(res) {
-                      if(res.data.code == 1) {
-                        notification.alert("下单成功");
 
-                        services.OrderService.order({
-
-                          out_trade_no: _self.orderNo,
-                          price: _self.size * _self.unitPrice,
-                          type: 'wechat'
-                        }).then(function(res){
-                            console.log(res);
-                            _self.qrcode = res.data.code_url;
-                            //window.location.href = res.body;
-                        },function(err,res){
-
-                        });
-                      }
-                    }
-                  });
+                  if((this.size * this.unitPrice - this.balance) < 0){
+                      notification.alert('订单价格不能为负数，请选择最少购买月份');
+                  }else{
+                      services.Common.create({
+                        url: 'orders',
+                        param: {
+                          creator: currentUser,
+                          name: 'IDE续费或升级',
+                          orderNo: this.orderNo,
+                          timeSize: this.size,
+                          timeUnit: "月",
+                          products: this.products,
+                          price: this.size * this.unitPrice - this.balance,
+                          unitPrice: this.unitPrice,
+                          type: 'ide',
+                          balance: this.balance,
+                          balancePeriod: this.balancePeriod,
+                          balanceTime: this.balanceTime,
+                        },
+                        cb: function(res) {
+                          if(res.data.code == 1) {
+                            notification.alert("下单成功");
+                            _self.qrcode = res.data.fields.wechat;
+                            _self.alipayUrl = res.data.fields.alipay;
+                          }
+                        }
+                      });
+                  }
                 }
             },
 
@@ -569,7 +563,8 @@
                   services.OrderService.order({
                     out_trade_no: _self.orderNo,
                     price: this.size * this.unitPrice,
-                    type: 'wechat'
+                    type: 'wechat',
+                    name: 'Gospel IDE 付费升级',
                   }).then(function(res){
                       console.log(res);
                       _self.qrcode = res.data.code_url;
@@ -642,8 +637,6 @@
 
                 var ide = localStorage.getItem('ide');
 
-
-
                 services.Common.getOne({
                    param: {
                      id: ide
@@ -660,6 +653,7 @@
                              if(data.fields.expireAt == null) {
 
                                _self.time_show = '个人免费版本';
+                               _self.expireAt = null;
                              }else{
                                _self.time_show = '到期时间： ' + dataFormat(d,"yyyy-MM-dd hh:mm:ss");
                                _self.expireAt = data.fields.expireAt;
@@ -680,12 +674,11 @@
             this.$get("initIDE")();
         },
         watch: {
-           // selected: function(item) {
-           //    this.products = item.id;
-           //    this.unitPrice = item.price;
-           //    this.price = this.unitPrice + " X 1 月 = " + this.unitPrice;
-           //    this.reNewIDE();
-           // }
+        //    selected: function(item) {
+        //       this.products = item.id;
+        //       this.unitPrice = item.price;
+        //       this.price = this.unitPrice + " X 1 月 = " + this.unitPrice;
+        //    }
        },
        events: {
          'cycSelected': function(cyc) {
@@ -716,7 +709,6 @@
              }
 
              console.log(cyc);
-             this.genQrcode();
              function dataFormat(date,fmt){ //author: meizz
                 var o = {
                   "M+" : date.getMonth()+1,                 //月份
@@ -738,6 +730,26 @@
          'weixin': function() {
 
            console.log("wechat");
+           if(!window.timerId){
+               window.timerId = window.setInterval(function(){
+                   console.log("check");
+                   services.Common.list({
+                       url: 'orders',
+                       param: {
+                           orderNo:  localStorage.orderNo,
+                           status: 2
+                       },
+                       cb: function(res){
+                           if(res.data.fields.length == 1){
+                               window.clearInterval(window.timerId);
+                               window.timerId = null;
+                               notification.alert("支付成功");
+                               window.location.href = window.location.origin + '/#!/accounts/orders?code=pay'
+                           }
+                       }
+                   });
+               },1000);
+           }
            this.isWechat = true;
            this.isAlipay = false;
          },

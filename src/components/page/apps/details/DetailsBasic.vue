@@ -10,9 +10,9 @@
                         <div class="column is-half">
 
                             <h4><button class="button is-small" v-bind:class="{'is-success': !status_running, 'is-danger': !status_stop}">{{status}}</button> {{inspectInfo.name}}</h4>
-                            <h4 class="subtitle">部署于：{{inspectInfo.createat}}</h4>
+                            <h4 class="subtitle">运行于：{{inspectInfo.createat}}</h4>
 
-                            <button class="button is-primary" v-bind:class="{'is-loading': isLoading}" v-on:click="start" v-show="status_running">部署</button>
+                            <button class="button is-primary" v-bind:class="{'is-loading': isLoading}" v-on:click="start" v-show="status_running">运行</button>
                             <button class="button is-warning" v-bind:class="{'is-loading': isLoading}" v-on:click="stop" v-show="status_stop">停止</button>
                             <button class="button is-success" v-bind:class="{'is-loading': isLoading}" v-on:click="restart">重新启动</button>
                             <button class="button is-primary" v-bind:class="{'is-loading': isLoading}" v-on:click="openInIde">从IDE打开</button>
@@ -24,8 +24,8 @@
                             <span class="help is-tip">访问方式: HTTP/SSH, HTTP端口：{{inspectInfo.port}}, SSH端口：{{inspectInfo.sshPort}}</span>
                             <span class="help is-tip">运行环境: Dodora云平台</span>
                             <span class="help is-tip">运行系统: Linux Ubuntu</span>
-                            <span class="help is-tip">数据库用户名: {{inspectInfo.dbUser}}</span>
-                            <span class="help is-tip">数据库表: {{inspectInfo.dbUser}}</span>
+                            <span class="help is-tip">数据库用户名: {{inspectInfo.dbUser | appDBInfo}}</span>
+                            <span class="help is-tip">数据库表: {{inspectInfo.dbUser | appDBInfo}}</span>
                             <span class="help is-tip">访问地址: <a style="margin-top: -30px;margin-left: -187px;" target="__blank" href="http://gospely.com:{{inspectInfo.port}}">http://gospely.com:{{inspectInfo.port}}</a></span>
 
                         </div>
@@ -195,7 +195,7 @@
                     if(data.fields.status == -1 ){
                         self.status_running = true;
                         self.status_stop = false;
-                        self.status = '未部署';
+                        self.status = '未运行';
                     }
                   }
                 }
