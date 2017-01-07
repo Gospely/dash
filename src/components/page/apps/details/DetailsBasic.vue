@@ -9,7 +9,12 @@
                     <div class="columns">
                         <div class="column is-half">
 
-                            <h4><button class="button is-small" v-bind:class="{'is-success': !status_running, 'is-danger': !status_stop}">{{status}}</button> {{inspectInfo.name}}</h4>
+                            <h4>
+                              <button class="button is-small" v-bind:class="{'is-success': !status_running, 'is-danger': !status_stop}">{{status}}</button> 
+                              {{inspectInfo.name}}
+                              <a style="margin-top: -30px;margin-left: -80px;" target="__blank" href="http://{{inspectInfo.domain}}.gospely.com">访问<i class="fa fa-hand-pointer-o" aria-hidden="true"></i></a>
+                            </h4>
+
                             <h4 class="subtitle">运行于：{{inspectInfo.createat}}</h4>
 
                             <button class="button is-primary" v-bind:class="{'is-loading': isLoading}" v-on:click="start" v-show="status_running">运行</button>
@@ -26,7 +31,7 @@
                             <span class="help is-tip">运行系统: Linux Ubuntu</span>
                             <span class="help is-tip">数据库用户名: {{inspectInfo.dbUser | appDBInfo}}</span>
                             <span class="help is-tip">数据库表: {{inspectInfo.dbUser | appDBInfo}}</span>
-                            <span class="help is-tip">访问地址: <a style="margin-top: -30px;margin-left: -187px;" target="__blank" href="http://gospely.com:{{inspectInfo.port}}">http://gospely.com:{{inspectInfo.port}}</a></span>
+                            <span class="help is-tip">访问地址: <span @click="visitThis" class="link">http://{{inspectInfo.domain}}.gospely.com</span></span>
 
                         </div>
                     </div>
@@ -101,12 +106,17 @@
 <style>
 
     h4.subtitle {
-        font-size: 17px;
-        color: #777;
+      font-size: 17px;
+      color: #777;
     }
 
     .is-tip {
-        color: #777;
+      color: #777;
+    }
+
+    .link {
+      color: #8d85be;
+      cursor: pointer;
     }
 
 </style>
@@ -168,8 +178,17 @@
             services.Common.containerOperate(option)
           },
 
+          visitThis: function() {
+            var url = "http://" + this.inspectInfo.domain + ".gospely.com";
+            window.open(url);
+          },
+
           openInIde: function(){
-            window.open(location.origin + "/#/project/" + this.appId +"?from=dash");
+            if(document.domain == 'localhost') {
+              window.open('http://localhost:8989' + "/#/project/" + this.appId +"?from=dash");              
+            }else {
+              window.open('http://ide.gospely.com' + "/#/project/" + this.appId +"?from=dash");
+            }
           },
 
           inspect: function() {

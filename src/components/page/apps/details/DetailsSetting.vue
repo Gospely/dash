@@ -45,7 +45,6 @@
         methods: {
             askIfRemove: function() {
                 var _self = this;
-                notification.alert('正在删除...请稍候...')
                 new ModalCtrl({
                     el: document.createElement('div'),
                     props: {
@@ -59,6 +58,7 @@
                     },
                     events: {
                         'confirmed': function() {
+                            notification.alert('正在删除...请稍候...')
                             var options = {
                                 param: {
                                     id: _self.application
