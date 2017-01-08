@@ -131,16 +131,16 @@
                                 </a>
 
                             </td>
-                            <td class="is-icon" title="部署">
+<!--                             <td class="is-icon" title="部署">
                                 <a class="tdInline" @click="deployThisApp(item)">
                                   <i class="fa fa-cogs"></i>
                                 </a>
                             </td>
-                        </tr>
+ -->                        </tr>
                       </tbody>
                     </table>
                     <article class="noData" v-if="!fields_stop.length" v-show="appLoaded">
-                      您暂时还没有快速部署的应用...
+                      您暂时还没有已停止的应用...
                     </article>
                     <page :cur.sync="cur_stop" :all.sync="all_stop" v-on:btn-click="listen_stop"></page>
                 </tab-item>

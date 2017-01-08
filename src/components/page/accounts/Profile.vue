@@ -112,7 +112,7 @@
 
         <hr>
 
-        <div class="control is-horizontal user-center">
+<!--         <div class="control is-horizontal user-center">
             <div class="control-label">
                 <label class="label">邮箱帐号</label>
             </div>
@@ -142,7 +142,7 @@
                 <a @click="confirmVerifyEmail" class="button button-right is-primary"><i class="fa fa-check"></i></a>
             </div>
         </div>
-        <hr>
+        <hr> -->
 
         <div class="control is-horizontal user-center" style="overflow: initial;">
             <div class="control-label">
@@ -380,6 +380,19 @@ export default {
             var user = {
                 email: this.email
             }
+
+            if(this.email == '') {
+                notification.alert('请输入完整的邮箱地址');
+                return false;
+            }
+
+            var emailReg = /^([a-zA-Z0-9]+[_|\_|\.]?)*[a-zA-Z0-9]+@([a-zA-Z0-9]+[_|\_|\.]?)*[a-zA-Z0-9]+\.[a-zA-Z]{2,3}$/;
+
+            if(!emailReg.test(this.email)) {
+                notification.alert('请输入正确的邮箱地址');
+                return false;
+            }
+
             var self = this;
             services.UserService.sendEmailCode(user).then(function(res) {
                 if (res.status === 200) {
@@ -418,7 +431,8 @@ export default {
         },
 
         startChangeMobile: function() {
-            this.changeMobileState = true;
+            notification.alert('抱歉，封测期间暂不提供手机绑定服务')
+            this.changeMobileState = false;
         },
 
         cancelChangeMobile: function() {
