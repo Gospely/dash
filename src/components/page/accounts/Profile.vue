@@ -144,15 +144,16 @@
         </div>
         <hr>
 
-        <div class="control is-horizontal user-center">
+        <div class="control is-horizontal user-center" style="overflow: initial;">
             <div class="control-label">
                 <label class="label">更改密码</label>
             </div>
-            <div class="control">
-                <p class="control input-left has-icon has-icon-right">
+            <div class="control" style="overflow: initial;">
+                <p v-show="!changePwState" class="control input-left has-icon has-icon-right">
                     <input class="input" type="password" placeholder="密码" v-bind:disabled="!changePwState">
                     <i class="fa fa-lock"></i>
                 </p>
+                <p  class="help" v-show="changePwState">密码长度不能小于6位</p>
                 <a class="button button-right is-danger" @click="startChangePw"><i class="fa fa-pencil"></i></a>
                 <a v-show="changePwState" @click="confirmUpdatePwd" class="button button-right-two is-primary"><i class="fa fa-check"></i></a>
             </div>
@@ -164,7 +165,7 @@
             </div>
             <div class="control">
                 <p class="control input-left has-icon has-icon-right">
-                    <input class="input" type="password" v-model="password" placeholder="密码">
+                    <input class="input" type="password" v-model="password" placeholder="新的密码">
                     <i class="fa fa-lock"></i>
                 </p>
             </div>
@@ -429,6 +430,21 @@ export default {
                 id: currentUser,
                 password: this.password
             };
+
+            if(this.password == '' || this.rePwd == '') {
+                notification.alert('请输入完整密码');
+                return false;
+            }
+
+            if(this.password.length < 6 || this.rePwd.length < 6) {
+                notification.alert('密码长度不能小于6位');
+                return false;
+            }
+
+            if(this.password != this.rePwd) {
+                notification.alert('请输入相同的密码')
+                return false;
+            }
 
             services.UserService.updatePwd(user).then(function(res) {
                 if (res.status === 200) {
