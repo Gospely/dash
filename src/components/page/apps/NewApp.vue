@@ -676,6 +676,13 @@
                 this.application.image = item.name;
                 this.imageName = item.name;
 
+                if(item.parent = 'php:latest'){
+                    this.databaseType = [
+                        {
+                          label: 'mysql'
+                        },
+                    ];
+                }
                 // services.Common.list({
                 //   url: 'images',
                 //   param: {
