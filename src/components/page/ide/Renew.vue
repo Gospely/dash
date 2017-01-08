@@ -711,7 +711,7 @@
              console.log(cyc);
              function dataFormat(date,fmt){ //author: meizz
                 var o = {
-                  "M+" : date.getMonth()+1,                 //月份
+                  "M+" : date.getMonth(),                 //月份
                   "d+" : date.getDate(),                    //日
                   "h+" : date.getHours(),                   //小时
                   "m+" : date.getMinutes(),                 //分
