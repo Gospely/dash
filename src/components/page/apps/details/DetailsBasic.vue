@@ -12,7 +12,7 @@
                             <h4>
                               <button class="button is-small" v-bind:class="{'is-success': !status_running, 'is-danger': !status_stop}">{{status}}</button> 
                               {{inspectInfo.name}}
-                              <a style="margin-top: -30px;margin-left: -80px;" target="__blank" href="http://{{inspectInfo.domain}}.gospely.com">访问<i class="fa fa-hand-pointer-o" aria-hidden="true"></i></a>
+                              <a style="float:right;margin-left: -80px;" target="__blank" href="http://{{inspectInfo.domain}}.gospely.com">访问<i class="fa fa-hand-pointer-o" aria-hidden="true"></i></a>
                             </h4>
 
                             <h4 class="subtitle">运行于：{{inspectInfo.createat}}</h4>
@@ -27,7 +27,7 @@
 
                             <span class="help is-tip">状态: <span style="display:inline" class="help is-success">{{inspectInfo.status | dockerStatus}}</span></span>
                             <span class="help is-tip">访问方式: HTTP/SSH, HTTP端口：{{inspectInfo.port}}, SSH端口：{{inspectInfo.sshPort}}</span>
-                            <span class="help is-tip">运行环境: Dodora云平台</span>
+                            <span class="help is-tip">运行环境: Gospel 容器云</span>
                             <span class="help is-tip">运行系统: Linux Ubuntu</span>
                             <span class="help is-tip">数据库用户名: {{inspectInfo.dbUser | appDBInfo}}</span>
                             <span class="help is-tip">数据库表: {{inspectInfo.dbUser | appDBInfo}}</span>
@@ -276,7 +276,7 @@
                         default: '停止应用'
                     },
                     body: {
-                        default: '您确定要停止此应用吗？'
+                        default: '您确定要重新启动此应用吗？（应用将先停止）'
                     }
                 },
                 events: {
