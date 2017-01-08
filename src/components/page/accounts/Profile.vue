@@ -112,7 +112,7 @@
 
         <hr>
 
-        <div class="control is-horizontal user-center">
+<!--         <div class="control is-horizontal user-center">
             <div class="control-label">
                 <label class="label">邮箱帐号</label>
             </div>
@@ -142,17 +142,24 @@
                 <a @click="confirmVerifyEmail" class="button button-right is-primary"><i class="fa fa-check"></i></a>
             </div>
         </div>
-        <hr>
+        <hr> -->
 
-        <div class="control is-horizontal user-center">
+        <div class="control is-horizontal user-center" style="overflow: initial;">
             <div class="control-label">
                 <label class="label">更改密码</label>
             </div>
+<<<<<<< HEAD
             <div class="control">
                 <p class="control input-left has-icon has-icon-right">
                     <input class="input" type="password" placeholder="密码" v-model="oldPwd" v-bind:disabled="!changePwState">
+=======
+            <div class="control" style="overflow: initial;">
+                <p v-show="!changePwState" class="control input-left has-icon has-icon-right">
+                    <input class="input" type="password" placeholder="密码" v-bind:disabled="!changePwState">
+>>>>>>> 82cf945a76f82624c3fb5d4611e1fdf4f40cc190
                     <i class="fa fa-lock"></i>
                 </p>
+                <p  class="help" v-show="changePwState">密码长度不能小于6位</p>
                 <a class="button button-right is-danger" @click="startChangePw"><i class="fa fa-pencil"></i></a>
                 <a v-show="changePwState" @click="confirmUpdatePwd" class="button button-right-two is-primary"><i class="fa fa-check"></i></a>
             </div>
@@ -164,7 +171,7 @@
             </div>
             <div class="control">
                 <p class="control input-left has-icon has-icon-right">
-                    <input class="input" type="password" v-model="password" placeholder="密码">
+                    <input class="input" type="password" v-model="password" placeholder="新的密码">
                     <i class="fa fa-lock"></i>
                 </p>
             </div>
@@ -424,6 +431,19 @@ export default {
             var user = {
                 email: this.email
             }
+
+            if(this.email == '') {
+                notification.alert('请输入完整的邮箱地址');
+                return false;
+            }
+
+            var emailReg = /^([a-zA-Z0-9]+[_|\_|\.]?)*[a-zA-Z0-9]+@([a-zA-Z0-9]+[_|\_|\.]?)*[a-zA-Z0-9]+\.[a-zA-Z]{2,3}$/;
+
+            if(!emailReg.test(this.email)) {
+                notification.alert('请输入正确的邮箱地址');
+                return false;
+            }
+
             var self = this;
             services.UserService.sendEmailCode(user).then(function(res) {
                 if (res.status === 200) {
@@ -462,7 +482,8 @@ export default {
         },
 
         startChangeMobile: function() {
-            this.changeMobileState = true;
+            notification.alert('抱歉，封测期间暂不提供手机绑定服务')
+            this.changeMobileState = false;
         },
 
         cancelChangeMobile: function() {

@@ -19,7 +19,7 @@
               </div>
               <div class="control is-grouped">
                 <p class="control is-expanded">
-                    <input class="input" type="text" placeholder="给您的应用取个名字吧" v-model="application.name">
+                    <input @keyup.enter="createApp" class="input" type="text" placeholder="给您的应用取个名字吧" v-model="application.name">
                 </p>
               </div>
             </div>
@@ -96,7 +96,7 @@
               </div>
               <div class="control is-grouped">
                 <p class="control is-expanded">
-                    <input class="input" type="text" value="root" disabled v-model="application.username">
+                    <input class="input" @keyup.enter="createApp" type="text" value="root" disabled v-model="application.username">
                 </p>
               </div>
             </div>
@@ -109,7 +109,7 @@
               </div>
               <div class="control is-grouped">
                 <p class="control is-expanded">
-                    <input class="input" type="password" v-model="application.sshPassword">
+                    <input class="input" @keyup.enter="createApp" type="password" v-model="application.sshPassword">
                 </p>
               </div>
             </div>
@@ -124,7 +124,7 @@
                 </div>
                 <div class="control is-grouped">
                     <p class="control is-expanded">
-                        <input class="input" type="text" @blur="checkExit" placeholder="用户名即数据库名称" v-model="application.dbUser">
+                        <input class="input" @keyup.enter="createApp" type="text" @blur="checkExit" placeholder="用户名即数据库名称" v-model="application.dbUser">
                     </p>
                 </div>
             </div>
@@ -136,7 +136,7 @@
                 </div>
                 <div class="control is-grouped">
                     <p class="control is-expanded">
-                        <input class="input" type="password" placeholder="数据库密码" v-model="application.password">
+                        <input class="input" @keyup.enter="createApp" type="password" placeholder="数据库密码" v-model="application.password">
                     </p>
                 </div>
             </div>
