@@ -115,7 +115,6 @@
                           <th>镜像(运行环境)</th>
                           <th>状态</th>
                           <th>详情</th>
-                          <th>部署</th>
                         </tr>
                       </thead>
                       <tbody>

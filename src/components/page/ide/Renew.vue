@@ -201,7 +201,7 @@
                     <div class="content">
                         已创建 {{applicationsCount}} 个项目
                       <br>
-                      <small>到期时间：{{time_show}}</small>
+                      <small>{{time_show}}</small>
                     </div>
                   </div>
                 </div>
