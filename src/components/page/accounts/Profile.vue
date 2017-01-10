@@ -55,7 +55,7 @@
             </div>
             <div class="control is-grouped">
                 <p class="control is-expanded">
-                    
+
                     <file-input name="file1" accept="image/jpg;image/gif;image/png" @changed="fileSelectedHandler">
                         <img class="rounded-image" style="width:100px;height:100px;cursor:pointer" :src="photo">
                     </file-input>
@@ -88,7 +88,7 @@
             </div>
             <div class="control">
                 <p class="control input-left has-icon has-icon-right">
-                    <input class="input" type="text" placeholder="请输入手机号码" v-model="phone" v-bind:disabled="!changeMobileState">
+                    <input class="input" type="text" placeholder="请输入手机号码" @blur="checkPhone" v-model="phone" v-bind:disabled="!changeMobileState">
                     <i class="fa fa-check"></i>
                 </p>
                 <a @click="startChangeMobile" v-show="!changeMobileState" class="button-right button is-primary"><i class="fa fa-pencil"></i></a>
@@ -119,7 +119,7 @@
             <div class="control">
 
                 <p class="control input-left has-icon has-icon-right">
-                    <input class="input" type="email" placeholder="请输入邮箱帐号"  v-model="email" v-bind:disabled="!isVerifingEmail">
+                    <input class="input" type="email" placeholder="请输入邮箱帐号" @blur="checkEmail"  v-model="email" v-bind:disabled="!isVerifingEmail">
                     <i class="fa fa-check"></i>
                 </p>
                 <a v-show="!isVerifingEmail" @click="verifyEmail" class="button button-right is-primary"><i class="fa fa-pencil"></i></a>
@@ -148,9 +148,15 @@
             <div class="control-label">
                 <label class="label">更改密码</label>
             </div>
+<<<<<<< HEAD
+            <div class="control">
+                <p class="control input-left has-icon has-icon-right">
+                    <input class="input" type="password" placeholder="密码" v-model="oldPwd" v-bind:disabled="!changePwState">
+=======
             <div class="control" style="overflow: initial;">
                 <p v-show="!changePwState" class="control input-left has-icon has-icon-right">
                     <input class="input" type="password" placeholder="密码" v-bind:disabled="!changePwState">
+>>>>>>> 82cf945a76f82624c3fb5d4611e1fdf4f40cc190
                     <i class="fa fa-lock"></i>
                 </p>
                 <p  class="help" v-show="changePwState">密码长度不能小于6位</p>
@@ -213,6 +219,7 @@ export default {
                 _self.name = data.name;
                 _self.phone = data.phone;
                 _self.email = data.email;
+                _self.oldPwd = data.password;
                 _self.token = localStorage.token;
                 _self.photo = data.photo;
 
@@ -234,6 +241,7 @@ export default {
             email: '',
             rePwd: '',
             password: '',
+            oldPwd: '',
             emailCode: '',
             phoneCode: '',
             timevalue: "发送验证码",
@@ -318,7 +326,59 @@ export default {
         verifyEmail: function() {
             this.isVerifingEmail = true;
         },
+        checkPhone: function() {
 
+          var _self = this;
+           var re=/^1[34578]\d{9}$/;
+           if(re.test(_self.phone)){
+              _self.isPhone = true;
+              var options = {
+                url: "users",
+                param: {
+                  phone: _self.phone
+                },
+                cb: function(res) {
+                  if(res.status == 200){
+                    var data = res.data;
+                    if(data.code == -1){
+                      console.log(data);
+                      notification.alert('该手机已注册');
+                      _self.phone = '';
+                    }
+                  }
+                }
+              }
+           }else{
+              _self.isPhone = false;
+              let email = /^([a-zA-Z0-9_-])+@([a-zA-Z0-9_-])+(.[a-zA-Z0-9_-])+/;
+              if(!email.test(_self.phone) && _self.phone != '') {
+                  notification.alert('邮箱或手机号码错误');
+                  document.getElementById('registerAccount').focus();
+                  return false;
+              }
+
+              var options = {
+                url: "users",
+                param: {
+                  email: _self.phone
+                },
+                cb: function(res) {
+                  if(res.status == 200){
+                    var data = res.data;
+                    if(data.code == -1){
+                      console.log(data);
+                      notification.alert('该邮箱已注册');
+                      _self.phone = '';
+                    }
+                  }
+                }
+              }
+           }
+
+          if(_self.phone != null && _self.phone != '' && _self.phone != undefined) {
+            services.Common.validator(options);
+          }
+        },
         cancelVerifyEmail: function() {
             this.isVerifingEmail = false;
         },
@@ -340,10 +400,6 @@ export default {
                     }
                 }
             };
-            var re = /^1[34578]\d{9}$/;
-            if (re.test(_self.phone)) {
-
-            }
 
             if (_self.phone != null && _self.phone != '' && _self.phone != undefined) {
                 services.Common.validator(options);
@@ -354,24 +410,19 @@ export default {
           var options = {
               url: "users",
               param: {
-                  email: _self.phone
+                  email: _self.email
               },
               cb: function(res) {
                   if (res.status == 200) {
                       var data = res.data;
                       if (data.code == -1) {
                           console.log(data);
-                          notification.alert('该手机已注册');
+                          notification.alert('该邮箱已被注册');
                           _self.email = '';
                       }
                   }
               }
           };
-          var re = /^1[34578]\d{9}$/;
-          if (re.test(_self.email)) {
-
-          }
-
           if (_self.email != null && _self.email != '' && _self.email != undefined) {
               services.Common.validator(options);
           }
@@ -440,33 +491,30 @@ export default {
         },
 
         confirmUpdatePwd: function() {
-            var user = {
-                id: currentUser,
-                password: this.password
-            };
 
-            if(this.password == '' || this.rePwd == '') {
-                notification.alert('请输入完整密码');
-                return false;
-            }
+            this.password = this.password.trim();
+            if(this.password == this.rePwd && this.password.length > 5){
+                var user = {
+                    id: currentUser,
+                    password: this.password
+                };
 
-            if(this.password.length < 6 || this.rePwd.length < 6) {
-                notification.alert('密码长度不能小于6位');
-                return false;
-            }
-
-            if(this.password != this.rePwd) {
-                notification.alert('请输入相同的密码')
-                return false;
-            }
-
-            services.UserService.updatePwd(user).then(function(res) {
-                if (res.status === 200) {
-                    notification.alert('修改密码成功');
+                services.UserService.updatePwd(user).then(function(res) {
+                    if (res.status === 200) {
+                        notification.alert('修改密码成功');
+                    }
+                }, function(err) {
+                    notification.alert('服务器异常');
+                });
+            }else{
+                if(this.password.length <= 5) {
+                    notification.alert('密码长度不少于6位且密码不能包含空格');
+                }else{
+                    notification.alert('密码和重复密码不一致');
                 }
-            }, function(err) {
-                notification.alert('服务器异常');
-            });
+                this.rePwd = '';
+            }
+
         },
 
         fileSelectedHandler: function(fileInput, event) {

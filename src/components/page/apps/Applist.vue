@@ -694,6 +694,8 @@
                     var data = res.data;
                     _self.fields = data.fields;
                     _self.IDEAppLoaded = true;
+                    _self.all = data.all;
+
                   },
                   reload:function () {
                     if (_self.isRefresh) {
@@ -725,6 +727,7 @@
                     var data = res.data;
                     _self.fields_notpaid = data.fields;
                     _self.unPaidAppLoaded = true;
+                    _self.all_notpaid = data.all;
                   },
                   reload:function () {
                     if (_self.isRefresh) {
@@ -756,6 +759,7 @@
                     var data = res.data;
                     _self.fields_stop = data.fields;
                     _self.appLoaded = true;
+                    _self.all_stop = data.all
                   },
                   reload:function () {
                     if (_self.isRefresh) {

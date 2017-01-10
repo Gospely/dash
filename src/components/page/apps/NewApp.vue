@@ -19,7 +19,7 @@
               </div>
               <div class="control is-grouped">
                 <p class="control is-expanded">
-                    <input @keyup.enter="createApp" class="input" type="text" placeholder="给您的应用取个名字吧" v-model="application.name">
+                    <input @keyup.enter="createApp" class="input" type="text" @blur="checkExit" placeholder="给您的应用取个名字吧" v-model="application.name">
                 </p>
               </div>
             </div>
@@ -124,7 +124,7 @@
                 </div>
                 <div class="control is-grouped">
                     <p class="control is-expanded">
-                        <input class="input" @keyup.enter="createApp" type="text" @blur="checkExit" placeholder="用户名即数据库名称" v-model="application.dbUser">
+                        <input class="input" @keyup.enter="createApp" type="text" placeholder="用户名即数据库名称" v-model="application.dbUser">
                     </p>
                 </div>
             </div>
@@ -676,6 +676,13 @@
                 this.application.image = item.name;
                 this.imageName = item.name;
 
+                if(item.parent = 'php:latest'){
+                    this.databaseType = [
+                        {
+                          label: 'mysql'
+                        },
+                    ];
+                }
                 // services.Common.list({
                 //   url: 'images',
                 //   param: {
