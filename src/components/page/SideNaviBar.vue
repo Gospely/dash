@@ -187,6 +187,8 @@
 <script>
     import {menu} from '../../config'
     import Navi from '../ui/Navi.vue'
+    import cookie from '../../lib/cookies'
+
     export default{
         props: {
             collapsed: {
@@ -202,8 +204,8 @@
         methods: {
             signOut(){
                 localStorage.removeItem('token');
-                document.cookie = "token=; expires=Thu, 01 Jan 1970 00:00:00 GMT";
-                document.cookie = "user=; expires=Thu, 01 Jan 1970 00:00:00 GMT";
+                cookie.setCookie('token','','Thu, 01 Jan 1970 00:00:00 GMT');
+                cookie.setCookie('user','','Thu, 01 Jan 1970 00:00:00 GMT');
                 this.$router.go('/accounts/login');
             },
             toggleCollapse () {

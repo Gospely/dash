@@ -474,6 +474,7 @@
     }
 </style>
 <script>
+    import cookie from '../../lib/cookies'
     export default{
         props: {
             hiddened: {
@@ -493,8 +494,9 @@
         methods:{
             signOut(){
                 localStorage.removeItem('token');
-                document.cookie = "token=; expires=Thu, 01 Jan 1970 00:00:00 GMT";
-                document.cookie = "user=; expires=Thu, 01 Jan 1970 00:00:00 GMT";
+                console.log('signOut');
+                cookie.setCookie('token','','Thu, 01 Jan 1970 00:00:00 GMT');
+                cookie.setCookie('user','','Thu, 01 Jan 1970 00:00:00 GMT');
                 this.$router.go("/accounts/login");
             },
             toggleMenu () {
