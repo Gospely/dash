@@ -126,6 +126,10 @@
     import bg from '../../ui/Bg.vue';
     import LoginLoading from '../../ui/Loading.vue'
 
+    import cookie from '../../../lib/cookies.js'
+
+    var setCookie = cookie.setCookie;
+
     export default{
         data () {
             return {
@@ -241,15 +245,9 @@
                         localStorage.setItem("token",res.data.fields.token);
                         notification.alert('登录成功');
 
-                        function setCookie(c_name, value, expiredays) {
-                          var exdate = new Date()
-                          exdate.setDate(exdate.getDate() + expiredays)
-                          document.cookie = c_name + "=" + escape(value) +
-                            ((expiredays == null) ? "" : ";expires=" + exdate.toGMTString())
-                        }
                         if(where=="fromIde"){
 
-                          if(document.domain == 'localhost') {
+                          if(document.domain != 'localhost') {
                             window.location.href = "http://ide.gospely.com";
                           }else {
                             window.location.href = "http://localhost:8989/";

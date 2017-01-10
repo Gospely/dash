@@ -83,6 +83,10 @@
     import bg from '../../ui/Bg.vue';
     import RegisterLoading from '../../ui/Loading.vue';
 
+    import cookie from '../../../lib/cookies.js';
+
+    var setCookie = cookie.setCookie;
+
     export default{
         data () {
             return {
@@ -143,12 +147,6 @@
                     window.location.href = window.baseUrl;
                 }else{
                     notification.alert(data.message);
-                }
-                function setCookie(c_name, value, expiredays) {
-                  var exdate = new Date()
-                  exdate.setDate(exdate.getDate() + expiredays)
-                  document.cookie = c_name + "=" + escape(value) +
-                    ((expiredays == null) ? "" : ";expires=" + exdate.toGMTString())
                 }
               }
             },function(err){

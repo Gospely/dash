@@ -6,6 +6,10 @@ import services from './services/index.js'
 import notification from './lib/notification'
 import filter from './filter/index.js'
 
+import cookie from './lib/cookies.js';
+
+var getCookie = cookie.getCookie;
+
 import 'animate.css'
 
 import loading from 'src/components/page/animation/Loading.vue';
@@ -27,20 +31,9 @@ Vue.http.headers['x-gospely'] = 'moha';
 Vue.http.headers.withCredentials = true;
 
 function getCookie(c_name) {
-  if (document.cookie.length > 0) {
-      var c_start = document.cookie.indexOf(c_name + "=");
-    if (c_start != -1) {
-      c_start = c_start + c_name.length + 1;
-      var c_end = document.cookie.indexOf(";",c_start);
-      if (c_end == -1) c_end=document.cookie.length;
-      return unescape(document.cookie.substring(c_start,c_end));
-    }
-  }
-  return "";
 }
 
-if (getCookie('token') != '' && getCookie('token') !=
-  undefined) {
+if (getCookie('token') != '' && getCookie('token') != undefined) {
   Vue.http.headers.common['Authorization'] = getCookie('token');
 } else {
   // var urls = window.location.href.split('?')
