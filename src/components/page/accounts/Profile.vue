@@ -148,15 +148,9 @@
             <div class="control-label">
                 <label class="label">更改密码</label>
             </div>
-<<<<<<< HEAD
-            <div class="control">
-                <p class="control input-left has-icon has-icon-right">
-                    <input class="input" type="password" placeholder="密码" v-model="oldPwd" v-bind:disabled="!changePwState">
-=======
             <div class="control" style="overflow: initial;">
                 <p v-show="!changePwState" class="control input-left has-icon has-icon-right">
-                    <input class="input" type="password" placeholder="密码" v-bind:disabled="!changePwState">
->>>>>>> 82cf945a76f82624c3fb5d4611e1fdf4f40cc190
+                    <input class="input" type="password" placeholder="密码" v-model="oldPwd" v-bind:disabled="!changePwState">
                     <i class="fa fa-lock"></i>
                 </p>
                 <p  class="help" v-show="changePwState">密码长度不能小于6位</p>
