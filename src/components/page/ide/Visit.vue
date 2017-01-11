@@ -21,14 +21,12 @@
         },
 
         ready () {
-
+            history.go(-1);
             if(document.domain == 'localhost') {
                 window.open("http://localhost:8989");
             }else {
                 window.open("http://ide.gospely.com");
             }
-
-            
         }
     }
 </script>
