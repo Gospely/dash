@@ -342,7 +342,7 @@
         methods: {
 
             visitIDE: function() {
-              window.open("http://ide.gospely.com");
+              window.location.href = "http://ide.gospely.com";
             },
 
             confirmRenew: function() {
