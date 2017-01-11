@@ -19,7 +19,7 @@
                       <input type="password" id="registerRePassword" v-model="rePwd" placeholder="重复密码" autocapitalize="off" style="border: none;" @blur="checkPwd">
                     </div>
                     <div class="input-field">
-                      <input type="text" id="inviteCode" v-model="inviteCode" placeholder="封测期间，采用邀请码注册" autocapitalize="off" style="border: none;">
+                      <input type="text" id="inviteCode" v-model="inviteCode" placeholder="请输入邀请码" autocapitalize="off" style="border: none;">
                     </div>
                     <div class="input-field">
                       <input type="text" v-model="authCode" :disabled="btn_info == '获取验证码'" placeholder="验证码" autocapitalize="off" style="border: none;" >
