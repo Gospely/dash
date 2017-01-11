@@ -461,8 +461,7 @@
 
             },
             selectVolume: function(volume,key){
-                console.log(this.currentVolume);
-                console.log("111");
+
                 this.application.volume = volume.id
                 this.volumeIsActive[key].isActive = true;
                 if(key === this.curentVolume) {
@@ -472,7 +471,25 @@
                 }
                 this.currentVolume = key;
             },
-
+            checkExit: function(){
+                
+                var _self = this;
+                services.Common.list({
+                    url:'applications/validator',
+                    param: {
+                        creator: currentUser,
+                        name: this.application.name,
+                        userName: localStorage.userName
+                    },
+                    cb: function(res){
+                        var data = res.data;
+                        if(data.code == -1) {
+                            notification.alert(data.message);
+                            _self.application.name = '';
+                        }
+                    }
+                });
+            },
             realCreateApp: function() {
                 var _self = this;
                 _self.application.userName = currentUserName;
