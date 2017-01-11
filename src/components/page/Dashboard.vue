@@ -31,14 +31,6 @@
                     <p v-show="dataLoaded" class="subtitle">{{application_stop}}</p>
                 </div>
             </div>
-            <div class="column">
-                <div class="notification has-text-centered">
-                    <p class="title">
-                        <button class="button is-primary" @click="toNewApp">访问IDE</button>
-                    </p>
-                    <p class="subtitle" style="font-size:15px">享受一站式开发</p>
-                </div>
-            </div>
         </div>
 
         <h2>集成开发环境</h2>
@@ -48,6 +40,16 @@
                     <span class="title">版本<br><span v-show="dataLoaded" class="subtitle">{{version}}</span><i v-show="!dataLoaded" class="fa fa-spinner fa-spin fa-fw"></i></span>
                 </p>
             </div>
+
+            <div class="column">
+                <div class="notification has-text-centered">
+                    <p class="title">
+                        <button class="button is-primary" @click="toNewApp">打开IDE</button>
+                    </p>
+                    <p class="subtitle" style="font-size:15px">享受一站式开发</p>
+                </div>
+            </div>
+
             <div class="column">
                 <p class="notification has-text-centered">
                     <span class="title">到期时间<br><span v-show="dataLoaded" class="subtitle">{{expireat}}</span><i v-show="!dataLoaded" class="fa fa-spinner fa-spin fa-fw"></i></span>
@@ -268,9 +270,9 @@
 
             toNewApp: function() {
                 if(document.domain == 'localhost') {
-                    window.location.href = "http://localhost:8989";
+                    window.open("http://localhost:8989");
                 }else {
-                    window.location.href = "http://ide.gospely.com";
+                    window.open("http://ide.gospely.com");
                 }
             }
 

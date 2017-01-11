@@ -21,37 +21,44 @@ let menu = {
         hide: false,
         component: makeComponent('./components/page/Dashboard.vue')
     },
+    '/visitIDE': {
+        icon: 'fa fa-openid',
+        label: '访问IDE',
+        name: 'visitide',
+        hide: false,
+        component: makeComponent('./components/page/ide/Visit.vue')
+    },
     '/ide': {
         icon: 'connectdevelop',
-        label: '集成开发环境',
+        label: 'IDE管理',
         name: 'ide',
-        // isShowSubMenu: false,
+        isShowSubMenu: false,
         hide: false,
-        // component: {
-        //     template: '<router-view></router-view>'
-        // },
-        component: makeComponent('./components/page/ide/Renew.vue'),
-        // subRoutes: {
-        //     '/manage': {
-        //         name: 'manageide',
-        //         label: '管理',
-        //         hide: true,
-        //         component: makeComponent('./components/page/ide/Manage.vue')
-        //     },
-        //     '/visit': {
-        //         name: 'visitide',
-        //         label: '访问',
-        //         hide: true,
-        //         component: makeComponent('./components/page/ide/Visit.vue')
-        //     },
-        //     '/renew': {
-        //         name: 'renewide',
-        //         label: '管理',
-        //         hide: false,
-        //         component: makeComponent('./components/page/ide/Renew.vue')
-        //     }
+        component: {
+            template: '<router-view></router-view>'
+        },
+        // component: makeComponent('./components/page/ide/Renew.vue'),
+        subRoutes: {
+            '/manage': {
+                name: 'manageide',
+                label: '管理',
+                hide: true,
+                component: makeComponent('./components/page/ide/Manage.vue')
+            },
+            '/visit': {
+                name: 'visitide',
+                label: '访问',
+                hide: true,
+                component: makeComponent('./components/page/ide/Visit.vue')
+            },
+            '/renew': {
+                name: 'renewide',
+                label: '详细信息',
+                hide: false,
+                component: makeComponent('./components/page/ide/Renew.vue')
+            }
 
-        // }
+        }
     },
     '/apps': {
         icon: 'laptop',

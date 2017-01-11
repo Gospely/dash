@@ -22,8 +22,13 @@
 
         ready () {
 
-            window.location.href = "http://ide.gospely.com";
+            if(document.domain == 'localhost') {
+                window.open("http://localhost:8989");
+            }else {
+                window.open("http://ide.gospely.com");
+            }
 
+            
         }
     }
 </script>
