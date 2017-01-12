@@ -199,7 +199,7 @@
               </div>
               <div class="control is-grouped" style="margin-left:-20px">
                 <p class="control is-expanded">
-                    <button style="margin-top:6px" class="button is-primary" v-bind:class="{'is-loading': isCreateApp}" @click="createApp">立即创建</button>
+                    <button style="margin-top:6px" class="button is-primary" disabled='available' v-bind:class="{'is-loading': isCreateApp}" @click="createApp">立即创建</button>
                 </p>
               </div>
             </div>
@@ -249,6 +249,7 @@
                 isDetailsThisDatabase: false,
                 databaseInfoFormName: '新增数据库',
                 thisIndex: '0',
+                available: false,
                 databaseType:[
                     {
                       label: 'mysql'
@@ -472,7 +473,7 @@
                 this.currentVolume = key;
             },
             checkExit: function(){
-                
+
                 var _self = this;
                 services.Common.list({
                     url:'applications/validator',
@@ -680,6 +681,25 @@
 
             this.application.free = true;
             this.$get('initConfig')();
+            var _self = this;
+            services.Common.list({
+                url: 'applications',
+                param: {
+                    creator: currentUser,
+                    host: '120.76.235.234'
+                },
+                cb: function(res){
+                    var data = res.data;
+                    if(data.code == 1){
+                        if(data.fields.length >= 1){
+                            _self.available = true;
+                            notification.alert('可创建应用数为0');
+                        }
+                    }else{
+                        _self.available = true;
+                    }
+                }
+            });
             // this.$get('initVolumes')();
         },
         events: {
