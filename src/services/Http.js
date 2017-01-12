@@ -49,6 +49,9 @@ module.exports = {
 
 				HTTP(options).then(function(res) {
 
+						globalLoader.setAttribute('value', 100);
+						globalLoader.style.display = 'none';
+
 						var data = res.data;
 						if (res.status == 200) {
 							if (data.code == -100) {
@@ -62,6 +65,9 @@ module.exports = {
 						options.cb(res);
 					},
 					function(err) {
+						globalLoader.setAttribute('value', 100);
+						globalLoader.style.display = 'none';
+
 						notification.alert("服务器异常", 'danger');
 						globalLoader.setAttribute('value', 100);
 						globalLoader.style.display = 'none';
@@ -78,10 +84,18 @@ module.exports = {
 							var data = res.data;
 
 							if (data.code == 1) {
+
+								globalLoader.setAttribute('value', 100);
+								globalLoader.style.display = 'none';
+
 								if (data != 'Done!') {
 									if (data.message != undefined) {
 										notification.alert(data.message);
 									}
+
+									globalLoader.setAttribute('value', 100);
+									globalLoader.style.display = 'none';
+
 									//判断返回的数据是否是数组
 									if (isArray(data.fields)) {
 										//数组绑定
@@ -115,16 +129,15 @@ module.exports = {
 								}
 							}
 							if (data.code === -100) {
-
 								notification.alert(data.message, 'danger');
 								setTimeout(function() {
-
-										localStorage.removeItem('token');
-										document.cookie = "token=; expires=Thu, 01 Jan 1970 00:00:00 GMT";
-										document.cookie = "user=; expires=Thu, 01 Jan 1970 00:00:00 GMT";
-										window.location.href = window.baseUrl + "/#!/accounts/login"
-									},
-									1000)
+									globalLoader.setAttribute('value', 100);
+									globalLoader.style.display = 'none';
+									localStorage.removeItem('token');
+									document.cookie = "token=; expires=Thu, 01 Jan 1970 00:00:00 GMT";
+									document.cookie = "user=; expires=Thu, 01 Jan 1970 00:00:00 GMT";
+									window.location.href = window.baseUrl + "/#!/accounts/login"
+								}, 1000)
 							}
 							if (options.msg != null && options.msg != undefined) {
 								notification.alert(options.msg.success);
@@ -138,6 +151,10 @@ module.exports = {
 							if (data.code === -1) {
 								notification.alert(data.message, 'danger');
 							}
+
+							globalLoader.setAttribute('value', 100);
+							globalLoader.style.display = 'none';
+
 							//分页参数处理
 						} else {
 
@@ -153,6 +170,8 @@ module.exports = {
 
 								options.reload(options.ctx.$data.cur);
 							}
+							globalLoader.setAttribute('value', 100);
+							globalLoader.style.display = 'none';
 						}
 					},
 					function(err) {
@@ -169,6 +188,10 @@ module.exports = {
 						}
 						notification.alert("服务器异常", 'danger');
 						//切换提醒方式
+
+						globalLoader.setAttribute('value', 100);
+						globalLoader.style.display = 'none';
+
 					});
 			}
 

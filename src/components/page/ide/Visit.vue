@@ -21,11 +21,12 @@
         },
 
         ready () {
-            history.go(-1);
             if(document.domain == 'localhost') {
                 window.location.href = "http://localhost:8989";
+                // history.go(-1);
             }else {
                 window.location.href = "http://ide.gospely.com";
+                // history.go(-1);
             }
         }
     }
