@@ -15,7 +15,6 @@
                 </div>
             </div>
         </section>
-        <div class="fuck"></div>
         <div class="loader-wrapper">
             
             <div class="loader">
@@ -47,7 +46,7 @@
             this.appMainBody = this.$el.getElementsByClassName('app-main-body')[0];
 
             var inter = setInterval(function() {
-                var container = document.querySelector('.container').childNodes;
+                var container = $('.container').children();
                 if(container.length > 0) {
                     $('.loader-wrapper').addClass('animated bounceOutDown');
                     clearInterval(inter);
