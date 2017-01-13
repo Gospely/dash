@@ -15,6 +15,18 @@
                 </div>
             </div>
         </section>
+        <div class="fuck"></div>
+        <div class="loader-wrapper">
+            
+            <div class="loader">
+                <div class="loader-inner ball-pulse-sync">
+                  <div></div>
+                  <div></div>
+                  <div></div>
+                </div>
+            </div>
+
+        </div>
     </div>
 </template>
 
@@ -33,6 +45,15 @@
         },
         ready () {
             this.appMainBody = this.$el.getElementsByClassName('app-main-body')[0];
+
+            var inter = setInterval(function() {
+                var container = document.querySelector('.container').childNodes;
+                if(container.length > 0) {
+                    $('.loader-wrapper').addClass('animated bounceOutDown');
+                    clearInterval(inter);
+                }
+            }, 1000);
+
         },
         watch: {
             '$route.name': {
@@ -284,5 +305,40 @@
         -webkit-transform: scale(1.0);
       }
     }
+
+    .ball-pulse-sync > div {
+      background-color: #fff;
+      width: 15px;
+      height: 15px;
+      border-radius: 100%;
+      margin: 2px;
+      -webkit-animation-fill-mode: both;
+              animation-fill-mode: both;
+      display: inline-block; }
+
+    .loader-wrapper {
+        position: absolute;
+        width: 100%;
+        height: 100%;
+        top: 0;
+        bottom: 0;
+        z-index: 65535;
+        background: #3f5267;
+        display: flex;
+        align-items: center;
+        justify-content: center; 
+    }
+
+    .loader {
+        box-sizing: border-box;
+        display: flex;
+        max-width: 25%;
+        height: 200px;
+        width: 200px;
+        align-items: center;
+        justify-content: center; 
+        animation: spin-around 800ms infinite linear;
+    }
+
 
 </style>
