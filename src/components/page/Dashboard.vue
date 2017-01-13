@@ -272,7 +272,7 @@
                 if(document.domain == 'localhost') {
                     window.location.href = "http://localhost:8989";
                 }else {
-                    window.localtion.href = "http://ide.gospely.com";
+                    window.location.href = "http://ide.gospely.com";
                 }
             }
 
@@ -322,28 +322,18 @@
             var used = 100;
             var rest = 100;
             services.VolumeService.info({
-              user: currentUser
+                user: currentUser
             }).then(function(res){
-              console.log(res);
-              var data = res.data.fields;
-              used = parseInt(data.used)/1024;
-              rest = parseInt(data.size) - used;
+                var data = res.data.fields;
+                used = parseInt(data.used)/1024;
+                rest = parseInt(data.size) - used;
             },function(err){
 
             });
-            　setTimeout(function () {
-              console.log(used);
-              _self.doughnutData.$set(0,used.toFixed(2));
-              _self.doughnutData.$set(1,rest.toFixed(2));
-            }, 2000)
-            // self.timer = setInterval(function () {
-            //     self.doughnutData.forEach(function (item, i) {
-            //         self.doughnutData.$set(i, Math.ceil(Math.random() * 1000))
-            //     })
-            //     self.polarAreaData.forEach(function (item, i) {
-            //         self.polarAreaData.$set(i, Math.ceil(Math.random() * 20))
-            //     })
-            // }, 1024)
+            setTimeout(function () {
+                _self.doughnutData.$set(0,used.toFixed(2));
+                _self.doughnutData.$set(1,rest.toFixed(2));
+            }, 2000);
         },
         beforeDestroy () {
             if (this.timer) {
