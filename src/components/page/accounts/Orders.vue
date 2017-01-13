@@ -198,7 +198,10 @@
                               },
                               ctx: _self,
                               target: 'fields_unpay',
-                              reload: _self.$get("initPage")()
+                              reload: function(){
+                                  _self.$get('initPaid')(1);
+                                  _self.$get('initUnPay')(1);
+                              }
                             })
                             this.$destroy(true);
                         }
