@@ -16,7 +16,7 @@
             </div>
         </section>
         <div class="loader-wrapper">
-            
+            <p style="position:absolute">正在努力加载</p>            
             <div class="loader">
                 <div class="loader-inner ball-pulse-sync">
                   <div></div>
@@ -24,7 +24,6 @@
                   <div></div>
                 </div>
             </div>
-
         </div>
     </div>
 </template>
@@ -316,6 +315,7 @@
       display: inline-block; }
 
     .loader-wrapper {
+        color: rgb(255, 255, 255);
         position: absolute;
         width: 100%;
         height: 100%;
