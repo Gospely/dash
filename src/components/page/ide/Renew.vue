@@ -591,17 +591,13 @@
                                 for(var i = 0; i<= data.fields.length-1; i++){
                                   if(!data.fields[i].free){
                                     show.push(data.fields[i])
-                                  }else{
-                                    _self.unitPrice =  data.fields[i].price;
-                                    _self.price = data.fields[i].price * 1;
-                                    _self.goBuy = false;
-                                    console.log("ss");
-
-                                    _self.ide_choose =  data.fields[i].name;
                                   }
-
                                   if(_self.ide.name == data.fields[i].name) {
                                     data.fields[i].active = true;
+                                    _self.products = data.fields[i].id;
+                                    _self.unitPrice = data.fields[i].price;
+                                    _self.price = data.fields[i].price * 1;
+                                    _self.ide_choose = data.fields[i].name;
                                   }else {
                                     data.fields[i].active = false;
                                   }
