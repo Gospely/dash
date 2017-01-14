@@ -148,7 +148,7 @@
                 </div>
                 <div class="control is-grouped">
                     <p class="control has-addons" style="height:32px;width:100%">
-                        <a v-show="item.label != 'postgres'" :class="['button','database-type-opation',{'is-primary': index == thisIndex}]" v-for="(index,item) in databaseType" :disabled="isDetailsThisDatabase" @click="selectThisType(item,index)">
+                        <a v-show="item.label != 'postgres'" :disabled="item.available" :class="['button','database-type-opation',{'is-primary': index == thisIndex}]" v-for="(index,item) in databaseType" :disabled="isDetailsThisDatabase" @click="selectThisType(item,index)">
                           <span>{{item.label}}</span>
                         </a>
                     </p>
@@ -252,13 +252,16 @@
                 available: false,
                 databaseType:[
                     {
-                      label: 'mysql'
+                      label: 'mysql',
+                      available: false
                     },
                     {
-                      label: 'postgres'
+                      label: 'postgres',
+                      available: false
                     },
                     {
-                      label: 'mongodb'
+                      label: 'mongodb',
+                      available: false
                     }
                 ],
                 application:{
@@ -716,7 +719,12 @@
                 if(item.parent = 'php:latest'){
                     this.databaseType = [
                         {
-                          label: 'mysql'
+                          label: 'mysql',
+                          available: false
+                        },
+                        {
+                          label: 'mongodb',
+                          available: true
                         },
                     ];
                 }
