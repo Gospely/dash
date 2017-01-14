@@ -199,7 +199,7 @@
               </div>
               <div class="control is-grouped" style="margin-left:-20px">
                 <p class="control is-expanded">
-                    <button style="margin-top:6px" class="button is-primary" disabled='available' v-bind:class="{'is-loading': isCreateApp}" @click="createApp">立即创建</button>
+                    <button style="margin-top:6px" class="button is-primary" :disabled='available' v-bind:class="{'is-loading': isCreateApp}" @click="createApp">立即创建</button>
                 </p>
               </div>
             </div>
