@@ -10,12 +10,12 @@
                         <div class="column is-half">
 
                             <h4>
-                              <button class="button is-small" v-bind:class="{'is-success': !status_running, 'is-danger': !status_stop}">{{status}}</button> 
+                              <button class="button is-small" v-bind:class="{'is-success': !status_running, 'is-danger': !status_stop}">{{status}}</button>
                               {{inspectInfo.name}}
                               <a style="float:right;margin-left: -80px;" target="__blank" href="http://{{inspectInfo.domain}}.gospely.com">访问<i class="fa fa-hand-pointer-o" aria-hidden="true"></i></a>
                             </h4>
 
-                            <h4 class="subtitle">运行于：{{inspectInfo.createat}}</h4>
+                            <h4 class="subtitle">运行于：{{inspectInfo.createat | dateFormat 'yyyy-MM-dd hh:mm:ss'}}</h4>
 
                             <button class="button is-primary" v-bind:class="{'is-loading': isLoading}" v-on:click="start" v-show="status_running">运行</button>
                             <button class="button is-warning" v-bind:class="{'is-loading': isLoading}" v-on:click="stop" v-show="status_stop">停止</button>
@@ -185,7 +185,7 @@
 
           openInIde: function(){
             if(document.domain == 'localhost') {
-              window.open('http://localhost:8989' + "/#/project/" + this.appId +"?from=dash");              
+              window.open('http://localhost:8989' + "/#/project/" + this.appId +"?from=dash");
             }else {
               window.open('http://ide.gospely.com' + "/#/project/" + this.appId +"?from=dash");
             }
