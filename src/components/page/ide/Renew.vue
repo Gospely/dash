@@ -651,7 +651,7 @@
                                _self.time_show = '个人免费版本';
                                _self.expireAt = null;
                              }else{
-                               _self.time_show = '到期时间： ' + dataFormat(d,"yyyy-MM-dd hh:mm:ss");
+                               _self.time_show = '到期时间： ' + dataFormat(d,"yyyy-MM-dd");
                                _self.expireAt = data.fields.expireAt;
                                _self.oldVersion = data.fields.product;
 
@@ -694,7 +694,7 @@
 
              d.setMonth(d.getMonth() + 1 + num);
 
-             this.time_show = dataFormat(d,"yyyy-MM-dd hh:mm:ss");
+             this.time_show = dataFormat(d,"yyyy-MM-dd");
              console.log('时间是' + this.time_show);
              this.total = cyc.cyc * this.unitPrice - this.balance;
 
