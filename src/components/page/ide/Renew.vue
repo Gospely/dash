@@ -500,12 +500,8 @@
             },
 
             setMealNextStep: function() {
-                if(!this.goBuy) {
-                  notification.alert("请选择非当前版本的收费版本");
-                }else{
-                  this.setMeal.currentStep++;
-                }
 
+                this.setMeal.currentStep++;
                 if(this.setMeal.currentStep == 3) {
                   var _self = this;
                   this.orderNo =  _md5(uuid.v4());
