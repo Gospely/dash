@@ -16,13 +16,15 @@
             </div>
         </section>
         <div class="loader-wrapper">
-            <p style="position:absolute">正在努力加载</p>            
             <div class="loader loaderA">
                 <div class="loader-inner ball-pulse-sync">
                   <div></div>
                   <div></div>
                   <div></div>
                 </div>
+            </div>
+            <div class="dialog">
+                <p>正在努力加载</p>                
             </div>
         </div>
     </div>
@@ -339,5 +341,20 @@
         animation: spin-around 800ms infinite linear;
     }
 
+    .dialog{
+        position: fixed;
+        _position: absolute;
+        z-index:1;
+        top: 50%;
+        left: 50%;
+        margin: -141px 0 0 -201px;
+        width: 400px;
+        height:280px;
+        line-height: 280px;
+        text-align:center;
+        font-size: 14px;
+        overflow:hidden;
+        text-align: center;
+    }
 
 </style>
