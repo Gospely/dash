@@ -17,7 +17,7 @@
         </section>
         <div class="loader-wrapper">
             <p style="position:absolute">正在努力加载</p>            
-            <div class="loader">
+            <div class="loader loaderA">
                 <div class="loader-inner ball-pulse-sync">
                   <div></div>
                   <div></div>
@@ -328,7 +328,7 @@
         justify-content: center; 
     }
 
-    .loader {
+    .loaderA {
         box-sizing: border-box;
         display: flex;
         max-width: 25%;

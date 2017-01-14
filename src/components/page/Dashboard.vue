@@ -258,7 +258,7 @@
                       if(res.status == 200){
                           var data = res.data;
                           if(data.code == 1){
-                              _self.domainsCount = data.fields;
+                                _self.domainsCount = data.fields;
                           }
 
                       }
