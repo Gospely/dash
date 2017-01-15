@@ -24,7 +24,7 @@
                 </div>
             </div>
             <div class="dialog">
-                <p>正在努力加载</p>                
+                <p>正在努力加载</p>
             </div>
         </div>
     </div>
@@ -344,16 +344,16 @@
     .dialog{
         position: fixed;
         _position: absolute;
-        z-index:1;
+        z-index: 1;
         top: 50%;
         left: 50%;
-        margin: -141px 0 0 -201px;
+        margin: -261px 0 0 -201px;
         width: 400px;
         height:280px;
         line-height: 280px;
-        text-align:center;
+        text-align: center;
         font-size: 14px;
-        overflow:hidden;
+        overflow: hidden;
         text-align: center;
     }
 
