@@ -1,8 +1,7 @@
 <template>
 
 <div>
-	<a v-for="(key, val) in cyc" style="margin-right: 4px;" v-show='showCyc' @click="selectCycBykey(key)"      class="button" v-bind:class="{'is-primary': currentCyc == key}"
-    >
+	<a v-for="(key, val) in cyc" style="margin-right: 4px;" v-show='showCyc' @click="selectCycBykey(key)"      class="button" v-bind:class="{'is-primary': currentCyc == key}">
         {{val.label}}
     </a>
     <input v-model="otherTime" v-show="isOther" class="input" @blur="customSet(cyc.length -1)" 
