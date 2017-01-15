@@ -5,8 +5,7 @@
         {{val.label}}
     </a>
     <input v-model="otherTime" v-show="isOther" class="input" @blur="customSet(cyc.length -1)" 
-        type="text" @keydown.enter="selectThisCustomCyc(cyc.length -1)" style="width: 40px;height: 32px;box-shadow: none;" /
-    >
+        type="text" @keydown.enter="selectThisCustomCyc(cyc.length -1)" style="width: 40px;height: 32px;box-shadow: none;" />
     <span style="line-height: 2.3;margin-left: 4px;" v-show="isOther == true" class="is-tip">
         /月
     </span>
