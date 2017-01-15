@@ -673,8 +673,12 @@
                 this.isRefresh = true;
                 if (this.currentIndex == 0) {
                   this.$get("init")(1);
-                }else{
-                  this.$get("initStop")(1);
+                }else if (this.currentIndex == 1) {
+                  this.$get("initStop")(1);  
+                }else if (this.currentIndex == 2) {
+                    this.$get("initNotpaid")(1);
+                }else {
+                    this.$get("initDb")(1);
                 }
             },
 
@@ -695,14 +699,7 @@
                     _self.fields = data.fields;
                     _self.IDEAppLoaded = true;
                     _self.all = data.all;
-
-                  },
-                  reload:function () {
-                    if (_self.isRefresh) {
-                      notification.alert("刷新成功");
-                      _self.IDEAppLoaded = true;
-                    }
-                    _self.isRefresh = false;
+                    _self.refresh();
                   }
                 }
 
@@ -728,13 +725,7 @@
                     _self.fields_notpaid = data.fields;
                     _self.unPaidAppLoaded = true;
                     _self.all_notpaid = data.all;
-                  },
-                  reload:function () {
-                    if (_self.isRefresh) {
-                      notification.alert("刷新成功");
-                      _self.unPaidAppLoaded = true;
-                    }
-                    _self.isRefresh = false;
+                    _self.refresh();
                   }
                 }
 
@@ -759,14 +750,8 @@
                     var data = res.data;
                     _self.fields_stop = data.fields;
                     _self.appLoaded = true;
-                    _self.all_stop = data.all
-                  },
-                  reload:function () {
-                    if (_self.isRefresh) {
-                      notification.alert("刷新成功");
-                      _self.appLoaded = true;
-                    }
-                    _self.isRefresh = false;
+                    _self.all_stop = data.all;
+                    _self.refresh();
                   }
                 }
 
@@ -790,6 +775,7 @@
                     var data = res.data;
                     _self.fields_db = data.fields;
                     _self.databaseLoaded = true;
+                    _self.refresh();
                   }
                 }
                 services.Common.list(options);
@@ -837,6 +823,14 @@
                 }
 
                 services.Common.list(options);
+            },
+
+            refresh: function () {
+                if (this.isRefresh) {
+                  notification.alert("刷新成功");
+                  this.unPaidAppLoaded = true;
+                }
+                this.isRefresh = false;
             },
 
             payForApp: function(item) {

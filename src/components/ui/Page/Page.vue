@@ -4,7 +4,7 @@
     <div class="column is-8 is-offset-4">
         <div class="page-bar">
             <ul class="page-ul">
-                <li style="margin-right: -4px;"><a v-on:click="last">上一页</a></li>
+                <li style="margin-right: -4px; margin-top: 0.25em;"><a v-on:click="last">上一页</a></li>
                 <li v-for="index in indexs"  v-bind:class="{ active: cur == index}">
                     <a v-on:click="btnClick(index)">{{ index }}</a>
                 </li>
