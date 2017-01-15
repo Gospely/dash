@@ -21,6 +21,14 @@
         },
 
         ready () {
+            // alert(window.parent)
+            // console.log(window.parent == window)
+            if (window.parent !== window) {
+                parent.postMessage({
+                    visitIde: {}
+                }, '*');
+                return false;
+            }
             if(document.domain == 'localhost') {
                 window.location.href = "http://localhost:8989";
                 // history.go(-1);

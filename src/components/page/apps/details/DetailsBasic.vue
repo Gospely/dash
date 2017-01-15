@@ -184,6 +184,15 @@
           },
 
           openInIde: function(){
+            let appId = this.appId;
+            if (window.parent !== window) {
+              if(document.domain == 'localhost') {
+                  window.window.location.href = 'http://localhost:8989' + "/#/project/" + this.appId +"?from=dash";
+              }else {
+                  window.window.location.href = 'http://ide.gospely.com' + "/#/project/" + this.appId +"?from=dash";
+              }
+              return false;
+            }
             if(document.domain == 'localhost') {
               window.open('http://localhost:8989' + "/#/project/" + this.appId +"?from=dash");
             }else {

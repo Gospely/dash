@@ -269,6 +269,12 @@
         methods: {
 
             toNewApp: function() {
+                if (window.parent !== window) {
+                    parent.postMessage({
+                        visitIde: {}
+                    }, '*');
+                    return false;
+                }
                 if(document.domain == 'localhost') {
                     window.location.href = "http://localhost:8989";
                 }else {
