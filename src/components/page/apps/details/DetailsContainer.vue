@@ -28,7 +28,7 @@
 
                         <div class="column">
                             <label class="label">内存</label>
-                            <label class="label is-tip" title="{{containerInfo.Args}}">{{containerInfo.HostConfig.Memory | memory}}</label>
+                            <label class="label is-tip" title="{{containerInfo.Args}}">{{containerInfo.HostConfig && containerInfo.HostConfig.Memory | memory}}</label>
                         </div>
 
                     </div>
@@ -37,7 +37,7 @@
 
                         <div class="column is-3">
                             <label class="label">开放端口</label>
-                            <label class="label is-tip" v-for="host in containerInfo.HostConfig.PortBindings">{{host | hostConfig}}</label>
+                            <label class="label is-tip" v-for="host in ports">{{host | hostConfig}}</label>
                         </div>
 
                         <div class="column">
@@ -91,10 +91,11 @@
         data () {
             return {
                 appId: "",
-                containerInfo: [],
+                containerInfo: {},
                 showDomainAddingForm: false,
                 isEditDomain: false,
-                domainInfoFormName: '绑定域名'
+                domainInfoFormName: '绑定域名',
+                ports: []
             }
         },
 
@@ -104,8 +105,11 @@
         },
         ready (){
             var self = this;
-            self.$set("appId", self.$route.query.containerId)
-            self.$get('inspect')();
+            this.$nextTick(function () {
+                self.$set("appId", self.$route.query.containerId)
+                self.$get('inspect')();
+                console.log(this.containerInfo)
+            })
         },
         methods: {
             inspect: function(){
@@ -116,7 +120,7 @@
                 },
                 cb: function(res) {
 
-                    console.log(res);
+                    // console.log(res);
 
                     if(res.status == 200){
                         var data = res.data;
@@ -124,6 +128,7 @@
                             self.containerInfo = JSON.parse(data.fields);
                             if(self.containerInfo.length > 0) {
                                 self.containerInfo = self.containerInfo[0];
+                                self.ports = self.containerInfo.HostConfig.PortBindings;
                             }
                         }else {
                             notification.alert(data.message, 'warning');

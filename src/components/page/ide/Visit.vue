@@ -27,6 +27,7 @@
                 parent.postMessage({
                     visitIde: {}
                 }, '*');
+                window.history.go(-1);
                 return false;
             }
             if(document.domain == 'localhost') {
