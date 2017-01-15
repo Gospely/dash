@@ -685,25 +685,25 @@
             this.application.free = true;
             this.$get('initConfig')();
             var _self = this;
-            // services.Common.list({
-            //     url: 'applications',
-            //     param: {
-            //         creator: currentUser,
-            //         host: '120.76.235.234'
-            //     },
-            //     cb: function(res){
-            //         var data = res.data;
-            //         if(data.code == 1){
-            //             if(data.fields.length >= 1){
-            //                 _self.available = true;
-            //                 notification.alert('目前处于封测阶段，出于资源考虑，对封测用户只提供一个应用创建限额，您可以删除重建');
-            //             }
-            //         }else{
-            //             _self.available = true;
-            //         }
-            //     }
-            // });
-            // this.$get('initVolumes')();
+            services.Common.list({
+                url: 'applications',
+                param: {
+                    creator: currentUser,
+                    host: '120.76.235.234'
+                },
+                cb: function(res){
+                    var data = res.data;
+                    if(data.code == 1){
+                        if(data.fields.length >= 1){
+                            _self.available = true;
+                            notification.alert('目前处于封测阶段，出于资源考虑，对封测用户只提供一个应用创建限额，您可以删除重建');
+                        }
+                    }else{
+                        _self.available = true;
+                    }
+                }
+            });
+            this.$get('initVolumes')();
         },
         events: {
             'imageOnSelected': function(item) {
