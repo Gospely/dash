@@ -159,11 +159,17 @@
             );
           },
           keyDownLogin:function(){
-              if (event.keyCode == 13)
-                {
-                    this.register();
+              if (event.keyCode == 13) {
+                this.checkName();
+                this.checkPhone();
+                let focuseElem = document.activeElement.id;
+                if (!this.isValNull || focuseElem === 'registerAccount' ||
+                     focuseElem === 'registerName') {
+                    return false;
                 }
-            },
+                this.register();
+              }
+          },
           getTelCode: function(){
 
               if(this.isPhone){
@@ -309,6 +315,7 @@
             if(reg.test(this.name)){
               notification.alert("用户名不能包含中文");
               document.getElementById('registerName').focus();
+              this.name = '';
             }
           },
           checkPwd(){
