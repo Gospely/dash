@@ -24,8 +24,16 @@
                 </div>
             </div>
             <div class="dialog">
-                <p>正在努力加载</p>
+                <p>
+                    正在努力加载
+                    <span v-show="!isChrome">推荐您使用 Chrome 浏览器进行最好的开发体验</span>  
+                </p>
             </div>
+        </div>
+
+        <div v-show="lowerIE10" class="browser-support">
+            很抱歉，Gospel 暂时不支持 IE10 及以下浏览器，请升级或更换浏览器
+            <a href="https://www.baidu.com/s?tn=mswin_oem_dg&ie=utf-16&word=chrome" target="blank">(推荐 Chrome )</a>
         </div>
     </div>
 </template>
@@ -40,10 +48,25 @@
                 collapsed: false,
                 hiddened: false,
                 loaderProgress: 0,
-                isValidator: localStorage.getItem('isActive')
+                isValidator: localStorage.getItem('isActive'),
+                lowerIE10: false,
+                isChrome: true
             }
         },
         ready () {
+            var chrome = navigator.userAgent.match(/Chrom(e|ium)\/([0-9]+)\./);
+
+            if (!chrome) {
+                this.isChrome = false;
+            }
+
+            var ua = window.navigator.userAgent;
+            var msie = ua.indexOf('MSIE ');
+            if (msie > 0) {
+                this.lowerIE10 = true;
+                $('.loader-wrapper').addClass('animated bounceOutDown');
+            }
+
             this.appMainBody = this.$el.getElementsByClassName('app-main-body')[0];
 
             var inter = setInterval(function() {
@@ -328,6 +351,20 @@
         display: flex;
         align-items: center;
         justify-content: center; 
+    }
+
+    .browser-support {
+        color: rgb(255, 255, 255);
+        position: absolute;
+        width: 100%;
+        height: 100%;
+        top: 0;
+        bottom: 0;
+        z-index: 65535;
+        background: #3f5267;
+        display: flex;
+        align-items: center;
+        justify-content: center;
     }
 
     .loaderA {
