@@ -694,6 +694,13 @@
 
             },
             openApp: function(item) {
+
+                if (window.parent !== window) {
+                  parent.postMessage({
+                        openApp: item
+                  }, '*');
+                  return false;
+                }
                 if(document.domain == 'localhost') {
                   window.open('http://localhost:8989' + "/#/project/" + item.id +"?from=dash");
                 }else {
