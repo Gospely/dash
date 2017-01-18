@@ -485,7 +485,12 @@
             },
 
             minusMonth() {
-              this.size --;
+              if(this.size === 1){
+                  notification.alert('最小月份不能小于1');
+              }else{
+                  this.size --;
+              }
+
             },
 
             useWeixin: function() {
