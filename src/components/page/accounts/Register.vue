@@ -158,7 +158,7 @@
             }
             );
           },
-          keyDownLogin:function(){
+          keyDownLogin:function(event){
               if (event.keyCode == 13) {
                 this.checkName();
                 this.checkPhone();

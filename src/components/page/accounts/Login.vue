@@ -315,7 +315,7 @@
             });
           },
 
-          keyDownLogin:function(){
+          keyDownLogin:function(event){
             var disabled = this.logining || this.phone =='' || this.password == '' || this.code_show && this.code == '';
             if (event.keyCode == 13 && !disabled) {
                 this.login();
