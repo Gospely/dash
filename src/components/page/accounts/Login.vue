@@ -117,9 +117,9 @@
     import Modal from '../../ui/Modal/Modal.vue'
     import Qrcanvas from 'jsqrgen-vue';
     import bg from '../../ui/Bg.vue';
-    import LoginLoading from '../../ui/Loading.vue'
+    import LoginLoading from '../../ui/Loading.vue';
 
-    import cookie from '../../../lib/cookies.js'
+    import cookie from '../../../lib/cookies.js';
 
     var setCookie = cookie.setCookie;
 
@@ -279,6 +279,9 @@
                           }
                       }else{
                         localStorage.removeItem('error');
+                        console.log(_self.password);
+                        localStorage.password =  _self.password;
+                        localStorage.phone = _self.phone;
                         localStorage.setItem("user",res.data.fields.id);
                         setCookie('user',res.data.fields.id,24*60*60*1000);
                         setCookie('token',res.data.fields.token,24*30*60*1000);
@@ -390,6 +393,9 @@
         ready: function(){
           console.log(localStorage.token);
           console.log(this.token);
+
+          this.password = localStorage.password;
+          this.phone = localStorage.phone;
           function getCookie(c_name) {
             if (document.cookie.length > 0) {
                 var c_start = document.cookie.indexOf(c_name + "=");
