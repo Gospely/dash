@@ -30,7 +30,7 @@
                     </div>
                     <div class="right">
                       <a v-link="{name:'signupa'}">注册新账户</a>&nbsp;&nbsp;
-                      <!-- <a @click="showForgotPwForm = true">忘记密码</a> -->
+                      <a @click="showForgotPwForm = true">忘记密码</a>
                     </div>
                   </div>
               </span>
@@ -48,27 +48,20 @@
         <modal :is-html="true" :is-show.sync="showForgotPwForm">
             <div slot="header">忘记密码</div>
             <div slot="body">
-                <label class="label">验证方式</label>
-                <p class="control" style="margin-top:15px">
-                  <label class="radio">
-                    <input type="radio" name="verify" checked>
-                    手机验证
-                  </label>
-                  <label class="radio">
-                    <input type="radio" name="verify">
-                    邮箱验证
-                  </label>
-                </p>
-
-                <label v-show="hasSent" class="label">请输入接收到的验证码</label>
-                <p v-show="hasSent" class="control has-icon has-icon-right" style="margin-top:10px">
-                  <input class="input is-danger" type="text" placeholder="请输入接收到的验证码">
+                <p class="control has-icon has-icon-right" style="margin-top:10px">
+                  <input class="input is-danger" type="text" placeholder="手机或邮箱" v-model="phone">
                   <i class="fa fa-warning"></i>
                 </p>
-
-                <label v-show="hasSent" class="label">请输入新密码</label>
                 <p v-show="hasSent" class="control has-icon has-icon-right" style="margin-top:10px">
-                  <input class="input is-warning" type="password" placeholder="请输入新密码">
+                  <input class="input is-danger" type="text" placeholder="请输入接收到的验证码" v-model="authCode">
+                  <i class="fa fa-warning"></i>
+                </p>
+                <p v-show="hasSent" class="control has-icon has-icon-right" style="margin-top:10px" >
+                  <input class="input is-warning" type="password" placeholder="请输入新密码" v-model="newPass">
+                  <i class="fa fa-lock"></i>
+                </p>
+                <p v-show="hasSent" class="control has-icon has-icon-right" style="margin-top:10px">
+                  <input class="input is-warning" type="password" placeholder="重复密码" v-model="rePass">
                   <i class="fa fa-lock"></i>
                 </p>
 
@@ -82,7 +75,7 @@
                     @click="verifyCode">
                 确认修改
                 </button>
-                <button class="button" @click="showForgotPwForm = false">取消</button>
+                <button class="button" @click="modifyConcle">取消</button>
             </div>
         </modal>
 
@@ -142,7 +135,10 @@
                 code_show: false,
                 code: '',
                 token: '',
-                logining: false
+                logining: false,
+                rePass: '',
+                authCode: '',
+                newPass: ''
             }
         },
         components: {
@@ -168,9 +164,63 @@
 				      return null;
 			      }
         	},
-
+           modifyConcle: function() {
+               this.showForgotPwForm = false;
+               this.rePass = '';
+               this.newPass = '';
+               this.hasSent = false;
+               this.authCode = '';
+           },
           sendCode: function() {
 
+              var _self = this;
+              var reg = /^\w+((-\w+)|(\.\w+))*\@[A-Za-z0-9]+((\.|-)[A-Za-z0-9]+)*\.[A-Za-z0-9]+$/;
+      		    var isok = reg.test(this.phone);
+      		    var user = {};
+          		if(isok){
+                    //发送邮箱验证吗
+                    services.Common.list({
+                      url: 'users/email/code',
+                      param: {
+                        email: _self.phone,
+                      },
+                      cb: function(res) {
+                          if(res.status == 200){
+                            var data = res.data;
+                            if(data.code ==1){
+                              console.log(data);
+                              _self.token = data.fields;
+                              notification.alert(data.message);
+                            }
+                          }
+                      }
+                    });
+                    _self.hasSent = true;
+          		}else{
+                    if(!(/^0?(13[0-9]|15[012356789]|18[0-9]|17[0-9])[0-9]{8}$/.test(this.phone))) {
+                      notification.alert('账号格式错误','danger');
+                      this.logining = false;
+                      return false;
+                    }
+                    //发送手机验证码
+                    services.Common.list({
+                      url: 'users/phone/code',
+                      param: {
+                        phone: _self.phone,
+                      },
+                      cb: function(res) {
+                          if(res.status == 200){
+                            var data = res.data;
+                            if(data.code ==1){
+                              console.log(data);
+                              _self.token = data.fields;
+                              notification.alert(data.message);
+                            }
+                          }
+                      }
+                    });
+        		  }
+                  _self.hasSent = true;
           },
 
           confirmVerify: function() {
@@ -193,11 +243,11 @@
       				  code_token: this.token
       		 	  }
         		}else{
-              if(!(/^0?(13[0-9]|15[012356789]|18[0-9]|17[0-9])[0-9]{8}$/.test(this.phone))) {
-                notification.alert('账号格式错误','danger');
-                this.logining = false;
-                return false;
-              }
+                  if(!(/^0?(13[0-9]|15[012356789]|18[0-9]|17[0-9])[0-9]{8}$/.test(this.phone))) {
+                    notification.alert('账号格式错误','danger');
+                    this.logining = false;
+                    return false;
+                  }
       		   	user = {
         				phone: this.phone,
         				password: this.password,
@@ -299,6 +349,41 @@
 
           verifyCode: function () {
 
+              var _self = this;
+              if(_self.authCode == ''){
+                  notification.error('请输入验证码');
+                  return fals;
+              }
+              console.log(_self.rePass);
+              if(_self.rePass == '' || _self.newPass == ''){
+                  notification.error('密码不能为空');
+                  return false;
+              }
+              if(_self.rePass != _self.newPass){
+                  notification.error('密码不一致');
+                  return fals;
+              }
+              //修改密码
+              services.Common.create({
+                  url: 'users/modify',
+                  param: {
+                      token: _self.token,
+                      password: _self.newPass,
+                      authCode: _self.authCode,
+                      phone: _self.phone
+                  },
+                  cb: function(res){
+                      notification.alert(res.data.message);
+                      if(res.data.code == 1){
+                           _self.showForgotPwForm = false;
+                           _self.hasSent = false;
+                           _self.token = '';
+                      }
+                      _self.rePass = '';
+                      _self.newPass = '';
+                      _self.authCode = '';
+                  }
+              });
           }
         },
 
@@ -320,7 +405,7 @@
 
           if(getCookie.token){
             if(document.domain == 'localhost') {
-              window.location.href = "http://localhost:8088/";              
+              window.location.href = "http://localhost:8088/";
             }else {
               window.location.href = "http://dash.gospely.com";
             }

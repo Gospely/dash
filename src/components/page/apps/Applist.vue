@@ -143,7 +143,33 @@
                     </article>
                     <page :cur.sync="cur_stop" :all.sync="all_stop" v-on:btn-click="listen_stop"></page>
                 </tab-item>
-
+                <tab-item title="微信小程序">
+                    <loading v-show="!appLoaded"></loading>
+                    <table class="table" v-show="appLoaded">
+                      <thead>
+                        <tr>
+                          <th>应用名称</th>
+                          <th>类型</th>
+                          <th>详情</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        <tr v-for="item in fields_wechat">
+                            <td>{{item.name}}</td>
+                            <td>微信小程序</td>
+                            <td class="is-icon" title="进入应用">
+                                <a class="tdInline" @click="openApp(item)">
+                                  <i class="fa fa-share"></i>
+                                </a>
+                            </td>
+                        </tr>
+                      </tbody>
+                    </table>
+                    <article class="noData" v-if="!fields_wechat.length" v-show="appLoaded">
+                      您暂时还没有微信小程序的应用...
+                    </article>
+                    <page :cur.sync="cur_wechat" :all.sync="all_wechat" v-on:btn-click="listen_wechat"></page>
+                </tab-item>
                 <tab-item title="数据库">
                     <loading v-show="!databaseLoaded"></loading>
 
@@ -425,6 +451,7 @@
                 currentIndex:0,
                 fields: [],
                 fields_stop: [],
+                fields_wechat: [],
                 fields_notpaid: [],
                 fields_db: [],
                 all_db: 1,
@@ -435,6 +462,8 @@
                 all_stop: 1,
                 all_notpaid: 1,
                 cur_notpaid: 1,
+                cur_wechat: 1,
+                all_wechar: 1,
 
                 showPayForm: false,
                 qrcode: '',
@@ -566,6 +595,7 @@
                             _self.$get("initStop")(1);
                             _self.$get("initNotpaid")(1);
                             _self.$get("initDb")(1);
+                            _self.$get("initWechat")(1);
                         }
                         notification.alert(data.message);
                     }
@@ -655,11 +685,28 @@
               console.log('你点击了'+data+ '页');
               this.$get('initDb')(data);
             },
+            listen_wechat: function(data) {
+              console.log('你点击了'+data+ '页');
+              this.$get('initDb')(data);
+            },
 
             stopThisAPP: function() {
 
             },
+            openApp: function(item) {
 
+                if (window.parent !== window) {
+                  parent.postMessage({
+                        openApp: item
+                  }, '*');
+                  return false;
+                }
+                if(document.domain == 'localhost') {
+                  window.open('http://localhost:8989' + "/#/project/" + item.id +"?from=dash");
+                }else {
+                  window.open('http://ide.gospely.com' + "/#/project/" + item.id +"?from=dash");
+                }
+            },
             confirmToPay: function() {
               if(this.isAlipay){
                 window.location.href = this.alipayUrl;
@@ -674,7 +721,7 @@
                 if (this.currentIndex == 0) {
                   this.$get("init")(1);
                 }else if (this.currentIndex == 1) {
-                  this.$get("initStop")(1);  
+                  this.$get("initStop")(1);
                 }else if (this.currentIndex == 2) {
                     this.$get("initNotpaid")(1);
                 }else {
@@ -751,6 +798,30 @@
                     _self.fields_stop = data.fields;
                     _self.appLoaded = true;
                     _self.all_stop = data.all;
+                    _self.refresh();
+                  }
+                }
+
+                services.Common.list(options);
+            },
+            initWechat: function(cur) {
+                var _self = this;
+                _self.appLoaded = false;
+                var options = {
+                  url: "applications",
+                  param: {
+                    limit: 10,
+                    cur: cur,
+                    image: 'wechat:latest',
+                    payStatus: 0,
+                    creator: currentUser
+                  },
+                  ctx: _self,
+                  cb: function(res) {
+                    var data = res.data;
+                    _self.fields_wechat = data.fields;
+                    _self.appLoaded = true;
+                    _self.all_wechat = data.all;
                     _self.refresh();
                   }
                 }
@@ -880,6 +951,7 @@
             this.$get("initStop")(1);
             this.$get("initNotpaid")(1);
             this.$get("initDb")(1);
+            this.$get("initWechat")(1);
             this.$set("application", this.$route.query.containerId);
             this.$get('initDockerConfig')();
         },
