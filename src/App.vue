@@ -61,11 +61,13 @@
             }
 
             var ua = window.navigator.userAgent;
-            console.log(ua)
-            var msie = ua.indexOf('MSIE ');
-            if (msie > 0 || ua.toLowerCase().indexOf('360se') > -1 ) {
-                this.lowerIE10 = true;
-                $('.loader-wrapper').addClass('animated bounceOutDown');
+            const browes = ['msie', '360SE', 'QQBrowser', 'MetaSr', 'BIDUBrowser'];
+            
+            for(let i = 0; i < browes.length; i ++) {
+                if (ua.indexOf(browes[i]) > -1) {
+                    this.lowerIE10 = true;
+                    $('.loader-wrapper').addClass('animated bounceOutDown');
+                }
             }
 
             this.appMainBody = this.$el.getElementsByClassName('app-main-body')[0];
