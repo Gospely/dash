@@ -32,7 +32,7 @@
         </div>
 
         <div v-show="lowerIE10" class="browser-support">
-            很抱歉，Gospel 暂时不支持 IE10 及以下浏览器，请升级或更换浏览器
+            很抱歉,此浏览器不兼容 Gospel, 请更换浏览器重试
             <a href="https://www.baidu.com/s?tn=mswin_oem_dg&ie=utf-16&word=chrome" target="blank">(推荐 Chrome )</a>
         </div>
     </div>
@@ -61,8 +61,9 @@
             }
 
             var ua = window.navigator.userAgent;
+            console.log(ua)
             var msie = ua.indexOf('MSIE ');
-            if (msie > 0) {
+            if (msie > 0 || ua.toLowerCase().indexOf('360se') > -1 ) {
                 this.lowerIE10 = true;
                 $('.loader-wrapper').addClass('animated bounceOutDown');
             }

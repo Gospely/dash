@@ -829,6 +829,7 @@
                 if (this.isRefresh) {
                   notification.alert("刷新成功");
                   this.unPaidAppLoaded = true;
+                  console.log(localStorage)
                 }
                 this.isRefresh = false;
             },
