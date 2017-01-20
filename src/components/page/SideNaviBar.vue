@@ -203,6 +203,12 @@
         },
         methods: {
             signOut(){
+                services.Common.list({
+                    url: 'users/logout',
+                    param: {
+                        token: localStorage.token
+                    }
+                });
                 localStorage.removeItem('token');
                 cookie.setCookie('token','','Thu, 01 Jan 1970 00:00:00 GMT');
                 cookie.setCookie('user','','Thu, 01 Jan 1970 00:00:00 GMT');
