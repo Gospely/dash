@@ -408,7 +408,10 @@
             }
             return "";
           }
-
+          if(this.getRequest() != null){
+              cookie.setCookie('token','','Thu, 01 Jan 1970 00:00:00 GMT');
+              cookie.setCookie('user','','Thu, 01 Jan 1970 00:00:00 GMT');
+          }
           if(getCookie.token){
             if(document.domain == 'localhost') {
               window.location.href = "http://localhost:8088/";

@@ -56,7 +56,7 @@ module.exports = {
 						if (res.status == 200) {
 							if (data.code == -100) {
 								notification.error(data.message);
-								window.location.href = window.baseUrl + "/#!/accounts/login";
+								window.location.href = window.baseUrl + "/#!/accounts/login?key=timeout";
 							}
 							if (data.code == -101) {
 								notification.error(data.message);
