@@ -171,58 +171,108 @@
                this.hasSent = false;
                this.authCode = '';
            },
-          sendCode: function() {
+           sendCode: function() {
+
+             var _self = this;
+              var re=/^1[34578]\d{9}$/;
+              if(re.test(_self.phone)){
+                 _self.isPhone = true;
+                 var options = {
+                   url: "users",
+                   param: {
+                     phone: _self.phone
+                   },
+                   cb: function(res) {
+                     if(res.status == 200){
+                       var data = res.data;
+                       if(data.code == 1){
+                         console.log(data);
+                         notification.alert('该手机未注册');
+                         _self.phone = '';
+                     }else{
+                         _self.sendPhoneCode();
+                     }
+                     }
+                   }
+                 }
+              }else{
+                 _self.isPhone = false;
+                 let email = /^([a-zA-Z0-9_-])+@([a-zA-Z0-9_-])+(.[a-zA-Z0-9_-])+/;
+                 if(!email.test(_self.phone) && _self.phone != '') {
+                     notification.alert('邮箱或手机号码错误');
+                     document.getElementById('registerAccount').focus();
+                     return false;
+                 }
+
+                 var options = {
+                   url: "users",
+                   param: {
+                     email: _self.phone
+                   },
+                   cb: function(res) {
+                     if(res.status == 200){
+                       var data = res.data;
+                       if(data.code == 1){
+                         console.log(data);
+                         notification.alert('该邮箱未注册');
+                         _self.phone = '';
+                     }else{
+                         _self.sendEmialCode();
+                     }
+                     }
+
+                   }
+                 }
+              }
+
+             if(_self.phone != null && _self.phone != '' && _self.phone != undefined) {
+               services.Common.validator(options);
+             }
+           },
+          sendPhoneCode: function() {
 
               var _self = this;
-              var reg = /^\w+((-\w+)|(\.\w+))*\@[A-Za-z0-9]+((\.|-)[A-Za-z0-9]+)*\.[A-Za-z0-9]+$/;
-      		    var isok = reg.test(this.phone);
-      		    var user = {};
-          		if(isok){
-                    //发送邮箱验证吗
-                    services.Common.list({
-                      url: 'users/email/code',
-                      param: {
-                        email: _self.phone,
-                      },
-                      cb: function(res) {
-                          if(res.status == 200){
-                            var data = res.data;
-                            if(data.code ==1){
-                              console.log(data);
-                              _self.token = data.fields;
-                              notification.alert(data.message);
-                            }
-                          }
+              //发送手机验证码
+              services.Common.list({
+                url: 'users/phone/code',
+                param: {
+                  phone: _self.phone,
+                },
+                cb: function(res) {
+                    if(res.status == 200){
+                      var data = res.data;
+                      if(data.code ==1){
+                        console.log(data);
+                        _self.token = data.fields;
+                        _self.hasSent = true;
+                        notification.alert(data.message);
                       }
-                    });
-                    _self.hasSent = true;
-          		}else{
-                    if(!(/^0?(13[0-9]|15[012356789]|18[0-9]|17[0-9])[0-9]{8}$/.test(this.phone))) {
-                      notification.alert('账号格式错误','danger');
-                      this.logining = false;
-                      return false;
                     }
-                    //发送手机验证码
-                    services.Common.list({
-                      url: 'users/phone/code',
-                      param: {
-                        phone: _self.phone,
-                      },
-                      cb: function(res) {
-                          if(res.status == 200){
-                            var data = res.data;
-                            if(data.code ==1){
-                              console.log(data);
-                              _self.token = data.fields;
-                              notification.alert(data.message);
-                            }
-                          }
-                      }
-                    });
-        		  }
-                  _self.hasSent = true;
+                }
+              });
           },
+          sendEmialCode: function() {
 
+              var _self = this;
+              //发送邮箱验证吗
+              services.Common.list({
+                url: 'users/email/code',
+                param: {
+                  email: _self.phone,
+                },
+                cb: function(res) {
+                    if(res.status == 200){
+                      var data = res.data;
+                      if(data.code ==1){
+                        console.log(data);
+                        _self.token = data.fields;
+                        _self.hasSent = true;
+                        notification.alert(data.message);
+                      }
+                    }
+                }
+              });
+          },
           confirmVerify: function() {
 
           },
