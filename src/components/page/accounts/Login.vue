@@ -283,10 +283,10 @@
                         localStorage.password =  _self.password;
                         localStorage.phone = _self.phone;
                         localStorage.setItem("user",res.data.fields.id);
-                        setCookie('user',res.data.fields.id,24*60*60*1000);
-                        setCookie('token',res.data.fields.token,24*30*60*1000);
-                        setCookie('userName',res.data.fields.name,24*30*60*1000);
-                        setCookie('host',res.data.fields.host,24*30*60*1000);
+                        setCookie('user',res.data.fields.id,15 * 24 * 60 * 60 * 1000);
+                        setCookie('token',res.data.fields.token, 15 * 24 * 60 * 60 * 1000);
+                        setCookie('userName',res.data.fields.name, 15 * 24 * 60 * 60 * 1000);
+                        setCookie('host',res.data.fields.host, 15 * 24 * 60 * 60 * 1000);
                         localStorage.setItem("userName",res.data.fields.name);
 
                         localStorage.removeItem("isActive");
