@@ -5,7 +5,7 @@
         <div class="columns">
             <div class="column">
                 <div class="notification is-success has-text-centered">
-                    <p class="title">应用</p>
+                    <p class="title">总应用</p>
                     <i v-show="!dataLoaded" class="fa fa-spinner fa-spin fa-fw"></i>
                     <p v-show="dataLoaded" class="subtitle">{{applicationsCount}}</p>
                 </div>
