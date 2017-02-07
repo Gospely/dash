@@ -33,6 +33,31 @@
             </div>
         </div>
 
+        <h2>应用类型</h2>
+        <div class="columns">
+            <div class="column">
+                <div class="notification is-success has-text-centered">
+                    <p class="title">快速部署应用数</p>
+                    <i v-show="!dataLoaded" class="fa fa-spinner fa-spin fa-fw"></i>
+                    <p v-show="dataLoaded" class="subtitle">0</p>
+                </div>
+            </div>
+            <div class="column">
+                <div class="notification is-success has-text-centered">
+                    <p class="title">小程序应用数</p>
+                    <i v-show="!dataLoaded" class="fa fa-spinner fa-spin fa-fw"></i>
+                    <p v-show="dataLoaded" class="subtitle">0</p>
+                </div>
+            </div>
+            <div class="column">
+                <div class="notification is-success has-text-centered">
+                    <p class="title">VD应用数</p>
+                    <i v-show="!dataLoaded" class="fa fa-spinner fa-spin fa-fw"></i>
+                    <p v-show="dataLoaded" class="subtitle">0</p>
+                </div>
+            </div>
+        </div>
+
         <h2>集成开发环境</h2>
         <div class="columns">
             <div class="column is-one-third">
