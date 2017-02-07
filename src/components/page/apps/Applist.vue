@@ -463,7 +463,7 @@
                 all_notpaid: 1,
                 cur_notpaid: 1,
                 cur_wechat: 1,
-                all_wechar: 1,
+                all_wechat: 1,
 
                 showPayForm: false,
                 qrcode: '',
