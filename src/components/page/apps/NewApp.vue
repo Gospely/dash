@@ -694,7 +694,7 @@
                 cb: function(res){
                     var data = res.data;
                     if(data.code == 1){
-                        if(data.fields.length >= 1){
+                        if(data.fields.length >= 10){
                             _self.available = true;
                             notification.alert('目前处于封测阶段，出于资源考虑，对封测用户只提供一个应用创建限额，您可以删除重建');
                         }
