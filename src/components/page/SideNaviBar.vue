@@ -212,7 +212,13 @@
                 localStorage.removeItem('token');
                 cookie.setCookie('token','','Thu, 01 Jan 1970 00:00:00 GMT');
                 cookie.setCookie('user','','Thu, 01 Jan 1970 00:00:00 GMT');
-                this.$router.go('/accounts/login');
+                //this.$router.go('/accounts/login');
+                parent.postMessage({
+                        visitIde: {}
+                }, '*');
+                top.location.href = 'http://dash.gospely.com';
+                top.location.reload(true);
+
             },
             toggleCollapse () {
                 this.collapsed = !this.collapsed;
