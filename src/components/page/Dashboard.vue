@@ -39,21 +39,21 @@
                 <div class="notification is-success has-text-centered">
                     <p class="title">快速部署应用数</p>
                     <i v-show="!dataLoaded" class="fa fa-spinner fa-spin fa-fw"></i>
-                    <p v-show="dataLoaded" class="subtitle">0</p>
+                    <p v-show="dataLoaded" class="subtitle">{{deployFastCount}}</p>
                 </div>
             </div>
             <div class="column">
                 <div class="notification is-success has-text-centered">
                     <p class="title">小程序应用数</p>
                     <i v-show="!dataLoaded" class="fa fa-spinner fa-spin fa-fw"></i>
-                    <p v-show="dataLoaded" class="subtitle">0</p>
+                    <p v-show="dataLoaded" class="subtitle">{{wechatCount}}</p>
                 </div>
             </div>
             <div class="column">
                 <div class="notification is-success has-text-centered">
                     <p class="title">VD应用数</p>
                     <i v-show="!dataLoaded" class="fa fa-spinner fa-spin fa-fw"></i>
-                    <p v-show="dataLoaded" class="subtitle">0</p>
+                    <p v-show="dataLoaded" class="subtitle">{{vdCount}}</p>
                 </div>
             </div>
         </div>
@@ -124,6 +124,9 @@
                 domainsCount: 0,
                 application_running: 0,
                 application_stop: 0,
+                deployFastCount: 0,
+                wechatCount: 0,
+                vdCount: 0,
                 version: '个人版',
                 expireat: '',
                 doughnutData: [200, 300],
@@ -270,6 +273,51 @@
                           var data = res.data;
                           if(data.code == 1){
                               _self.application_running = data.fields;
+                          }
+                      }
+                }
+            });
+            services.Common.count({
+                url: 'applications',
+                param: {
+                    creator: currentUser,
+                    status: 1,
+                },
+                cb: function(res){
+                      if(res.status == 200){
+                          var data = res.data;
+                          if(data.code == 1){
+                              _self.deployFastCount = data.fields;
+                          }
+                      }
+                }
+            });
+            services.Common.count({
+                url: 'applications',
+                param: {
+                    creator: currentUser,
+                    status: 1,
+                },
+                cb: function(res){
+                      if(res.status == 200){
+                          var data = res.data;
+                          if(data.code == 1){
+                              _self.wechatCount = data.fields;
+                          }
+                      }
+                }
+            });
+            services.Common.count({
+                url: 'applications',
+                param: {
+                    creator: currentUser,
+                    status: 1,
+                },
+                cb: function(res){
+                      if(res.status == 200){
+                          var data = res.data;
+                          if(data.code == 1){
+                              _self.vdCount = data.fields;
                           }
                       }
                 }
