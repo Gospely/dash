@@ -281,7 +281,7 @@
                 url: 'applications',
                 param: {
                     creator: currentUser,
-                    status: 1,
+                    type: 'application',
                 },
                 cb: function(res){
                       if(res.status == 200){
@@ -296,7 +296,7 @@
                 url: 'applications',
                 param: {
                     creator: currentUser,
-                    status: 1,
+                    image: 'wechat:latest',
                 },
                 cb: function(res){
                       if(res.status == 200){
@@ -311,7 +311,7 @@
                 url: 'applications',
                 param: {
                     creator: currentUser,
-                    status: 1,
+                    type: 'vd',
                 },
                 cb: function(res){
                       if(res.status == 200){
