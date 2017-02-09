@@ -507,7 +507,7 @@
                 parent.postMessage({
                         visitIde: {}
                 }, '*');
-                top.location.href = 'http://dash.gospely.com';
+                top.location.href = '/accounts/login';
                 top.location.reload(true);
             },
             toggleMenu () {
