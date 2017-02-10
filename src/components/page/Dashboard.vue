@@ -39,7 +39,7 @@
                 <div class="notification is-success has-text-centered">
                     <p class="title">普通应用数</p>
                     <i v-show="!dataLoaded" class="fa fa-spinner fa-spin fa-fw"></i>
-                    <p v-show="dataLoaded" class="subtitle">{{applicationsCount - deployFastCount - vdCount -wechatCount }}</p>
+                    <p v-show="dataLoaded" class="subtitle">{{commonAppCount}}</p>
                 </div>
             </div>
             <div class="column">
@@ -131,6 +131,7 @@
                 domainsCount: 0,
                 application_running: 0,
                 application_stop: 0,
+                commonAppCount: 0,
                 deployFastCount: 0,
                 wechatCount: 0,
                 vdCount: 0,
@@ -344,6 +345,7 @@
                       }
                 }
             });
+            _self.commonAppCount = _self.applicationsCount - _self.deployFastCount - _self.vdCount - _self.wechatCount;
         },
 
         methods: {
