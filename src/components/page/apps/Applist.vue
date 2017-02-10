@@ -687,7 +687,7 @@
             },
             listen_wechat: function(data) {
               console.log('你点击了'+data+ '页');
-              this.$get('initDb')(data);
+              this.$get('initWechat')(data);
             },
 
             stopThisAPP: function() {
