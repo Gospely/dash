@@ -3,7 +3,7 @@
 
         <div class="columns">
             <div class="column">
-<!-- 
+<!--
                 <label class="label">修改子域名</label>
                 <div class="columns">
 
@@ -124,6 +124,8 @@
         methods: {
 
             showAddDomainForm: function() {
+
+                this.isEditDomain = false;
                 this.showDomainAddingForm = true;
             },
 
@@ -140,27 +142,32 @@
             confirmAddDomain: function() {
 
                 var _self = this;
+                console.log(this.isEditDomain);
                 if(this.isEditDomain){
                     services.Common.update({
                       param: _self.edit,
                       url: 'domains',
                       ctx: _self,
-                      reload: _self.$get("initDomains")()
+                      reload: _self.$get("initDomains")(1)
                     });
                 }else{
-                  services.Common.save({
-                    url: 'domians/bind',
-                    domain: edit.domain,
-                    creator: currentUser,
-                    application: _self.application,
+                  services.Common.create({
+                    url: 'domains',
+                    param: {
+                        domain: this.edit.domain,
+                        ip: this.edit.ip,
+                        creator: currentUser,
+                        application: _self.application,
+                    },
                     ctx: _self,
-                    reload: _self.$get("initDomains")()
+                    reload: _self.$get("initDomains")(1)
                   });
                 }
                 this.hideAddDomainForm();
             },
 
             editThisDomain: function(item) {
+
                 this.domainInfoFormName = '修改域名';
                 this.isEditDomain = true;
                 this.edit = item;
