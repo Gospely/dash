@@ -37,6 +37,13 @@
         <div class="columns">
             <div class="column">
                 <div class="notification is-success has-text-centered">
+                    <p class="title">普通应用数</p>
+                    <i v-show="!dataLoaded" class="fa fa-spinner fa-spin fa-fw"></i>
+                    <p v-show="dataLoaded" class="subtitle">{{applicationsCount - deployFastCount - vdCount -wechatCount }}</p>
+                </div>
+            </div>
+            <div class="column">
+                <div class="notification is-success has-text-centered">
                     <p class="title">快速部署应用数</p>
                     <i v-show="!dataLoaded" class="fa fa-spinner fa-spin fa-fw"></i>
                     <p v-show="dataLoaded" class="subtitle">{{deployFastCount}}</p>
@@ -281,7 +288,7 @@
                 url: 'applications',
                 param: {
                     creator: currentUser,
-                    type: 'application',
+                    type: 'deployfast',
                 },
                 cb: function(res){
                       if(res.status == 200){
