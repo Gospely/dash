@@ -20,7 +20,7 @@
             <div class="column">
                 <div class=" notification is-warning has-text-centered">
                     <p class="title">运行中</p>
-                    <i v-show="!dataLoaded" class="fa fa-spinner fa-spin fa-fw"></i>                    
+                    <i v-show="!dataLoaded" class="fa fa-spinner fa-spin fa-fw"></i>
                     <p v-show="dataLoaded" class="subtitle">{{application_running}}</p>
                 </div>
             </div>
