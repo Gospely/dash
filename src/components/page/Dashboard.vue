@@ -37,28 +37,28 @@
         <div class="columns">
             <div class="column">
                 <div class="notification is-success has-text-centered">
-                    <p class="title">普通应用数</p>
+                    <p class="title">普通应用</p>
                     <i v-show="!dataLoaded" class="fa fa-spinner fa-spin fa-fw"></i>
                     <p v-show="dataLoaded" class="subtitle">{{commonAppCount}}</p>
                 </div>
             </div>
             <div class="column">
                 <div class="notification is-success has-text-centered">
-                    <p class="title">快速部署应用数</p>
+                    <p class="title">快速部署应用</p>
                     <i v-show="!dataLoaded" class="fa fa-spinner fa-spin fa-fw"></i>
                     <p v-show="dataLoaded" class="subtitle">{{deployFastCount}}</p>
                 </div>
             </div>
             <div class="column">
                 <div class="notification is-success has-text-centered">
-                    <p class="title">小程序应用数</p>
+                    <p class="title">小程序应用</p>
                     <i v-show="!dataLoaded" class="fa fa-spinner fa-spin fa-fw"></i>
                     <p v-show="dataLoaded" class="subtitle">{{wechatCount}}</p>
                 </div>
             </div>
             <div class="column">
                 <div class="notification is-success has-text-centered">
-                    <p class="title">VD应用数</p>
+                    <p class="title">VD应用</p>
                     <i v-show="!dataLoaded" class="fa fa-spinner fa-spin fa-fw"></i>
                     <p v-show="dataLoaded" class="subtitle">{{vdCount}}</p>
                 </div>
