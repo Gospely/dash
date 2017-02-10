@@ -345,7 +345,7 @@
                       }
                 }
             });
-            setTimeOut("_self.commonAppCount = _self.applicationsCount - _self.deployFastCount - _self.vdCount - _self.wechatCount;", 1000);
+            setTimeout("_self.commonAppCount = _self.applicationsCount - _self.deployFastCount - _self.vdCount - _self.wechatCount;", 1000);
         },
 
         methods: {
