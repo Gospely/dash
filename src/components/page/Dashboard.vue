@@ -224,8 +224,7 @@
                                     fmt = fmt.replace(RegExp.$1, (RegExp.$1.length==1) ? (o[k]) : (("00"+ o[k]).substr((""+ o[k]).length)));
                                     return fmt;
                                 }
-
-                                if(data.fields.expireAt == null || data.fields.expireAt == undefined) {
+                                if(data.fields.expireAt == null || data.fields.expireAt == undefined || data.fields.expireAt == '') {
                                     _self.expireat = '免费无限版本';
                                 }else{
                                     _self.expireat = dateFormat(new Date(data.fields.expireAt),"yyyy-MM-dd");
@@ -346,7 +345,7 @@
                 }
             });
             setTimeout(function() {
-                _self.commonAppCount = _self.applicationsCount - _self.deployFastCount - 
+                _self.commonAppCount = _self.applicationsCount - _self.deployFastCount -
                     _self.vdCount - _self.wechatCount;
             }, 1000);
         },
