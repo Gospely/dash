@@ -29,7 +29,8 @@
                     <div class="left">
                     </div>
                     <div class="right">
-                      <a v-link="{name:'signupa'}">注册新账户</a>&nbsp;&nbsp;
+                      <a @click="showDemoAccountModal = true">体验账号</a>&nbsp;&nbsp;
+                      <a v-link="{name:'signupa'}">注册</a>&nbsp;&nbsp;
                       <a @click="showForgotPwForm = true">忘记密码</a>
                     </div>
                   </div>
@@ -76,6 +77,22 @@
                 确认修改
                 </button>
                 <button class="button" @click="modifyConcle">取消</button>
+            </div>
+        </modal>
+
+        <modal :is-html="true" :is-show.sync="showDemoAccountModal">
+            <div slot="header">体验账号</div>
+            <div slot="body" style="text-align: left">
+              <p>帐号：shark@dodora.cn（带实例程序）密码：demo</p>
+              <p>帐号：demo1@dodora.cn 密码：demo</p>
+              <p>帐号：demo2@dodora.cn 密码：demo</p>
+              <p>帐号：demo3@dodora.cn 密码：demo</p>
+            </div>
+            <div slot="footer">
+                <button class="button is-success"
+                    @click="showDemoAccountModal = false">
+                确认
+                </button>
             </div>
         </modal>
 
@@ -138,7 +155,9 @@
                 logining: false,
                 rePass: '',
                 authCode: '',
-                newPass: ''
+                newPass: '',
+
+                showDemoAccountModal: false
             }
         },
         components: {
