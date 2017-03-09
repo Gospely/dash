@@ -4,8 +4,27 @@
         <div class="signup-form ">
           <div class="signup-form__logo-box">
             <div class="signup-form__logo"></div>
-            <div class="signup-form__catchphrase">快速开始您的开发</div></div>
-          <div id="container-login">
+            <div class="signup-form__catchphrase">完善信息--快速开始您的开发</div></div>
+          <div id="container-login" v-show="completeInfo">
+            <div data-reactroot="" id="LoginComponent" @keydown="keyDownComplete">
+              <span>
+                  <div class="input-field-group">
+                    <div class="input-field">
+                      <input type="text" v-model='name' id="registerName" placeholder="用户名,仅支持英文" autocapitalize="off" @blur="checkName" style="border: none;"></div>
+                  </div>
+                  <ul class="error-msg-list"></ul>
+                  <button :class="['signup-form__submit']" @click="completeUser" >完成</button>
+                  <div class="signup-form-nav">
+                    <div class="left">
+                    </div>
+                    <div class="right">
+                      <a v-link="{name:'login'}">已有账户?登录</a>
+                    </div>
+                  </div>
+              </span>
+            </div>
+          </div>
+          <div id="container-login" v-show="!completeInfo">
             <div data-reactroot="" id="LoginComponent" @keydown="keyDownLogin">
               <span>
                   <div class="input-field-group">
@@ -38,7 +57,7 @@
               </span>
             </div>
           </div>
-          <div class="signup-form__sns-btn-area">
+          <div class="signup-form__sns-btn-area" v-show="!completeInfo">
             <!-- <div>封测阶段暂不支持第三方OAuth登录</div> -->
             <div class="sns-button-list">
               <a href="https://open.weixin.qq.com/connect/qrconnect?appid=wx48e0c6824ebf0d3a&redirect_uri=http://api.gospely.com/weixin/callback&response_type=code&scope=snsapi_login&state=12123#wechat_redirect"><span class="icon"><i class="fa fa-wechat"></i></span>&nbsp;&nbsp;微信登录</a>
@@ -101,7 +120,9 @@
                 inviteCode: '',
                 btn_disabled: false,
                 wait: 60,
-                isRegisting: false
+                isRegisting: false,
+                completeInfo: false,
+                user:''
             }
         },
         components: {
@@ -110,6 +131,7 @@
         },
 
         methods: {
+
           register: function(){
             this.isRegisting = true;
             var self = this;
@@ -168,6 +190,50 @@
                     return false;
                 }
                 this.register();
+              }
+          },
+          completeUser(){
+
+              services.Common.create({
+                  url: 'users/complete',
+                  param: {
+                      name: this.name,
+                      id: this.user,
+                  },
+                  cb: function(res){
+                      if(res.status === 200){
+
+                        var data = res.data;
+                        if(data.code == 1){
+                            notification.alert('注册成功');
+                            console.log(res.data.fields);
+                            localStorage.setItem("user",res.data.fields.id);
+                            localStorage.setItem("userName",res.data.fields.name);
+                            localStorage.setItem("ide",res.data.fields.ide);
+                            localStorage.setItem("ideName",res.data.fields.ideName);
+                            localStorage.setItem("token",res.data.fields.token);
+                            setCookie('user',res.data.fields.id,15 * 24 * 60 * 60 * 1000);
+                            setCookie('token',res.data.fields.token, 15 * 24 * 60 * 60 * 1000);
+                            setCookie('userName',res.data.fields.name, 15 * 24 * 60 * 60 * 1000);
+                            setCookie('host',res.data.fields.host, 15 * 24 * 60 * 60 * 1000);
+                            console.log(localStorage.getItem("user"));
+                            window.location.href = window.baseUrl;
+                        }else{
+                            notification.alert(data.message);
+                        }
+                      }
+                  }
+              });
+          },
+          keyDownComplete: function(event){
+              if (event.keyCode == 13) {
+                this.checkName();
+                let focuseElem = document.activeElement.id;
+                if (!this.isValNull || focuseElem === 'registerAccount' ||
+                     focuseElem === 'registerName') {
+                    return false;
+                }
+                this.completeUser();
               }
           },
           getTelCode: function(){
@@ -330,7 +396,16 @@
             }
           }
         },
-
+        ready: function(){
+            console.log('ready');
+            var user = this.$route.query.user;
+            console.log(user);
+            if(user){
+                this.completeInfo = true;
+            }
+            this.user = user;
+            console.log('ready');
+      },
         computed: {
             isValNull() {
                 return this.phone != '' && this.name !='' && this.password != '' && this.rePwd != '' && this.authCode != '' && this.password == this.rePwd;

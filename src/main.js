@@ -30,24 +30,49 @@ Vue.use(require('vue-resource'));
 Vue.http.options.root = 'http://api.gospely.com/';
 Vue.http.headers['x-gospely'] = 'moha';
 Vue.http.headers.withCredentials = true;
-
-function getCookie(c_name) {
-}
+var loginUrl = window.baseUrl + '/#!/accounts/login';
 
 if (getCookie('token') != '' && getCookie('token') != undefined) {
   Vue.http.headers.common['Authorization'] = getCookie('token');
 } else {
-  var urls = window.location.href.split('?')
-  console.log(urls);
-  if (urls[0] == window.baseUrl + "/#!/" && urls[1] != '') {
-    setCookie("token", urls[1].split("=")[1]);
-    console.log(urls[1].split("=")[1]);
-  }
+    var urls = window.location.href.split('?')
+    console.log(urls);
+    if(urls.length > 1 && urls[0] == window.baseUrl + "/#!/" && urls[1] != '') {
+        urls = urls[1].split("&");
+        if(urls.length > 1) {
+          setCookie("token", urls[0].split("=")[1]);
+          setCookie("user", urls[1].split("=")[1]);
+          console.log(urls[1].split("=")[1]);
+          localStorage.token = getCookie('token');
+          localStorage.user = getCookie('user');
+          Vue.http.headers.common['Authorization'] = getCookie('token');
+          Vue.http.get('http://localhost:8089/users/' + getCookie('user')).then(function(res){
+              console.log(res);
+              var data = res.data;
+              if(data.code == 1) {
+                  setCookie('user',res.data.fields.id,15 * 24 * 60 * 60 * 1000);
+                  setCookie('token',res.data.fields.token, 15 * 24 * 60 * 60 * 1000);
+                  setCookie('userName',res.data.fields.name, 15 * 24 * 60 * 60 * 1000);
+                  setCookie('host',res.data.fields.host, 15 * 24 * 60 * 60 * 1000);
+                  localStorage.setItem("ide",res.data.fields.ide);
+                  localStorage.setItem("ideName",res.data.fields.ideName);
+                  localStorage.setItem("token",res.data.fields.token);
+                  localStorage.setItem("userName",res.data.fields.name);
+              }else {
+                  notification.error('登录失败');
+                  localStorage.removeItem("isActive");
+                  cookie.setCookie('token','','Thu, 01 Jan 1970 00:00:00 GMT');
+                  cookie.setCookie('user','','Thu, 01 Jan 1970 00:00:00 GMT');
+                  window.location.href = loginUrl;
+              }
+
+          });
+        }
+    }
 }
 Vue.use(VueRouter);
 
 var router = new VueRouter({
-  hashbang: true,
   history: false,
   saveScrollPosition: true,
   transitionOnLoad: true,
@@ -74,28 +99,51 @@ router.beforeEach(function(route) {
   if (route.from.name == "appdetail") {
     clearInterval(window.monitorInterval);
   }
+  console.log('beforeEach');
 
-  route.next();
+  console.log(route);
+
+  console.log(loginUrl);
+  var test = route.to.path.split("?")[0];
+  if(!test){
+      test =  window.location.href.split("?")[0];
+  }
+  console.log(test);
+  if(!getCookie('token')){
+      if((test == '/accounts/login' || test == '/accounts/register')){
+          route.next();
+      }
+      window.location.href = loginUrl
+  }else {
+      if((test == '/accounts/login' || test == '/accounts/register')){
+          route.to.path = route.from.path;
+          route.next();
+      }else {
+          route.next();
+      }
+  }
 });
 
 //路由请求结束后调用
 router.afterEach(function() {
 
-  var base = "http://" + window.location.host
-  var loginUrl = base + "/#!/accounts/login";
-  var register = base + '/#!/accounts/register';
-  if (window.location.href == loginUrl || window.location.href == register || window.location.href == loginUrl + "?where=fromIde") {
-      if (getCookie('token') != '' && getCookie('token') != null && getCookie != undefined) {
+    // hashbang: true,
 
-              window.location.href = base
-      }
-  } else {
-
-    if (getCookie('token') == '' || getCookie('token') == null || getCookie == undefined) {
-
-            window.location.href = loginUrl
-    }
-  }
+  // var register = base + '/#!/accounts/register';
+  // var test = window.location.href.split("?")[1];
+  // console.log(test);
+  // if (test == loginUrl || test == register) {
+  //     if (getCookie('token') != '' && getCookie('token') != null && getCookie != undefined) {
+  //
+  //             window.location.href = window.location.href
+  //     }
+  // } else {
+  //
+  //   if (getCookie('token') == '' || getCookie('token') == null || getCookie == undefined) {
+  //
+  //           window.location.href = loginUrl
+  //   }
+  // }
 
 });
 
