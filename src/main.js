@@ -46,7 +46,7 @@ if (getCookie('token') != '' && getCookie('token') != undefined) {
           localStorage.token = getCookie('token');
           localStorage.user = getCookie('user');
           Vue.http.headers.common['Authorization'] = getCookie('token');
-          Vue.http.get('http://localhost:8089/users/' + getCookie('user')).then(function(res){
+          Vue.http.get('http://api.gospely.com/users/' + getCookie('user')).then(function(res){
               console.log(res);
               var data = res.data;
               if(data.code == 1) {
@@ -60,7 +60,6 @@ if (getCookie('token') != '' && getCookie('token') != undefined) {
                   localStorage.setItem("userName",res.data.fields.name);
               }else {
                   notification.error('登录失败');
-                  localStorage.removeItem("isActive");
                   cookie.setCookie('token','','Thu, 01 Jan 1970 00:00:00 GMT');
                   cookie.setCookie('user','','Thu, 01 Jan 1970 00:00:00 GMT');
                   window.location.href = loginUrl;
