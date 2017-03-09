@@ -54,6 +54,7 @@ if (getCookie('token') != '' && getCookie('token') != undefined) {
                   setCookie('token',res.data.fields.token, 15 * 24 * 60 * 60 * 1000);
                   setCookie('userName',res.data.fields.name, 15 * 24 * 60 * 60 * 1000);
                   setCookie('host',res.data.fields.host, 15 * 24 * 60 * 60 * 1000);
+                  Vue.http.headers.common['Authorization'] = getCookie('token');
                   localStorage.setItem("ide",res.data.fields.ide);
                   localStorage.setItem("ideName",res.data.fields.ideName);
                   localStorage.setItem("token",res.data.fields.token);
