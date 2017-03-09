@@ -113,8 +113,9 @@ router.beforeEach(function(route) {
   if(!getCookie('token')){
       if((test == '/accounts/login' || test == '/accounts/register')){
           route.next();
+      }else {
+          window.location.href = loginUrl
       }
-      window.location.href = loginUrl
   }else {
       if((test == '/accounts/login' || test == '/accounts/register')){
           route.to.path = route.from.path;
@@ -137,8 +138,9 @@ router.afterEach(function(route) {
     console.log(getCookie('token'));
     if(!getCookie('token')){
         if((test == '/accounts/login' || test == '/accounts/register')){
+        }else {
+            window.location.href = loginUrl
         }
-        window.location.href = loginUrl
     }
 });
 
