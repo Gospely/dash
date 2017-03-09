@@ -9,6 +9,7 @@ import filter from './filter/index.js'
 import cookie from './lib/cookies.js';
 
 var getCookie = cookie.getCookie;
+var setCookie = cookie.setCookie;
 
 import 'animate.css'
 
@@ -36,12 +37,12 @@ function getCookie(c_name) {
 if (getCookie('token') != '' && getCookie('token') != undefined) {
   Vue.http.headers.common['Authorization'] = getCookie('token');
 } else {
-  // var urls = window.location.href.split('?')
-  // if (urls[0] == window.baseUrl + "/" && urls[1] != '') {
-  //   console.log(window.location.search);
-  //   localStorage.setItem("token", window.location.search.split("%20=%20")[1]);
-  //   console.log(window.location.search.split("%20=%20")[1]);
-  // }
+  var urls = window.location.href.split('?')
+  console.log(urls);
+  if (urls[0] == window.baseUrl + "/#!/" && urls[1] != '') {
+    setCookie("token", urls[1].split("=")[1]);
+    console.log(urls[1].split("=")[1]);
+  }
 }
 Vue.use(VueRouter);
 
