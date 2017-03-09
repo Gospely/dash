@@ -10,7 +10,7 @@
               <span>
                   <div class="input-field-group">
                     <div class="input-field">
-                      <input type="text" id="registerAccount" v-model="phone" placeholder="封测阶段暂不支持手机注册，请填写邮箱账号" autocapitalize="off" @blur="checkPhone" style="border: none;"></div>
+                      <input type="text" id="registerAccount" v-model="phone" placeholder="请填写邮箱账号或手机号" autocapitalize="off" @blur="checkPhone" style="border: none;"></div>
                     <div class="input-field">
                       <input type="text" v-model='name' id="registerName" placeholder="用户名,仅支持英文" autocapitalize="off" @blur="checkName" style="border: none;"></div>
                     <div class="input-field">
@@ -18,9 +18,9 @@
                     <div class="input-field">
                       <input type="password" id="registerRePassword" v-model="rePwd" placeholder="重复密码" autocapitalize="off" style="border: none;" @blur="checkPwd">
                     </div>
-                    <div class="input-field">
+                    <!--<div class="input-field">
                       <input type="text" id="inviteCode" v-model="inviteCode" placeholder="请输入邀请码" autocapitalize="off" style="border: none;">
-                    </div>
+                    </div>-->
                     <div class="input-field">
                       <input type="text" v-model="authCode" :disabled="btn_info == '获取验证码'" placeholder="验证码" autocapitalize="off" style="border: none;" >
                     </div>
@@ -39,9 +39,9 @@
             </div>
           </div>
           <div class="signup-form__sns-btn-area">
-            <div>封测阶段暂不支持第三方OAuth登录</div>
+            <!-- <div>封测阶段暂不支持第三方OAuth登录</div> -->
             <div class="sns-button-list">
-              <!-- <a><span class="icon"><i class="fa fa-wechat"></i></span></a> -->
+              <a href="https://open.weixin.qq.com/connect/qrconnect?appid=wx48e0c6824ebf0d3a&redirect_uri=http://api.gospely.com/weixin/callback&response_type=code&scope=snsapi_login&state=12123#wechat_redirect"><span class="icon"><i class="fa fa-wechat"></i></span>&nbsp;&nbsp;微信登录</a>
               <!-- <a><span class="icon"><i class="fa fa-github"></i></span></a> -->
             </div>
           </div>
