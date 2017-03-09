@@ -109,6 +109,7 @@ router.beforeEach(function(route) {
       test =  window.location.href.split("?")[0];
   }
   console.log(test);
+  console.log(getCookie('token'));
   if(!getCookie('token')){
       if((test == '/accounts/login' || test == '/accounts/register')){
           route.next();
@@ -125,26 +126,20 @@ router.beforeEach(function(route) {
 });
 
 //路由请求结束后调用
-router.afterEach(function() {
+router.afterEach(function(route) {
 
-    // hashbang: true,
-
-  // var register = base + '/#!/accounts/register';
-  // var test = window.location.href.split("?")[1];
-  // console.log(test);
-  // if (test == loginUrl || test == register) {
-  //     if (getCookie('token') != '' && getCookie('token') != null && getCookie != undefined) {
-  //
-  //             window.location.href = window.location.href
-  //     }
-  // } else {
-  //
-  //   if (getCookie('token') == '' || getCookie('token') == null || getCookie == undefined) {
-  //
-  //           window.location.href = loginUrl
-  //   }
-  // }
-
+    console.log(loginUrl);
+    var test = route.to.path.split("?")[0];
+    if(!test){
+        test =  window.location.href.split("?")[0];
+    }
+    console.log(test);
+    console.log(getCookie('token'));
+    if(!getCookie('token')){
+        if((test == '/accounts/login' || test == '/accounts/register')){
+        }
+        window.location.href = loginUrl
+    }
 });
 
 //初始化过滤器
