@@ -40,8 +40,8 @@ if (getCookie('token') != '' && getCookie('token') != undefined) {
     if(urls.length > 1 && urls[0] == window.baseUrl + "/#!/" && urls[1] != '') {
         urls = urls[1].split("&");
         if(urls.length > 1) {
-          setCookie("token", urls[0].split("=")[1]);
-          setCookie("user", urls[1].split("=")[1]);
+          setCookie("token", urls[0].split("=")[1], 15 * 24 * 60 * 60 * 1000);
+          setCookie("user", urls[1].split("=")[1], 15 * 24 * 60 * 60 * 1000);
           console.log(urls[1].split("=")[1]);
           localStorage.token = getCookie('token');
           localStorage.user = getCookie('user');
@@ -51,13 +51,10 @@ if (getCookie('token') != '' && getCookie('token') != undefined) {
               var data = res.data;
               if(data.code == 1) {
                   setCookie('user',res.data.fields.id,15 * 24 * 60 * 60 * 1000);
-                  setCookie('token',res.data.fields.token, 15 * 24 * 60 * 60 * 1000);
                   setCookie('userName',res.data.fields.name, 15 * 24 * 60 * 60 * 1000);
                   setCookie('host',res.data.fields.host, 15 * 24 * 60 * 60 * 1000);
-                  Vue.http.headers.common['Authorization'] = getCookie('token');
                   localStorage.setItem("ide",res.data.fields.ide);
                   localStorage.setItem("ideName",res.data.fields.ideName);
-                  localStorage.setItem("token",res.data.fields.token);
                   localStorage.setItem("userName",res.data.fields.name);
               }else {
                   notification.error('登录失败');
