@@ -38,7 +38,7 @@
             </div>
           </div>
           <div class="signup-form__sns-btn-area">
-            <!-- <div>封测阶段暂不支持第三方OAuth登录</div> -->
+            <div>封测阶段暂不支持第三方OAuth登录</div>
             <div class="sns-button-list">
               <!-- <a href="https://open.weixin.qq.com/connect/qrconnect?appid=wx48e0c6824ebf0d3a&redirect_uri=http://api.gospely.com/weixin/callback&response_type=code&scope=snsapi_login&state=12123#wechat_redirect"><span class="icon"><i class="fa fa-wechat"></i></span>&nbsp;&nbsp;微信登录</a> -->
               <!-- <a><span class="icon"><i class="fa fa-github"></i></span></a> -->

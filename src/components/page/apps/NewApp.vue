@@ -293,7 +293,7 @@
 
                 volumes: [],
                 isCreateApp: false,
-                withImage: false,
+                withImage: true,
                 imageId: null,
                 showImageSelectorForm: false,
 
