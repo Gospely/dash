@@ -21,6 +21,7 @@
                             <button class="button is-warning" v-bind:class="{'is-loading': isLoading}" v-on:click="stop" v-show="status_stop">停止</button>
                             <button class="button is-success" v-bind:class="{'is-loading': isLoading}" v-on:click="restart">重新启动</button>
                             <button class="button is-primary" v-bind:class="{'is-loading': isLoading}" v-on:click="openInIde">从IDE打开</button>
+                            <button class="button is-warning" v-bind:class="{'is-loading': isLoading}" v-on:click="askIfRemove">删除</button>
                         </div>
 
                         <div class="column is-half">
@@ -102,6 +103,25 @@
 
         </div>
     </div>
+    <modal :is-html="true" :width="400" :is-show.sync="showDeleteModal">
+
+        <div slot="header">删除应用</div>
+        <div slot="body">
+            <loading v-show="isDeleting"></loading>
+            <p class="control" v-show="!isDeleting">
+                <input class="input custom-input" type="text" v-model="password" placeholder="输入密码">
+            </p>
+        </div>
+        <div slot="footer">
+             <button class="button is-primary" @click="confirmDelete">
+                确定
+            </button>
+            <button class="button" @click="concelDelete">
+               取消
+           </button>
+        </div>
+    </modal>
+
 </template>
 <style>
 
@@ -140,7 +160,10 @@
               status: '',
               status_stop: false,
               status_running: false,
-              isLoading: false
+              isLoading: false,
+              showDeleteModal: false,
+              password: '',
+              isDeleting: false,
             }
         },
 
@@ -155,6 +178,46 @@
         },
 
         methods: {
+            confirmDelete: function(){
+
+                var _self = this;
+                if(_self.password == ''){
+                    console.log('sdasdsaadsa');
+                    notification.alert('请输入密码');
+                    return;
+                }
+                notification.alert('正在删除...请稍候...');
+
+                var options = {
+                    param: {
+                        id: _self.appId + '@' + _self.password + '@' + localStorage.user,
+                    },
+                    url: 'applications',
+                    target: 'result',
+                    cb: function(res) {
+
+                        if(res.data.code == 1){
+                            notification.alert('删除成功...');
+                            _self.$router.go('/apps/list');
+                            _self.$destroy(true);
+                        }else {
+                            _self.isDeleting = false;
+                            notification.alert(res.data.message, 'danger');
+                        }
+                    },
+                    ctx: _self
+                }
+                _self.isDeleting = true;
+                services.Common.delete(options);
+                _self.password = '';
+            },
+            concelDelete: function() {
+                this.showDeleteModal = false;
+            },
+            askIfRemove: function() {
+                console.log('askIfRemove');
+                this.showDeleteModal = true;
+            },
           start: function(){
             var self = this;
             notification.alert('正在启动...');
@@ -184,7 +247,7 @@
           },
 
           openInIde: function(){
-            
+
             if (window.parent !== window) {
               parent.postMessage({
                     openApp: this.inspectInfo

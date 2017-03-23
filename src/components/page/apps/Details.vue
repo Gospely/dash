@@ -16,9 +16,6 @@
                 <tab-item @selected="startMonitorEvent" @deselected="stopMonitorEvent" title="监控">
                     <Monitor></Monitor>
                 </tab-item>
-                <tab-item title="设置"> 
-                    <setting></setting>
-                </tab-item>
             </tab>
         </div>
     </div>

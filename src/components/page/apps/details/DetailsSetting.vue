@@ -45,37 +45,37 @@
         methods: {
             askIfRemove: function() {
                 var _self = this;
-                new ModalCtrl({
-                    el: document.createElement('div'),
-                    props: {
-                        isShow: false,
-                        header: {
-                            default: '删除应用'
-                        },
-                        body: {
-                            default: '您确定要执行此操作吗？（此操作无法撤销）'
-                        }
-                    },
-                    events: {
-                        'confirmed': function() {
-                            notification.alert('正在删除...请稍候...')
-                            var options = {
-                                param: {
-                                    id: _self.application
-                                },
-                                url: 'applications',
-                                target: 'result',
-                                reload: function() {
-                                    _self.$router.go('/apps/list');
-                                },
-                                ctx: _self
-                            }
-                            services.Common.delete(options);
-                            _self.isDeleting = true;
-                            this.$destroy(true);
-                        }
-                    }
-                }).show();
+                // new ModalCtrl({
+                //     el: document.createElement('div'),
+                //     props: {
+                //         isShow: false,
+                //         header: {
+                //             default: '删除应用'
+                //         },
+                //         body: {
+                //             default: '您确定要执行此操作吗？（此操作无法撤销）'
+                //         }
+                //     },
+                //     events: {
+                //         'confirmed': function() {
+                //             notification.alert('正在删除...请稍候...')
+                //             var options = {
+                //                 param: {
+                //                     id: _self.application
+                //                 },
+                //                 url: 'applications',
+                //                 target: 'result',
+                //                 reload: function() {
+                //                     _self.$router.go('/apps/list');
+                //                 },
+                //                 ctx: _self
+                //             }
+                //             services.Common.delete(options);
+                //             _self.isDeleting = true;
+                //             this.$destroy(true);
+                //         }
+                //     }
+                // }).show();
             }
         },
         ready (){
