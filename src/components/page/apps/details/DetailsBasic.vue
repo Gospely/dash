@@ -109,7 +109,7 @@
         <div slot="body">
             <loading v-show="isDeleting"></loading>
             <p class="control" v-show="!isDeleting">
-                <input class="input custom-input" type="text" v-model="password" placeholder="输入密码">
+                <input class="input custom-input" type="password" v-model="password" placeholder="输入密码">
             </p>
         </div>
         <div slot="footer">
