@@ -182,8 +182,7 @@
 
                 var _self = this;
                 if(_self.password == ''){
-                    console.log('sdasdsaadsa');
-                    notification.alert('请输入密码');
+                    notification.alert('请输入密码', 'danger');
                     return;
                 }
                 notification.alert('正在删除...请稍候...');

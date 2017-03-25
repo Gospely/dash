@@ -553,7 +553,6 @@
             reload: function() {
 
               console.log("reload ");
-              this.application = null;
               this.isCreateApp = false;
             },
 
