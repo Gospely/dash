@@ -124,7 +124,7 @@
                 </div>
                 <div class="control is-grouped">
                     <p class="control is-expanded">
-                        <input class="input" @keyup.enter="createApp" type="text" placeholder="用户名即数据库名称" v-model="application.dbUser">
+                        <input class="input" @keyup.enter="createApp" type="text" @blur="checkDbName" placeholder="用户名即数据库名称" v-model="application.dbUser">
                     </p>
                 </div>
             </div>
@@ -560,7 +560,13 @@
                 this.isCreateApp = true;
                 this.realCreateApp();
             },
-
+            checkDbName: function(){
+                console.log('checkDbName');
+                if(!/^[a-z]*$/.test(this.application.dbUser)){
+                    notification.alert('数据库用户名只支持小写英文名', 'warning');
+                    this.application.dbUser = '';
+                }
+            },
             createApp: function() {
 
                 this.application.image = this.imageId;
