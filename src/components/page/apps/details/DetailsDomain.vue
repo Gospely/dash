@@ -27,14 +27,14 @@
                     <div slot="body">
                         <label class="label">域名名称</label>
                         <p class="control">
-                          <input class="input" type="text" placeholder="域名名称" v-model='edit.domain'>
+                          <input class="input" type="text" placeholder="一级域名" v-model='edit.domain'>
                         </p>
-                        <label class="label">CNAME</label>
+                        <!-- <label class="label">CNAME</label>
                         <p class="control has-icon has-icon-right">
                           <input class="input is-success" type="text" placeholder="CNAME" v-model='edit.ip'>
                           <i class="fa fa-check"></i>
                           <span class="help is-success">指向域名</span>
-                        </p>
+                        </p> -->
                     </div>
                     <div slot="footer">
                         <button class="button is-success"
@@ -58,7 +58,8 @@
                 <table class="table">
                   <thead>
                     <tr >
-                      <th>域名</th>
+                      <th>二级域名</th>
+                      <th>主域名</th>
                       <th>CNAME</th>
                       <th>绑定时间</th>
                       <th></th>
@@ -67,6 +68,7 @@
                   </thead>
                   <tbody>
                     <tr v-for="item in fields">
+                      <td>{{item.subDomain}}</td>
                       <td>{{item.domain}}</td>
                       <td>{{item.ip}}</td>
                       <td>
