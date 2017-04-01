@@ -162,7 +162,9 @@
                         application: _self.application,
                     },
                     ctx: _self,
-                    reload: _self.$get("initDomains")(1)
+                    reload: function(){
+                         _self.$get("initDomains")(1);
+                    },
                   });
                 }
                 this.hideAddDomainForm();
@@ -203,7 +205,9 @@
                                 },
                                 url: 'domains',
                                 ctx: _self,
-                                reload: _self.$get("initDomains")(),
+                                reload: function(){
+                                     _self.$get("initDomains")(1);
+                                },
                             });
                             this.$destroy(true);
 
