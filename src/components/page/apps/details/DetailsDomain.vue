@@ -44,6 +44,33 @@
                         <button class="button" @click="hideAddDomainForm()">取消</button>
                     </div>
                 </modal>
+
+                <modal :is-html="true" :is-show.sync="showQuestionModal">
+                    <div slot="header">怎么让一级域名生效？</div>
+                    <div slot="body">
+                        <p class="control">
+                            还差最后一步，即可开始使用 绑定的一级域名<br>
+
+                              到域名注册的地方将 DNS 修改为：<br>
+
+                              f1g1ns1.dnspod.net<br>
+                              f1g1ns2.dnspod.net<br>
+                              注意不能同时和其他 DNS 混用，会导致解析混乱哦～<br>
+
+                              修改 DNS 服务器需要最长 72 小时的全球生效时间，请耐心等待<br>
+
+                              遇到困难？
+                              <a href="https://support.dnspod.cn/Kb/showarticle/tsid/177/#ChangeDomainNS">修改域名DNS地址教程 »</a>
+                        </p>
+                    </div>
+                    <div slot="footer">
+                        <button class="button is-success"
+                            @click="hideQeustForm">
+                            确定
+                        </button>
+                        <button class="button" @click="hideQeustForm()">取消</button>
+                    </div>
+                </modal>
             </div>
         </div>
 
@@ -74,10 +101,13 @@
                       <td>
                       {{item.createat | dateFormat 'yyyy-MM-dd hh:mm:ss'}}
                       </td>
-                      <td class="is-icon" title="编辑信息">
-                        <a @click="editThisDomain(item)">
-                          <i class="fa fa-edit"></i>
+                      <td class="is-icon" title="编辑信息" v-show="!item.sub">
+                        <a @click="showQuestion()">
+                          <i class="fa fa-question"></i>
                         </a>
+                      </td>
+                      <td class="is-icon" title="编辑信息" v-show="item.sub">
+
                       </td>
                       <td class="is-icon" title="删除绑定">
                         <a @click="removeThisDomain(item)">
@@ -104,6 +134,7 @@
         data () {
             return {
                 showDomainAddingForm: false,
+                showQuestionModal: false,
                 isEditDomain: false,
                 domainInfoFormName: '绑定域名',
                 application: '',
@@ -170,14 +201,15 @@
                 this.hideAddDomainForm();
             },
 
-            editThisDomain: function(item) {
+            showQuestion: function() {
 
-                this.domainInfoFormName = '修改域名';
-                this.isEditDomain = true;
-                this.edit = item;
-                this.showAddDomainForm();
+                console.log('showQuestionModal');
+                this.showQuestionModal = true;
             },
-
+            hideQeustForm: function() {
+                console.log('showQuestionModal');
+                this.showQuestionModal = false;
+            },
             removeThisDomain: function(item) {
 
 
