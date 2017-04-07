@@ -12,7 +12,7 @@
                             <h4>
                               <button class="button is-small" v-bind:class="{'is-success': !status_running, 'is-danger': !status_stop}">{{status}}</button>
                               {{inspectInfo.name}}
-                              <a style="float:right;margin-left: -80px;" target="__blank" href="http://{{inspectInfo.domain}}.gospely.com">访问<i class="fa fa-hand-pointer-o" aria-hidden="true"></i></a>
+                              <a style="float:right;margin-left: -80px;" target="__blank" href="http://{{inspectInfo.domain}}">访问<i class="fa fa-hand-pointer-o" aria-hidden="true"></i></a>
                             </h4>
 
                             <h4 class="subtitle">运行于：{{inspectInfo.createat | dateFormat 'yyyy-MM-dd hh:mm:ss'}}</h4>
@@ -21,7 +21,7 @@
                             <button class="button is-warning" v-bind:class="{'is-loading': isLoading}" v-on:click="stop" v-show="status_stop">停止</button>
                             <button class="button is-success" v-bind:class="{'is-loading': isLoading}" v-on:click="restart">重新启动</button>
                             <button class="button is-primary" v-bind:class="{'is-loading': isLoading}" v-on:click="openInIde">从IDE打开</button>
-                            <button class="button is-warning" v-bind:class="{'is-loading': isLoading}" v-on:click="askIfRemove">删除</button>
+                            <button class="button is-danger" v-bind:class="{'is-loading': isLoading}" v-on:click="askIfRemove">删除</button>
                         </div>
 
                         <div class="column is-half">
@@ -32,7 +32,7 @@
                             <span class="help is-tip">运行系统: Linux Ubuntu</span>
                             <span class="help is-tip">数据库用户名: {{inspectInfo.dbUser | appDBInfo}}</span>
                             <span class="help is-tip">数据库表: {{inspectInfo.dbUser | appDBInfo}}</span>
-                            <span class="help is-tip">访问地址: <span @click="visitThis" class="link">http://{{inspectInfo.domain}}.gospely.com</span></span>
+                            <span class="help is-tip">访问地址: <span @click="visitThis" class="link">http://{{inspectInfo.domain}}</span></span>
 
                         </div>
                     </div>
@@ -285,6 +285,20 @@
                         self.status_stop = false;
                         self.status = '未运行';
                     }
+
+                    services.Common.list({
+                        url: 'domains',
+                        param: {
+                            application: self.inspectInfo.id,
+                            sub: true
+                        },
+                        cb: function(res){
+                            var data = res.data;
+                            if(data.code == 1){
+                              self.inspectInfo.domain = data.fields[0].subDomain + '.' + data.fields[0].domain;
+                          }
+                        }
+                    });
                   }
                 }
               },
