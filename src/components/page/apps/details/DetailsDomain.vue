@@ -82,7 +82,7 @@
         <div class="columns">
             <div class="column">
 
-                <label class="label">绑定域名</label>
+                <label class="label">绑定一级域名</label>
                 <p class="control">
                     <button class="button is-success" @click="addDomain">增加</button>
                 </p>
