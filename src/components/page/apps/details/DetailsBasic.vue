@@ -241,7 +241,7 @@
           },
 
           visitThis: function() {
-            var url = "http://" + this.inspectInfo.domain + ".gospely.com";
+            var url = "http://" + this.inspectInfo.domain;
             window.open(url);
           },
 
