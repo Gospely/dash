@@ -88,7 +88,7 @@
                 </p>
             </div>
         </div>
-        <h2>数据卷</h2>
+        <!-- <h2>数据卷</h2>
         <div class="columns">
             <div class="column">
                 <div class="box">
@@ -107,7 +107,7 @@
                     </div>
                 </div>
             </div>
-        </div>
+        </div> -->
     </section>
 </template>
 <style>
@@ -408,22 +408,22 @@
             }
         },
         created () {
-            var _self =  this;
-            var used = 100;
-            var rest = 100;
-            services.VolumeService.info({
-                user: currentUser
-            }).then(function(res){
-                var data = res.data.fields;
-                used = parseInt(data.used)/1024;
-                rest = parseInt(data.size) - used;
-            },function(err){
-
-            });
-            setTimeout(function () {
-                _self.doughnutData.$set(0,used.toFixed(2));
-                _self.doughnutData.$set(1,rest.toFixed(2));
-            }, 2000);
+            // var _self =  this;
+            // var used = 100;
+            // var rest = 100;
+            // services.VolumeService.info({
+            //     user: currentUser
+            // }).then(function(res){
+            //     var data = res.data.fields;
+            //     used = parseInt(data.used)/1024;
+            //     rest = parseInt(data.size) - used;
+            // },function(err){
+            //
+            // });
+            // setTimeout(function () {
+            //     _self.doughnutData.$set(0,used.toFixed(2));
+            //     _self.doughnutData.$set(1,rest.toFixed(2));
+            // }, 2000);
         },
         beforeDestroy () {
             if (this.timer) {

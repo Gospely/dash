@@ -631,8 +631,9 @@
 
             DetailsThisDatabase: function(item) {
                 this.databaseInfoFormName = '数据库详情';
+                console.log(item);
                 this.isDetailsThisDatabase = true;
-                this.edit = item;
+                this.db = item;
                 this.showAddDatabaseForm();
             },
 
