@@ -80,13 +80,13 @@ let menu = {
             //     label: '创建应用',
             //     hide: true,
             //     component: makeComponent('./components/page/apps/CreateApp.vue')
-            // },            
+            // },
             '/list': {
                 name: 'applist',
                 label: '我的应用',
                 hide: false,
                 component: makeComponent('./components/page/apps/Applist.vue')
-            },        
+            },
             '/new/:imageId': {
                 name: 'newappwithimageid',
                 label: '创建应用',
@@ -105,12 +105,12 @@ let menu = {
                 hide: true,
                 component: makeComponent('./components/page/apps/Details.vue')
             },
-            '/volumes': {
-                name: 'volumes',
-                label: '我的数据卷',
-                hide: false,
-                component: makeComponent('./components/page/services/Volumes.vue')
-            },
+            // '/volumes': {
+            //     name: 'volumes',
+            //     label: '我的数据卷',
+            //     hide: false,
+            //     component: makeComponent('./components/page/services/Volumes.vue')
+            // },
             '/volumes/:volumeId': {
                 name: 'volumesdetails',
                 label: '数据卷详情',

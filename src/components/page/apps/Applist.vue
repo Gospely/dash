@@ -183,20 +183,24 @@
                         <div slot="body">
                             <label class="label">数据库名称</label>
                             <p class="control">
-                              <input class="input" type="text" @blur="checkExit" placeholder="数据库名称" v-model="db.name">
+                              <input class="input" type="text" @blur="checkExit" readonly="!isDetailsThisDatabase" placeholder="数据库名称" v-model="db.name">
                             </p>
                           <label class="label">数据库密码</label>
                           <p class="control">
-                            <input class="input" type="text" placeholder="数据密码" v-model="db.password">
+                            <input class="input" type="text" placeholder="数据密码" readonly="!isDetailsThisDatabase"  v-model="db.password">
                           </p>
-                            <p class="label">类型</p>
-                            <p class="control has-addons" style="height:32px;">
+                           <label class="label">详情</label>
+                          <p class="control" v-show="isDetailsThisDatabase">
+                            <input class="input" type="text" placeholder="数据密码" readonly="!isDetailsThisDatabase"  v-model="db.description">
+                          </p>
+                            <p class="label" v-show='!isDetailsThisDatabase'>类型</p>
+                            <p class="control has-addons" style="height:32px;" v-show='!isDetailsThisDatabase'>
                               <a :class="['button','database-type-opation',{'is-success': index == thisIndex}]" v-for="(index,item) in databaseType" :disabled="isDetailsThisDatabase" @click="selectThisType(item,index)">
                                 <span>{{item.label}}</span>
                               </a>
                             </p>
                         </div>
-                        <div slot="footer">
+                        <div slot="footer" v-show='!isDetailsThisDatabase'>
                             <button class="button is-success"
                                 @click="confirmAddDatabase">
                             确定
@@ -398,6 +402,7 @@
                 databaseInfoFormName: '新增数据库',
 
                 appLoaded: false,
+                showDecription: true,
 
                 deployApp: {
                     name: '',
@@ -631,8 +636,9 @@
 
             DetailsThisDatabase: function(item) {
                 this.databaseInfoFormName = '数据库详情';
+                console.log(item);
                 this.isDetailsThisDatabase = true;
-                this.edit = item;
+                this.db = item;
                 this.showAddDatabaseForm();
             },
 

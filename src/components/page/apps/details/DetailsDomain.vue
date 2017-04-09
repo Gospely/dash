@@ -3,24 +3,29 @@
 
         <div class="columns">
             <div class="column">
-<!--
-                <label class="label">修改子域名</label>
+
+                <label class="label">二级域名</label>
                 <div class="columns">
 
-                    <div class="column is-half">
+                    <!-- <div class="column is-half">
                         <p class="control">
                             <input class="input" type="text" placeholder=""  v-model="subDomain">
                         </p>
-                    </div>
-                    <span class="is-tip" style="line-height: 3.3;">.gospely.com</span>
-
-                    <div class="column">
+                    </div> -->
+                    <div class="column is-half">
                         <p class="control">
-                            <button class="button is-primary" @click="saveChanges">保存更改</button>
+                            <h4 class="is-tip" style="line-height: 3.3; margin-left: 10px">{{subDomainshow}}</h4>
                         </p>
                     </div>
 
-                </div> -->
+
+                    <!-- <div class="column">
+                        <p class="control">
+                            <button class="button is-primary" @click="saveChanges">保存更改</button>
+                        </p>
+                    </div> -->
+
+                </div>
 
                 <modal :is-html="true" :is-show.sync="showDomainAddingForm">
                     <div slot="header">{{domainInfoFormName}}</div>
@@ -77,7 +82,7 @@
         <div class="columns">
             <div class="column">
 
-                <label class="label">绑定域名</label>
+                <label class="label">绑定一级域名</label>
                 <p class="control">
                     <button class="button is-success" @click="addDomain">增加</button>
                 </p>
@@ -85,8 +90,7 @@
                 <table class="table">
                   <thead>
                     <tr >
-                      <th>二级域名</th>
-                      <th>主域名</th>
+                      <th>域名</th>
                       <th>CNAME</th>
                       <th>绑定时间</th>
                       <th></th>
@@ -95,7 +99,6 @@
                   </thead>
                   <tbody>
                     <tr v-for="item in fields">
-                      <td>{{item.subDomain}}</td>
                       <td>{{item.domain}}</td>
                       <td>{{item.ip}}</td>
                       <td>
@@ -140,6 +143,7 @@
                 application: '',
                 fields: [],
                 subDomain: '',
+                subDomainshow: '',
                 oldDomain: '',
                 edit:{
                   domain: '',
@@ -274,9 +278,26 @@
 
                     param:{
                         application: _self.application,
+                        sub: false
                     },
                     url: 'domains',
                     ctx: _self,
+                });
+                services.Common.list({
+
+                    param:{
+                        application: _self.application,
+                        sub: true
+                    },
+                    url: 'domains',
+                    ctx: _self,
+                    cb: function(res){
+                        var data = res.data;
+                        console.log(res);
+                        if(data.code == 1){
+                            _self.subDomainshow = data.fields[0].subDomain + '.' + data.fields[0].domain
+                        }
+                    }
                 });
             },
             initApplication:function(){
