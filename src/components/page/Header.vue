@@ -5,7 +5,7 @@
             <i v-bind:class="['fa','fa-angle-right',{'isOpen':hiddened},{'iconHiddened':collapsed}]" @click="toggleMenu"></i>
         </div>
 
-        <div class="my-nav-center">
+        <!-- <div class="my-nav-center">
             <a class="my-nav-item" href="https://github.com/Gospely">
               <span class="icon">
                 <i class="fa fa-wechat"></i>
@@ -16,13 +16,18 @@
                 <i class="fa fa-weibo"></i>
               </span>
             </a>
+        </div> -->
+        <div v-if="!isMyself" class="my-nav-right">
+            <a class="my-nav-item" @click="closeDashModel">
+                关闭控制台
+            </a>
         </div>
-
         <div id="nav-menu" class="my-nav-right">
             <a class="my-nav-item" @click="signOut()">
                 退出
             </a>
         </div>
+        
     </nav>
 </template>
 <style>
@@ -40,11 +45,16 @@
         }
     }*/
 
-    .my-nav-left,.my-nav-center,.my-nav-right {
+    .my-nav-left,.my-nav-center {
         width: 33.3%;
         float: left;
         line-height: 58px;
         height: 100%;
+    }
+    .my-nav-right {
+        float: right;
+        line-height: 58px;
+        height: 100%;   
     }
     .my-nav-center{
         text-align: center;
@@ -488,7 +498,8 @@
         },
         data () {
             return {
-                iconHiddened:true
+                iconHiddened:true,
+                isMyself: true
             }
         },
         methods:{
@@ -512,6 +523,11 @@
             },
             toggleMenu () {
                 this.hiddened = !this.hiddened;
+            },
+            closeDashModel() {
+                parent.postMessage({
+                    closeDashModel: {}
+                }, '*');
             }
         },
         ready: function () {
@@ -520,6 +536,7 @@
             //         this.iconHiddened = true;
             //     }
             // }
+            this.isMyself = window.parent === window;
         }
     }
 </script>
