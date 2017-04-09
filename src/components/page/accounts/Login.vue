@@ -29,7 +29,7 @@
                     <div class="left">
                     </div>
                     <div class="right">
-                      <a @click="showDemoAccountModal = true">体验账号</a>&nbsp;&nbsp;
+                     <!-- <a @click="showDemoAccountModal = true">体验账号</a>&nbsp;&nbsp; -->
                       <a v-link="{name:'signupa'}">注册</a>&nbsp;&nbsp;
                       <a @click="showForgotPwForm = true">忘记密码</a>
                     </div>
@@ -38,9 +38,9 @@
             </div>
           </div>
           <div class="signup-form__sns-btn-area">
-            <div>封测阶段暂不支持第三方OAuth登录</div>
+            <!--<div>封测阶段暂不支持第三方OAuth登录</div>-->
             <div class="sns-button-list">
-              <!-- <a href="https://open.weixin.qq.com/connect/qrconnect?appid=wx48e0c6824ebf0d3a&redirect_uri=http://api.gospely.com/weixin/callback&response_type=code&scope=snsapi_login&state=12123#wechat_redirect"><span class="icon"><i class="fa fa-wechat"></i></span>&nbsp;&nbsp;微信登录</a> -->
+              <a href="https://open.weixin.qq.com/connect/qrconnect?appid=wx48e0c6824ebf0d3a&redirect_uri=http://api.gospely.com/weixin/callback&response_type=code&scope=snsapi_login&state=12123#wechat_redirect"><span class="icon"><i class="fa fa-wechat"></i></span>&nbsp;&nbsp;微信登录</a>
               <!-- <a><span class="icon"><i class="fa fa-github"></i></span></a> -->
             </div>
           </div>

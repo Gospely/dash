@@ -434,7 +434,7 @@
 
             selectThisDockerConfig: function(dockerConfig, key) {
 
-                notification.alert("封测期间，暂不提供该配置");
+                notification.alert("内测期间，暂不提供该配置");
                 // this.application.products = dockerConfig.id;
                 // this.application.image = dockerConfig.id;
                 // this.application.free = dockerConfig.free;
@@ -699,9 +699,9 @@
                 cb: function(res){
                     var data = res.data;
                     if(data.code == 1){
-                        if(data.fields.length >= 10){
+                        if(data.fields.length >= 1){
                             _self.available = true;
-                            notification.alert('目前处于封测阶段，出于资源考虑，对封测用户只提供一个应用创建限额，您可以删除重建');
+                            notification.alert('目前处于内测阶段，出于资源考虑，对内测用户只提供一个应用创建限额，您可以删除重建');
                         }
                     }else{
                         _self.available = true;
