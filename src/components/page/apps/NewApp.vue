@@ -701,7 +701,7 @@
                     if(data.code == 1){
                         if(data.fields.length >= 1){
                             _self.available = true;
-                            notification.alert('目前处于内测阶段，出于资源考虑，对内测用户只提供一个应用创建限额，您可以删除重建');
+                            notification.alert('快速部署应用目前对内测用户只提供1个创建权限');
                         }
                     }else{
                         _self.available = true;
