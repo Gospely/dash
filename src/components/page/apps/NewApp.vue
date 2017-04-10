@@ -694,7 +694,7 @@
                 url: 'applications',
                 param: {
                     creator: currentUser,
-                    host: '120.76.235.234'
+                    type: 'application'
                 },
                 cb: function(res){
                     var data = res.data;
