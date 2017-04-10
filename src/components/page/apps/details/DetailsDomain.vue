@@ -5,27 +5,8 @@
             <div class="column">
 
                 <label class="label">二级域名</label>
-                <div class="columns">
 
-                    <!-- <div class="column is-half">
-                        <p class="control">
-                            <input class="input" type="text" placeholder=""  v-model="subDomain">
-                        </p>
-                    </div> -->
-                    <div class="column is-half">
-                        <p class="control">
-                            <h4 class="is-tip" style="line-height: 3.3; margin-left: 10px">{{subDomainshow}}</h4>
-                        </p>
-                    </div>
-
-
-                    <!-- <div class="column">
-                        <p class="control">
-                            <button class="button is-primary" @click="saveChanges">保存更改</button>
-                        </p>
-                    </div> -->
-
-                </div>
+                <a target="_blank" href="http://{{subDomainshow}}">{{subDomainshow}}</a>
 
                 <modal :is-html="true" :is-show.sync="showDomainAddingForm">
                     <div slot="header">{{domainInfoFormName}}</div>
