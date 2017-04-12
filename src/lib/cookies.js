@@ -17,8 +17,8 @@ function GetCookieDomain() {
 export default {
 
     setCookie: function(c_name, value, expiredays) {
-      	var exdate = new Date()
-      	exdate.setDate(exdate.getDate() + expiredays)
+		
+      	var exdate = new Date(new Date().getTime() + expiredays);
       	document.cookie = c_name + "=" + escape(value) +
         ((expiredays == null) ? "" : ";expires=" + exdate.toGMTString() + ';domain=' + GetCookieDomain())
     },
