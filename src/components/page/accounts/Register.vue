@@ -11,6 +11,8 @@
                   <div class="input-field-group">
                     <div class="input-field">
                       <input type="text" v-model='name' id="registerName" placeholder="用户名,仅支持英文" autocapitalize="off" @blur="checkName" style="border: none;"></div>
+                      <div class="input-field">
+                      <input type="text" id="registerAccount" v-model="phone" placeholder="请填写邮箱账号或手机号(选填)" autocapitalize="off" @blur="weChatCheckPhone" style="border: none;"></div>
                   </div>
                   <ul class="error-msg-list"></ul>
                   <button :class="['signup-form__submit']" @click="completeUser" >完成</button>
@@ -200,6 +202,7 @@
                   param: {
                       name: this.name,
                       id: this.user,
+                      phone: this.phone
                   },
                   cb: function(res){
                       if(res.status === 200){
@@ -302,6 +305,29 @@
                 1000)
             }
 
+          },
+          weChatCheckPhone: function() {
+                var _self = this;
+             var re=/^1[34578]\d{9}$/;
+             if(_self.phone && re.test(_self.phone)){
+                _self.isPhone = true;
+                var options = {
+                  url: "users",
+                  param: {
+                    phone: _self.phone
+                  },
+                  cb: function(res) {
+                    if(res.status == 200){
+                      var data = res.data;
+                      if(data.code == -1){
+                        console.log(data);
+                        notification.alert('该手机已注册');
+                        _self.phone = '';
+                      }
+                    }
+                  }
+                }
+             }
           },
           checkPhone: function() {
 
