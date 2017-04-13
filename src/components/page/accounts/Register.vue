@@ -197,12 +197,15 @@
           },
           completeUser(){
 
+              var phone = /^1[34578]\d{9}$/.test(this.phone)? this.phone : '';
+              var email = /^([a-zA-Z0-9_-])+@([a-zA-Z0-9_-])+(.[a-zA-Z0-9_-])+/.test(this.phone)? this.phone : '';
               services.Common.create({
                   url: 'users/complete',
                   param: {
                       name: this.name,
                       id: this.user,
-                      phone: this.phone
+                      phone: phone,
+                      email: email
                   },
                   cb: function(res){
                       if(res.status === 200){
@@ -307,27 +310,10 @@
 
           },
           weChatCheckPhone: function() {
-                var _self = this;
-             var re=/^1[34578]\d{9}$/;
-             if(_self.phone && re.test(_self.phone)){
-                _self.isPhone = true;
-                var options = {
-                  url: "users",
-                  param: {
-                    phone: _self.phone
-                  },
-                  cb: function(res) {
-                    if(res.status == 200){
-                      var data = res.data;
-                      if(data.code == -1){
-                        console.log(data);
-                        notification.alert('该手机已注册');
-                        _self.phone = '';
-                      }
-                    }
-                  }
-                }
-             }
+
+            if(this.phone){
+                this.checkPhone();
+            }
           },
           checkPhone: function() {
 
