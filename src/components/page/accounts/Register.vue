@@ -199,47 +199,69 @@
           completeUser(){
 
               this.com_disabled = true;
-              if(this.phone){
-                  this.checkPhone();
-              }
               var self = this;
               console.log('create');
               var phone = /^1[34578]\d{9}$/.test(this.phone)? this.phone : '';
               var email = /^([a-zA-Z0-9_-])+@([a-zA-Z0-9_-])+(.[a-zA-Z0-9_-])+/.test(this.phone)? this.phone : '';
-              services.Common.create({
-                  url: 'users/complete',
-                  param: {
-                      name: this.name,
-                      id: this.user,
-                      phone: phone,
-                      email: email
-                  },
-                  cb: function(res){
-                      self.com_disabled = false;
-                          debugger;
-                      if(res.status === 200){
 
-                        var data = res.data;
-                        if(data.code == 1){
-                            notification.alert('注册成功');
+              if(email == '' && phone == ''){
+                  notification.alert('邮箱或手机号码错误');
+                  self.com_disabled = false;
+                  return;
+              }
+              services.Common.validator({
+                url: "users",
+                param: {
+                  email: email,
+                  phone: phone
+                },
+                cb: function(res) {
+                  if(res.status == 200){
+                    var data = res.data;
+                    if(data.code == -1){
+                      console.log(data);
+                      notification.alert('该邮箱或手机已注册');
+                      _self.phone = '';
+                      _self.com_disabled = false
+                  }else {
+                      services.Common.create({
+                          url: 'users/complete',
+                          param: {
+                              name: this.name,
+                              id: this.user,
+                              phone: phone,
+                              email: email
+                          },
+                          cb: function(res){
+                              self.com_disabled = false;
+                                  debugger;
+                              if(res.status === 200){
 
-                            console.log(res.data.fields);
-                            localStorage.setItem("user",res.data.fields.id);
-                            localStorage.setItem("userName",res.data.fields.name);
-                            localStorage.setItem("ide",res.data.fields.ide);
-                            localStorage.setItem("ideName",res.data.fields.ideName);
-                            localStorage.setItem("token",res.data.fields.token);
-                            setCookie('user',res.data.fields.id,15 * 24 * 60 * 60 * 1000);
-                            setCookie('userName',res.data.fields.name, 15 * 24 * 60 * 60 * 1000);
-                            setCookie('host',res.data.fields.host, 15 * 24 * 60 * 60 * 1000);
-                            console.log(localStorage.getItem("user"));
-                            window.location.href = window.baseUrl;
-                        }else{
-                            notification.alert(data.message);
-                        }
-                      }
+                                var data = res.data;
+                                if(data.code == 1){
+                                    notification.alert('注册成功');
+
+                                    console.log(res.data.fields);
+                                    localStorage.setItem("user",res.data.fields.id);
+                                    localStorage.setItem("userName",res.data.fields.name);
+                                    localStorage.setItem("ide",res.data.fields.ide);
+                                    localStorage.setItem("ideName",res.data.fields.ideName);
+                                    localStorage.setItem("token",res.data.fields.token);
+                                    setCookie('user',res.data.fields.id,15 * 24 * 60 * 60 * 1000);
+                                    setCookie('userName',res.data.fields.name, 15 * 24 * 60 * 60 * 1000);
+                                    setCookie('host',res.data.fields.host, 15 * 24 * 60 * 60 * 1000);
+                                    console.log(localStorage.getItem("user"));
+                                    window.location.href = window.baseUrl;
+                                }else{
+                                    notification.alert(data.message);
+                                }
+                              }
+                          }
+                      });
                   }
-              });
+                  }
+                }
+              })
           },
           keyDownComplete: function(event){
               if (event.keyCode == 13) {
