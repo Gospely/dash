@@ -169,7 +169,7 @@
               var _self = this;
               var options = {
                   param: {
-                    limit: 1,
+                    limit: 10,
                     cur: cur,
                     user: currentUser
                   },

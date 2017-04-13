@@ -478,6 +478,19 @@
             checkExit: function(){
 
                 var _self = this;
+
+                const illegalLetter = ['!',' ', '@', '#', '$', '%', '^', '&', '*', '(', ')', '+', '=', '[', ']',
+									'{', '}', '\\', '|', ':', ';', '\'', '"', '<', '>', ',', '.', '/', '?'];
+				let theCurrentLetter = this.application.name.split('');
+                for (var i = 0; i < theCurrentLetter.length; i++) {
+
+                    if(illegalLetter.indexOf(theCurrentLetter[i]) !== -1) {
+                        notification.alert('请勿输入非法字符: \' ' + theCurrentLetter[i] + ' \'', 'warning')
+                        self.application.name = '';
+    					return false;
+    				}
+                }
+
                 services.Common.list({
                     url:'applications/validator',
                     param: {

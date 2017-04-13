@@ -26,7 +26,7 @@
             <div class="dialog">
                 <p>
                     正在努力加载
-                    <span v-show="!isChrome">推荐您使用 Chrome 浏览器进行最好的开发体验</span>  
+                    <span v-show="!isChrome">推荐您使用 Chrome 浏览器进行最好的开发体验</span>
                 </p>
             </div>
         </div>
@@ -54,15 +54,15 @@
             }
         },
         ready () {
-            var chrome = navigator.userAgent.match(/Chrom(e|ium)\/([0-9]+)\./);
-
-            if (!chrome) {
-                this.isChrome = false;
-            }
-
-            var ua = window.navigator.userAgent;
+            // var chrome = navigator.userAgent.match(/Chrom(e|ium)\/([0-9]+)\./);
+            //
+            // if (!chrome) {
+            //     this.isChrome = false;
+            // }
+            //
+            // var ua = window.navigator.userAgent;
             //const browes = ['msie', '360SE', 'QQBrowser', 'MetaSr', 'BIDUBrowser'];
-            
+
             // for(let i = 0; i < browes.length; i ++) {
             //     if (ua.indexOf(browes[i]) > -1) {
             //         this.lowerIE10 = true;
@@ -353,7 +353,7 @@
         background: #3f5267;
         display: flex;
         align-items: center;
-        justify-content: center; 
+        justify-content: center;
     }
 
     .browser-support {
@@ -377,7 +377,7 @@
         height: 200px;
         width: 200px;
         align-items: center;
-        justify-content: center; 
+        justify-content: center;
         animation: spin-around 800ms infinite linear;
     }
 

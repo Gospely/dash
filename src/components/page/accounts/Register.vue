@@ -385,6 +385,17 @@
           checkName: function() {
 
             var _self = this;
+            const illegalLetter = ['!',' ', '@', '#', '$', '%', '^', '&', '*', '(', ')', '+', '=', '[', ']',
+                                '{', '}', '\\', '|', ':', ';', '\'', '"', '<', '>', ',', '.', '/', '?'];
+            let theCurrentLetter = _self.name.split('');
+            for (var i = 0; i < theCurrentLetter.length; i++) {
+
+                if(illegalLetter.indexOf(theCurrentLetter[i]) !== -1) {
+                    notification.alert('请勿输入非法字符: \' ' + theCurrentLetter[i] + ' \'', 'warning');
+                    _self.name = '';
+                    return false;
+                }
+            }
             if(_self.name !=null &&_self.name != '' && _self.name != undefined) {
               services.Common.validator({
                 url: "users",
