@@ -486,11 +486,18 @@
         },
         watch: {
             phone:function(val,oldval){
-
+              // var phone = /^1[34578]\d{9}$/.test(val)? val : '';
+              // var email = /^([a-zA-Z0-9_-])+@([a-zA-Z0-9_-])+(.[a-zA-Z0-9_-])+/.test(val)? val : '';
+              // console.log(phone,email)
+              
                 if(val == ""){
                    this.name = "";
                 }else{
-                  this.name="user"+val;
+                  if(/^1[34578]\d{9}$/.test(val) || /^([a-zA-Z0-9_-])+@([a-zA-Z0-9_-])+(.[a-zA-Z0-9_-])+/.test(val)) {
+                    this.name="user"+val;
+                  }else {
+                    this.name = "";
+                  }
                 }
               
             }

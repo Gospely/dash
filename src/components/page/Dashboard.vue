@@ -37,9 +37,40 @@
         <div class="columns">
             <div class="column">
                 <div class="notification is-success has-text-centered">
-                    <p class="title">普通应用</p>
+                    <p class="title">HTML5应用</p>
                     <i v-show="!dataLoaded" class="fa fa-spinner fa-spin fa-fw"></i>
-                    <p v-show="dataLoaded" class="subtitle">{{commonAppCount}}</p>
+                    <p v-show="dataLoaded" class="subtitle">{{htmlCount}}</p>
+                </div>
+            </div>
+            <div class="column">
+                <div class="notification is-success has-text-centered">
+                    <p class="title">可视化应用</p>
+                    <i v-show="!dataLoaded" class="fa fa-spinner fa-spin fa-fw"></i>
+                    <p v-show="dataLoaded" class="subtitle">{{vdCount}}</p>
+                </div>
+            </div>
+            <div class="column">
+                <div class="notification is-success has-text-centered">
+                    <p class="title">php应用</p>
+                    <i v-show="!dataLoaded" class="fa fa-spinner fa-spin fa-fw"></i>
+                    <p v-show="dataLoaded" class="subtitle">{{phpCount}}</p>
+                </div>
+            </div>
+            <div class="column">
+                <div class="notification is-success has-text-centered">
+                    <p class="title">python应用</p>
+                    <i v-show="!dataLoaded" class="fa fa-spinner fa-spin fa-fw"></i>
+                    <p v-show="dataLoaded" class="subtitle">{{pythonCount}}</p>
+                </div>
+            </div>
+            
+        </div>
+        <div class="columns">
+            <div class="column">
+                <div class="notification is-success has-text-centered">
+                    <p class="title">node应用</p>
+                    <i v-show="!dataLoaded" class="fa fa-spinner fa-spin fa-fw"></i>
+                    <p v-show="dataLoaded" class="subtitle">{{nodeCount}}</p>
                 </div>
             </div>
             <div class="column">
@@ -51,20 +82,12 @@
             </div>
             <div class="column">
                 <div class="notification is-success has-text-centered">
-                    <p class="title">小程序应用</p>
+                    <p class="title">混合app</p>
                     <i v-show="!dataLoaded" class="fa fa-spinner fa-spin fa-fw"></i>
-                    <p v-show="dataLoaded" class="subtitle">{{wechatCount}}</p>
-                </div>
-            </div>
-            <div class="column">
-                <div class="notification is-success has-text-centered">
-                    <p class="title">VD应用</p>
-                    <i v-show="!dataLoaded" class="fa fa-spinner fa-spin fa-fw"></i>
-                    <p v-show="dataLoaded" class="subtitle">{{vdCount}}</p>
+                    <p v-show="dataLoaded" class="subtitle">{{hybirdappCount}}</p>
                 </div>
             </div>
         </div>
-
         <h2>集成开发环境</h2>
         <div class="columns">
             <div class="column is-one-third">
@@ -133,8 +156,14 @@
                 application_stop: 0,
                 commonAppCount: 0,
                 deployFastCount: 0,
+                htmlCount:0 ,
+                vdCount:0,
+                phpCount:0,
+                pythonCount:0,
+                nodeCount:0,
+                hybirdappCount:0,
+                creatorCount:0,
                 wechatCount: 0,
-                vdCount: 0,
                 version: '个人版',
                 expireat: '',
                 doughnutData: [200, 300],
@@ -192,6 +221,7 @@
         ready: function() {
 
             var _self = this;
+            var applicationsTyp = ['html','vd','php','python','node','hybirdapp','creator']
             if(localStorage.getItem('ideName') != undefined){
                 this.version = localStorage.getItem('ideName');
                 var ide = localStorage.getItem('ide');
@@ -314,21 +344,40 @@
                       }
                 }
             });
-            services.Common.count({
-                url: 'applications',
-                param: {
-                    creator: currentUser,
-                    type: 'vd',
-                },
-                cb: function(res){
-                      if(res.status == 200){
-                          var data = res.data;
-                          if(data.code == 1){
-                              _self.vdCount = data.fields;
+            
+            for(let i = 0;i < applicationsTyp.length; i++) {
+                services.Common.count({
+                    url: 'applications',
+                    param: {
+                        creator: currentUser,
+                        parent: applicationsTyp[i]+':latest',
+                    },
+                    cb: function(res){
+                          if(res.status == 200){
+                              var data = res.data;
+                              if(data.code == 1){
+                                  _self[applicationsTyp[i]+'Count'] = data.fields;
+                              }
                           }
-                      }
-                }
-            });
+                    }
+                });
+            }
+            
+            // services.Common.count({
+            //     url: 'applications',
+            //     param: {
+            //         creator: currentUser,
+            //         type: 'vd',
+            //     },
+            //     cb: function(res){
+            //           if(res.status == 200){
+            //               var data = res.data;
+            //               if(data.code == 1){
+            //                   _self.vdCount = data.fields;
+            //               }
+            //           }
+            //     }
+            // });
             services.Common.count({
                 url: 'domains',
                 param: {
