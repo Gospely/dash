@@ -199,14 +199,14 @@
           completeUser(){
 
               this.com_disabled = true;
-              var self = this;
+              var _self = this;
               console.log('create');
               var phone = /^1[34578]\d{9}$/.test(this.phone)? this.phone : '';
               var email = /^([a-zA-Z0-9_-])+@([a-zA-Z0-9_-])+(.[a-zA-Z0-9_-])+/.test(this.phone)? this.phone : '';
 
               if(email == '' && phone == ''){
                   notification.alert('邮箱或手机号码错误');
-                  self.com_disabled = false;
+                  _self.com_disabled = false;
                   return;
               }
               services.Common.validator({
@@ -227,13 +227,13 @@
                       services.Common.create({
                           url: 'users/complete',
                           param: {
-                              name: this.name,
-                              id: this.user,
+                              name: _self.name,
+                              id: _self.user,
                               phone: phone,
                               email: email
                           },
                           cb: function(res){
-                              self.com_disabled = false;
+                              _self.com_disabled = false;
                                   debugger;
                               if(res.status === 200){
 
