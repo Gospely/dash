@@ -37,7 +37,7 @@
         <div class="columns">
             <div class="column">
                 <div class="notification is-success has-text-centered">
-                    <p class="title">HTML5应用</p>
+                    <p class="title">HTML5 应用</p>
                     <i v-show="!dataLoaded" class="fa fa-spinner fa-spin fa-fw"></i>
                     <p v-show="dataLoaded" class="subtitle">{{htmlCount}}</p>
                 </div>
@@ -51,14 +51,14 @@
             </div>
             <div class="column">
                 <div class="notification is-success has-text-centered">
-                    <p class="title">php应用</p>
+                    <p class="title">PHP 应用</p>
                     <i v-show="!dataLoaded" class="fa fa-spinner fa-spin fa-fw"></i>
                     <p v-show="dataLoaded" class="subtitle">{{phpCount}}</p>
                 </div>
             </div>
             <div class="column">
                 <div class="notification is-success has-text-centered">
-                    <p class="title">python应用</p>
+                    <p class="title">Python 应用</p>
                     <i v-show="!dataLoaded" class="fa fa-spinner fa-spin fa-fw"></i>
                     <p v-show="dataLoaded" class="subtitle">{{pythonCount}}</p>
                 </div>
@@ -68,7 +68,7 @@
         <div class="columns">
             <div class="column">
                 <div class="notification is-success has-text-centered">
-                    <p class="title">node应用</p>
+                    <p class="title">Node 应用</p>
                     <i v-show="!dataLoaded" class="fa fa-spinner fa-spin fa-fw"></i>
                     <p v-show="dataLoaded" class="subtitle">{{nodejsCount}}</p>
                 </div>
@@ -82,7 +82,7 @@
             </div>
             <div class="column">
                 <div class="notification is-success has-text-centered">
-                    <p class="title">混合app</p>
+                    <p class="title">混合 App</p>
                     <i v-show="!dataLoaded" class="fa fa-spinner fa-spin fa-fw"></i>
                     <p v-show="dataLoaded" class="subtitle">{{hybridappCount}}</p>
                 </div>
