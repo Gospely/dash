@@ -74,7 +74,7 @@
             </div>
             <div class="control">
                 <p class="control input-left has-icon has-icon-right">
-                    <input class="input" type="text" placeholder="您的用户名" v-model="name" disabled>
+                    <input class="input" type="text" placeholder="您的用户名" v-model="name">
                     <i class="fa fa-lock"></i>
                 </p>
             </div>

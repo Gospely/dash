@@ -15,7 +15,7 @@
                       <input type="text" id="registerAccount" v-model="phone" placeholder="请填写邮箱账号或手机号(选填)" autocapitalize="off" @blur="weChatCheckPhone" style="border: none;"></div>
                   </div>
                   <ul class="error-msg-list"></ul>
-                  <button :class="['signup-form__submit']" @click="completeUser" >完成</button>
+                  <button :class="['signup-form__submit']" :disabled="com_disabled" @click="completeUser" >完成</button>
                   <div class="signup-form-nav">
                     <div class="left">
                     </div>
@@ -121,6 +121,7 @@
                 btn_info: "获取验证码",
                 inviteCode: '',
                 btn_disabled: false,
+                com_disabled: false,
                 wait: 60,
                 isRegisting: false,
                 completeInfo: false,
@@ -196,36 +197,105 @@
           },
           completeUser(){
 
-              services.Common.create({
-                  url: 'users/complete',
-                  param: {
-                      name: this.name,
-                      id: this.user,
-                      phone: this.phone
-                  },
-                  cb: function(res){
-                      if(res.status === 200){
+              this.com_disabled = true;
+              var _self = this;
+              console.log('create');
+              if(!this.phone){
+                  var phone = /^1[34578]\d{9}$/.test(this.phone)? this.phone : '';
+                  var email = /^([a-zA-Z0-9_-])+@([a-zA-Z0-9_-])+(.[a-zA-Z0-9_-])+/.test(this.phone)? this.phone : '';
 
-                        var data = res.data;
-                        if(data.code == 1){
-                            notification.alert('注册成功');
-                            console.log(res.data.fields);
-                            localStorage.setItem("user",res.data.fields.id);
-                            localStorage.setItem("userName",res.data.fields.name);
-                            localStorage.setItem("ide",res.data.fields.ide);
-                            localStorage.setItem("ideName",res.data.fields.ideName);
-                            localStorage.setItem("token",res.data.fields.token);
-                            setCookie('user',res.data.fields.id,15 * 24 * 60 * 60 * 1000);
-                            setCookie('userName',res.data.fields.name, 15 * 24 * 60 * 60 * 1000);
-                            setCookie('host',res.data.fields.host, 15 * 24 * 60 * 60 * 1000);
-                            console.log(localStorage.getItem("user"));
-                            window.location.href = window.baseUrl;
-                        }else{
-                            notification.alert(data.message);
-                        }
-                      }
+                  if(email == '' && phone == ''){
+                      notification.alert('邮箱或手机号码错误');
+                      _self.com_disabled = false;
+                      return;
                   }
-              });
+                  services.Common.validator({
+                    url: "users",
+                    param: {
+                      email: email,
+                      phone: phone
+                    },
+                    cb: function(res) {
+                      if(res.status == 200){
+                        var data = res.data;
+                        if(data.code == -1){
+                          console.log(data);
+                          notification.alert('该邮箱或手机已注册');
+                          _self.phone = '';
+                          _self.com_disabled = false
+                      }else {
+                          services.Common.create({
+                              url: 'users/complete',
+                              param: {
+                                  name: _self.name,
+                                  id: _self.user,
+                                  phone: phone,
+                                  email: email
+                              },
+                              cb: function(res){
+                                  _self.com_disabled = false;
+                                      debugger;
+                                  if(res.status === 200){
+
+                                    var data = res.data;
+                                    if(data.code == 1){
+                                        notification.alert('注册成功');
+                                        console.log('ddd');
+                                        console.log(res.data.fields);
+                                        localStorage.setItem("user",res.data.fields.id);
+                                        localStorage.setItem("userName",res.data.fields.name);
+                                        localStorage.setItem("ide",res.data.fields.ide);
+                                        localStorage.setItem("ideName",res.data.fields.ideName);
+                                        localStorage.setItem("token",res.data.fields.token);
+                                        setCookie('user',res.data.fields.id,15 * 24 * 60 * 60 * 1000);
+                                        setCookie('userName',res.data.fields.name, 15 * 24 * 60 * 60 * 1000);
+                                        setCookie('host',res.data.fields.host, 15 * 24 * 60 * 60 * 1000);
+                                        console.log(localStorage.getItem("user"));
+                                        window.location.href = window.baseUrl;
+                                    }else{
+                                        notification.alert(data.message);
+                                    }
+                                  }
+                              }
+                          });
+                      }
+                      }
+                    }
+                  })
+              }else {
+                  services.Common.create({
+                      url: 'users/complete',
+                      param: {
+                          name: _self.name,
+                          id: _self.user,
+                      },
+                      cb: function(res){
+                          _self.com_disabled = false;
+                              debugger;
+                          if(res.status === 200){
+
+                            var data = res.data;
+                            if(data.code == 1){
+                                notification.alert('注册成功');
+                                console.log('ddd');
+                                console.log(res.data.fields);
+                                localStorage.setItem("user",res.data.fields.id);
+                                localStorage.setItem("userName",res.data.fields.name);
+                                localStorage.setItem("ide",res.data.fields.ide);
+                                localStorage.setItem("ideName",res.data.fields.ideName);
+                                localStorage.setItem("token",res.data.fields.token);
+                                setCookie('user',res.data.fields.id,15 * 24 * 60 * 60 * 1000);
+                                setCookie('userName',res.data.fields.name, 15 * 24 * 60 * 60 * 1000);
+                                setCookie('host',res.data.fields.host, 15 * 24 * 60 * 60 * 1000);
+                                console.log(localStorage.getItem("user"));
+                                window.location.href = window.baseUrl;
+                            }else{
+                                notification.alert(data.message);
+                            }
+                          }
+                      }
+                  });
+              }
           },
           keyDownComplete: function(event){
               if (event.keyCode == 13) {
@@ -306,35 +376,13 @@
 
           },
           weChatCheckPhone: function() {
-                var _self = this;
-             var re=/^1[34578]\d{9}$/;
-             if(_self.phone && re.test(_self.phone)){
-                _self.isPhone = true;
-                var options = {
-                  url: "users",
-                  param: {
-                    phone: _self.phone
-                  },
-                  cb: function(res) {
-                    if(res.status == 200){
-                      var data = res.data;
-                      if(data.code == -1){
-                        console.log(data);
-                        notification.alert('该手机已注册');
-                        _self.phone = '';
-                      }
-                    }
-                  }
-                }
-             }
+
           },
           checkPhone: function() {
-
             var _self = this;
              var re=/^1[34578]\d{9}$/;
              if(re.test(_self.phone)){
                 _self.isPhone = true;
-                _self.name= "user"+ _self.phone;
                 var options = {
                   url: "users",
                   param: {
@@ -347,21 +395,21 @@
                         console.log(data);
                         notification.alert('该手机已注册');
                         _self.phone = '';
-                        _self.name= '';
-                      }
+                    }else{
+                        self.com_disabled = false
+                    }
                     }
                   }
                 }
              }else{
                 _self.isPhone = false;
+                console.log('check');
                 let email = /^([a-zA-Z0-9_-])+@([a-zA-Z0-9_-])+(.[a-zA-Z0-9_-])+/;
-                _self.name= "user"+ _self.phone.split('@')[0];
                 if(!email.test(_self.phone) && _self.phone != '') {
                     notification.alert('邮箱或手机号码错误');
                     document.getElementById('registerAccount').focus();
                     return false;
                 }
-
                 var options = {
                   url: "users",
                   param: {
@@ -374,13 +422,13 @@
                         console.log(data);
                         notification.alert('该邮箱已注册');
                         _self.phone = '';
-                        _self.name= '';
-                      }
+                    }else {
+                        _self.com_disabled = false
+                    }
                     }
                   }
                 }
              }
-
             if(_self.phone != null && _self.phone != '' && _self.phone != undefined) {
               services.Common.validator(options);
             }
