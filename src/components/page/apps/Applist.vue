@@ -143,7 +143,7 @@
                     </article>
                     <page :cur.sync="cur_stop" :all.sync="all_stop" v-on:btn-click="listen_stop"></page>
                 </tab-item>
-                <tab-item title="微信小程序">
+                <tab-item title="HTML5">
                     <loading v-show="!appLoaded"></loading>
                     <table class="table" v-show="appLoaded">
                       <thead>
@@ -154,9 +154,9 @@
                         </tr>
                       </thead>
                       <tbody>
-                        <tr v-for="item in fields_wechat">
+                        <tr v-for="item in fields_html5">
                             <td>{{item.name}}</td>
-                            <td>微信小程序</td>
+                            <td>HTML5</td>
                             <td class="is-icon" title="进入应用">
                                 <a class="tdInline" @click="openApp(item)">
                                   <i class="fa fa-share"></i>
@@ -165,10 +165,145 @@
                         </tr>
                       </tbody>
                     </table>
-                    <article class="noData" v-if="!fields_wechat.length" v-show="appLoaded">
-                      您暂时还没有微信小程序的应用...
+                    <article class="noData" v-if="!fields_html5.length" v-show="appLoaded">
+                      您暂时还没有HTML5应用...
                     </article>
-                    <page :cur.sync="cur_wechat" :all.sync="all_wechat" v-on:btn-click="listen_wechat"></page>
+                    <page :cur.sync="cur_html" :all.sync="all_html" v-on:btn-click="listen_html"></page>
+                </tab-item>
+                <tab-item title="可视化应用">
+                    <loading v-show="!appLoaded"></loading>
+                    <table class="table" v-show="appLoaded">
+                      <thead>
+                        <tr>
+                          <th>应用名称</th>
+                          <th>类型</th>
+                          <th>详情</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        <tr v-for="item in fields_vd">
+                            <td>{{item.name}}</td>
+                            <td>可视化应用</td>
+                            <td class="is-icon" title="进入应用">
+                                <a class="tdInline" @click="openApp(item)">
+                                  <i class="fa fa-share"></i>
+                                </a>
+                            </td>
+                        </tr>
+                      </tbody>
+                    </table>
+                    <article class="noData" v-if="!fields_vd.length" v-show="appLoaded">
+                      您暂时还没有HTML5应用...
+                    </article>
+                    <page :cur.sync="cur_vd" :all.sync="all_vd" v-on:btn-click="listen_vd"></page>
+                </tab-item>
+                <tab-item title="PHP应用">
+                    <loading v-show="!appLoaded"></loading>
+                    <table class="table" v-show="appLoaded">
+                      <thead>
+                        <tr>
+                          <th>应用名称</th>
+                          <th>类型</th>
+                          <th>详情</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        <tr v-for="item in fields_php">
+                            <td>{{item.name}}</td>
+                            <td>PHP应用</td>
+                            <td class="is-icon" title="进入应用">
+                                <a class="tdInline" @click="openApp(item)">
+                                  <i class="fa fa-share"></i>
+                                </a>
+                            </td>
+                        </tr>
+                      </tbody>
+                    </table>
+                    <article class="noData" v-if="!fields_php.length" v-show="appLoaded">
+                      您暂时还没有PHP应用...
+                    </article>
+                    <page :cur.sync="cur_php" :all.sync="all_php" v-on:btn-click="listen_php"></page>
+                </tab-item>
+                <tab-item title="Node应用">
+                    <loading v-show="!appLoaded"></loading>
+                    <table class="table" v-show="appLoaded">
+                      <thead>
+                        <tr>
+                          <th>应用名称</th>
+                          <th>类型</th>
+                          <th>详情</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        <tr v-for="item in fields_nodejs">
+                            <td>{{item.name}}</td>
+                            <td>Node应用</td>
+                            <td class="is-icon" title="进入应用">
+                                <a class="tdInline" @click="openApp(item)">
+                                  <i class="fa fa-share"></i>
+                                </a>
+                            </td>
+                        </tr>
+                      </tbody>
+                    </table>
+                    <article class="noData" v-if="!fields_nodejs.length" v-show="appLoaded">
+                      您暂时还没有Node应用...
+                    </article>
+                    <page :cur.sync="cur_nodejs" :all.sync="all_nodejs" v-on:btn-click="listen_nodejs"></page>
+                </tab-item>
+                <tab-item title="混合APP">
+                    <loading v-show="!appLoaded"></loading>
+                    <table class="table" v-show="appLoaded">
+                      <thead>
+                        <tr>
+                          <th>应用名称</th>
+                          <th>类型</th>
+                          <th>详情</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        <tr v-for="item in fields_hybird">
+                            <td>{{item.name}}</td>
+                            <td>混合APP</td>
+                            <td class="is-icon" title="进入应用">
+                                <a class="tdInline" @click="openApp(item)">
+                                  <i class="fa fa-share"></i>
+                                </a>
+                            </td>
+                        </tr>
+                      </tbody>
+                    </table>
+                    <article class="noData" v-if="!fields_hybird.length" v-show="appLoaded">
+                      您暂时还没有混合App应用...
+                    </article>
+                    <page :cur.sync="cur_hybird" :all.sync="all_hybird" v-on:btn-click="listen_hybird"></page>
+                </tab-item>
+                <tab-item title="Python应用">
+                    <loading v-show="!appLoaded"></loading>
+                    <table class="table" v-show="appLoaded">
+                      <thead>
+                        <tr>
+                          <th>应用名称</th>
+                          <th>类型</th>
+                          <th>详情</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        <tr v-for="item in fields_python">
+                            <td>{{item.name}}</td>
+                            <td>混合APP</td>
+                            <td class="is-icon" title="进入应用">
+                                <a class="tdInline" @click="openApp(item)">
+                                  <i class="fa fa-share"></i>
+                                </a>
+                            </td>
+                        </tr>
+                      </tbody>
+                    </table>
+                    <article class="noData" v-if="!fields_python.length" v-show="appLoaded">
+                      您暂时还没有ython应用...
+                    </article>
+                    <page :cur.sync="cur_python" :all.sync="all_python" v-on:btn-click="listen_python"></page>
                 </tab-item>
                 <tab-item title="数据库">
                     <loading v-show="!databaseLoaded"></loading>
@@ -456,7 +591,7 @@
                 currentIndex:0,
                 fields: [],
                 fields_stop: [],
-                fields_wechat: [],
+                fields_html5: [],
                 fields_notpaid: [],
                 fields_db: [],
                 all_db: 1,
@@ -467,8 +602,28 @@
                 all_stop: 1,
                 all_notpaid: 1,
                 cur_notpaid: 1,
-                cur_wechat: 1,
-                all_wechat: 1,
+                cur_html: 1,
+                all_html: 1,
+
+                fields_vd: [],
+                all_vd: 1,
+                cur_vd: 1,
+
+                fields_php: [],
+                all_php: 1,
+                cur_php: 1,
+
+                fields_nodejs: [],
+                all_nodejs: 1,
+                cur_nodejs: 1,
+
+                fields_hybird: [],
+                all_hybird: 1,
+                cur_hybird: 1,
+
+                fields_python: [],
+                all_python: 1,
+                cur_python: 1,
 
                 showPayForm: false,
                 qrcode: '',
@@ -600,7 +755,7 @@
                             _self.$get("initStop")(1);
                             _self.$get("initNotpaid")(1);
                             _self.$get("initDb")(1);
-                            _self.$get("initWechat")(1);
+                            _self.$get("initHtml")(1);
                         }
                         notification.alert(data.message);
                     }
@@ -691,9 +846,29 @@
               console.log('你点击了'+data+ '页');
               this.$get('initDb')(data);
             },
-            listen_wechat: function(data) {
+            listen_html: function(data) {
               console.log('你点击了'+data+ '页');
-              this.$get('initWechat')(data);
+              this.$get('initHtml')(data);
+            },
+            listen_vd: function(data) {
+              console.log('你点击了'+data+ '页');
+              this.$get('initVD')(data);
+            },
+            listen_php: function(data) {
+              console.log('你点击了'+data+ '页');
+              this.$get('initPHP')(data);
+            },
+            listen_nodejs: function(data) {
+              console.log('你点击了'+data+ '页');
+              this.$get('initNodejs')(data);
+            },
+            listen_hybird: function(data) {
+              console.log('你点击了'+data+ '页');
+              this.$get('initHybird')(data);
+            },
+            listen_hybird: function(data) {
+              console.log('你点击了'+data+ '页');
+              this.$get('initPython')(data);
             },
 
             stopThisAPP: function() {
@@ -793,7 +968,7 @@
                     limit: 10,
                     cur: cur,
                     status: -1,
-                    payStatus: 0,
+                    pay_status: 0,
                     creator: currentUser
                   },
                   target: 'fields_stop',
@@ -810,7 +985,7 @@
 
                 services.Common.list(options);
             },
-            initWechat: function(cur) {
+            initHtml: function(cur) {
                 var _self = this;
                 _self.appLoaded = false;
                 var options = {
@@ -818,16 +993,137 @@
                   param: {
                     limit: 10,
                     cur: cur,
-                    image: 'wechat:latest',
-                    payStatus: 0,
+                    parent: 'html:latest',
+                    pay_status: 0,
                     creator: currentUser
                   },
                   ctx: _self,
                   cb: function(res) {
                     var data = res.data;
-                    _self.fields_wechat = data.fields;
+                    _self.fields_html5 = data.fields;
                     _self.appLoaded = true;
-                    _self.all_wechat = data.all;
+                    _self.all_html = data.all;
+                    _self.refresh();
+                  }
+                }
+
+                services.Common.list(options);
+            },
+            initVD(cur){
+                var _self = this;
+                _self.appLoaded = false;
+                var options = {
+                  url: "applications",
+                  param: {
+                    limit: 10,
+                    cur: cur,
+                    parent: 'vd:latest',
+                    pay_status: 0,
+                    creator: currentUser
+                  },
+                  ctx: _self,
+                  cb: function(res) {
+                    var data = res.data;
+                    _self.fields_vd = data.fields;
+                    _self.appLoaded = true;
+                    _self.all_vd = data.all;
+                    _self.refresh();
+                  }
+                }
+
+                services.Common.list(options);
+            },
+            initPHP(cur) {
+                var _self = this;
+                _self.appLoaded = false;
+                var options = {
+                  url: "applications",
+                  param: {
+                    limit: 10,
+                    cur: cur,
+                    parent: 'php:latest',
+                    pay_status: 0,
+                    creator: currentUser
+                  },
+                  ctx: _self,
+                  cb: function(res) {
+                    var data = res.data;
+                    _self.fields_php = data.fields;
+                    _self.appLoaded = true;
+                    _self.all_php = data.all;
+                    _self.refresh();
+                  }
+                }
+
+                services.Common.list(options);
+            },
+            initNodejs(cur) {
+                var _self = this;
+                _self.appLoaded = false;
+                var options = {
+                  url: "applications",
+                  param: {
+                    limit: 10,
+                    cur: cur,
+                    parent: 'nodejs:latest',
+                    pay_status: 0,
+                    creator: currentUser
+                  },
+                  ctx: _self,
+                  cb: function(res) {
+                    var data = res.data;
+                    _self.fields_nodejs = data.fields;
+                    _self.appLoaded = true;
+                    _self.all_nodejs = data.all;
+                    _self.refresh();
+                  }
+                }
+
+                services.Common.list(options);
+            },
+            initHybird(cur) {
+                var _self = this;
+                _self.appLoaded = false;
+                var options = {
+                  url: "applications",
+                  param: {
+                    limit: 10,
+                    cur: cur,
+                    parent: 'hybridapp:latest',
+                    pay_status: 0,
+                    creator: currentUser
+                  },
+                  ctx: _self,
+                  cb: function(res) {
+                    var data = res.data;
+                    _self.fields_hybird = data.fields;
+                    _self.appLoaded = true;
+                    _self.all_hybird = data.all;
+                    _self.refresh();
+                  }
+                }
+
+                services.Common.list(options);
+            },
+            initPython(cur) {
+
+                var _self = this;
+                _self.appLoaded = false;
+                var options = {
+                  url: "applications",
+                  param: {
+                    limit: 10,
+                    cur: cur,
+                    parent: 'python:latest',
+                    pay_status: 0,
+                    creator: currentUser
+                  },
+                  ctx: _self,
+                  cb: function(res) {
+                    var data = res.data;
+                    _self.fields_python = data.fields;
+                    _self.appLoaded = true;
+                    _self.all_python = data.all;
                     _self.refresh();
                   }
                 }
@@ -957,7 +1253,12 @@
             this.$get("initStop")(1);
             this.$get("initNotpaid")(1);
             this.$get("initDb")(1);
-            this.$get("initWechat")(1);
+            this.$get("initHtml")(1);
+            this.$get("initVD")(1);
+            this.$get("initPHP")(1);
+            this.$get("initNodejs")(1);
+            this.$get("initHybird")(1);
+            this.$get("initPython")(1);
             this.$set("application", this.$route.query.containerId);
             this.$get('initDockerConfig')();
         },
