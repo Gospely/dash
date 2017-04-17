@@ -63,14 +63,14 @@
                     <p v-show="dataLoaded" class="subtitle">{{pythonCount}}</p>
                 </div>
             </div>
-            
+
         </div>
         <div class="columns">
             <div class="column">
                 <div class="notification is-success has-text-centered">
                     <p class="title">node应用</p>
                     <i v-show="!dataLoaded" class="fa fa-spinner fa-spin fa-fw"></i>
-                    <p v-show="dataLoaded" class="subtitle">{{nodeCount}}</p>
+                    <p v-show="dataLoaded" class="subtitle">{{nodejsCount}}</p>
                 </div>
             </div>
             <div class="column">
@@ -84,7 +84,7 @@
                 <div class="notification is-success has-text-centered">
                     <p class="title">混合app</p>
                     <i v-show="!dataLoaded" class="fa fa-spinner fa-spin fa-fw"></i>
-                    <p v-show="dataLoaded" class="subtitle">{{hybirdappCount}}</p>
+                    <p v-show="dataLoaded" class="subtitle">{{hybridappCount}}</p>
                 </div>
             </div>
         </div>
@@ -160,8 +160,8 @@
                 vdCount:0,
                 phpCount:0,
                 pythonCount:0,
-                nodeCount:0,
-                hybirdappCount:0,
+                nodejsCount:0,
+                hybridappCount:0,
                 creatorCount:0,
                 wechatCount: 0,
                 version: '个人版',
@@ -221,7 +221,7 @@
         ready: function() {
 
             var _self = this;
-            var applicationsTyp = ['html','vd','php','python','node','hybirdapp','creator']
+            var applicationsTyp = ['html','vd','php','python','nodejs','hybridapp','creator']
             if(localStorage.getItem('ideName') != undefined){
                 this.version = localStorage.getItem('ideName');
                 var ide = localStorage.getItem('ide');
@@ -344,7 +344,7 @@
                       }
                 }
             });
-            
+
             for(let i = 0;i < applicationsTyp.length; i++) {
                 services.Common.count({
                     url: 'applications',
@@ -362,7 +362,7 @@
                     }
                 });
             }
-            
+
             // services.Common.count({
             //     url: 'applications',
             //     param: {
