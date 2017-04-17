@@ -35,10 +35,9 @@
                     <div class="input-field">
                       <input type="text" v-model='name' id="registerName" placeholder="用户名,仅支持英文" autocapitalize="off" @blur="checkName" style="border: none;"></div>
                     <div class="input-field">
-                      <input type="password" v-model="password" placeholder="请输入密码" autocapitalize="off" style="border: none;" @blur="checkPwdAgain"></div>
-                    <div class="input-field">
-                      <input type="password" id="registerRePassword" v-model="rePwd" placeholder="重复密码" autocapitalize="off" style="border: none;" @blur="checkPwd">
-                    </div>
+                      <input type="password" v-model="password" placeholder="请输入密码，并记住它" autocapitalize="off" style="border: none;" @blur="checkPwdAgain"></div>
+                    <!-- <div class="input-field">
+                      <input type="password" id="registerRePassword" v-model="rePwd" placeholder="重复密码" autocapitalize="off" style="border: none;" @blur="checkPwd"></div> -->
                     <!--<div class="input-field">
                       <input type="text" id="inviteCode" v-model="inviteCode" placeholder="请输入邀请码" autocapitalize="off" style="border: none;">
                     </div>-->
@@ -335,6 +334,7 @@
              var re=/^1[34578]\d{9}$/;
              if(re.test(_self.phone)){
                 _self.isPhone = true;
+                _self.name= "user"+ _self.phone;
                 var options = {
                   url: "users",
                   param: {
@@ -347,6 +347,7 @@
                         console.log(data);
                         notification.alert('该手机已注册');
                         _self.phone = '';
+                        _self.name= '';
                       }
                     }
                   }
@@ -354,6 +355,7 @@
              }else{
                 _self.isPhone = false;
                 let email = /^([a-zA-Z0-9_-])+@([a-zA-Z0-9_-])+(.[a-zA-Z0-9_-])+/;
+                _self.name= "user"+ _self.phone.split('@')[0];
                 if(!email.test(_self.phone) && _self.phone != '') {
                     notification.alert('邮箱或手机号码错误');
                     document.getElementById('registerAccount').focus();
@@ -372,6 +374,7 @@
                         console.log(data);
                         notification.alert('该邮箱已注册');
                         _self.phone = '';
+                        _self.name= '';
                       }
                     }
                   }
@@ -432,6 +435,17 @@
                 notification.alert("两次密码不一致");
             }
           }
+        },
+        watch: {
+            phone:function(val,oldval){
+
+                if(val == ""){
+                   this.name = "";
+                }else{
+                  this.name="user"+val;
+                }
+              
+            }
         },
         ready: function(){
             console.log('ready');

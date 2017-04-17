@@ -12,7 +12,7 @@
               <span>
                   <div class="input-field-group">
                     <div class="input-field">
-                      <input type="text" v-model='phone' placeholder="请填写邮箱账号" autocapitalize="off" style="border: none;" disabled={{logining}}></div>
+                      <input type="text" v-model='phone' placeholder="请填写邮箱账号/手机帐号" autocapitalize="off" style="border: none;" disabled={{logining}}></div>
                     <div class="input-field">
                       <input type="password" v-model='password' placeholder="请输入密码" autocapitalize="off" style="border: none;" disabled={{logining}}>
                     </div>

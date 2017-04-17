@@ -320,7 +320,7 @@
 
                 imageName: 'null',
 
-                showServices:false,
+                showServices:true,
 
                 selectName: '',
                 selectDescription: '',
