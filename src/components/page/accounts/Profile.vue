@@ -77,6 +77,8 @@
                     <input class="input" type="text" placeholder="您的用户名" v-model="name">
                     <i class="fa fa-lock"></i>
                 </p>
+                <a @click="startChangeName" v-show="!changeName" class="button-right button is-primary"><i class="fa fa-pencil"></i></a>
+                <a v-show="changeName" @click="cancelChangeName" class="button button-right is-primary"><i class="fa fa-close"></i></a>
             </div>
         </div>
 
@@ -273,10 +275,6 @@ export default {
             }
         },
         sendPhoneCode: function() {
-            notification.alert('封测阶段暂不开放手机号验证！');
-            this.cancelChangeMobile();
-            return false;
-
             var user = {
                 phone: this.phone
             }
