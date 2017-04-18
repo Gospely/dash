@@ -1,4 +1,5 @@
 npm run build
+cp favicon.ico dist
 zip dist.zip -r dist
 rm -rf ../construction/dist.dash/*
 mv dist.zip ../construction/dist.dash 

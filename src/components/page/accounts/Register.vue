@@ -514,7 +514,7 @@
       },
         computed: {
             isValNull() {
-                return this.phone != '' && this.name !='' && this.password != '' && this.rePwd != '' && this.authCode != '' && this.password == this.rePwd;
+                return this.phone != '' && this.name !='' && this.password != '' && this.authCode != '';
             }
         }
     }
