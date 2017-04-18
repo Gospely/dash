@@ -320,7 +320,7 @@
                             <td>{{item.name}}</td>
                             <td>快速部署应用</td>
                             <td class="is-icon" title="进入应用">
-                                <a class="tdInline" @click="openApp(item)">
+                                <a  v-link="{path: '/apps/detail',query: {containerId: item.id}}">
                                   <i class="fa fa-share"></i>
                                 </a>
                             </td>
