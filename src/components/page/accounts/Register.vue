@@ -494,7 +494,12 @@
                    this.name = "";
                 }else{
                   if(/^1[34578]\d{9}$/.test(val) || /^([a-zA-Z0-9_-])+@([a-zA-Z0-9_-])+(.[a-zA-Z0-9_-])+/.test(val)) {
-                    this.name="user"+val;
+                    if(/^1[34578]\d{9}$/.test(val)) {
+                      this.name="user"+val;
+                    }else{
+                      this.name="user"+val.split('@')[0];
+                    }
+                    
                   }else {
                     this.name = "";
                   }
@@ -514,7 +519,7 @@
       },
         computed: {
             isValNull() {
-                return this.phone != '' && this.name !='' && this.password != '' && this.rePwd != '' && this.authCode != '' && this.password == this.rePwd;
+                return this.phone != '' && this.name !='' && this.password != '' && this.authCode != '';
             }
         }
     }
