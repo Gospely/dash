@@ -23,7 +23,17 @@
                 </p>
               </div>
             </div>
-
+            <hr>
+            <div class="control is-horizontal user-center">
+              <div class="control-label">
+                <label class="label">二级域名</label>
+              </div>
+              <div class="control is-grouped">
+                <p class="control is-expanded">
+                    <input @keyup.enter="createApp" class="input" type="text" @blur="checkDomainExit" placeholder="自定义域名" v-model="application.domain">
+                </p>
+              </div>
+            </div>
             <hr>
 
             <div class="control is-horizontal user-center">
@@ -269,7 +279,7 @@
                     image: '',
                     volume: '',
                     username: 'root',
-                    dbUser: '',
+                    dbUser: localStorage.userName,
                     sshPassword: '',
                     password: '',
                     imageName: '',
@@ -280,7 +290,8 @@
                     products: '',
                     git:'',
                     databaseType: 'mysql',
-                    isCreatedDatabase: true
+                    isCreatedDatabase: true,
+                    domain:'',
                 },
 
                 price: '10 X 100 = 1000',
@@ -475,13 +486,42 @@
                 }
                 this.currentVolume = key;
             },
+            checkDomainExit: function(){
+
+                var _self = this;
+
+                const illegalLetter = ['!',' ', '@', '#', '$', '%', '^', '&', '*', '(', ')', '+', '=', '[', ']',
+                                    '{', '}', '\\', '|', ':', ';', '\'', '"', '<', '>', ',', '.', '/', '?'];
+                var theCurrentLetter = this.application.domain.split('');
+                for (var i = 0; i < theCurrentLetter.length; i++) {
+
+                    if(illegalLetter.indexOf(theCurrentLetter[i]) !== -1) {
+                        notification.alert('请勿输入非法字符: \' ' + theCurrentLetter[i] + ' \'', 'warning')
+                        self.application.domain = '';
+                        return false;
+                    }
+                }
+                services.Common.list({
+                    url: 'domains',
+                    param: {
+                        subDomain: this.application.domain
+                    },
+                    cb: function(res) {
+                        if(res.data.fields.length > 0){
+                            notification.alert('域名已占用');
+                            _self.application.domain = '';
+                        }
+                    }
+                })
+
+            },
             checkExit: function(){
 
                 var _self = this;
 
                 const illegalLetter = ['!',' ', '@', '#', '$', '%', '^', '&', '*', '(', ')', '+', '=', '[', ']',
 									'{', '}', '\\', '|', ':', ';', '\'', '"', '<', '>', ',', '.', '/', '?'];
-				let theCurrentLetter = this.application.name.split('');
+				var theCurrentLetter = this.application.name.split('');
                 for (var i = 0; i < theCurrentLetter.length; i++) {
 
                     if(illegalLetter.indexOf(theCurrentLetter[i]) !== -1) {
@@ -722,6 +762,20 @@
                 }
             });
             this.$get('initVolumes')();
+        },
+        watch:{
+
+            'application.domain': function(val, oldVal){
+                console.log(val);
+
+                var illegalLetter = ['!',' ', '@', '#', '$', '%', '^', '&', '*', '(', ')', '+', '=', '[', ']',
+									'{', '}', '\\', '|', ':', ';', '\'', '"', '<', '>', ',', '.', '/', '?'];
+				var theCurrentLetter = val.replace(oldVal, '');
+                if(illegalLetter.indexOf(theCurrentLetter) !== -1) {
+                    notification.alert('请勿输入非法字符: \' ' + theCurrentLetter + ' \'', 'warning')
+                    return false;
+                }
+            }
         },
         events: {
             'imageOnSelected': function(item) {
