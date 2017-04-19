@@ -73,10 +73,17 @@
                 <label class="label">用户名称</label>
             </div>
             <div class="control">
-                <p class="control input-left has-icon has-icon-right">
-                    <input class="input" type="text" placeholder="您的用户名" v-model="name">
+                <p v-show="!changeNameState" class="control input-left has-icon has-icon-right">
+                    <input class="input" type="text" placeholder="您的用户名" v-model="name" v-bind:disabled="!changeNameState">
                     <i class="fa fa-lock"></i>
                 </p>
+                <p v-show="changeNameState" class="control input-left has-icon has-icon-right">
+                    <input class="input" type="text" placeholder="输入新的用户名" v-model="name" v-bind:disabled="!changeNameState">
+                    <i class="fa fa-check"></i>
+                </p>
+                <a v-show="!changeNameState" @click="startChangeName" class="button-right button is-primary"><i class="fa fa-pencil"></i></a>
+                <a v-show="changeNameState" @click="startChangeName" class="button button-right is-primary"><i class="fa fa-close"></i></a>
+                <a v-show="changeNameState" @click="confirmUpdateName" class="button button-right-two is-primary"><i class="fa fa-check"></i></a>
             </div>
         </div>
 
@@ -226,6 +233,7 @@ export default {
             changePwState: false,
             isVerifingEmail: false,
             changeMobileState: false,
+            changeNameState: false,
             pictureFile: null,
             photo: '',
             isUploadPhoto: false,
@@ -273,10 +281,6 @@ export default {
             }
         },
         sendPhoneCode: function() {
-            notification.alert('封测阶段暂不开放手机号验证！');
-            this.cancelChangeMobile();
-            return false;
-
             var user = {
                 phone: this.phone
             }
@@ -313,6 +317,9 @@ export default {
                 console.log(err);
                 notification.alert('服务器异常');
             });
+        },
+        confirmUpdateName: function() {
+            this.changeNameState = false ;
         },
         startChangePw: function() {
             this.changePwState = !this.changePwState;
@@ -476,8 +483,12 @@ export default {
         },
 
         startChangeMobile: function() {
-            notification.alert('抱歉，封测期间暂不提供手机绑定服务')
-            this.changeMobileState = false;
+            //notification.alert('抱歉，封测期间暂不提供手机绑定服务')
+            this.changeMobileState = !this.changeMobileState ;
+        },
+
+        startChangeName: function() {
+            this.changeNameState = !this.changeNameState ;
         },
 
         cancelChangeMobile: function() {
@@ -485,7 +496,8 @@ export default {
         },
 
         confirmUpdatePwd: function() {
-
+            
+            var _self = this;
             this.password = this.password.trim();
             if(this.password == this.rePwd && this.password.length > 5){
                 var user = {
@@ -495,6 +507,7 @@ export default {
 
                 services.UserService.updatePwd(user).then(function(res) {
                     if (res.status === 200) {
+                        _self.startChangePw();
                         notification.alert('修改密码成功');
                     }
                 }, function(err) {
