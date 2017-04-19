@@ -1,6 +1,6 @@
 <template>
     <div class="container">
-        <h1 class="title"><back></back> 应用详情</h1>
+        <h1 class="title"><a @click="backApplicationLIst"><i class="fa fa-arrow-left"></i></a> 应用详情</h1>
         <hr>
         <div class="content">
             <tab :active-index = "0" style= "width: 100%;">
@@ -54,6 +54,17 @@
 
             stopMonitorEvent: function() {
                 this.$broadcast('stop-monitor');
+            },
+            backApplicationLIst: function() {
+                //window.location.href = "http://localhost:8088/#!/apps/list"
+                // console.log("qian",window.location.href);
+                // window.history.back(-1);
+                // console.log("hou",window.location.href);
+                if(document.domain == 'localhost') {
+                  window.location.href = "http://localhost:8088/#!/apps/list";
+                }else {
+                  window.location.href = "http://dash.gospely.com/#!/apps/list";
+                }
             }
 
         },
