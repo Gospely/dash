@@ -301,9 +301,36 @@
                       </tbody>
                     </table>
                     <article class="noData" v-if="!fields_python.length" v-show="appLoaded">
-                      您暂时还没有ython应用...
+                      您暂时还没有Python应用...
                     </article>
                     <page :cur.sync="cur_python" :all.sync="all_python" v-on:btn-click="listen_python"></page>
+                </tab-item>
+                <tab-item title="快速部署应用">
+                    <loading v-show="!appLoaded"></loading>
+                    <table class="table" v-show="appLoaded">
+                      <thead>
+                        <tr>
+                          <th>应用名称</th>
+                          <th>类型</th>
+                          <th>详情</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        <tr v-for="item in fields_fast">
+                            <td>{{item.name}}</td>
+                            <td>快速部署应用</td>
+                            <td class="is-icon" title="进入应用">
+                                <a  v-link="{path: '/apps/detail',query: {containerId: item.id}}">
+                                  <i class="fa fa-share"></i>
+                                </a>
+                            </td>
+                        </tr>
+                      </tbody>
+                    </table>
+                    <article class="noData" v-if="!fields_fast.length" v-show="appLoaded">
+                      您暂时还没有快速部署应用...
+                    </article>
+                    <page :cur.sync="cur_fast" :all.sync="all_fast" v-on:btn-click="listen_fast"></page>
                 </tab-item>
                 <tab-item title="数据库">
                     <loading v-show="!databaseLoaded"></loading>
@@ -625,6 +652,11 @@
                 all_python: 1,
                 cur_python: 1,
 
+                fields_fast: [],
+                all_fast: 1,
+                cur_fast: 1,
+
+
                 showPayForm: false,
                 qrcode: '',
                 alipayUrl: '',
@@ -869,6 +901,10 @@
             listen_hybird: function(data) {
               console.log('你点击了'+data+ '页');
               this.$get('initPython')(data);
+            },
+            listen_fast: function(data) {
+              console.log('你点击了'+data+ '页');
+              this.$get('initFast')(data);
             },
 
             stopThisAPP: function() {
@@ -1130,6 +1166,30 @@
 
                 services.Common.list(options);
             },
+            initFast(cur){
+
+                var _self = this;
+                _self.appLoaded = false;
+                var options = {
+                  url: "applications",
+                  param: {
+                    limit: 10,
+                    cur: cur,
+                    type: 'deployfast',
+                    creator: currentUser
+                  },
+                  ctx: _self,
+                  cb: function(res) {
+                    var data = res.data;
+                    _self.fields_fast = data.fields;
+                    _self.appLoaded = true;
+                    _self.all_fast = data.all;
+                    _self.refresh();
+                  }
+                }
+
+                services.Common.list(options);
+            },
             initDb: function(cur) {
 
                 var _self = this;
@@ -1259,6 +1319,7 @@
             this.$get("initNodejs")(1);
             this.$get("initHybird")(1);
             this.$get("initPython")(1);
+            this.$get("initFast")(1);
             this.$set("application", this.$route.query.containerId);
             this.$get('initDockerConfig')();
         },

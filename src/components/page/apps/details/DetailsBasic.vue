@@ -18,7 +18,7 @@
                             <h4 class="subtitle">运行于：{{inspectInfo.createat | dateFormat 'yyyy-MM-dd hh:mm:ss'}}</h4>
 
                             <button class="button is-primary" v-bind:class="{'is-loading': isLoading}" v-on:click="start" v-show="status_running">运行</button>
-                            <button class="button is-warning" v-bind:class="{'is-loading': isLoading}" v-on:click="stop" v-show="status_stop">停止</button>
+                            <button class="button is-warning" v-bind:class="{'is-loading': isLoading}" v-show="!isFastdeploy" v-on:click="stop" v-show="status_stop">停止</button>
                             <button class="button is-success" v-bind:class="{'is-loading': isLoading}" v-on:click="restart">重新启动</button>
                             <button class="button is-primary" v-bind:class="{'is-loading': isLoading}" v-on:click="openInIde">从IDE打开</button>
                             <button class="button is-danger" v-bind:class="{'is-loading': isLoading}" v-on:click="askIfRemove">删除</button>
@@ -164,6 +164,7 @@
               showDeleteModal: false,
               password: '',
               isDeleting: false,
+              isFastdeploy: false
             }
         },
 
@@ -285,7 +286,10 @@
                         self.status_stop = false;
                         self.status = '未运行';
                     }
-
+                    console.log(data.fields);
+                    if(data.fields.image == 'wordpress:latest' || data.fields.image == 'phpwind:latest' ||  data.fields.image == 'discuz:latest' || data.fields.image == 'weiqing:latest'){
+                        self.isFastdeploy = true;
+                    }
                     services.Common.list({
                         url: 'domains',
                         param: {
