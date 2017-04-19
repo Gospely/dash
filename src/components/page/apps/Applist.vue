@@ -5,7 +5,7 @@
         <hr>
         <div class="content">
 
-            <a class="button is-primary" @click="createAppInIDE">创建应用(IDE)</a>
+            <a v-show="isMyself" class="button is-primary" @click="createAppInIDE">创建应用(IDE)</a>
 
             <a class="button is-primary" v-link="{path: '/apps/new'}">快速应用部署</a>
 
@@ -565,7 +565,7 @@
 
                 appLoaded: false,
                 showDecription: true,
-
+                isMyself: true,
                 deployApp: {
                     name: '',
                     dockerConfigs: [],
@@ -898,7 +898,7 @@
               console.log('你点击了'+data+ '页');
               this.$get('initHybird')(data);
             },
-            listen_hybird: function(data) {
+            listen_python: function(data) {
               console.log('你点击了'+data+ '页');
               this.$get('initPython')(data);
             },
@@ -1322,6 +1322,7 @@
             this.$get("initFast")(1);
             this.$set("application", this.$route.query.containerId);
             this.$get('initDockerConfig')();
+            this.isMyself =(window.parent === window);
         },
         events:{
           'selected':function (index) {
@@ -1367,6 +1368,6 @@
                 this.deployApp.price = this.deployApp.unitPrice + " X " + cyc.cyc + " " + cyc.unit + " = " + this.deployApp.total;
                 console.log(cyc);
             },
-        }
+        },
     }
 </script>
