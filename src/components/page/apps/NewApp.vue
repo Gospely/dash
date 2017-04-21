@@ -24,14 +24,19 @@
               </div>
             </div>
             <hr>
-            <div class="control is-horizontal user-center">
+            <div class="control is-horizontal user-center ">
               <div class="control-label">
                 <label class="label">二级域名</label>
               </div>
-              <div class="control is-grouped">
+              <div class="control is-grouped has-addons">
                 <p class="control is-expanded">
-                    <input @keyup.enter="createApp" class="input" type="text" @blur="checkDomainExit" placeholder="自定义域名" v-model="application.domain">
+                    <input style="width:100%" @keyup.enter="createApp" class="input" type="text" @blur="checkDomainExit" placeholder="自定义域名" v-model="application.domain">
                 </p>
+                  <p class="control">
+                    <a class="button">
+                     .gospel.design
+                    </a>
+                  </p>
               </div>
             </div>
             <hr>

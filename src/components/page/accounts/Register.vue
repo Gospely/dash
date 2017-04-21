@@ -30,6 +30,7 @@
             <div data-reactroot="" id="LoginComponent" @keydown="keyDownLogin">
               <span>
                   <div class="input-field-group">
+                    <p v-show="createUseHelp" style="margin-top:0px;margin-bottom:10px" class="help is-success">我们已为您自动生成用户名，您也可以更改它。</p>
                     <div class="input-field">
                       <input type="text" id="registerAccount" v-model="phone" placeholder="请填写邮箱账号或手机号" autocapitalize="off" @blur="checkPhone" style="border: none;"></div>
                     <div class="input-field">
@@ -125,7 +126,8 @@
                 wait: 60,
                 isRegisting: false,
                 completeInfo: false,
-                user:''
+                user:'',
+                createUseHelp: false
             }
         },
         components: {
@@ -489,23 +491,29 @@
               // var phone = /^1[34578]\d{9}$/.test(val)? val : '';
               // var email = /^([a-zA-Z0-9_-])+@([a-zA-Z0-9_-])+(.[a-zA-Z0-9_-])+/.test(val)? val : '';
               // console.log(phone,email)
-              
-                if(val == ""){
-                   this.name = "";
-                }else{
-                  if(/^1[34578]\d{9}$/.test(val) || /^([a-zA-Z0-9_-])+@([a-zA-Z0-9_-])+(.[a-zA-Z0-9_-])+/.test(val)) {
-                    if(/^1[34578]\d{9}$/.test(val)) {
-                      this.name="user"+val;
-                    }else{
-                      this.name="user"+val.split('@')[0];
+                if(!completeInfo){
+                     if(val == ""){
+                           this.name = "";
+                           this.createUseHelp=false;
+                        }else{
+                          if(/^1[34578]\d{9}$/.test(val) || /^([a-zA-Z0-9_-])+@([a-zA-Z0-9_-])+(.[a-zA-Z0-9_-])+/.test(val)) {
+                            if(/^1[34578]\d{9}$/.test(val)) {
+                              this.name="user"+val;
+                              this.createUseHelp=true;
+                            }else{
+                              this.name="user"+val.split('@')[0];
+                              this.createUseHelp=true;
+                            }
+                            
+                          }else {
+                            this.name = "";
+                            this.createUseHelp=false;
+                          }
+                        }
+                      
                     }
-                    
-                  }else {
-                    this.name = "";
-                  }
                 }
-              
-            }
+               
         },
         ready: function(){
             console.log('ready');
