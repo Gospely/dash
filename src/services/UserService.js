@@ -26,8 +26,8 @@ module.exports = {
 			login: function(user) {
 				return _this.$http.post(baseUrl + 'users/login',user);
 			},
-			getCode: function(user) {
-				return _this.$http.get(baseUrl + 'users/code');
+			getCode: function(token) {
+				return _this.$http.get(baseUrl + 'users/code?token=' + token);
 			},
 			sendEmailCode:function(user){
 				return _this.$http.get(baseUrl+'users/email/code'+'?email='+user.email);

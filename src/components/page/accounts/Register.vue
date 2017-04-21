@@ -42,10 +42,16 @@
                       <input type="text" id="inviteCode" v-model="inviteCode" placeholder="请输入邀请码" autocapitalize="off" style="border: none;">
                     </div>-->
                     <div class="input-field">
+                          <input type="text" v-model='imageCode' placeholder="请输入验证码" autocapitalize="off" style="border: none;" v-show='code_show'>
+                    </div>
+                    <div v-show='code_show' class="input-field" style="position: absolute; height: 41px; width:100px; margin-top: -42px; right: 32px; border: 1px solid #dfebf2;">
+                      <img :src="code_src" height='41px' width='100px' alt="验证码" @click="changeCode"/>
+                    </div>
+                    <div class="input-field">
                       <input type="text" v-model="authCode" :disabled="btn_info == '获取验证码'" placeholder="验证码" autocapitalize="off" style="border: none;" >
                     </div>
+                    <a class="button" @click="getTelCode" :disabled="phone == '' || btn_disabled" style="position: absolute; margin-top: -42px; height: 41px; right: 30px; border: 1px solid #dfebf2;">{{btn_info}}</a>
                   </div>
-                  <a class="button" @click="getTelCode" :disabled="phone == '' || btn_disabled" style="position: absolute; margin-top: -42px; height: 41px; right: 30px; border: 1px solid #dfebf2;">{{btn_info}}</a>
                   <ul class="error-msg-list"></ul>
                   <button :class="['signup-form__submit', {'is-disabled': !isValNull}]" @click="register" >注册</button>
                   <div class="signup-form-nav">
@@ -118,6 +124,7 @@
                 authCode:'',
                 token: '',
                 isPhone: true,
+                code_show: false,
                 btn_info: "获取验证码",
                 inviteCode: '',
                 btn_disabled: false,
@@ -125,7 +132,10 @@
                 wait: 60,
                 isRegisting: false,
                 completeInfo: false,
-                user:''
+                user:'',
+                imageToken: '',
+                imageCode: '',
+                code_src: ''
             }
         },
         components: {
@@ -287,6 +297,7 @@
                                 setCookie('user',res.data.fields.id,15 * 24 * 60 * 60 * 1000);
                                 setCookie('userName',res.data.fields.name, 15 * 24 * 60 * 60 * 1000);
                                 setCookie('host',res.data.fields.host, 15 * 24 * 60 * 60 * 1000);
+                                setCookie('count', count , 'Thu, 01 Jan 1970 00:00:00 GMT');
                                 console.log(localStorage.getItem("user"));
                                 window.location.href = window.baseUrl;
                             }else{
@@ -310,13 +321,33 @@
           },
           getTelCode: function(){
 
+              var _self = this;
+              var count = parseInt(cookie.getCookie('count'))
+              if(count) {
+                  count = count + 1;
+              }else {
+                  console.log('else');
+                 count = 1
+              }
+              setCookie('count', count, 10 * 60 * 1000)
+              if(count >=4) {
+                  _self.code_show = true;
+                  if(_self.imageToken && _self.imageCode == ''){
+                      notification.alert('请输入图片验证码');
+                      return;
+                  }
+                  if(!_self.imageToken) {
+                      _self.$get('getImageCode')();
+                  }
+              }
               if(this.isPhone){
                 console.log("code");
-                var _self = this;
                 services.Common.list({
                   url: 'users/phone/code',
                   param: {
                     phone: _self.phone,
+                    token: _self.imageToken,
+                    code: _self.imageCode
                   },
                   cb: function(res) {
                       if(res.status == 200){
@@ -324,8 +355,14 @@
                         if(data.code ==1){
                           console.log(data);
                           _self.token = data.fields;
+                           _self.code_show = false;
+                            _self.$get('getImageCode')();
                           notification.alert(data.message);
-                        }
+                           _self.$get("renderButton")();
+                          }else {
+                               notification.alert(data.message);
+                              _self.$get('getImageCode')();
+                          }
                       }
                   }
                 });
@@ -352,8 +389,9 @@
                   }
                 });
               }
-
-              _self.$get("renderButton")();
+              if(!_self.imageToken) {
+                   _self.$get("renderButton")();
+              }
           },
           renderButton: function() {
 
@@ -482,14 +520,35 @@
             if (this.rePwd != '' && this.password != this.rePwd) {
                 notification.alert("两次密码不一致");
             }
-          }
+        },
+        changeCode: function() {
+            this.isAuth = true;
+            // this.code_src = 'http://api.gospely.com/users/code?time=' + Date.now();
+            this.$get('getImageCode')();
+        },
+        getImageCode: function() {
+
+          var _self = this;
+          services.UserService.getCode(_self.imageToken).then(function(res){
+              if(res.status === 200) {
+                var data = res.data;
+                console.log(data);
+                if(data.code == 1) {
+                    _self.imageToken = data.fields.token;
+                    _self.code_src = data.fields.buf;
+                }
+              }
+          }, function(err){
+            notification.error('获取验证码失败');
+          });
+        },
         },
         watch: {
             phone:function(val,oldval){
               // var phone = /^1[34578]\d{9}$/.test(val)? val : '';
               // var email = /^([a-zA-Z0-9_-])+@([a-zA-Z0-9_-])+(.[a-zA-Z0-9_-])+/.test(val)? val : '';
               // console.log(phone,email)
-              
+
                 if(val == ""){
                    this.name = "";
                 }else{
@@ -499,12 +558,12 @@
                     }else{
                       this.name="user"+val.split('@')[0];
                     }
-                    
+
                   }else {
                     this.name = "";
                   }
                 }
-              
+
             }
         },
         ready: function(){
