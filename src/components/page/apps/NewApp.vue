@@ -780,6 +780,11 @@
                     notification.alert('请勿输入非法字符: \' ' + theCurrentLetter + ' \'', 'warning')
                     return false;
                 }
+
+                var reg = /[\u4E00-\u9FA5\uF900-\uFA2D]/;
+                if(reg.test(val)){
+                  notification.alert("域名不能包含中文");
+                }
             }
         },
         events: {
