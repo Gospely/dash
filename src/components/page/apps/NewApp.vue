@@ -29,7 +29,7 @@
                 <label class="label">二级域名</label>
               </div>
               <div class="control is-grouped has-addons">
-                <p class="control is-expanded">
+                <p class="control is-expanded" style="margin:0px">
                     <input style="width:100%" @keyup.enter="createApp" class="input" type="text" @blur="checkDomainExit" placeholder="自定义域名" v-model="application.domain">
                 </p>
                   <p class="control">

@@ -347,15 +347,15 @@
                         <div slot="body">
                             <label class="label">数据库名称</label>
                             <p class="control">
-                              <input class="input" type="text" @blur="checkExit" readonly="!isDetailsThisDatabase" placeholder="数据库名称" v-model="db.name">
+                              <input class="input" type="text" @blur="checkExit" :readonly="isDetailsThisDatabase" placeholder="数据库名称" v-model="db.name">
                             </p>
                           <label class="label">数据库密码</label>
                           <p class="control">
-                            <input class="input" type="text" placeholder="数据密码" readonly="!isDetailsThisDatabase"  v-model="db.password">
+                            <input class="input" type="text" placeholder="数据密码" :readonly="isDetailsThisDatabase"  v-model="db.password">
                           </p>
-                           <label class="label">详情</label>
+                           <label class="label" v-show="isDetailsThisDatabase">详情</label>
                           <p class="control" v-show="isDetailsThisDatabase">
-                            <input class="input" type="text" placeholder="数据密码" readonly="!isDetailsThisDatabase"  v-model="db.description">
+                            <input class="input" type="text" placeholder="数据密码" :readonly="isDetailsThisDatabase"  v-model="db.description">
                           </p>
                             <p class="label" v-show='!isDetailsThisDatabase'>类型</p>
                             <p class="control has-addons" style="height:32px;" v-show='!isDetailsThisDatabase'>

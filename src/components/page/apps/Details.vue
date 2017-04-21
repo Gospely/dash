@@ -56,16 +56,6 @@
                 this.$broadcast('stop-monitor');
             },
             backApplicationLIst: function() { 
-                //window.location.href = "http://localhost:8088/#!/apps/list"
-                // console.log("qian",window.location.href);
-                 //window.history.back(-1);
-                // console.log("hou",window.location.href);
-                // if(document.domain == 'localhost') {
-                //   window.location.href = "http://localhost:8088/#!/apps/list";
-                // }else {
-                //   window.location.href = "http://dash.gospely.com/#!/apps/list";
-                // }
-
                 this.$router.go({
                     path: '/apps/list',
                 });
