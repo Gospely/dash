@@ -43,6 +43,60 @@
             </modal>
 
             <tab :active-index="0" style="width: 100%;">
+                 <tab-item title="可视化应用">
+                    <loading v-show="!appLoaded"></loading>
+                    <table class="table" v-show="appLoaded">
+                      <thead>
+                        <tr>
+                          <th>应用名称</th>
+                          <th>类型</th>
+                          <th>详情</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        <tr v-for="item in fields_vd">
+                            <td>{{item.name}}</td>
+                            <td>可视化应用</td>
+                            <td class="is-icon" title="进入应用">
+                                <a class="tdInline" v-link="{path: '/apps/detail',query: {containerId: item.id}}">
+                                  <i class="fa fa-share"></i>
+                                </a>
+                            </td>
+                        </tr>
+                      </tbody>
+                    </table>
+                    <article class="noData" v-if="!fields_vd.length" v-show="appLoaded">
+                      您暂时还没有HTML5应用...
+                    </article>
+                    <page :cur.sync="cur_vd" :all.sync="all_vd" v-on:btn-click="listen_vd"></page>
+                </tab-item>
+                <tab-item title="快速部署应用">
+                    <loading v-show="!appLoaded"></loading>
+                    <table class="table" v-show="appLoaded">
+                      <thead>
+                        <tr>
+                          <th>应用名称</th>
+                          <th>类型</th>
+                          <th>详情</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        <tr v-for="item in fields_fast">
+                            <td>{{item.name}}</td>
+                            <td>快速部署应用</td>
+                            <td class="is-icon" title="进入应用">
+                                <a  v-link="{path: '/apps/detail',query: {containerId: item.id}}">
+                                  <i class="fa fa-share"></i>
+                                </a>
+                            </td>
+                        </tr>
+                      </tbody>
+                    </table>
+                    <article class="noData" v-if="!fields_fast.length" v-show="appLoaded">
+                      您暂时还没有快速部署应用...
+                    </article>
+                    <page :cur.sync="cur_fast" :all.sync="all_fast" v-on:btn-click="listen_fast"></page>
+                </tab-item>
                 <tab-item title="运行中">
                     <loading v-show="!IDEAppLoaded"></loading>
                     <table class="table" v-show="IDEAppLoaded">
@@ -170,33 +224,7 @@
                     </article>
                     <page :cur.sync="cur_html" :all.sync="all_html" v-on:btn-click="listen_html"></page>
                 </tab-item>
-                <tab-item title="可视化应用">
-                    <loading v-show="!appLoaded"></loading>
-                    <table class="table" v-show="appLoaded">
-                      <thead>
-                        <tr>
-                          <th>应用名称</th>
-                          <th>类型</th>
-                          <th>详情</th>
-                        </tr>
-                      </thead>
-                      <tbody>
-                        <tr v-for="item in fields_vd">
-                            <td>{{item.name}}</td>
-                            <td>可视化应用</td>
-                            <td class="is-icon" title="进入应用">
-                                <a class="tdInline" v-link="{path: '/apps/detail',query: {containerId: item.id}}">
-                                  <i class="fa fa-share"></i>
-                                </a>
-                            </td>
-                        </tr>
-                      </tbody>
-                    </table>
-                    <article class="noData" v-if="!fields_vd.length" v-show="appLoaded">
-                      您暂时还没有HTML5应用...
-                    </article>
-                    <page :cur.sync="cur_vd" :all.sync="all_vd" v-on:btn-click="listen_vd"></page>
-                </tab-item>
+               
                 <tab-item title="PHP应用">
                     <loading v-show="!appLoaded"></loading>
                     <table class="table" v-show="appLoaded">
@@ -305,33 +333,7 @@
                     </article>
                     <page :cur.sync="cur_python" :all.sync="all_python" v-on:btn-click="listen_python"></page>
                 </tab-item>
-                <tab-item title="快速部署应用">
-                    <loading v-show="!appLoaded"></loading>
-                    <table class="table" v-show="appLoaded">
-                      <thead>
-                        <tr>
-                          <th>应用名称</th>
-                          <th>类型</th>
-                          <th>详情</th>
-                        </tr>
-                      </thead>
-                      <tbody>
-                        <tr v-for="item in fields_fast">
-                            <td>{{item.name}}</td>
-                            <td>快速部署应用</td>
-                            <td class="is-icon" title="进入应用">
-                                <a  v-link="{path: '/apps/detail',query: {containerId: item.id}}">
-                                  <i class="fa fa-share"></i>
-                                </a>
-                            </td>
-                        </tr>
-                      </tbody>
-                    </table>
-                    <article class="noData" v-if="!fields_fast.length" v-show="appLoaded">
-                      您暂时还没有快速部署应用...
-                    </article>
-                    <page :cur.sync="cur_fast" :all.sync="all_fast" v-on:btn-click="listen_fast"></page>
-                </tab-item>
+                
                 <tab-item title="数据库">
                     <loading v-show="!databaseLoaded"></loading>
 
@@ -345,15 +347,15 @@
                         <div slot="body">
                             <label class="label">数据库名称</label>
                             <p class="control">
-                              <input class="input" type="text" @blur="checkExit" readonly="!isDetailsThisDatabase" placeholder="数据库名称" v-model="db.name">
+                              <input class="input" type="text" @blur="checkExit" :readonly="isDetailsThisDatabase" placeholder="数据库名称" v-model="db.name">
                             </p>
                           <label class="label">数据库密码</label>
                           <p class="control">
-                            <input class="input" type="text" placeholder="数据密码" readonly="!isDetailsThisDatabase"  v-model="db.password">
+                            <input class="input" type="text" placeholder="数据密码" :readonly="isDetailsThisDatabase"  v-model="db.password">
                           </p>
-                           <label class="label">详情</label>
+                           <label class="label" v-show="isDetailsThisDatabase">详情</label>
                           <p class="control" v-show="isDetailsThisDatabase">
-                            <input class="input" type="text" placeholder="数据密码" readonly="!isDetailsThisDatabase"  v-model="db.description">
+                            <input class="input" type="text" placeholder="数据密码" :readonly="isDetailsThisDatabase"  v-model="db.description">
                           </p>
                             <p class="label" v-show='!isDetailsThisDatabase'>类型</p>
                             <p class="control has-addons" style="height:32px;" v-show='!isDetailsThisDatabase'>
