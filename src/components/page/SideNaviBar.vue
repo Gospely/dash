@@ -7,7 +7,7 @@
         <div class="sign-out" title="退出登录" @click="signOut()">
             <a href="#">
                 <i class="fa fa-sign-out icon"></i
-                ><span class="label">退出</span>
+                ><span class="label">退出登录</span>
             </a>
         </div>
         <div class="user-info-link">

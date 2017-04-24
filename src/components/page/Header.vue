@@ -24,7 +24,7 @@
         </div>
         <div id="nav-menu" class="my-nav-right">
             <a class="my-nav-item" @click="signOut()">
-                退出
+                退出登录
             </a>
         </div>
         

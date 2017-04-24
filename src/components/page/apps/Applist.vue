@@ -685,7 +685,10 @@
         },
 
         methods: {
+            checkDbName: function(){
+                console.log('checkDbName');
 
+            },
             createAppInIDE: function() {
               if(document.domain == 'localhost') {
                 window.location.href = "http://localhost:8989";
@@ -710,6 +713,11 @@
             checkExit: function() {
               console.log("check");
               var _self =  this;
+              if(!/^[a-z]*$/.test(this.db.name)){
+                  notification.alert('数据库用户名只支持小写英文名', 'warning');
+                  this.db.name = '';
+                  return;
+              }
               services.Common.count({
                 url: 'dbs',
                 param: {

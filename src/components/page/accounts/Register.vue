@@ -48,10 +48,10 @@
                     <div v-show='code_show' class="input-field" style="position: absolute; height: 41px; width:100px; margin-top: -42px; right: 32px; border: 1px solid #dfebf2;">
                       <img :src="code_src" height='41px' width='100px' alt="验证码" @click="changeCode"/>
                     </div>
-                    <div class="input-field">
+                    <div class="input-field" style="    border-top: 0;">
                       <input type="text" v-model="authCode" :disabled="btn_info == '获取验证码'" placeholder="验证码" autocapitalize="off" style="border: none;" >
                     </div>
-                    <a class="button" @click="getTelCode" :disabled="phone == '' || btn_disabled" style="position: absolute; margin-top: -42px; height: 41px; right: 30px; border: 1px solid #dfebf2;">{{btn_info}}</a>
+                    <a class="button" @click="getTelCode" :disabled="phone == '' || btn_disabled" style="position: absolute; margin-top: -40px; height: 41px; right: 32px; border: 1px solid #dfebf2;">{{btn_info}}</a>
                   </div>
                   <ul class="error-msg-list"></ul>
                   <button :class="['signup-form__submit', {'is-disabled': !isValNull}]" @click="register" >注册</button>
@@ -105,6 +105,9 @@
         opacity: .5;
     }
 
+    .signup-form .input-field input {
+      width: 100%
+    }
 </style>
 <script>
 
@@ -547,31 +550,30 @@
         },
         watch: {
             phone:function(val,oldval){
-              // var phone = /^1[34578]\d{9}$/.test(val)? val : '';
-              // var email = /^([a-zA-Z0-9_-])+@([a-zA-Z0-9_-])+(.[a-zA-Z0-9_-])+/.test(val)? val : '';
-              // console.log(phone,email)
-                if(!completeInfo){
-                     if(val == ""){
-                           this.name = "";
-                           this.createUseHelp=false;
-                        }else{
+                if(!this.completeInfo){
+                   if(val == ""){
+                         this.name = "";
+                         this.createUseHelp=false;
+                         console.log("XXX");
+                      }else{
                           if(/^1[34578]\d{9}$/.test(val) || /^([a-zA-Z0-9_-])+@([a-zA-Z0-9_-])+(.[a-zA-Z0-9_-])+/.test(val)) {
-                            if(/^1[34578]\d{9}$/.test(val)) {
-                              this.name="user"+val;
-                              this.createUseHelp=true;
-                            }else{
-                              this.name="user"+val.split('@')[0];
-                              this.createUseHelp=true;
-                            }
+                              if(/^1[34578]\d{9}$/.test(val)) {
+                                this.name="user"+val;
+                                this.createUseHelp=true;
+                              }else{
+                                this.name="user"+val.split('@')[0];
+                                this.createUseHelp=true;
+                              }
 
                           }else {
                             this.name = "";
                             this.createUseHelp=false;
+                            console.log("XXX");
                           }
-                        }
+                      }
 
-                    }
                 }
+            }
         },
         ready: function(){
             console.log('ready');

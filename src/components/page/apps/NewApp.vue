@@ -25,15 +25,15 @@
             </div>
             <hr>
             <div class="control is-horizontal user-center ">
-              <div class="control-label">
+              <div class="control-label" style="margin-right: 40px">
                 <label class="label">二级域名</label>
               </div>
-              <div class="control is-grouped has-addons">
+              <div class="control is-grouped has-addons" style="border: 1px solid #d3d6db;border-radius:3px">
                 <p class="control is-expanded" style="margin:0px">
-                    <input style="width:100%" @keyup.enter="createApp" class="input" type="text" @blur="checkDomainExit" placeholder="自定义域名" v-model="application.domain">
+                    <input style="width:100%;border-radius:0px;" @keyup.enter="createApp" class="input" type="text" @blur="checkDomainExit" placeholder="自定义域名" v-model="application.domain">
                 </p>
                   <p class="control">
-                    <a class="button">
+                    <a class="button" style="border-left: 1px solid #d3d6db!important;border: none;">
                      .gospel.design
                     </a>
                   </p>
