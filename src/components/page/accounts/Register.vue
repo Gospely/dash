@@ -51,7 +51,7 @@
                     <div class="input-field" style="    border-top: 0;">
                       <input type="text" v-model="authCode" :disabled="btn_info == '获取验证码'" placeholder="验证码" autocapitalize="off" style="border: none;" >
                     </div>
-                    <a class="button" @click="getTelCode" :disabled="phone == '' || btn_disabled" style="position: absolute; margin-top: -40px; height: 41px; right: 32px; border: 1px solid #dfebf2;">{{btn_info}}</a>
+                    <a class="button" @click="getTelCode" :disabled="phone == '' || btn_disabled" style="position: absolute; margin-top: -41px; height: 41px; right: 32px; border: 1px solid #dfebf2;">{{btn_info}}</a>
                   </div>
                   <ul class="error-msg-list"></ul>
                   <button :class="['signup-form__submit', {'is-disabled': !isValNull}]" @click="register" >注册</button>
