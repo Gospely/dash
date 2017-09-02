@@ -52,7 +52,7 @@ module.exports = {
 						globalLoader.setAttribute('value', 100);
 						globalLoader.style.display = 'none';
 
-						var data = res.data;
+						var data = JSON.parse(res.data);
 						if (res.status == 200) {
 							if (data.code == -100) {
 								notification.error(data.message);
@@ -80,8 +80,7 @@ module.exports = {
 
 						//请求成功，统一处理
 						if (res.status === 200) {
-
-							var data = res.data;
+							var data = JSON.parse(res.data);
 
 							if (data.code == 1) {
 
@@ -95,7 +94,6 @@ module.exports = {
 
 									globalLoader.setAttribute('value', 100);
 									globalLoader.style.display = 'none';
-
 									//判断返回的数据是否是数组
 									if (isArray(data.fields)) {
 										//数组绑定

@@ -216,7 +216,8 @@ export default {
 
             cb: function(res) {
                 console.log(res);
-                var data = res.data.fields;
+                var data = JSON.parse(res.data);
+                data = data.fields;
                 _self.name = data.name;
                 _self.phone = data.phone;
                 _self.email = data.email;
@@ -305,7 +306,7 @@ export default {
             }
             services.UserService.confirmVerifyPhone(user).then(function(res) {
                 if (res.status === 200) {
-                    var data = res.data;
+                    var data = JSON.parse(res.data);
                     if (data.code == 1) {
                         notification.alert('手机验证成功');
                         self.changeMobileState = false;
@@ -340,7 +341,7 @@ export default {
                 },
                 cb: function(res) {
                   if(res.status == 200){
-                    var data = res.data;
+                    var data = JSON.parse(res.data);
                     if(data.code == -1){
                       console.log(data);
                       notification.alert('该手机已注册');
@@ -365,7 +366,7 @@ export default {
                 },
                 cb: function(res) {
                   if(res.status == 200){
-                    var data = res.data;
+                    var data = JSON.parse(res.data);
                     if(data.code == -1){
                       console.log(data);
                       notification.alert('该邮箱已注册');
@@ -393,7 +394,7 @@ export default {
                 },
                 cb: function(res) {
                     if (res.status == 200) {
-                        var data = res.data;
+                        var data = JSON.parse(res.data);
                         if (data.code == -1) {
                             notification.alert('该手机已注册');
                             _self.phone = '';
@@ -415,7 +416,7 @@ export default {
               },
               cb: function(res) {
                   if (res.status == 200) {
-                      var data = res.data;
+                      var data = JSON.parse(res.data);
                       if (data.code == -1) {
                           console.log(data);
                           notification.alert('该邮箱已被注册');
@@ -468,7 +469,7 @@ export default {
             }
             services.UserService.confirmVerifyEmail(user).then(function(res) {
                 if (res.status === 200) {
-                    var data = res.data;
+                    var data = JSON.parse(res.data);
                     if (data.code == 1) {
                         notification.alert('修改邮箱成功');
                         self.isVerifingEmail = false;
