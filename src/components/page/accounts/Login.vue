@@ -332,7 +332,7 @@
             services.UserService.login(user).then(function(res) {
                 _self.logining = false;
                 if(res.status === 200){
-                      res.data = JSON.parse(res.data);
+                      res.data = res.data;
                       if(res.data.code != 1){
                           notification.alert(res.data.message,'danger');
                           var count = localStorage.getItem('error');
