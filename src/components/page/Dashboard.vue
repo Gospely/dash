@@ -354,7 +354,6 @@
                     },
                     cb: function(res){
                           if(res.status == 200){
-                              debugger;
                               var data = res.data;
                               if(data.code == 1){
                                   _self[applicationsTyp[i]+'Count'] = data.fields;
