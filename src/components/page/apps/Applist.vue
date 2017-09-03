@@ -725,7 +725,7 @@
                   creator: currentUser
                 },
                 cb:function(res) {
-                  var data = JSON.parse(res.data);
+                  var data = res.data;
                   if(data.code == 1 ){
                     console.log(data);
                     var count = parseInt(data.fields )
@@ -783,7 +783,7 @@
                     },
                     cb: function(res){
 
-                        var data = JSON.parse(res.data);
+                        var data = res.data;
                         if(data.code == 1) {
                             _self.deployApp.id='';
                             _self.deployApp.unitPrice='';
@@ -969,7 +969,7 @@
                   url: "applications",
                   ctx: _self,
                   cb: function(res) {
-                    var data = JSON.parse(res.data);
+                    var data = res.data;
                     _self.fields = data.fields;
                     _self.IDEAppLoaded = true;
                     _self.all = data.all;
@@ -995,7 +995,7 @@
                   all: 'all_notpaid',
                   ctx: _self,
                   cb: function(res) {
-                    var data = JSON.parse(res.data);
+                    var data = res.data;
                     _self.fields_notpaid = data.fields;
                     _self.unPaidAppLoaded = true;
                     _self.all_notpaid = data.all;
@@ -1021,7 +1021,7 @@
                   all: 'all_stop',
                   ctx: _self,
                   cb: function(res) {
-                    var data = JSON.parse(res.data);
+                    var data = res.data;
                     _self.fields_stop = data.fields;
                     _self.appLoaded = true;
                     _self.all_stop = data.all;
@@ -1045,7 +1045,7 @@
                   },
                   ctx: _self,
                   cb: function(res) {
-                    var data = JSON.parse(res.data);
+                    var data = res.data;
                     _self.fields_html5 = data.fields;
                     _self.appLoaded = true;
                     _self.all_html = data.all;
@@ -1069,7 +1069,7 @@
                   },
                   ctx: _self,
                   cb: function(res) {
-                    var data = JSON.parse(res.data);
+                    var data = res.data;
                     _self.fields_vd = data.fields;
                     _self.appLoaded = true;
                     _self.all_vd = data.all;
@@ -1093,7 +1093,7 @@
                   },
                   ctx: _self,
                   cb: function(res) {
-                    var data = JSON.parse(res.data);
+                    var data = res.data;
                     _self.fields_php = data.fields;
                     _self.appLoaded = true;
                     _self.all_php = data.all;
@@ -1117,7 +1117,7 @@
                   },
                   ctx: _self,
                   cb: function(res) {
-                    var data = JSON.parse(res.data);
+                    var data = res.data;
                     _self.fields_nodejs = data.fields;
                     _self.appLoaded = true;
                     _self.all_nodejs = data.all;
@@ -1141,7 +1141,7 @@
                   },
                   ctx: _self,
                   cb: function(res) {
-                    var data = JSON.parse(res.data);
+                    var data = res.data;
                     _self.fields_hybird = data.fields;
                     _self.appLoaded = true;
                     _self.all_hybird = data.all;
@@ -1166,7 +1166,7 @@
                   },
                   ctx: _self,
                   cb: function(res) {
-                    var data = JSON.parse(res.data);
+                    var data = res.data;
                     _self.fields_python = data.fields;
                     _self.appLoaded = true;
                     _self.all_python = data.all;
@@ -1190,7 +1190,7 @@
                   },
                   ctx: _self,
                   cb: function(res) {
-                    var data = JSON.parse(res.data);
+                    var data = res.data;
                     _self.fields_fast = data.fields;
                     _self.appLoaded = true;
                     _self.all_fast = data.all;
@@ -1215,7 +1215,7 @@
                   all: 'all_db',
                   ctx: _self,
                   cb: function(res) {
-                    var data = JSON.parse(res.data);
+                    var data = res.data;
                     _self.fields_db = data.fields;
                     _self.databaseLoaded = true;
                     _self.refresh();
@@ -1230,7 +1230,7 @@
                 function callback(res){
 
                     console.log("callback");
-                    var data = JSON.parse(res.data);
+                    var data = res.data;
                     var arr = new Array();
 
                     for(var i = 0; i < data.fields.length; i++){
@@ -1288,7 +1288,7 @@
                 },
                 cb: function(res) {
 
-                  var data = JSON.parse(res.data);
+                  var data = res.data;
                   if(data.code == 1) {
 
                     _self.description = data.fields.name;

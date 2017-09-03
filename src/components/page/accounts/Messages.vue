@@ -157,7 +157,7 @@
                   ctx: _self,
 
                   cb: function(res) {
-                    var data = JSON.parse(res.data);
+                    var data = res.data;
                     _self.fields2 = data.fields;
                     _self.messageLoaded = true;
                   }

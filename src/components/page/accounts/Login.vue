@@ -408,7 +408,7 @@
             var _self = this;
             services.UserService.getCode().then(function(res){
                 if(res.status === 200) {
-                  var data = JSON.parse(res.data);
+                  var data = res.data;
                   console.log(data);
                   if(data.code == 1) {
                       _self.token = data.fields.token;

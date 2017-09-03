@@ -52,7 +52,7 @@ module.exports = {
 						globalLoader.setAttribute('value', 100);
 						globalLoader.style.display = 'none';
 
-						var data = JSON.parse(res.data);
+						var data = res.data;
 						if (res.status == 200) {
 							if (data.code == -100) {
 								notification.error(data.message);
@@ -80,7 +80,7 @@ module.exports = {
 
 						//请求成功，统一处理
 						if (res.status === 200) {
-							var data = JSON.parse(res.data);
+							var data = res.data;
 
 							if (data.code == 1) {
 

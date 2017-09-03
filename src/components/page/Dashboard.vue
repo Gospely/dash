@@ -234,7 +234,7 @@
 
                     cb: function(res) {
                         if(res.status == 200){
-                            var data = JSON.parse(res.data);
+                            var data = res.data;
                             if(data.code == 1){
 
                                 function dateFormat(date,fmt){ //author: meizz
@@ -276,7 +276,7 @@
                 },
                 cb: function(res){
                       if(res.status == 200){
-                          var data = JSON.parse(res.data);
+                          var data = res.data;
                           if(data.code == 1){
 
                               _self.applicationsCount = data.fields;
@@ -292,7 +292,7 @@
                 },
                 cb: function(res){
                       if(res.status == 200){
-                          var data = JSON.parse(res.data);
+                          var data = res.data;
                           if(data.code == 1){
                               _self.application_stop = data.fields;
                           }
@@ -307,7 +307,7 @@
                 },
                 cb: function(res){
                       if(res.status == 200){
-                          var data = JSON.parse(res.data);
+                          var data = res.data;
                           if(data.code == 1){
                               _self.application_running = data.fields;
                           }
@@ -322,7 +322,7 @@
                 },
                 cb: function(res){
                       if(res.status == 200){
-                          var data = JSON.parse(res.data);
+                          var data = res.data;
                           if(data.code == 1){
                               _self.deployFastCount = data.fields;
                           }
@@ -337,7 +337,7 @@
                 },
                 cb: function(res){
                       if(res.status == 200){
-                          var data = JSON.parse(res.data);
+                          var data = res.data;
                           if(data.code == 1){
                               _self.wechatCount = data.fields;
                           }
@@ -354,7 +354,7 @@
                     },
                     cb: function(res){
                           if(res.status == 200){
-                              var data = JSON.parse(res.data);
+                              var data = res.data;
                               if(data.code == 1){
                                   _self[applicationsTyp[i]+'Count'] = data.fields;
                               }
@@ -371,7 +371,7 @@
             //     },
             //     cb: function(res){
             //           if(res.status == 200){
-            //               var data = JSON.parse(res.data);
+            //               var data = res.data;
             //               if(data.code == 1){
             //                   _self.vdCount = data.fields;
             //               }
@@ -385,7 +385,7 @@
                 },
                 cb: function(res){
                       if(res.status == 200){
-                          var data = JSON.parse(res.data);
+                          var data = res.data;
                           if(data.code == 1){
                                 _self.domainsCount = data.fields;
                           }
