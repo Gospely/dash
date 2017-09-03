@@ -143,6 +143,10 @@
                         <hr class="split">
                         <pay-method :val.sync="qrcode"></pay-method>
 
+                        <div v-show="setMeal.currentStep == setMeal.totalStep && !showPay">
+                          <span>请稍候，正在请求订单...</span>                      
+                        </div>
+
                     </div>
 
                 </div>
@@ -163,7 +167,7 @@
                     提交订单
                     </button>
 
-                    <button v-show="setMeal.currentStep == setMeal.totalStep && isAlipay" class="button is-primary"
+                    <button v-show="setMeal.currentStep == setMeal.totalStep && isAlipay && showPay" class="button is-primary"
                         @click="chooseSetMeal">
                     确认支付
                     </button>
@@ -325,7 +329,9 @@
 
                 ideInfoLoaded: false,
 
-                defaultCycIndex: 0
+                defaultCycIndex: 0,
+
+                showPay: false
 
             }
         },
@@ -552,6 +558,7 @@
                         cb: function(res) {
                           if(res.data.code == 1) {
                             notification.alert("下单成功");
+                            _self.showPay = true;
                             _self.qrcode = res.data.fields.wechat;
                             _self.alipayUrl = res.data.fields.alipay;
                           }
