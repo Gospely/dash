@@ -506,6 +506,9 @@
             },
 
             chooseSetMeal: function() {
+                if(!this.alipayUrl) {
+                   notification.alert("请在订单完成支付");
+                }
                 this.showSetMealForm = false;
                 this.showTopupForm = true;
                 if(this.isAlipay){
@@ -513,7 +516,7 @@
                 }else{
                   notification.alert("请确认微信扫码支付完成");
                 }
-
+                this.alipayUrl = null;
             },
 
             setMealNextStep: function() {
