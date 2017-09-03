@@ -517,13 +517,15 @@
             },
 
             setMealNextStep: function() {
-
+                if((this.setMeal.currentStep == 1  && this.products == 'common') || !this.products) {
+                  notification.alert('请选择IDE版本');
+                  return;
+                }
                 this.setMeal.currentStep++;
                 if(this.setMeal.currentStep == 3) {
                   var _self = this;
                   this.orderNo =  _md5(uuid.v4());
                   localStorage.orderNo = this.orderNo;
-                  console.log(this.orderNo);
 
                   if((this.size * this.unitPrice - this.balance) < 0){
                       notification.alert('订单价格不能为负数，请选择最少购买月份');
