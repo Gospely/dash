@@ -332,11 +332,12 @@
             services.UserService.login(user).then(function(res) {
                 _self.logining = false;
                 if(res.status === 200){
+                      res.data = JSON.parse(res.data);
                       if(res.data.code != 1){
                           notification.alert(res.data.message,'danger');
                           var count = localStorage.getItem('error');
                           if(count != null &&  count != undefined && count != ''){
-
+                            count = parseInt(count)
                             if(count > 3){
                               _self.isAuth = true;
                               _self.code_show = true;
@@ -407,7 +408,7 @@
             var _self = this;
             services.UserService.getCode().then(function(res){
                 if(res.status === 200) {
-                  var data = res.data;
+                  var data = JSON.parse(res.data);
                   console.log(data);
                   if(data.code == 1) {
                       _self.token = data.fields.token;

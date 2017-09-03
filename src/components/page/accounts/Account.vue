@@ -276,7 +276,7 @@
 
                         if(res.status == 200){
 
-                            var data = res.data;
+                            var data = JSON.parse(res.data);
                             if(data.code == 1){
 
                                 console.log(data.fields);
