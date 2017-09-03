@@ -166,6 +166,7 @@
                     },
                     cb: function(res){
                         localStorage.setItem("ideName",res.data.fields.ideName);
+                        localStorage.setItem("ide", res.data.fields.ide);
                         localStorage.orderNo='';
 
                     }

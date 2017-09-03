@@ -2,12 +2,12 @@
 
 	<p class="control has-icon has-icon-right">
 	    <p class="control has-addons">
-	      	<a class="button is-success" @click="useWechat" v-bind:class="{'is-active': isWechat}">
+	      	<!-- <a class="button is-success" @click="useWechat" v-bind:class="{'is-active': isWechat}">
 	        	<span class="icon is-small">
 	          	<i class="fa fa-wechat"></i>
 	        	</span>
 	        	<span>微信</span>
-	      	</a>
+	      	</a> -->
 	      	<a class="button is-success" @click="useAlipay" v-bind:class="{'is-active': isAlipay}">
 	        	<span class="icon is-small">
 	          		<i class="fa fa-paypal"></i>
@@ -26,7 +26,7 @@
 								v-el:qr
 							></canvas>
 					</div>
-            <span class="help is-success">请使用微信扫码支付</span>
+            <!-- <span class="help is-success">请使用微信扫码支付</span> -->
         </div>
 
 	</p>
@@ -58,7 +58,8 @@ import qr from 'qr.js'
 			tips: {
 				type: String,
 				default () {
-					return '支持支付宝和微信支付';
+					// return '支持支付宝和微信支付';
+					 return '支持支付宝';
 				}
 			},
 			val: {
