@@ -212,6 +212,11 @@
           },
           completeUser(){
 
+              if (/[\u4e00-\u9fa5]/g.test(this.name)) {
+                notification.alert('项目名中不能含有中文字符');
+                return false;
+              }
+
               this.com_disabled = true;
               var _self = this;
               console.log('create');
