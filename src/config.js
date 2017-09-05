@@ -30,7 +30,7 @@ let menu = {
     },
     '/ide': {
         icon: 'connectdevelop',
-        label: 'IDE管理',
+        label: 'IDE升级',
         name: 'ide',
         isShowSubMenu: false,
         hide: false,
@@ -53,7 +53,7 @@ let menu = {
             },
             '/renew': {
                 name: 'renewide',
-                label: '详细信息',
+                label: '升级',
                 hide: false,
                 component: makeComponent('./components/page/ide/Renew.vue')
             }

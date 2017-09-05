@@ -50,6 +50,12 @@
                 </div>
             </div>
             <div class="column">
+                <div class=" notification is-warning has-text-centered">
+                    <p class="title">立刻升级</p>                    
+                    <button class="button is-primary" @click="toRenew">升级</button>
+                </div>
+            </div>                        
+            <div class="column">
                 <div class="notification is-success has-text-centered">
                     <p class="title">PHP 应用</p>
                     <i v-show="!dataLoaded" class="fa fa-spinner fa-spin fa-fw"></i>
@@ -412,6 +418,10 @@
                 }else {
                     window.location.href = "http://ide.gospely.com";
                 }
+            },
+
+            toRenew: function() {
+                this.$router.go("/ide/renew");
             }
 
         },
