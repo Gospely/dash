@@ -536,6 +536,11 @@
     				}
                 }
 
+                if (/[\u4e00-\u9fa5]/g.test(this.application.name)) {
+                    notification.alert('项目名中不能含有中文字符');
+                    return false;
+                }                
+
                 services.Common.list({
                     url:'applications/validator',
                     param: {
@@ -630,6 +635,11 @@
                 this.application.image = this.imageId;
                 this.application.creator = currentUser;
 
+                var reg = /[\u4E00-\u9FA5\uF900-\uFA2D]/;
+                if(reg.test(val)){
+                  notification.alert("域名不能包含中文");
+                }                
+
                 if(
                     this.application.name == '' ||
                     this.application.image == '' ||
@@ -641,7 +651,6 @@
                     notification.alert('请完整填写内容', 'warning');
                     return false;
                 }
-
 
                 this.realCreateApp();
             },
@@ -781,10 +790,6 @@
                     return false;
                 }
 
-                var reg = /[\u4E00-\u9FA5\uF900-\uFA2D]/;
-                if(reg.test(val)){
-                  notification.alert("域名不能包含中文");
-                }
             }
         },
         events: {
