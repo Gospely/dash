@@ -140,7 +140,7 @@
 		events: {
 		    'cyc-broadcast': function (month) {
 
-					console.log(month);
+					;
 					if(parseInt(month) > 12 ){
 						this.otherTime = month;
 						console.log(this.showCyc);

@@ -727,10 +727,10 @@
                 cb:function(res) {
                   var data = res.data;
                   if(data.code == 1 ){
-                    console.log(data);
+                    ;
                     var count = parseInt(data.fields )
                     if(count > 0){
-                      console.log(count);
+                      ;
                         _self.db.name = '';
                         notification.alert('该数据库名已存在','danger');
                     }
@@ -833,7 +833,7 @@
 
             DetailsThisDatabase: function(item) {
                 this.databaseInfoFormName = '数据库详情';
-                console.log(item);
+                ;
                 this.isDetailsThisDatabase = true;
                 this.db = item;
                 this.showAddDatabaseForm();
@@ -1272,7 +1272,7 @@
                 if (this.isRefresh) {
                   notification.alert("刷新成功");
                   this.unPaidAppLoaded = true;
-                  console.log(localStorage)
+                  
                 }
                 this.isRefresh = false;
             },
@@ -1305,7 +1305,7 @@
                       price: data.fields.price,
                       type: 'wechat'
                     }).then(function(res){
-                        console.log(res);
+                        ;
                         _self.qrcode = res.data.code_url;
                         //window.location.href = res.body;
                     },function(err,res){
@@ -1376,7 +1376,7 @@
                 this.deployApp.size = cyc.cyc;
                 this.deployApp.unit = cyc.unit;
                 this.deployApp.price = this.deployApp.unitPrice + " X " + cyc.cyc + " " + cyc.unit + " = " + this.deployApp.total;
-                console.log(cyc);
+                ;
             },
         },
     }

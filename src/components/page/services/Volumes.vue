@@ -146,7 +146,7 @@
         services.VolumeService.info({
           user: currentUser
         }).then(function(res){
-          console.log(res);
+          ;
           var data = res.data.fields;
           used = parseInt(data.used)/1024;
           rest = parseInt(data.size) - used;
@@ -154,7 +154,7 @@
 
         });
         　setTimeout(function () {
-          console.log(used);
+          ;
           _self.data.$set(0,used.toFixed(2));
           _self.data.$set(1,rest.toFixed(2));
         }, 2000)
@@ -229,7 +229,7 @@
               },
               cb: function(res) {
                 var data = res.data;
-                console.log(res);
+                ;
                 if(data.code == 1) {
                   _self.volume.size = data.fields.volumeSize;
                   _self.volume.min = data.fields.volumeSize;

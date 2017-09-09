@@ -239,7 +239,7 @@
                       if(res.status == 200){
                         var data = res.data;
                         if(data.code == -1){
-                          console.log(data);
+                          ;
                           notification.alert('该邮箱或手机已注册');
                           _self.phone = '';
                           _self.com_disabled = false
@@ -363,7 +363,7 @@
                       if(res.status == 200){
                         var data = res.data;
                         if(data.code ==1){
-                          console.log(data);
+                          ;
                           _self.token = data.fields;
                            _self.code_show = false;
                             _self.$get('getImageCode')();
@@ -391,7 +391,7 @@
                       if(res.status == 200){
                         var data = res.data;
                         if(data.code ==1){
-                          console.log(data);
+                          ;
                           _self.token = data.fields;
                           notification.alert(data.message);
                         }
@@ -440,7 +440,7 @@
                     if(res.status == 200){
                       var data = res.data;
                       if(data.code == -1){
-                        console.log(data);
+                        ;
                         notification.alert('该手机已注册');
                         _self.phone = '';
                     }else{
@@ -467,7 +467,7 @@
                     if(res.status == 200){
                       var data = res.data;
                       if(data.code == -1){
-                        console.log(data);
+                        ;
                         notification.alert('该邮箱已注册');
                         _self.phone = '';
                     }else {
@@ -505,7 +505,7 @@
                   if(res.status == 200){
                     var data = res.data;
                     if(data.code == -1){
-                      console.log(data);
+                      ;
                       notification.alert('该用户名已注册');
                      _self.name = '';
                     }
@@ -542,7 +542,7 @@
           services.UserService.getCode(_self.imageToken).then(function(res){
               if(res.status === 200) {
                 var data = res.data;
-                console.log(data);
+                ;
                 if(data.code == 1) {
                     _self.imageToken = data.fields.token;
                     _self.code_src = data.fields.buf;
@@ -583,7 +583,7 @@
         ready: function(){
             console.log('ready');
             var user = this.$route.query.user;
-            console.log(user);
+            ;
             if(user){
                 this.completeInfo = true;
             }

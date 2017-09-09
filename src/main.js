@@ -36,7 +36,7 @@ if (getCookie('token') != '' && getCookie('token') != undefined) {
   Vue.http.headers.common['Authorization'] = getCookie('token');
 } else {
     var urls = window.location.href.split('?')
-    console.log(urls);
+    ;
     if(urls.length > 1 && urls[0] == window.baseUrl + "/#!/" && urls[1] != '') {
         urls = urls[1].split("&");
         if(urls.length > 1) {
@@ -47,7 +47,7 @@ if (getCookie('token') != '' && getCookie('token') != undefined) {
           localStorage.user = getCookie('user');
           Vue.http.headers.common['Authorization'] = getCookie('token');
           Vue.http.get('http://api.gospely.com/users/' + getCookie('user')).then(function(res){
-              console.log(res);
+              ;
               var data = res.data;
               if(data.code == 1) {
                   setCookie('user',res.data.fields.id,15 * 24 * 60 * 60 * 1000);
@@ -98,14 +98,14 @@ router.beforeEach(function(route) {
   }
   console.log('beforeEach');
 
-  console.log(route);
+  ;
 
-  console.log(loginUrl);
+  ;
   var test = route.to.path.split("?")[0];
   if(!test){
       test =  window.location.href.split("?")[0];
   }
-  console.log(test);
+  ;
   console.log(getCookie('token'));
   if(!getCookie('token')){
       if((test == '/accounts/login' || test == '/accounts/register')){
@@ -126,12 +126,12 @@ router.beforeEach(function(route) {
 //路由请求结束后调用
 router.afterEach(function(route) {
 
-    console.log(loginUrl);
+    ;
     var test = route.to.path.split("?")[0];
     if(!test){
         test =  window.location.href.split("?")[0];
     }
-    console.log(test);
+    ;
     console.log(getCookie('token'));
     if(!getCookie('token')){
         if((test == '/accounts/login' || test == '/accounts/register')){

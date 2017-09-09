@@ -19,7 +19,7 @@ module.exports ={
         if(query != null && query != undefined && query != '' ){
             options.url = options.url+"?"+query;
         }
-        console.log(query);
+        ;
 				return request.get(options);
 			},
 			delete: function(options) {
@@ -40,7 +40,7 @@ module.exports ={
         if(query != null && query != undefined && query != '' ){
             options.url = options.url+"/number?"+query;
         }
-        console.log(query);
+        ;
         request.get(options);
       },
       containerOperate: function(options) {
@@ -53,7 +53,7 @@ module.exports ={
         if(query != null && query != undefined && query != '' ){
             options.url = options.url + "/validator?"+query;
         }
-        console.log(query);
+        ;
 				return request.get(options);
       }
 		}

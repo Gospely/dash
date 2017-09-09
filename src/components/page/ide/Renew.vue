@@ -370,7 +370,7 @@
                   size: this.size,
                   unitPrice: this.unitPrice
                 }).then(function(res){
-                    console.log(res);
+                    ;
                     window.location.href = res.body;
                 },function(err,res){
 
@@ -460,8 +460,8 @@
               // });
 
               function daysBetween(DateOne,DateTwo){
-                console.log(DateOne);
-                console.log(DateTwo);
+                ;
+                ;
                 _self.balancePeriod= DateOne + '--' + DateTwo;
                  var OneMonth = DateOne.substring(5,DateOne.lastIndexOf ('-'));
 
@@ -481,7 +481,7 @@
 
                  //计算两个时间相差几天
                  var cha = (Date.parse(OneMonth + '/' + OneDay + '/' + OneYear) - Date.parse(TwoMonth + '/' + TwoDay + '/' + TwoYear))/ (1000*60*60*24*30);
-                 console.log(cha);
+                 ;
                  return Math.abs(cha);
                }
             },
@@ -602,7 +602,7 @@
             initIDE: function(){
 
                 var _self = this;
-                console.log(this);
+                ;
                 services.Common.list({
                   param:{
                     type: 'ide'
@@ -728,7 +728,7 @@
                this.price = this.unitPrice + " X " + cyc.cyc + " " + cyc.unit + " - " + this.balance + " = " + this.total.toFixed(2);
              }
 
-             console.log(cyc);
+             ;
              function dataFormat(date,fmt){ //author: meizz
                 var o = {
                   "M+" : date.getMonth(),                 //月份

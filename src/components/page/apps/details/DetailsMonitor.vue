@@ -221,7 +221,7 @@
                                 var stats = JSON.parse(data.fields);
 
                                 var time = stats.read.substring(11, 19);
-                                console.log(time);
+                                ;
                                 self.timeLabel.push(time);
 
                                 if(self.timeLabel.length > 7) {

@@ -12,11 +12,11 @@ module.exports = {
 			},
 
 			list: function(id) {
-				console.log(id);
+				;
 				return _this.$http.get(baseUrl + 'teams',{creator: id});
 			},
 			delete: function(id) {
-				console.log(id);
+				;
 				return _this.$http.delete(baseUrl + 'teams/'+id);
 			}
 

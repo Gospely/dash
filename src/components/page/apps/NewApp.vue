@@ -430,7 +430,7 @@
                 unitPrice: this.unitPrice,
                 type: 'wechat'
               }).then(function(res){
-                  console.log(res);
+                  ;
                   _self.qrcode = res.data.code_url;
                   //window.location.href = res.body;
               },function(err,res){
@@ -744,7 +744,7 @@
                   size: this.size,
                   unitPrice: this.unitPrice
                 }).then(function(res){
-                    console.log(res);
+                    ;
                     window.location.href = res.body;
                 },function(err,res){
 
@@ -780,7 +780,7 @@
         watch:{
 
             'application.domain': function(val, oldVal){
-                console.log(val);
+                ;
 
                 var illegalLetter = ['!',' ', '@', '#', '$', '%', '^', '&', '*', '(', ')', '+', '=', '[', ']',
 									'{', '}', '\\', '|', ':', ';', '\'', '"', '<', '>', ',', '.', '/', '?'];

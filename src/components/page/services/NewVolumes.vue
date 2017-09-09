@@ -150,7 +150,7 @@
                     size: this.size,
                     unitPrice: this.unitPrice
                   }).then(function(res){
-                      console.log(res);
+                      ;
                       window.location.href = res.body;
                   },function(err,res){
 
@@ -210,7 +210,7 @@
                   this.size = cyc.cyc;
                   var total = cyc.cyc * this.unitPrice * this.volume.size;
                   this.price = this.unitPrice +" X "+ this.volume.size + " G " + " X " +cyc.cyc+" "+cyc.unit +" = "+total;
-                  console.log(cyc);
+                  ;
                 }
 
 
@@ -225,7 +225,7 @@
               }else {
                   var total =   this.month * this.unitPrice * this.volume.size;
                   this.price = this.unitPrice +" X "+ this.volume.size + " G " + " X " +this.month+" 月 = "+total;
-                  console.log(val);
+                  ;
               }
 
             }

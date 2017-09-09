@@ -215,7 +215,7 @@ export default {
             ctx: _self,
 
             cb: function(res) {
-                console.log(res);
+                ;
                 var data = res.data;
                 data = data.fields;
                 _self.name = data.name;
@@ -290,7 +290,7 @@ export default {
                     notification.alert('发送验证码成功');
                 }
             }, function(err) {
-                console.log(err);
+                ;
                 notification.alert('服务器异常');
             });
             this.btnChange();
@@ -315,7 +315,7 @@ export default {
                     }
                 }
             }, function(err) {
-                console.log(err);
+                ;
                 notification.alert('服务器异常');
             });
         },
@@ -343,7 +343,7 @@ export default {
                   if(res.status == 200){
                     var data = res.data;
                     if(data.code == -1){
-                      console.log(data);
+                      ;
                       notification.alert('该手机已注册');
                       _self.phone = '';
                     }
@@ -368,7 +368,7 @@ export default {
                   if(res.status == 200){
                     var data = res.data;
                     if(data.code == -1){
-                      console.log(data);
+                      ;
                       notification.alert('该邮箱已注册');
                       _self.phone = '';
                     }
@@ -418,7 +418,7 @@ export default {
                   if (res.status == 200) {
                       var data = res.data;
                       if (data.code == -1) {
-                          console.log(data);
+                          ;
                           notification.alert('该邮箱已被注册');
                           _self.email = '';
                       }
@@ -453,7 +453,7 @@ export default {
                     notification.alert('发送验证码成功');
                 }
             }, function(err) {
-                console.log(err);
+                ;
                 notification.alert('服务器异常');
             });
         },
@@ -478,7 +478,7 @@ export default {
                     }
                 }
             }, function(err) {
-                console.log(err);
+                ;
                 notification.alert('服务器异常');
             });
         },

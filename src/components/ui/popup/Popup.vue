@@ -26,7 +26,7 @@
         },
         methods: {
             showMsg () {
-                console.log(msg)
+                
             }
         },
         init () {

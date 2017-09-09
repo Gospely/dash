@@ -177,7 +177,7 @@
                     },
                     events: {
                         'confirmed': function() {
-                            console.log(item);
+                            ;
 
 
                             // services.Common.delete({

@@ -471,7 +471,7 @@ export default {
               	ctx: _self,
               	target: 'frameworks'
             }
-			console.log(options);
+			;
             services.Common.list(options);
         },
 		initVersion: function(){
@@ -493,7 +493,7 @@ export default {
 					}
 				}
             }
-			console.log(options);
+			;
             services.Common.list(options);
 		}
 	},

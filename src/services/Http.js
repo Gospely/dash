@@ -1,4 +1,4 @@
-// console.log(notification);
+// ;
 var notification = require('../lib/notification').
 default;
 //统一请求，统一处理请求结果和绑定,异常通知,可选择callback方式处理请求结果

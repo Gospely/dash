@@ -109,7 +109,7 @@
         methods:{
             selectThisVersion(item,index) {
                 this.thisIndex = index;
-                console.log(item);
+                ;
                 this.$dispatch('selectThisVersion',item);
             },
             comfirmVersion() {

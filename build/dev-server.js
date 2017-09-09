@@ -55,9 +55,9 @@ app.use(staticPath, express.static('./static'))
 
 module.exports = app.listen(port, function (err) {
   if (err) {
-    console.log(err)
+    
     return
   }
-  console.log(proxyTable)
+  
   console.log('Listening at http://localhost:' + port + '\n')
 })

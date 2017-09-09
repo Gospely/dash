@@ -212,7 +212,7 @@
                     },
                     events: {
                         'confirmed': function() {
-                            console.log(item);
+                            ;
 
 
                             services.Common.delete({
@@ -274,7 +274,7 @@
                     ctx: _self,
                     cb: function(res){
                         var data = res.data;
-                        console.log(res);
+                        ;
                         if(data.code == 1){
                             _self.subDomainshow = data.fields[0].subDomain + '.' + data.fields[0].domain
                         }

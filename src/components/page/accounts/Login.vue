@@ -205,7 +205,7 @@
                      if(res.status == 200){
                        var data = res.data;
                        if(data.code == 1){
-                         console.log(data);
+                         ;
                          notification.alert('该手机未注册');
                          _self.phone = '';
                      }else{
@@ -232,7 +232,7 @@
                      if(res.status == 200){
                        var data = res.data;
                        if(data.code == 1){
-                         console.log(data);
+                         ;
                          notification.alert('该邮箱未注册');
                          _self.phone = '';
                      }else{
@@ -261,7 +261,7 @@
                     if(res.status == 200){
                       var data = res.data;
                       if(data.code ==1){
-                        console.log(data);
+                        ;
                         _self.token = data.fields;
                         _self.hasSent = true;
                         notification.alert(data.message);
@@ -283,7 +283,7 @@
                     if(res.status == 200){
                       var data = res.data;
                       if(data.code ==1){
-                        console.log(data);
+                        ;
                         _self.token = data.fields;
                         _self.hasSent = true;
                         notification.alert(data.message);
@@ -409,7 +409,7 @@
             services.UserService.getCode().then(function(res){
                 if(res.status === 200) {
                   var data = res.data;
-                  console.log(data);
+                  ;
                   if(data.code == 1) {
                       _self.token = data.fields.token;
                       _self.code_src = data.fields.buf;

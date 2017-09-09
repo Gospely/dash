@@ -257,7 +257,7 @@
                   unitPrice: this.unitPrice,
                   type: 'wechat'
                 }).then(function(res){
-                    console.log(res);
+                    ;
                     _self.qrcode = res.data.code_url;
                     //window.location.href = res.body;
                 },function(err,res){
@@ -286,7 +286,7 @@
                                       show.push(data.fields[i])
                                     }
                                 }
-                                console.log(show);
+                                ;
                                 _self.fields = show;
                             }
                         }

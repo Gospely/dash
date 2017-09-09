@@ -51,10 +51,10 @@
             </div>
             <div class="column">
                 <div class=" notification is-warning has-text-centered">
-                    <p class="title">立刻升级</p>                    
+                    <p class="title">立刻升级</p>
                     <button class="button is-primary" @click="toRenew">升级</button>
                 </div>
-            </div>                        
+            </div>
             <div class="column">
                 <div class="notification is-success has-text-centered">
                     <p class="title">PHP 应用</p>
@@ -260,8 +260,8 @@
                                     fmt = fmt.replace(RegExp.$1, (RegExp.$1.length==1) ? (o[k]) : (("00"+ o[k]).substr((""+ o[k]).length)));
                                     return fmt;
                                 }
-                                if(data.fields.expireAt == null || data.fields.expireAt == undefined || data.fields.expireAt == '') {
-                                    _self.expireat = '免费无限版本';
+                                if(data.fields.expireAt == null && data.fields.product === 'common') {
+                                    _self.expireat = dateFormat(new Date(new Date(data.fields.createat).getTime() + 7 * 24 * 60 * 60 * 1000),"yyyy-MM-dd");
                                 }else{
                                     _self.expireat = dateFormat(new Date(data.fields.expireAt),"yyyy-MM-dd");
                                 }
