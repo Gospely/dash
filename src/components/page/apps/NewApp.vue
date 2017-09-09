@@ -539,7 +539,7 @@
                 if (/[\u4e00-\u9fa5]/g.test(this.application.name)) {
                     notification.alert('项目名中不能含有中文字符');
                     return false;
-                }                
+                }
 
                 services.Common.list({
                     url:'applications/validator',
@@ -636,9 +636,9 @@
                 this.application.creator = currentUser;
 
                 var reg = /[\u4E00-\u9FA5\uF900-\uFA2D]/;
-                if(reg.test(val)){
+                if(reg.test(this.application.domain)){
                   notification.alert("域名不能包含中文");
-                }                
+                }
 
                 if(
                     this.application.name == '' ||
@@ -757,24 +757,24 @@
             this.application.free = true;
             this.$get('initConfig')();
             var _self = this;
-            services.Common.list({
-                url: 'applications',
-                param: {
-                    creator: currentUser,
-                    type: 'application'
-                },
-                cb: function(res){
-                    var data = res.data;
-                    if(data.code == 1){
-                        if(data.fields.length >= 1){
-                            _self.available = true;
-                            notification.alert('快速部署应用目前对内测用户只提供1个创建权限');
-                        }
-                    }else{
-                        _self.available = false;
-                    }
-                }
-            });
+            // services.Common.list({
+            //     url: 'applications',
+            //     param: {
+            //         creator: currentUser,
+            //         type: 'application'
+            //     },
+            //     cb: function(res){
+            //         var data = res.data;
+            //         if(data.code == 1){
+            //             if(data.fields.length >= 1){
+            //                 _self.available = true;
+            //                 notification.alert('快速部署应用目前对内测用户只提供1个创建权限');
+            //             }
+            //         }else{
+            //             _self.available = false;
+            //         }
+            //     }
+            // });
             this.$get('initVolumes')();
         },
         watch:{

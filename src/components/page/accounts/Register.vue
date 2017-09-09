@@ -254,14 +254,11 @@
                               },
                               cb: function(res){
                                   _self.com_disabled = false;
-                                      debugger;
                                   if(res.status === 200){
 
                                     var data = res.data;
                                     if(data.code == 1){
                                         notification.alert('注册成功');
-                                        console.log('ddd');
-                                        console.log(res.data.fields);
                                         localStorage.setItem("user",res.data.fields.id);
                                         localStorage.setItem("userName",res.data.fields.name);
                                         localStorage.setItem("ide",res.data.fields.ide);
@@ -270,7 +267,6 @@
                                         setCookie('user',res.data.fields.id,15 * 24 * 60 * 60 * 1000);
                                         setCookie('userName',res.data.fields.name, 15 * 24 * 60 * 60 * 1000);
                                         setCookie('host',res.data.fields.host, 15 * 24 * 60 * 60 * 1000);
-                                        console.log(localStorage.getItem("user"));
                                         window.location.href = window.baseUrl;
                                     }else{
                                         notification.alert(data.message);
@@ -291,14 +287,11 @@
                       },
                       cb: function(res){
                           _self.com_disabled = false;
-                              debugger;
                           if(res.status === 200){
 
                             var data = res.data;
                             if(data.code == 1){
                                 notification.alert('注册成功');
-                                console.log('ddd');
-                                console.log(res.data.fields);
                                 localStorage.setItem("user",res.data.fields.id);
                                 localStorage.setItem("userName",res.data.fields.name);
                                 localStorage.setItem("ide",res.data.fields.ide);
@@ -307,8 +300,6 @@
                                 setCookie('user',res.data.fields.id,15 * 24 * 60 * 60 * 1000);
                                 setCookie('userName',res.data.fields.name, 15 * 24 * 60 * 60 * 1000);
                                 setCookie('host',res.data.fields.host, 15 * 24 * 60 * 60 * 1000);
-                                setCookie('count', count , 'Thu, 01 Jan 1970 00:00:00 GMT');
-                                console.log(localStorage.getItem("user"));
                                 window.location.href = window.baseUrl;
                             }else{
                                 notification.alert(data.message);
