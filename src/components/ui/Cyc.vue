@@ -98,6 +98,7 @@
               if(this.otherTime == '其他') {
                 this.otherTime = '';
               }
+
               this.isOther = true;
             },
 
@@ -165,6 +166,14 @@
                 if(!oldVal) {
                     return false;
                 }
+
+                if(parseInt(newVal) === 0) {
+                    newVal = 1;
+                    this.otherTime = 1;
+                }
+
+                console.log(newVal, this.otherTime);
+
 				this.$dispatch('cycSelected', {
                 	cyc: newVal,
 					unit: '月'
